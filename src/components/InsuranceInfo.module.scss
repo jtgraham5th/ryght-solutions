@@ -1,0 +1,71 @@
+.insuranceInfo {
+  width: 100%;
+  justify-content: center;
+  margin-left: 0 !important;
+  padding: 1rem;
+}
+.insuranceCard {
+  padding: 0;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  text-align: start;
+  width: 100%;
+  margin-bottom: 0.5rem;
+
+  div:nth-child(2){
+    padding-bottom: 0 !important;
+  }
+}
+.icRow {
+  flex-direction: row;
+  flex-wrap: nowrap !important;
+  width: 100%;
+  font-size: small;
+  
+  div:nth-child(1){
+    width: auto;
+    text-align: start;
+    white-space: nowrap;
+  }
+  div:nth-child(2){
+    width: auto;
+    text-align: start;
+    white-space: nowrap;
+    padding-left: 0;
+    font-weight: bold;
+  }
+}
+.icCoPay {
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  div {
+    font-size: small;
+    font-weight: lighter;
+  }
+}
+.icComment {
+  border-top: 1px solid silver;
+  margin-top: 0.5rem !important;
+  font-size: smaller;
+  div:nth-child(1){
+    padding: 0.5rem 0.5rem;
+    text-align: center;
+    // padding-top: 0.5rem;
+    // padding-bottom: 0.5rem;
+    border-right: 1px solid silver;
+  }
+}
+.dataItem {
+  width: 100%;
+  text-align: start;
+}
+.dataGroup {
+  padding: 0.5rem !important;
+  padding-bottom: 0 !important;
+  margin-right: -1rem;
+  align-items: center;
+  justify-content: center;
+  font-size: small;
+}
+

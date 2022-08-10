@@ -1,0 +1,60 @@
+.searchContactLog {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.ContactLogBtns {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+}
+.dataItem {
+  text-align: start;
+  background-color: lightgray;
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+.dataGroup {
+  width: 95% !important;
+  height: 20rem;
+  max-height: 20rem;
+  overflow-y: auto;
+  border-top: 1px solid lightgray;
+  font-size: x-small;
+}
+.contactItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.contactItemHeader {
+  padding: 0.2rem 0.5rem;
+  display: flex;
+  font-size: 0.8rem;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  button {
+    width: 1.5rem;
+    padding: 0;
+    font-size: small;
+    border: 0;
+  }
+}
+.contactComments {
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  height: 4rem;
+  padding-top: 0.3rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  overflow: auto;
+}
