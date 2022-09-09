@@ -13,3 +13,10 @@ export const personalDataOptions = [
   "Court Ordered",
   "Suicide Risk",
 ];
+export const maritalStatus = [
+  "single",
+  "married",
+  "divorced",
+  "widowed",
+  "separated",
+];

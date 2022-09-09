@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap-icons";
 import styles from "./ClientDetails.module.scss";
 
-function ClientDetailsNav({activeTab, setActiveTab}) {
+function ClientViewNav({activeTab, setActiveTab}) {
   return (
     <Nav
       className={styles.cdNavTabs}
@@ -19,18 +19,23 @@ function ClientDetailsNav({activeTab, setActiveTab}) {
       onSelect={(e) => setActiveTab(e)}
     >
       <Nav.Item>
+        <Nav.Link href="#DASHBOARD">
+          <WindowFullscreen /> Dashboard
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
         <Nav.Link href="#PERS_INFO">
           <PersonLinesFill /> Personal Information
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link href="#CONT_INFO">
-          <Telephone /> Contact Information
+          <Telephone /> Progress Notes
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link href="#PAGU_INFO">
-          <PeopleFill /> Parent/Guardian Information{" "}
+          <PeopleFill /> Treatment Plan
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
@@ -53,4 +58,4 @@ function ClientDetailsNav({activeTab, setActiveTab}) {
   );
 }
 
-export default ClientDetailsNav;
+export default ClientViewNav;

@@ -1,10 +1,18 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  padding-left: 1rem;
+  transition: 350ms;
+  margin: 0rem;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.App.active {
+  padding-left: 11rem;
+  margin-right: 0rem;
+  transition: 350ms;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -28,61 +36,11 @@
   color: #61dafb;
 }
 
-.data-row {
-  align-items: center;
-}
 .container-a {
   margin-top: 1.5rem !important;
   /* align-items: center; */
 }
 /* Demographic Info Component */
-.demoInfo {
-  font-size: x-small;
-}
-
-/* Personal Data Component */
-.data-item {
-  width: 50%;
-  font-size: small !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-.data-item > .form-check {
-  min-height: unset !important;
-}
-.data-group {
-  flex-direction: row !important;
-  flex-wrap: wrap;
-}
-/* Personal Information */
-.pi {
-  /* padding-left: 0 !important;
-  padding-right: 0 !important; */
-}
-.pi-nav > .nav-item {
-  /* white-space: nowrap; */
-  font-size: small !important;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-.pi-nav > .nav-item > .nav-link {
-  /* white-space: nowrap; */
-  padding-left: 0;
-  padding-right: 0;
-}
-.pi-nav {
-  align-content: center;
-  /* flex-direction: column; */
-  padding-left: 0rem !important;
-  padding-right: 0rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  border-right: 1px solid #dee2e6;
-  height: 100%;
-
-  /* flex-flow: nowrap !important; */
-  /* overflow-x: scroll; */
-}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
