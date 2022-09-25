@@ -3,18 +3,18 @@ import { Button } from "react-bootstrap";
 import ClientEnrollmentManager from "./CE_Manager";
 import { client01 } from "../data/formData";
 
-function NewClient() {
+function NewBilling() {
   const [show, setShow] = useState(false);
 
   return (
     <>
       <Button
-        variant="outline-primary"
+        variant="outline-success"
         size="sm"
         className="p-1"
         onClick={() => setShow(true)}
       >
-        + Add New Client
+        $ New Billing
       </Button>
       <ClientEnrollmentManager
         show={show}
@@ -26,4 +26,4 @@ function NewClient() {
   );
 }
 
-export default NewClient;
+export default NewBilling;

@@ -12,7 +12,7 @@ import { maritalStatus } from "../data/formData";
 import styles from "./Services.module.scss";
 import { useState } from "react";
 
-function CEFInfom() {
+function CEFAddress() {
   const [mStatus, setMStatus] = useState("");
   const [sex, setSex] = useState();
   const [pronouns, setPronouns] = useState();
@@ -219,4 +219,4 @@ function CEFInfom() {
   );
 }
 
-export default CEFInfom;
+export default CEFAddress;

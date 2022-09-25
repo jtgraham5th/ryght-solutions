@@ -1,33 +1,22 @@
-import React, { useState, forwardRef } from "react";
-import { Row, Col, Alert, Table, Button } from "react-bootstrap";
+import React, {forwardRef } from "react";
+import { Row, Col, Alert } from "react-bootstrap";
 import styles from "./Requirements.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  PersonLinesFill,
-  Telephone,
-  PeopleFill,
-  FileText,
-  Incognito,
-  Check2Square,
-  CheckSquare,
   CalendarEvent,
-  XSquare,
 } from "react-bootstrap-icons";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RQAssessmentItem from "./RQAssesmentItem";
 
 function Requirements() {
-  const [startDate, setStartDate] = useState(new Date());
-  const [complete, setComplete] = useState(false);
-  // const [startDate, endDate] = dateRange;
-  const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
-    <td className={styles.noWrap} onClick={onClick} ref={ref}>
-      <span>
-        {value} <CalendarEvent />
-      </span>
-    </td>
-  ));
+  
+  // const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
+  //   <td className={styles.noWrap} onClick={onClick} ref={ref}>
+  //     <span>
+  //       {value} <CalendarEvent />
+  //     </span>
+  //   </td>
+  // ));
   return (
     <>
       <h5 className="text-start ps-2 m-2">Client Requirements Checklist</h5>
@@ -36,8 +25,8 @@ function Requirements() {
         </Alert>
       <Row className={styles.dataTableRow}>
         <Col className={styles.dataTableCol}>
-          {Array.apply(null, Array(5)).map(() => {
-            return <RQAssessmentItem />;
+          {Array.apply(null, Array(5)).map((value,i) => {
+            return <RQAssessmentItem key={i} index={i}/>;
           })}
           {/* <Table striped bordered hover size="sm">
             <thead>

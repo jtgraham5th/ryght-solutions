@@ -9,9 +9,9 @@ import {
   PencilSquare,
 } from "react-bootstrap-icons";
 
-function DXListItem({ type, disabled }) {
+function DXListItem({ type, disabled, index }) {
   return (
-    <ListGroup.Item disabled={disabled} key={`default-${type}`} className={styles.dataItem}>
+    <ListGroup.Item disabled={disabled} key={`default-${index}`} className={styles.dataItem}>
       <Row>
         <Col md="auto">
           <Form.Check

@@ -6,3 +6,7 @@
     align-items: center;
     justify-items: center;
 }
+.modal-width {
+    background-color: red;
+    width: 90%
+}

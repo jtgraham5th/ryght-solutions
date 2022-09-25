@@ -1,25 +1,24 @@
-import { Row, Col, Container, ListGroup, Accordion } from "react-bootstrap";
-import ClientIssues from "../components/ClientIssues";
+import {
+  Row,
+  Col,
+  ListGroup,
+  Accordion,
+} from "react-bootstrap";
 import "../App.css";
-import ClientDemographics from "../components/ClientDemographics";
-import ClientDetails from "../components/ClientDetails";
-import ContactLog from "../components/ContactLog";
-import Services from "../components/Services";
-import Notes from "../components/Notes";
-import Requirements from "../components/Requirements";
-import InsuranceInfo from "../components/InsuranceInfo";
-import Diagnosis from "../components/Diagnosis";
-import ClientDetailsTabs from "../components/ClientDetailsTabs";
-import FileCard from "../components/FileCard";
-import FileManager from "../components/FileManger";
-import ClientDetailsNav from "../components/ClientDetailsNav";
-import ClientViewTabs from "../components/ClientViewTabs";
+import CVDemographics from "./CV_Demographics";
+import ContactLog from "./ContactLog";
+import Services from "./Services";
+import CVProgressNotes from "./CV_ProgressNotes";
+import Requirements from "./Requirements";
+import InsuranceInfo from "./InsuranceInfo";
+import Diagnosis from "./Diagnosis";
+import ClientDetailsTabs from "./ClientDetailsTabs";
+import FileManager from "./FileManger";
 
-function Dashboard({ sidebar }) {
+function CVProfile({ sidebar }) {
   return (
-    <Container className={sidebar ? "App active" : "App"}>
-      <ClientDemographics />
-      <ClientViewTabs />
+    <>
+      <CVDemographics />
       <Row className="container-a">
         <Col md={6}>
           <ClientDetailsTabs />
@@ -87,9 +86,9 @@ function Dashboard({ sidebar }) {
           </Accordion>
           <Accordion defaultActiveKey="0" alwaysOpen className="mb-3">
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Notes</Accordion.Header>
+              <Accordion.Header>Progress Notes</Accordion.Header>
               <Accordion.Body className="p-0">
-                <Notes />
+                <CVProgressNotes />
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
@@ -121,8 +120,8 @@ function Dashboard({ sidebar }) {
           </Accordion>
         </Col>
       </Row>
-    </Container>
+    </>
   );
 }
 
-export default Dashboard;
+export default CVProfile;

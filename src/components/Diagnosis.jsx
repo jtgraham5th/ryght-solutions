@@ -42,8 +42,8 @@ function Diagnosis() {
               <Col md={2}>Actions</Col>
             </Row>
           </ListGroup.Item>
-          {Array.apply(null, Array(5)).map((type) => (
-            <DXListItem type={type} />
+          {Array.apply(null, Array(5)).map((type, index) => (
+            <DXListItem type={type} key={index} />
           ))}
           <ListGroup.Item className={styles.dataButtons}>
             <Row>
@@ -69,8 +69,8 @@ function Diagnosis() {
             </Row>
           </ListGroup.Item>
 
-          {Array.apply(null, Array(2)).map((type) => (
-            <DXListItem type={type} disabled={true} />
+          {Array.apply(null, Array(2)).map((type, index) => (
+            <DXListItem type={type} key={index} disabled={true} />
           ))}
         </ListGroup>
       </Form>

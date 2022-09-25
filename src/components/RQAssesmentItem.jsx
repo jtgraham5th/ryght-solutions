@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap-icons";
 import DatePicker from "react-datepicker";
 
-function RQAssessmentItem() {
+function RQAssessmentItem(index) {
   const [startDate, setStartDate] = useState(new Date());
   const [complete, setComplete] = useState(false);
   const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
@@ -24,6 +24,7 @@ function RQAssessmentItem() {
     <Card
       border={complete ? "success" : "danger"}
       className={styles.assessmentCard}
+      key={index}
     >
       <Card.Body className="p-2">
         <Row className={styles.assessmentItem}>

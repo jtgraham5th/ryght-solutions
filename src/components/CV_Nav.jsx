@@ -5,11 +5,11 @@ import {
   PeopleFill,
   FileText,
   Incognito,
-  WindowFullscreen
+  WindowFullscreen,
 } from "react-bootstrap-icons";
 import styles from "./ClientDetails.module.scss";
 
-function ClientViewNav({activeTab, setActiveTab}) {
+function CVNav({ activeTab, setActiveTab }) {
   return (
     <Nav
       className={styles.cdNavTabs}
@@ -19,43 +19,37 @@ function ClientViewNav({activeTab, setActiveTab}) {
       onSelect={(e) => setActiveTab(e)}
     >
       <Nav.Item>
-        <Nav.Link href="#DASHBOARD">
-          <WindowFullscreen /> Dashboard
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link href="#PERS_INFO">
+        <Nav.Link href="#info">
           <PersonLinesFill /> Personal Information
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="#CONT_INFO">
+        <Nav.Link href="#progress_notes">
           <Telephone /> Progress Notes
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="#PAGU_INFO">
+        <Nav.Link href="#treatment">
           <PeopleFill /> Treatment Plan
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="#PROG_INFO">
-          {" "}
+        <Nav.Link href="#prog_info">
           <FileText />
           Program Information
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="#PHARM_INFO"> Pharmacy Information</Nav.Link>
+        <Nav.Link href="#pharmacy"> Pharmacy</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link href="#PCCP_INFO">
+        <Nav.Link href="#pccp">
           <Incognito />
-          Patient Confidental Communications Prefrences
+          PCCP
         </Nav.Link>
       </Nav.Item>
     </Nav>
   );
 }
 
-export default ClientViewNav;
+export default CVNav;

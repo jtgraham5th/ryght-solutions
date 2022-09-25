@@ -6,9 +6,9 @@ import CDPCCP from "./CD_PCCP";
 import CDPersonal from "./CD_Personal";
 import CDPharmacy from "./CD_Pharmacy";
 import CDProg from "./CD_Prog";
-import ClientViewNav from "./ClientViewNav";
+import CVNav from "./CV_Nav";
 
-function ClientViewTabs() {
+function CVTabs({activeTab, setActiveTab}) {
   const [activeTab, setActiveTab] = useState("#PERS_INFO");
 
   const generatePI = () => {
@@ -32,9 +32,7 @@ function ClientViewTabs() {
 
   return (
     <>
-     {/* <Card>
-       <Card.Header> */}
-        <ClientViewNav setActiveTab={setActiveTab} activeTab={activeTab} />
+        <CVNav setActiveTab={setActiveTab} activeTab={activeTab} />
        {/* </Card.Header>*/}
       {/* {generatePI()} */}
      {/* </Card>  */}
@@ -42,4 +40,4 @@ function ClientViewTabs() {
   );
 }
 
-export default ClientViewTabs;
+export default CVTabs;

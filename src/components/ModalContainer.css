@@ -1,0 +1,15 @@
+.modal-width {
+    max-width: 95% !important;
+    max-height: 95% !important;
+}
+.modalHeader {
+    border: 1px solid red;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    background-color: #4a235a;
+    color: white;
+  }
+.modal-width > .modal-content > .modal-body {
+    height: 85vh !important;
+    overflow-y: auto;
+}
