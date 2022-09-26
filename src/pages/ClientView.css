@@ -10,3 +10,16 @@
     background-color: red;
     width: 90%
 }
+.select-client {
+    font-size: small;
+    width: 40%;
+    padding-bottom: 0%;
+    margin-right: 0.25rem;
+}
+.CV-header-action-container {
+    display: flex;
+    height: 75%;
+    width: 30%;
+    flex-direction: row;
+    justify-content: space-evenly
+}

@@ -5,11 +5,7 @@
 .data-issues{
   overflow: auto;
   height: fit-content;
-  /* max-height: 10rem; */
-}
-.container-a {
-  margin-top: 1.5rem !important;
-  /* align-items: center; */
+  max-height: 11rem;
 }
 /* Demographic Info Component */
 .clientDemo {

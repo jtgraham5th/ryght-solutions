@@ -12,7 +12,7 @@ function CVDemographics() {
   ]);
 
   return (
-    <Card>
+    <Card className="mb-4">
       <Card.Body className="pt-0 pb-0 pe-3">
         <Row className="demoInfo">
           <Col className="h-100" md={4}>

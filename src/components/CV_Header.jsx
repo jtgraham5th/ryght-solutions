@@ -1,6 +1,6 @@
 import { Row, Col, Card } from "react-bootstrap";
 import { useState } from "react";
-import "./ClientDemographics.css";
+import "../pages/ClientView.css";
 import CVNav from "./CV_Nav";
 import SelectClient from "./SelectClient";
 import NewClient from "./NewClient";
@@ -19,7 +19,7 @@ function CVHeader({activeTab, setActiveTab}) {
         <Row className="pb-3">
           <Col className="d-flex flex-row justify-content-between">
             <h2 className="m-0">Jane Doe</h2>
-            <div className="d-flex flex-row w-50 justify-content-evenly">
+            <div className="CV-header-action-container">
               <SelectClient clients={clientlist} />
               <NewClient />
               <NewBilling />

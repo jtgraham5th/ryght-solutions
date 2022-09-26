@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import ClientEnrollmentManager from "./CE_Manager";
 import { client01 } from "../data/formData";
+import "../App.css"
 
 function NewClient() {
   const [show, setShow] = useState(false);
@@ -9,12 +10,12 @@ function NewClient() {
   return (
     <>
       <Button
+      className="form-label-button"
         variant="outline-primary"
         size="sm"
-        className="p-1"
         onClick={() => setShow(true)}
       >
-        + Add New Client
+        + New Client
       </Button>
       <ClientEnrollmentManager
         show={show}

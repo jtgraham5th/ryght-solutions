@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Row, Col, Form, Button, Alert, Collapse } from "react-bootstrap";
-import "../App.css";
 import GoalList from "./G_List";
 import TreatmentPlanDetails from "./TreatmentPlanDetails";
 import DatePicker from "react-datepicker";
@@ -8,11 +7,12 @@ import { useForm, Controller } from "react-hook-form";
 import { Pencil, Printer } from "react-bootstrap-icons";
 import { useReactToPrint } from "react-to-print";
 import "react-datepicker/dist/react-datepicker.css";
+import "../App.css";
 
 function CVTreatmentPlan({ sidebar }) {
   const [editTreatmentPlan, setEditTreatmentPlan] = useState(false);
   const { control, register, handleSubmit, setValue } = useForm();
-  
+
   const treatmentPlanRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => treatmentPlanRef.current,
@@ -32,27 +32,34 @@ function CVTreatmentPlan({ sidebar }) {
     console.log(data);
   };
   return (
-    <Row className="container-a">
-      <Col md={4}>
-      </Col>
-      <Col md={8}>
-      </Col>
+    <Row >
       <Form ref={treatmentPlanRef} onSubmit={handleSubmit(onSubmit)}>
-      <style>{getPageMargins()}</style>
+        <style>{getPageMargins()}</style>
         <div className="d-flex justify-content-between align-items-center">
-          <h3 className="mt-3">Treatment Plan Information</h3>
+          <h3 >Treatment Plan Information</h3>
           {editTreatmentPlan ? (
-            <div className="detail-header">
-              <Button type="submit" variant="outline-success" size="sm">
+            <div className="TP-form-label-button-container">
+              <Button
+                className="TP-form-label-button"
+                type="submit"
+                variant="outline-success"
+                size="sm"
+              >
                 Save
               </Button>
-              <Button variant="outline-secondary" size="sm" onClick={exitEdit}>
+              <Button
+                className="TP-form-label-button"
+                variant="outline-secondary"
+                size="sm"
+                onClick={exitEdit}
+              >
                 Cancel
               </Button>
             </div>
           ) : (
             <div className="w-25 d-flex justify-content-evenly">
               <Button
+                className="form-label-button"
                 onClick={handleEdit}
                 variant={"outline-primary"}
                 size="sm"
@@ -61,12 +68,13 @@ function CVTreatmentPlan({ sidebar }) {
                 Edit Treatment Plan
               </Button>
               <Button
+                className="form-label-button"
                 onClick={handlePrint}
                 variant={"outline-dark"}
                 size="sm"
                 type="button"
               >
-                <Printer className="me-1"/> Print
+                <Printer className="me-1" /> Print
               </Button>
             </div>
           )}
@@ -81,7 +89,7 @@ function CVTreatmentPlan({ sidebar }) {
         </Alert>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <TreatmentPlanDetails />
-          <GoalList/>
+          <GoalList />
           <Form.Label>Projected Family Involvement</Form.Label>
           <Form.Control
             {...register("familyInvolvement")}

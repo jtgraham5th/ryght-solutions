@@ -19,7 +19,7 @@ function CVProfile({ sidebar }) {
   return (
     <>
       <CVDemographics />
-      <Row className="container-a">
+      <Row>
         <Col md={6}>
           <ClientDetailsTabs />
         </Col>

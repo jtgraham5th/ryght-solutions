@@ -8,7 +8,7 @@ function ClientIssues() {
         <Alert
           key={`default-${type}`}
           variant="danger"
-          className="text-start data-item"
+          className="text-start fs-6"
         >
           {type}
         </Alert>

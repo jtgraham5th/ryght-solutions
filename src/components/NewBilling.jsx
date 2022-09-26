@@ -9,9 +9,9 @@ function NewBilling() {
   return (
     <>
       <Button
+      className="form-label-button"
         variant="outline-success"
         size="sm"
-        className="p-1"
         onClick={() => setShow(true)}
       >
         $ New Billing

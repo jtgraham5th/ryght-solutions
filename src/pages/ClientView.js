@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, Container } from "react-bootstrap";
 import "../App.css";
+import "./ClientView.css";
 import CVHeader from "../components/CV_Header";
 import CVProfile from "../components/CV_Profile";
 import CDPharmacy from "../components/CD_Pharmacy";
