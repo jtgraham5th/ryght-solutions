@@ -33,11 +33,9 @@ function CVTreatmentPlan({ sidebar }) {
   };
   return (
     <Row className="container-a">
-      <Col md={8}>
-        <GoalList />
-      </Col>
       <Col md={4}>
-        <TreatmentPlanDetails />
+      </Col>
+      <Col md={8}>
       </Col>
       <Form ref={treatmentPlanRef} onSubmit={handleSubmit(onSubmit)}>
       <style>{getPageMargins()}</style>
@@ -82,6 +80,8 @@ function CVTreatmentPlan({ sidebar }) {
           <Pencil className="ms-2" />
         </Alert>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <TreatmentPlanDetails />
+          <GoalList/>
           <Form.Label>Projected Family Involvement</Form.Label>
           <Form.Control
             {...register("familyInvolvement")}

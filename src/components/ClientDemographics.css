@@ -5,7 +5,7 @@
 .data-issues{
   overflow: auto;
   height: fit-content;
-  max-height: 10rem;
+  /* max-height: 10rem; */
 }
 .container-a {
   margin-top: 1.5rem !important;
@@ -14,17 +14,16 @@
 /* Demographic Info Component */
 .clientDemo {
   margin-top: 1.5rem;
-  height: 11rem !important;
+  /* height: 11rem !important; */
   /* max-height: 14rem !important; */
   overflow: hidden;
 }
 .demoInfo {
-  font-size: x-small;
+  font-size: small;
   height: 100%
 }
 .clientDetails {
   padding: 0 !important;
-  border-right: 1px solid silver;
 }
 .clientImg {
   width: 100%;
@@ -33,13 +32,18 @@
 
 /* Personal Data Component */
 .data-item {
-  font-size: 0.8rem !important;
+  font-size: small !important;
   padding-left: 1rem !important;
   padding-top: 0.2rem !important;
   padding-bottom: 0.2rem !important;
 }
+
 .data-item > .form-check {
   min-height: unset !important;
+}
+.data-item > .form-select, .data-item > input {
+  padding: 0.3rem;
+  font-size: small;
 }
 .data-group {
   flex-direction: row !important;

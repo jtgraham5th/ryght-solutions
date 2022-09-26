@@ -5,10 +5,8 @@ function GoalListItem({ type, disabled, goal }) {
     <ListGroup.Item
     key={`default-${type}`}
       disabled={disabled}
-      className="pl-1"
-      style={{ borderLeft: "0px", borderRight: "0px" }}
     >
-      <Row>
+      <Row className="w-100">
         <Col md={3}>{goal.goalName}</Col>
         <Col md={3}>{goal.status}</Col>
         <Col md={2}>{goal.openDate}</Col>
