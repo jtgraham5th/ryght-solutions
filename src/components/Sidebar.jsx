@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Row, Col, ListGroup, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ArrowRightSquare, XLg } from "react-bootstrap-icons";
@@ -16,23 +15,23 @@ function Sidebar({ sidebar, setSidebar }) {
         <h3 className="m-0 text-white">Ryght Solutions</h3>
       </div>
       <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-        <ul className="nav-menu-items" onClick={showSidebar}>
-          <li className="navbar-toggle">
+        <ListGroup className="nav-menu-items" onClick={showSidebar}>
+          <ListGroup.Item className="navbar-toggle">
             <Link to="#" className="menu-bars">
               <XLg color="white"/>
             </Link>
-          </li>
+          </ListGroup.Item>
           {SidebarData.map((item, index) => {
             return (
-              <li key={index} className={item.cName}>
-                <Link to={item.path}>
+              <ListGroup.Item key={index} className={item.cName} disabled={item.disabled}>
+                <Link to={item.path} >
                   {item.icon}
                   <span>{item.title}</span>
                 </Link>
-              </li>
+              </ListGroup.Item>
             );
           })}
-        </ul>
+        </ListGroup>
       </nav>
     </>
   );

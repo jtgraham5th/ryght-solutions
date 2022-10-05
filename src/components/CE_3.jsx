@@ -88,7 +88,7 @@ function CE3({ register, control }) {
               ) : (
                 <Button
                   size="sm"
-                  variant="link"
+                  variant="outline-primary"
                   name="referralSource"
                   className="CE-form-label-button"
                   onClick={addItem}
@@ -137,7 +137,7 @@ function CE3({ register, control }) {
               ) : (
                 <Button
                   size="sm"
-                  variant="link"
+                  variant="outline-primary"
                   name="referralOutsource"
                   className="CE-form-label-button"
                   onClick={addItem}

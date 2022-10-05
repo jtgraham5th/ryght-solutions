@@ -36,7 +36,7 @@ export const client01 = {
         addedDate: "5/11/2022",
         frequency: "N/A",
         measurement: { number: "1-4", unit: "months" },
-        description: "Descritpion of the Entire Goal",
+        description: "Description of the Entire Goal goes here. Client will takes steps to reduce Anxiety by 2023",
         comments: "",
         objectives: [
           {

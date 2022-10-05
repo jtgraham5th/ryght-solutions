@@ -1,5 +1,5 @@
 .navbar {
-  background-color: #4A235A;;
+  background-color: #4a235a;
   height: 50px;
   display: flex;
   justify-content: start !important;
@@ -14,7 +14,7 @@
 }
 
 .nav-menu {
-  background-color: #4A235A;;
+  background-color: #4a235a;
   width: 250px;
   height: 100vh;
   display: flex;
@@ -53,15 +53,23 @@
 
 .nav-text a:hover {
   background-color: #fff;
-  color: #4A235A
+  color: #4a235a;
 }
 
 .nav-menu-items {
   width: 100%;
 }
+.list-group-item {
+  background-color: transparent !important;
+  border: 0px !important
+}
+.nav-text.list-group-item.disabled a,
+.nav-text.list-group-item:disabled  a {
+  color: var(--bs-list-group-disabled-color) !important;
+}
 
 .navbar-toggle {
-  background-color: #4A235A;;
+  background-color: #4a235a;
   width: 100%;
   height: 80px;
   display: flex;

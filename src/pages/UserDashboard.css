@@ -1,0 +1,12 @@
+.recent-clients {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
+.recent-clients > .card {
+  display: flex;
+  flex-direction: column;
+  min-width: 25%;
+  margin-right: 00.25rem;
+  cursor: pointer;
+}

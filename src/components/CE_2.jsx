@@ -218,7 +218,7 @@ function CE2({ register, control }) {
               ) : (
                 <Button
                   size="sm"
-                  variant="link"
+                  variant="outline-primary"
                   name="insuranceProvider"
                   className="CE-form-label-button"
                   onClick={addItem}

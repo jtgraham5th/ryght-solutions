@@ -4,39 +4,45 @@ HouseFill, PersonCircle, PeopleFill, Gear, ChatLeftText, QuestionCircle  } from 
 
 export const SidebarData = [
   {
-    title: 'Home',
+    title: 'Dashboard',
     path: '/',
     icon: <HouseFill />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    disabled: false
   },
   {
     title: 'Clients',
-    path: '/client',
+    path: '/client/overview/',
     icon: <PersonCircle />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    disabled: false,
   },
   {
     title: 'Settings',
     path: '/settings',
     icon: <Gear />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    disabled: true,
   },
   {
     title: 'Team',
     path: '/team',
     icon: <PeopleFill />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    disabled: true,
   },
   {
     title: 'Messages',
     path: '/messages',
     icon: <ChatLeftText />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    disabled: true,
   },
   {
     title: 'Support',
     path: '/support',
     icon: <QuestionCircle />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    disabled: true,
   }
 ];

@@ -57,11 +57,7 @@
   padding-right: 0.1rem;
 
 }
-.nav-item > .nav-link {
-  /* white-space: nowrap; */
-  padding-left: 0;
-  padding-right: 0;
-}
+
 .pi-nav {
   align-content: center;
   /* flex-direction: column; */

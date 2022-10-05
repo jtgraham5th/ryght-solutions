@@ -90,7 +90,7 @@ function CVTreatmentPlan({ sidebar }) {
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <TreatmentPlanDetails />
           <GoalList />
-          <Form.Label>Projected Family Involvement</Form.Label>
+          <Form.Label className="fs-5">Projected Family Involvement</Form.Label>
           <Form.Control
             {...register("familyInvolvement")}
             as="textarea"
@@ -99,7 +99,7 @@ function CVTreatmentPlan({ sidebar }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Client Strengths</Form.Label>
+          <Form.Label className="fs-5">Client Strengths</Form.Label>
           <Form.Control
             {...register("clientStrengths")}
             as="textarea"
@@ -108,7 +108,7 @@ function CVTreatmentPlan({ sidebar }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Client Needs</Form.Label>
+          <Form.Label className="fs-5">Client Needs</Form.Label>
           <Form.Control
             {...register("clientNeeds")}
             as="textarea"
@@ -117,7 +117,7 @@ function CVTreatmentPlan({ sidebar }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Client Abilities</Form.Label>
+          <Form.Label className="fs-5">Client Abilities</Form.Label>
           <Form.Control
             {...register("clientAbilities")}
             as="textarea"
@@ -126,7 +126,7 @@ function CVTreatmentPlan({ sidebar }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Client Preferences</Form.Label>
+          <Form.Label className="fs-5">Client Preferences</Form.Label>
           <Form.Control
             {...register("clientPref")}
             as="textarea"
@@ -136,7 +136,7 @@ function CVTreatmentPlan({ sidebar }) {
         </Form.Group>
         <hr />
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Crisis Criteria Planning</Form.Label>
+          <Form.Label className="fs-5">Crisis Criteria Planning</Form.Label>
           <Form.Control
             {...register("ccPlanning")}
             as="textarea"
@@ -145,7 +145,7 @@ function CVTreatmentPlan({ sidebar }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Discharge Criteria Planning</Form.Label>
+          <Form.Label className="fs-5">Discharge Criteria Planning</Form.Label>
           <Form.Control
             {...register("dcPlanning")}
             as="textarea"
@@ -155,7 +155,7 @@ function CVTreatmentPlan({ sidebar }) {
         </Form.Group>
         <hr />
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Step Down Service</Form.Label>
+          <Form.Label className="fs-5">Step Down Service</Form.Label>
           <Form.Control
             {...register("sdService")}
             as="textarea"
@@ -200,7 +200,7 @@ function CVTreatmentPlan({ sidebar }) {
         </Form.Group>
         <hr />
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>
+          <Form.Label className="fs-5">
             Other Physicians/Agencies working with this client
           </Form.Label>
           <Form.Control

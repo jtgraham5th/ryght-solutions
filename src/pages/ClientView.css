@@ -1,25 +1,31 @@
 .container-row {
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    justify-items: center;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+div[role="main"] {
+  box-shadow: 0 0 0.25rem rgb(74 35 90 / 25%) !important;
+}
+div[role="main"] > .card-header {
+  border-bottom: 0px !important;
 }
 .modal-width {
-    background-color: red;
-    width: 90%
+  width: 90%;
 }
+
 .select-client {
-    font-size: small;
-    width: 40%;
-    padding-bottom: 0%;
-    margin-right: 0.25rem;
+  font-size: small !important;
+  width: 50% !important;
+  padding-bottom: 0% !important;
+  margin-right: 0.25rem;
 }
 .CV-header-action-container {
-    display: flex;
-    height: 75%;
-    width: 30%;
-    flex-direction: row;
-    justify-content: space-evenly
+  display: flex;
+  height: 75%;
+  width: 35%;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

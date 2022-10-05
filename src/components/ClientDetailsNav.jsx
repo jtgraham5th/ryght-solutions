@@ -43,12 +43,6 @@ function ClientDetailsNav({activeTab, setActiveTab}) {
       <Nav.Item>
         <Nav.Link href="#PHARM_INFO"> Pharmacy Information</Nav.Link>
       </Nav.Item>
-      <Nav.Item>
-        <Nav.Link href="#PCCP_INFO">
-          <Incognito />
-          Patient Confidental Communications Prefrences
-        </Nav.Link>
-      </Nav.Item>
     </Nav>
   );
 }

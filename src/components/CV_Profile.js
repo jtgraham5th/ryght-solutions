@@ -84,14 +84,6 @@ function CVProfile({ sidebar }) {
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <Accordion defaultActiveKey="0" alwaysOpen className="mb-3">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Progress Notes</Accordion.Header>
-              <Accordion.Body className="p-0">
-                <CVProgressNotes />
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
         </Col>
         <Col md={6}>
           <Accordion defaultActiveKey="0" className="mb-3">

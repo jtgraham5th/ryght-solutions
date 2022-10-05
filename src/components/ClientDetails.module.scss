@@ -35,6 +35,7 @@
   margin-left: 0 !important;
 }
 .cdNavTabs {
-  // font-size: small !important;
-  // flex-wrap: nowrap !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
 }
