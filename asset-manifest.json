@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/ryght-solutions/static/css/main.460217c9.css",
-    "main.js": "/ryght-solutions/static/js/main.006b2472.js",
+    "main.css": "/ryght-solutions/static/css/main.1f488f43.css",
+    "main.js": "/ryght-solutions/static/js/main.0ca9a929.js",
     "static/js/787.8beac383.chunk.js": "/ryght-solutions/static/js/787.8beac383.chunk.js",
+    "static/media/familytherapy.jpeg": "/ryght-solutions/static/media/familytherapy.1e71c58fbba352025926.jpeg",
     "index.html": "/ryght-solutions/index.html",
-    "main.460217c9.css.map": "/ryght-solutions/static/css/main.460217c9.css.map",
-    "main.006b2472.js.map": "/ryght-solutions/static/js/main.006b2472.js.map",
+    "main.1f488f43.css.map": "/ryght-solutions/static/css/main.1f488f43.css.map",
+    "main.0ca9a929.js.map": "/ryght-solutions/static/js/main.0ca9a929.js.map",
     "787.8beac383.chunk.js.map": "/ryght-solutions/static/js/787.8beac383.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.460217c9.css",
-    "static/js/main.006b2472.js"
+    "static/css/main.1f488f43.css",
+    "static/js/main.0ca9a929.js"
   ]
 }
