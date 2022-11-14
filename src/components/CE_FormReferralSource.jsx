@@ -1,14 +1,11 @@
-import { Row, Col, Form, Button, Collapse, Card } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
-import { PeopleFill } from "react-bootstrap-icons";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 
 function CEFormReferralSource({ register }) {
   return (
-<>      <Form.Group as={Row}>
+    <>
+      {" "}
+      <Form.Group as={Row}>
         <Col md={4}>
           <Form.Label className="CE-form-label">Referral Source</Form.Label>
           <Form.Control

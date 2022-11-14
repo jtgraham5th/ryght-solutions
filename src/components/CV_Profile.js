@@ -8,7 +8,6 @@ import "../App.css";
 import CVDemographics from "./CV_Demographics";
 import ContactLog from "./ContactLog";
 import Services from "./Services";
-import CVProgressNotes from "./CV_ProgressNotes";
 import Requirements from "./Requirements";
 import InsuranceInfo from "./InsuranceInfo";
 import Diagnosis from "./Diagnosis";

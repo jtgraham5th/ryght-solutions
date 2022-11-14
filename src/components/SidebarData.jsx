@@ -15,14 +15,14 @@ export const SidebarData = [
     path: '/client/overview/',
     icon: <PersonCircle />,
     cName: 'nav-text',
-    disabled: false,
+    disabled: true,
   },
   {
     title: 'Settings',
     path: '/settings',
     icon: <Gear />,
     cName: 'nav-text',
-    disabled: true,
+    disabled: false,
   },
   {
     title: 'Team',

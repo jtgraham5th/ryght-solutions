@@ -1,4 +1,4 @@
-import { Row, Col, Card, ListGroup, Form, Alert } from "react-bootstrap";
+import { Col, Alert } from "react-bootstrap";
 import { personalDataOptions } from "../data/formData";
 
 function ClientIssues() {

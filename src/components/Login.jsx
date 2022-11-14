@@ -3,10 +3,10 @@ import "./Login.css";
 import { useForm } from "react-hook-form";
 import { ArrowRightSquare } from "react-bootstrap-icons";
 import familyPhoto from "../data/familytherapy.jpeg";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login({ setStatus }) {
-  const { control, register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
@@ -20,7 +20,7 @@ function Login({ setStatus }) {
       <Card className="w-75">
         <Row className="pe-3">
           <Col md={6}>
-            <img src={familyPhoto} className="login-photo" />
+            <img src={familyPhoto} alt="family in therapy" className="login-photo" />
           </Col>
           <Col
             md={6}

@@ -1,8 +1,6 @@
 import { Row, Col, ListGroup, Form, Button } from "react-bootstrap";
 import styles from "./Diagnosis.module.scss";
 import {
-  Hash,
-  At,
   ArrowUpCircleFill,
   ArrowDownCircleFill,
   FileEarmarkText,

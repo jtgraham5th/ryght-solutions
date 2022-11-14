@@ -1,3 +1,13 @@
+import CE1 from "../components/CE_1";
+import CE2 from "../components/CE_2";
+import CE3 from "../components/CE_3";
+import CE4 from "../components/CE_4";
+import SA1 from "../components/SA_1";
+import SA2 from "../components/SA_2";
+import SA3 from "../components/SA_3";
+import SA4 from "../components/SA_4";
+import SA5 from "../components/SA_5";
+
 export const personalDataOptions = [
   "Client is under 18 years of age",
   "Client has been sexually abused",
@@ -36,7 +46,8 @@ export const client01 = {
         addedDate: "5/11/2022",
         frequency: "N/A",
         measurement: { number: "1-4", unit: "months" },
-        description: "Description of the Entire Goal goes here. Client will takes steps to reduce Anxiety by 2023",
+        description:
+          "Description of the Entire Goal goes here. Client will takes steps to reduce Anxiety by 2023",
         comments: "",
         objectives: [
           {
@@ -124,28 +135,88 @@ export const client01 = {
       },
     ],
   },
-  progressNotes: [{
-    serviceCode: "Open this select menu",
-    serviceDelivered: "Open this select menu",
-    setting: "Open this select menu",
-    optPrintInfo: false,
-    attachments: false,
-    personInvolved: false,
-    contactType: "Open this select menu",
-    dateOfService: "2022-09-09T04:00:00.000Z",
-    timeStart: "2022-09-23T15:45:00.812Z",
-    timeEnd: "2022-09-23T16:00:00.386Z",
-    consumerAffect: null,
-    medChanges: null,
-    medChangesComments: "",
-    progressMet: "Open this select menu",
-    progressComments: "",
-    progBehavior: "",
-    progIntervention: "",
-    progResponse: "",
-    progPlan: "",
-    goal: "Anxiety",
-    objective: "objective 1",
-    intervention: "inervention 001"
-}]
+  progressNotes: [
+    {
+      serviceCode: "Open this select menu",
+      serviceDelivered: "Open this select menu",
+      setting: "Open this select menu",
+      optPrintInfo: false,
+      attachments: false,
+      personInvolved: false,
+      contactType: "Open this select menu",
+      dateOfService: "2022-09-09T04:00:00.000Z",
+      timeStart: "2022-09-23T15:45:00.812Z",
+      timeEnd: "2022-09-23T16:00:00.386Z",
+      consumerAffect: null,
+      medChanges: null,
+      medChangesComments: "",
+      progressMet: "Open this select menu",
+      progressComments: "",
+      progBehavior: "",
+      progIntervention: "",
+      progResponse: "",
+      progPlan: "",
+      goal: "Anxiety",
+      objective: "objective 1",
+      intervention: "inervention 001",
+    },
+  ],
+};
+export const abcObject = {
+  a: [],
+  b: [],
+  c: [],
+  d: [],
+  e: [],
+  f: [],
+  g: [],
+  h: [],
+  i: [],
+  j: [],
+  k: [],
+  l: [],
+  m: [],
+  n: [],
+  o: [],
+  p: [],
+  q: [],
+  r: [],
+  s: [],
+  t: [],
+  u: [],
+  v: [],
+  w: [],
+  x: [],
+  y: [],
+  z: [],
+};
+export const renderClientEnrollment = (activePage, register, control) => {
+  switch (activePage) {
+    case 0:
+      return <CE1 register={register} control={control} />;
+    case 1:
+      return <CE2 register={register} control={control} />;
+    case 2:
+      return <CE3 register={register} control={control} />;
+    case 3:
+      return <CE4 register={register} control={control} />;
+    default:
+      return <CE1 register={register} control={control} />;
+  }
+};
+export const renderShortAssesment = (activePage, register, control) => {
+  switch (activePage) {
+    case 0:
+      return <SA1 register={register} control={control} />;
+    case 1:
+      return <SA2 register={register} control={control} />;
+    case 2:
+      return <SA3 register={register} control={control} />;
+    case 3:
+      return <SA4 register={register} control={control} />;
+    case 4:
+      return <SA5 register={register} control={control} />;
+    default:
+      return <SA1 register={register} control={control} />;
+  }
 };

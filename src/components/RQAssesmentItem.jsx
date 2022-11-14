@@ -1,5 +1,5 @@
 import { forwardRef, useState } from "react";
-import { Row, Col, Card, Button, Badge } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 import styles from "./Requirements.module.scss";
 import {
   FlagFill,
@@ -9,16 +9,20 @@ import {
 } from "react-bootstrap-icons";
 import DatePicker from "react-datepicker";
 
-function RQAssessmentItem(index) {
+function RQAssessmentItem({index, activeForm, setActiveForm, setShow}) {
   const [startDate, setStartDate] = useState(new Date());
   const [complete, setComplete] = useState(false);
   const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
     <div className={styles.noWrap} onClick={onClick} ref={ref}>
       <span>
-        <CalendarEvent size={15} color="royalblue"/> {value}
+        <CalendarEvent size={15} color="royalblue" /> {value}
       </span>
     </div>
   ));
+  const viewForm = () => {
+    //right now set active form based on a switch case
+    setShow(true)
+  }
 
   return (
     <Card
@@ -29,7 +33,9 @@ function RQAssessmentItem(index) {
       <Card.Body className="p-2">
         <Row className={styles.assessmentItem}>
           <Col xs={8} className="text-start">
-            <Card.Title><FlagFill color="orange"/> Assessment </Card.Title>
+            <Card.Title>
+              <FlagFill color="orange" /> Assessment{" "}
+            </Card.Title>
             <Card.Subtitle>Biopsychosocial </Card.Subtitle>
           </Col>
           <Col className={styles.assessmentDetail} xs={4}>
@@ -65,7 +71,7 @@ function RQAssessmentItem(index) {
           <Col xs={8} className="text-start">
             <Button
               variant={complete ? "success" : "danger"}
-              onClick={() => setComplete(!complete)}
+              onClick={() => viewForm()}
             >
               {complete ? (
                 <>
@@ -78,7 +84,7 @@ function RQAssessmentItem(index) {
               )}
             </Button>
           </Col>
-          <Col className={styles.assessmentDetail} xs={4}>
+          <Col className={styles.assessmentDetail} xs={4} x>
             <div>Date Completed:</div>
             <Card.Text className="fw-bold mb-0">
               {complete ? "01/01/2022" : "---"}

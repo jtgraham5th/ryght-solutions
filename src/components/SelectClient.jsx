@@ -1,19 +1,27 @@
-import { Col, Card, Button, Form } from "react-bootstrap";
-import styles from "./Services.module.scss";
-import "../pages/ClientView.css"
+import { Form } from "react-bootstrap";
+import "../pages/ClientView.css";
+import { useClient } from "../data/ClientContext";
 
-function SelectClient({ clients }) {
+function SelectClient() {
+  const { selectClient, clientList } = useClient();
+
+  const handleClientSelect = (e) => {
+    selectClient(e.target.value);
+  };
+
   return (
-    // <Card>
-    //   <Card.Header className={styles.cardHeader}>Choose Client</Card.Header>
-    //   <Card.Body className="p-2">
-        <Form.Select className="select-client">
-          {clients.map((name, i) => (
-            <option key={i}>{name}</option>
-          ))}
-        </Form.Select>
-    //   </Card.Body>
-    // </Card>
+    <Form.Select
+      className="select-client"
+      onChange={(e) => handleClientSelect(e)}
+    >
+      <option>Select Client</option>
+      {clientList &&
+        clientList.map((client, i) => (
+          <option key={i} value={client.patientid}>
+            {client.name}
+          </option>
+        ))}
+    </Form.Select>
   );
 }
 

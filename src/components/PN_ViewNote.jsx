@@ -1,6 +1,5 @@
 import { Row, Col, Button, Card, ListGroup } from "react-bootstrap";
 import {
-  List,
   Unlock,
   Printer,
   Trash,

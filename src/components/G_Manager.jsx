@@ -16,7 +16,7 @@ import AlertContainer from "./AlertContainer";
 
 function GoalsManager({ data }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
-  const [goals, setGoals] = useState(data);
+  const [goals] = useState(data);
   const [activeGoal, setActiveGoal] = useState();
   const [activeObjective, setActiveObjective] = useState("");
   const [activeIntervention, setActiveIntervention] = useState("");

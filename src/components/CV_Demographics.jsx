@@ -1,53 +1,50 @@
-import { Row, Col, Card, ListGroup, Image, Badge } from "react-bootstrap";
-import { useState } from "react";
+import { Row, Col, Card, ListGroup } from "react-bootstrap";
 import ClientIssues from "./ClientIssues";
+import { useClient } from "../data/ClientContext";
 import "./ClientDemographics.css";
 
 function CVDemographics() {
-  const [activeTab, setActiveTab] = useState("#PERS_INFO");
-  const [clientlist, setClientList] = useState([
-    "Avery Allison",
-    "Crissy Williams",
-    "Samuel Johnson",
-  ]);
+  const { activeClient, formData } = useClient();
 
   return (
     <Card className="mb-4">
       <Card.Body className="pt-0 pb-0 pe-3">
         <Row className="demoInfo">
-          <Col className="h-100" md={4}>
-            <Row className="h-100">
-              <Col md={5} className="p-0">
-                <img
-                  className="clientImg"
-                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                />{" "}
-              </Col>
-              <Col md={7} className="clientDetails">
-                <ListGroup variant="flush">
-                  <ListGroup.Item className="data-item">
-                    Age: <strong>22</strong>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="data-item">
-                    Sex: <strong>MALE</strong>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="data-item">
-                    DOB: <strong>01/01/2000</strong>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="data-item">
-                    Ins: <strong>BXBS (DCR123456789)</strong>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="data-item">
-                    BX Lvl: <strong>NONE ASSIGNED</strong>
-                  </ListGroup.Item>
-                  <ListGroup.Item className="data-item">
-                    Pts: <strong>0</strong>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Col>
-            </Row>
+          <Col className="p-0 h-100" md={2}>
+            <img
+              className="clientImg"
+              alt="client"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            />
           </Col>
-          <Col md={4}>
+          <Col md={6}>
+            <Row>
+              <Col md={6} className="data-item"> DOB: <strong>{activeClient.dob}</strong></Col>
+            </Row>
+            <Row>
+              <Col md={4} className="data-item"> Sex at Birth: <strong></strong></Col>
+              <Col md={4} className="data-item"> Sex: <strong>{activeClient.sexid === 2 ? "Female" : "Male"}</strong></Col>
+              <Col md={4} className="data-item"> Gender: <strong>{formData.gender[`${activeClient.sexid + 1}`]}</strong></Col>
+            </Row>
+            <Row>
+              <Col md={6} className="data-item"> Marital Status: <strong></strong></Col>
+              <Col md={6} className="data-item"> Religion: <strong></strong></Col>
+            </Row>
+            <Row>
+              <Col md={6} className="data-item"> Ethnicity: <strong>{formData.ethnicity[`${activeClient.ethnicityid - 3}`]}</strong></Col>
+            </Row>
+            {/* <ListGroup variant="flush">
+              <ListGroup.Item className="data-item">
+                Age: <strong></strong>
+              </ListGroup.Item>
+              <ListGroup.Item className="data-item">
+                Sex:{" "}
+                <strong>{activeClient.sexid === 2 ? "Female" : "Male"}</strong>
+              </ListGroup.Item>
+              <ListGroup.Item className="data-item">
+                DOB: <strong>{activeClient.dob}</strong>
+              </ListGroup.Item>
+            </ListGroup>
             <Row className="demoInfo">
               <Col md={12} className="clientDetails">
                 <ListGroup variant="flush">
@@ -71,7 +68,7 @@ function CVDemographics() {
                   </ListGroup.Item>
                 </ListGroup>
               </Col>
-            </Row>
+            </Row> */}
           </Col>
           <Col md={4}>
             <Row>

@@ -48,6 +48,8 @@ function CE3({ register, control }) {
         return CEFormReferralSource;
       case "referralOutsource":
         return CEFormReferralOutSource;
+      default: 
+        return CEFormReferralSource
     }
   };
 

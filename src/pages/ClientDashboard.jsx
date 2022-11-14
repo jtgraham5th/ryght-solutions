@@ -1,10 +1,6 @@
-import { useState } from "react";
-import { Container, Card, Row, Col } from "react-bootstrap";
-import { Routes, Route, Redirect } from "react-router-dom";
-import { ClientRoutes, UserRoutes } from "../data/routes";
+import { Card } from "react-bootstrap";
+import { ClientRoutes } from "../data/routes";
 import CVHeader from "../components/CV_Header";
-import Sidebar from "../components/Sidebar.jsx";
-// import "./dashboard.css";
 
 function ClientDashboard(props) {
   return (

@@ -1,11 +1,12 @@
 import "./App.css";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Container } from "react-bootstrap";
 import Sidebar from "./components/Sidebar";
 import ClientDashboard from "./pages/ClientDashboard";
 import UserDashboard from "./pages/UserDashboard";
+import Settings from "./pages/Settings";
 import Login from "./components/Login";
+import { ClientProvider } from "./data/ClientContext";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -21,24 +22,26 @@ function App() {
             !loginStatus ? "App landing" : sidebar ? "App active" : "App"
           }
         >
-          <Routes>
-            <Route
-              path="/*"
-              element={
-                loginStatus ? (
-                  <UserDashboard />
-                ) : (
-                  <Login setStatus={setLoginStatus} />
-                )
-              }
-            />
-            <Route path="client/*" element={<ClientDashboard />} />
-            {/* <Route path="/*" element={} /> */}
-            {/* <Route path="/" exact element={<ClientView sidebar={sidebar} />} />
+          <ClientProvider>
+            <Routes>
+              <Route
+                path="/*"
+                element={
+                  loginStatus ? (
+                    <UserDashboard />
+                  ) : (
+                    <Login setStatus={setLoginStatus} />
+                  )
+                }
+              />
+              <Route path="client/*" element={<ClientDashboard />} />
+              <Route path="settings/" element={<Settings />} />
+              {/* <Route path="/" exact element={<ClientView sidebar={sidebar} />} />
           <Route path="/client" exact element={<ClientView sidebar={sidebar} />} />
           <Route path="/notes" element={<CVProgressNotes />} />
           <Route path="/files" element={<FileManager />} /> */}
-          </Routes>
+            </Routes>
+          </ClientProvider>
         </div>
       </Router>
     </>

@@ -1,5 +1,4 @@
 import { Row, Col, Alert, ListGroup, Form, Button } from "react-bootstrap";
-import { personalDataOptions } from "../data/formData";
 import styles from "./Diagnosis.module.scss";
 import { Hash, At } from "react-bootstrap-icons";
 import DXListItem from "./DXListItem";

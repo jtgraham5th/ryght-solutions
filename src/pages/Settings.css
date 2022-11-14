@@ -1,0 +1,31 @@
+.settings-menu{
+  border-right: 1px solid silver;
+  height: 90vh;
+}
+.select-container {
+  height: 30rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.inactive-list-group {
+  overflow: auto;
+  height: 100%;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.inactive-list-group > .list-group > .list-group-item {
+  text-transform: capitalize;
+  font-size: small;
+  padding: 0.2rem !important;
+  padding-left: 0.5rem !important;
+}
+.move-to-card {
+  height: 15rem !important;
+}
+.alpha-list {
+  overflow: auto;
+  height: 100%;
+  border-right: 1px solid silver;
+  padding: 0rem !important;
+  font-size: small;
+}

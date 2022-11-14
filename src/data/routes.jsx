@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 
 import CVProfile from "../components/CV_Profile";
@@ -9,11 +8,11 @@ import CVTreatmentPlan from "../components/CV_TreatmentPlan";
 const ClientRoutes = () => {
   return (
     <Routes>
-      <Route path="overview" element={<CVProfile />} />
-      <Route path="progress-notes" element={<CVProgressNotes />} />
-      <Route path="treatment-plan" element={<CVTreatmentPlan />} />
-      {/* <Route path="/program-info" element={Settings} /> */}
-      <Route path="pharmacy" element={<CDPharmacy />} />
+        <Route path="overview" element={<CVProfile />} />
+        <Route path="progress-notes" element={<CVProgressNotes />} />
+        <Route path="treatment-plan" element={<CVTreatmentPlan />} />
+        {/* <Route path="/program-info" element={Settings} /> */}
+        <Route path="pharmacy" element={<CDPharmacy />} />
     </Routes>
   );
 };

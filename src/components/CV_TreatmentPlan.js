@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Row, Col, Form, Button, Alert, Collapse } from "react-bootstrap";
+import { Row, Form, Button, Alert } from "react-bootstrap";
 import GoalList from "./G_List";
 import TreatmentPlanDetails from "./TreatmentPlanDetails";
 import DatePicker from "react-datepicker";
@@ -11,7 +11,7 @@ import "../App.css";
 
 function CVTreatmentPlan({ sidebar }) {
   const [editTreatmentPlan, setEditTreatmentPlan] = useState(false);
-  const { control, register, handleSubmit, setValue } = useForm();
+  const { control, register, handleSubmit } = useForm();
 
   const treatmentPlanRef = useRef();
   const handlePrint = useReactToPrint({

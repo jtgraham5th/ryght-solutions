@@ -5,7 +5,7 @@
 .data-issues{
   overflow: auto;
   height: fit-content;
-  max-height: 11rem;
+  max-height: 9rem;
 }
 /* Demographic Info Component */
 .clientDemo {
@@ -15,8 +15,9 @@
   overflow: hidden;
 }
 .demoInfo {
-  font-size: small;
-  height: 100%
+  /* font-size: small; */
+  height: 100%;
+  align-items: center
 }
 .clientDetails {
   padding: 0 !important;
@@ -28,7 +29,7 @@
 
 /* Personal Data Component */
 .data-item {
-  font-size: small !important;
+  /* font-size: small !important; */
   padding-left: 1rem !important;
   padding-top: 0.2rem !important;
   padding-bottom: 0.2rem !important;

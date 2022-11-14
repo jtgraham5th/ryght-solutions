@@ -9,7 +9,6 @@ function ModalContainer({
   component,
 }) {
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   return (
     <Modal show={show} dialogClassName="modal-width" onHide={handleClose}>

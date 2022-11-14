@@ -4,8 +4,6 @@ import {
   Telephone,
   PeopleFill,
   FileText,
-  Incognito,
-  WindowFullscreen
 } from "react-bootstrap-icons";
 import styles from "./ClientDetails.module.scss";
 

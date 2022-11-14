@@ -8,16 +8,11 @@ import {
   ToggleButton,
   Form,
 } from "react-bootstrap";
-import { Printer, PlusSquare } from "react-bootstrap-icons";
 import styles from "./FileManager.module.scss";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import FileCard from "./FileCard";
 
 function FileManager() {
-  const [dateRange, setDateRange] = useState([null, null]);
   const [toggle, setToggle] = useState(null);
-  const [startDate, endDate] = dateRange;
 
   return (
     <>
@@ -77,15 +72,22 @@ function FileManager() {
             <Form.Control />
             <div className="text-start small ps-2">Doc Description:</div>
             <Form.Control as="textarea" />
-            <div className="text-start small ps-2">Choose Label:<Button variant="link" onClick={() => console.log("click")}>Change Existing Label</Button></div>
+            <div className="text-start small ps-2">
+              Choose Label:
+              <Button variant="link" onClick={() => console.log("click")}>
+                Change Existing Label
+              </Button>
+            </div>
             <Form.Select className="fs-6">
               <option>Label 1</option>
               <option>Label 2</option>
               <option>Label 3</option>
               <option>Label 4</option>
             </Form.Select>
-            <div className={styles.uploadButtons}><Button>Upload</Button>
-            <Button>Cancel</Button></div>
+            <div className={styles.uploadButtons}>
+              <Button>Upload</Button>
+              <Button>Cancel</Button>
+            </div>
           </Form.Group>
         </Form>
       )}

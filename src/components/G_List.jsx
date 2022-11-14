@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Row, Col, Card, ListGroup, Form, Button } from "react-bootstrap";
-import styles from "./Diagnosis.module.scss";
-import GoalListItem from "./GoalListItem";
+import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { Search } from "react-bootstrap-icons";
 import ModalContainer from "./ModalContainer";
 import GoalsManager from "./G_Manager";

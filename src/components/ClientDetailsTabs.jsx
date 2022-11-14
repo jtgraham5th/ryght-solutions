@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import CDContact from "./CD_Contact";
 import CDPaGu from "./CD_PaGu";
 import CDPCCP from "./CD_PCCP";

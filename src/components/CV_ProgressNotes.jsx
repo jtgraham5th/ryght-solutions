@@ -1,4 +1,4 @@
-import { Row, Col, Table } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import styles from "./Notes.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import PNNewNote from "./PN_NewNote";

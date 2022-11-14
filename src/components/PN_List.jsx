@@ -1,10 +1,10 @@
-import { Row, Col, Table, Card, Form, ListGroup } from "react-bootstrap";
+import { Row, Col, Card, Form, ListGroup } from "react-bootstrap";
 import styles from "./Notes.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import ProgresNotesListItem from "./ProgressNotesListItem";
 import { Search } from "react-bootstrap-icons";
 import { client01 } from "../data/formData";
-import "./PN_Manager.css"
+import "./PN_Manager.css";
 import { useState } from "react";
 import ModalContainer from "./ModalContainer";
 import PNViewNote from "./PN_ViewNote";
@@ -18,7 +18,7 @@ function ProgressNotesList() {
       <ListGroup className={styles.dataGroup} variant="flush">
         <ListGroup.Item variant="primary">
           <Row className={styles.dataHeader}>
-            <Col >B.I.R.P Notes</Col>
+            <Col>B.I.R.P Notes</Col>
             <Col md="auto">
               <Form className="p-0">
                 <Form.Group className="d-flex flex-row">
@@ -47,17 +47,23 @@ function ProgressNotesList() {
             <Col>Submitted</Col>
           </Row>
         </ListGroup.Item>
-        <div style={{ height:"100%", overflowY: "auto", overflowX: "hidden"}}>
-            {client01.progressNotes.map((note,index) => (
-              <ProgresNotesListItem type={index} key={index} note={note} showNote={setShow} selectNote={setActiveNote}/>
-            ))}
-          </div>
+        <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}>
+          {client01.progressNotes.map((note, index) => (
+            <ProgresNotesListItem
+              type={index}
+              key={index}
+              note={note}
+              showNote={setShow}
+              selectNote={setActiveNote}
+            />
+          ))}
+        </div>
       </ListGroup>
       <ModalContainer
         show={show}
         setShow={setShow}
         containerName="View Progress Note"
-        component={<PNViewNote data={activeNote}/>}
+        component={<PNViewNote data={activeNote} />}
       />
     </Card>
   );

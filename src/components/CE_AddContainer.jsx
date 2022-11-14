@@ -1,9 +1,5 @@
-import { Row, Col, Form, Button, Collapse, Card } from "react-bootstrap";
+import { Row, Button, Collapse, Card } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
-import { PeopleFill } from "react-bootstrap-icons";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 function CEAddContainer({ sectionTitle, open, close, newForm: NewForm }) {

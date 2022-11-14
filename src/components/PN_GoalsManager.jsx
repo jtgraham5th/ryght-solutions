@@ -10,7 +10,7 @@ import "./G_Manager.css";
 
 function PNMGoalsManager({ data, selectedGoal, setSelectedGoal }) {
 
-  const [goals, setGoals] = useState(data);
+  const [goals] = useState(data);
 
   const goalSelect = (goal) => {
     if (goal !== selectedGoal.goal) {

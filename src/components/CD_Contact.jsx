@@ -1,88 +1,76 @@
+import { useEffect, useState } from "react";
 import { Row, Col, ListGroup } from "react-bootstrap";
 import styles from "./ClientDetails.module.scss";
+import { useClient } from "../data/ClientContext";
+import "./ClientDemographics.css";
 
 function CDContact() {
+  const { getClientContact, activeClient } = useClient();
+  const [contactInfo, setContactInfo] = useState([]);
+
+  useEffect(() => {
+    if (contactInfo.length < 1) {
+      setContactInfo(getClientContact(activeClient.patientid));
+    }
+  }, []);
+
   return (
-    // <Row fluid>
-      <ListGroup className={styles.dataGroup} variant="flush">
-        <ListGroup.Item className="ps-0 pt-0">
-          <Row className={styles.dataGroupRow}>
-            <Col md="auto" className={styles.dataItem} >
-              <div className="me-auto">
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Home Address</div>
+    <ListGroup >
+      {contactInfo &&
+        contactInfo.map((contact, index) => (
+          <ListGroup.Item as={Row} className="d-flex" key={index}>
+            <Col md={6}>
+              <Row>
+                <Col className="data-item">
+                  Contact Name:{" "}
+                  <strong>{contact.name ? contact.name : "N/A"}</strong>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="data-item">
+                  <Row>
+                    <Col md={4}>Address:</Col>
+                    <Col md={8}>
+                      <div className="d-flex flex-column">
+                        <strong>{contact.address1}</strong>
+                        <strong>
+                          {contact.city},{contact.state} {contact.zip}
+                        </strong>
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Home Phone</div>
+            <Col md={6}>
+              <Row>
+                <Col className="data-item">
+                  Home Phone:
+                  <strong className="ps-2">
+                    {contact.phone1 ? contact.phone1 : "N/A"}
+                  </strong>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="data-item">
+                  Mobile Phone:
+                  <strong className="ps-2">
+                    {contact.phone2 ? contact.phone2 : "N/A"}
+                  </strong>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="data-item">
+                  Work Phone:
+                  <strong className="ps-2">
+                    {contact.phone3 ? contact.phone3 : "N/A"}
+                  </strong>
+                </Col>
+              </Row>
             </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Physical Address</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div cl>
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Physical Phone</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Mobile Phone</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Mobile Carrier</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Recieve SMS</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Recieve Calls</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Work Phone</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Email</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Eye Color</div>
-            </Col>
-            <Col md="auto" className={styles.dataItem}>
-              <div >
-                Cras justo odio
-              </div>
-                <div className="fw-bold">Hair Color</div>
-            </Col>
-          </Row>
-        </ListGroup.Item>
-      </ListGroup>
-    // </Row>
+          </ListGroup.Item>
+        ))}
+    </ListGroup>
   );
 }
 

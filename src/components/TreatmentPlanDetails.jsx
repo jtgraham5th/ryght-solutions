@@ -1,16 +1,7 @@
-import { Row, Col, Card, Form, ListGroup, Image, Badge } from "react-bootstrap";
-import { useState } from "react";
-import ClientIssues from "./ClientIssues";
+import { Row, Col, Card, Form, ListGroup } from "react-bootstrap";
 import "./ClientDemographics.css";
 
 function TreatmentPlanDetails() {
-  const [activeTab, setActiveTab] = useState("#PERS_INFO");
-  const [clientlist, setClientList] = useState([
-    "Avery Allison",
-    "Crissy Williams",
-    "Samuel Johnson",
-  ]);
-
   return (
     <Card className="mb-3">
       <Card.Body>

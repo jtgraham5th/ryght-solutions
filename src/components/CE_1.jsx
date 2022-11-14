@@ -3,8 +3,11 @@ import "./CE_Manager.css";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
+import { useClient } from "../data/ClientContext";
 
 function CE1({ register, control }) {
+  const { formData } = useClient();
+
   return (
     <>
       <div className="CE-section-title">
@@ -45,9 +48,7 @@ function CE1({ register, control }) {
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
-        <Form.Label className="CE-form-label mb-2">
-          Marital Status
-        </Form.Label>
+        <Form.Label className="CE-form-label mb-2">Marital Status</Form.Label>
         <div>
           <Form.Check
             inline
@@ -125,12 +126,15 @@ function CE1({ register, control }) {
             aria-label="Select Race"
           >
             <option>Select Race</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {formData.ethnicity.map((item, i) => {
+              return (
+                <option key={i} value={i + 1}>
+                  {item}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
-
       </Form.Group>
       <Form.Group as={Row} className="mb-5">
         <Col md={4}>
@@ -144,12 +148,20 @@ function CE1({ register, control }) {
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Gender</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
+          <Form.Select
             {...register("gender")}
-            type="text"
             name="gender"
-          />
+            aria-label="Select Gender"
+          >
+            <option>Select Gender</option>
+            {formData.gender.map((item, i) => {
+              return (
+                <option key={i} value={i + 1}>
+                  {item}
+                </option>
+              );
+            })}
+          </Form.Select>
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Religion</Form.Label>
@@ -216,25 +228,19 @@ function CE1({ register, control }) {
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Phone Type</Form.Label>
-          <div>
-            <Form.Check
-              {...register("phoneType")}
-              type="radio"
-              inline
-              name="phoneType"
-              value="mobile"
-              label="Mobile"
-            />
-            <Form.Check
-              type="radio"
-              inline
-              {...register("phoneType")}
-              name="phoneType"
-              value="home"
-              label="Home"
-            />
-          </div>
-        </Col>
+          <Form.Select
+            {...register("phoneType")}
+            name="phoneType"
+            aria-label="Select Phone Type"
+          >
+            {formData.phoneType.map((item, i) => {
+              return (
+                <option key={i} value={i + 1}>
+                  {item}
+                </option>
+              );
+            })}
+          </Form.Select>        </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Email Address</Form.Label>
           <Form.Control

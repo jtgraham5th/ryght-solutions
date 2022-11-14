@@ -42,6 +42,8 @@ function CE2({ register, control }) {
         return CEFormFamilyPhysician;
       case "insuranceProvider":
         return CEFormInsuranceProvider;
+      default: 
+       return CEFormFamilyPhysician
     }
   };
 
