@@ -3,39 +3,49 @@ import { Card, Row, Col, Form, ListGroup, Button, Nav } from "react-bootstrap";
 import "../pages/Settings.css";
 import { useClient } from "../data/ClientContext";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 function SEListBoxes(props) {
-  const { formData, getGroupNames } = useClient();
+  const { formData, getGroupNames, addGroupItem } = useClient();
   const [groupNames, setGroupNames] = useState([]);
   const [activeGroup, setActiveGroup] = useState("");
+  const { register, handleSubmit, reset } = useForm({});
+
+  const getNames = async () => {
+    const response = await getGroupNames();
+    console.log(response);
+    setGroupNames(response);
+  };
   useEffect(() => {
-    const getNames = async () => {
-      const response = await getGroupNames();
-      console.log(response);
-      setGroupNames(response);
-    };
     getNames();
   }, []);
 
+  const addItem = async (data) => {
+    let newItem = {
+      groupvalue: data.itemName,
+      isactive: 1,
+      groupid: activeGroup.groupnameid,
+    };
+    await addGroupItem(newItem).then((response) => reset());
+  };
   return (
     <Col md={10}>
       <div className="text-start fs-2 mb-2">Setup Patient List Boxes</div>
       <Row className="justify-content-between">
-        <Col md={6}>
+        <Col md={6} className="border">
           <Form.Label className="CE-form-label">Group Name</Form.Label>
           <Form.Select
             name="groupName"
             aria-label="Select Group"
             className="mb-5"
             onChange={(e) => {
-              const index = (e.currentTarget.value);
+              const index = e.currentTarget.value;
               setActiveGroup(groupNames[index]);
             }}
           >
             <option>Select Group</option>
             {groupNames.length > 0 &&
               groupNames.map((group, i) => {
-                console.log(group);
                 return (
                   <option key={i} value={i}>
                     {group.groupname}
@@ -43,16 +53,42 @@ function SEListBoxes(props) {
                 );
               })}
           </Form.Select>
-          <Form.Label className="CE-form-label">Status</Form.Label>
-          <Form.Switch
-            // onChange={onSwitchAction}
-            id="custom-switch"
-            label={`${activeGroup.groupname} is active`}
-            // checked={activeGroup.isactive === 1}
-            disabled={!activeGroup}
-          />
+          <div>
+            <ListGroup>
+              <ListGroup.Item>
+                <Form.Switch
+                  // onChange={onSwitchAction}
+                  id="custom-switch"
+                  label={`${activeGroup.groupname} is active`}
+                  // checked={activeGroup.isactive === 1}
+                  disabled={!activeGroup}
+                />
+              </ListGroup.Item>
+              {activeGroup &&
+                formData[activeGroup.groupname].map((item, i) => {
+                  return (
+                    <ListGroup.Item key={i} value={item.listId}>
+                      {item.listItem}
+                    </ListGroup.Item>
+                  );
+                })}
+              <Form onSubmit={handleSubmit(addItem)}>
+                <ListGroup.Item variant="secondary" className="d-flex flex-row">
+                  <Form.Control
+                    {...register("itemName")}
+                    type="text"
+                    name="itemName"
+                    className="w-75 me-3"
+                  />
+                  <Button size="sm" className="text-nowrap" type="submit">
+                    Add List Item
+                  </Button>
+                </ListGroup.Item>
+              </Form>
+            </ListGroup>
+          </div>
         </Col>
-        <Col md={6}>
+        <Col md={6} className="border">
           {Object.keys(formData).map((group, i) => {
             return (
               <>

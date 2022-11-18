@@ -59,8 +59,7 @@ export function ClientProvider(props) {
     return await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
       .then((response) => response.json())
       .then(async (data) => {
-
-        console.log(data)
+        console.log(data);
         return data;
       });
   };
@@ -191,6 +190,24 @@ export function ClientProvider(props) {
         console.log(e);
       });
   };
+  const addGroupItem = async (groupItemObject) => {
+    return await fetch("http://www.ivronlogs.icu:8080/rs/api/grouplist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(groupItemObject),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        getFormFields();
+        return data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   useEffect(() => {
     if (!clientList.length > 0) getClientList();
     if (!formData.length > 0) getFormFields();
@@ -221,6 +238,7 @@ export function ClientProvider(props) {
         getGroupList,
         enrollClient,
         getGroupNames,
+        addGroupItem,
         sortedClients,
         activeClient,
         formData,

@@ -55,8 +55,8 @@ function Settings(props) {
   return (
     <>
       <Card className="w-100 h-100">
-        <Card.Body>
-          <Row>
+        <Card.Body className="h-100">
+          <Row >
             <Col md={2} className="settings-menu">
               <Card>
                 <Card.Header>Settings Menu</Card.Header>
@@ -64,7 +64,6 @@ function Settings(props) {
                   <ListGroup.Item action onClick={() => setActiveSetting(0)}> Active Patients</ListGroup.Item>
                   <ListGroup.Item action onClick={() => setActiveSetting(1)}> Setup List Boxes</ListGroup.Item>
                 </ListGroup>
-                <Card.Body></Card.Body>
               </Card>
             </Col>
             {renderSetting()}
