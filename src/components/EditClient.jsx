@@ -1,30 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import ClientEnrollmentManager from "./CE_Manager";
 import { client01 } from "../data/formData";
+import { useClient } from "../data/ClientContext";
 import "../App.css"
 
-function NewClient() {
+function EditClient() {
   const [show, setShow] = useState(false);
-
+  
   return (
     <>
       <Button
       className="form-label-button"
-        variant="outline-light"
+        variant="outline-primary"
         size="sm"
         onClick={() => setShow(true)}
       >
-        + New Client
+        Edit Client
       </Button>
       <ClientEnrollmentManager
         show={show}
         setShow={setShow}
-        containerName="Client Enrollment"
-        data={client01.treatmentPlan.goals}
+        containerName="Edit Client Info"
+        edit={true}
       />
     </>
   );
 }
 
-export default NewClient;
+export default EditClient;

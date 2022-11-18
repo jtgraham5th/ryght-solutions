@@ -16,13 +16,13 @@ function App() {
   return (
     <>
       <Router>
-        <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-        <div
-          className={
-            !loginStatus ? "App landing" : sidebar ? "App active" : "App"
-          }
-        >
-          <ClientProvider>
+        <ClientProvider>
+          <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+          <div
+            className={
+              !loginStatus ? "App landing" : sidebar ? "App active" : "App"
+            }
+          >
             <Routes>
               <Route
                 path="/*"
@@ -41,8 +41,8 @@ function App() {
           <Route path="/notes" element={<CVProgressNotes />} />
           <Route path="/files" element={<FileManager />} /> */}
             </Routes>
-          </ClientProvider>
-        </div>
+          </div>
+        </ClientProvider>
       </Router>
     </>
   );

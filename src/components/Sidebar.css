@@ -15,14 +15,6 @@
 
 .nav-menu {
   background-color: #4a235a;
-  width: 250px;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: -100%;
-  transition: 850ms;
 }
 
 .nav-menu.active {

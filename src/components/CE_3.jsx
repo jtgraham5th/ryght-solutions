@@ -1,9 +1,4 @@
-import {
-  Row,
-  Col,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import "./CE_Manager.css";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
@@ -12,6 +7,7 @@ import { useState } from "react";
 import CEAddContainer from "./CE_AddContainer";
 import CEFormReferralSource from "./CE_FormReferralSource";
 import CEFormReferralOutSource from "./CE_FormReferralOutSource";
+import { useClient } from "../data/ClientContext";
 
 function CE3({ register, control }) {
   const [addNew, setAddNew] = useState({
@@ -20,6 +16,7 @@ function CE3({ register, control }) {
     referralOutsource: false,
     activeForm: () => {},
   });
+  const { formData, getGroupList } = useClient();
 
   const addItem = (e) => {
     e.preventDefault();
@@ -48,8 +45,8 @@ function CE3({ register, control }) {
         return CEFormReferralSource;
       case "referralOutsource":
         return CEFormReferralOutSource;
-      default: 
-        return CEFormReferralSource
+      default:
+        return CEFormReferralSource;
     }
   };
 
@@ -106,9 +103,13 @@ function CE3({ register, control }) {
             aria-label="Select Referral"
           >
             <option>Select Referral</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {formData["Referral Source"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
         <Col md={4}>

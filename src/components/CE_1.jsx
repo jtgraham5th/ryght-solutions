@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
+import { statesList } from "../data/formData";
 
 function CE1({ register, control }) {
   const { formData } = useClient();
@@ -21,18 +22,18 @@ function CE1({ register, control }) {
           <Form.Label className="CE-form-label">First Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("firstName")}
+            {...register("firstname")}
             type="text"
-            name="firstName"
+            name="firstname"
           />
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Last Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("lastName")}
+            {...register("lastname")}
             type="text"
-            name="lastName"
+            name="lastname"
           />
         </Col>
         <Col md={4}>
@@ -41,55 +42,27 @@ function CE1({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("preferredName")}
+            {...register("preferredname")}
             type="text"
-            name="preferredName"
+            name="preferredname"
           />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
         <Form.Label className="CE-form-label mb-2">Marital Status</Form.Label>
         <div>
-          <Form.Check
-            inline
-            {...register("maritalStatus")}
-            type="radio"
-            name="maritalStatus"
-            value="Married"
-            label="Married"
-          />
-          <Form.Check
-            inline
-            type="radio"
-            {...register("maritalStatus")}
-            name="maritalStatus"
-            value="Single"
-            label="Single"
-          />
-          <Form.Check
-            inline
-            type="radio"
-            {...register("maritalStatus")}
-            name="maritalStatus"
-            value="Divorced"
-            label="Divorced"
-          />
-          <Form.Check
-            inline
-            type="radio"
-            {...register("maritalStatus")}
-            name="maritalStatus"
-            value="Widowed"
-            label="Widowed"
-          />
-          <Form.Check
-            inline
-            type="radio"
-            {...register("maritalStatus")}
-            name="maritalStatus"
-            value="Separated"
-            label="Separated"
-          />
+          {formData["Marital Status"].map((item, i) => {
+            return (
+              <Form.Check
+                inline
+                {...register("maritalstatusid")}
+                type="radio"
+                name="maritalstatusid"
+                value={item.listId}
+                label={item.listItem}
+              />
+            );
+          })}
         </div>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
@@ -97,7 +70,7 @@ function CE1({ register, control }) {
           <Form.Label className="CE-form-label">Date of Birth</Form.Label>
           <Controller
             control={control}
-            name="dateOfBirth"
+            name="dob"
             render={({ field }) => (
               <DatePicker
                 className="datePicker"
@@ -113,23 +86,23 @@ function CE1({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("SSN")}
+            {...register("socsec")}
             type="password"
-            name="SSN"
+            name="socsec"
           />
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Race</Form.Label>
           <Form.Select
-            {...register("race")}
-            name="race"
+            {...register("ethnicityid")}
+            name="ethnicityid"
             aria-label="Select Race"
           >
             <option>Select Race</option>
-            {formData.ethnicity.map((item, i) => {
+            {formData["Ethnicity"].map((item, i) => {
               return (
-                <option key={i} value={i + 1}>
-                  {item}
+                <option key={i} value={item.listId}>
+                  {item.listItem}
                 </option>
               );
             })}
@@ -139,25 +112,32 @@ function CE1({ register, control }) {
       <Form.Group as={Row} className="mb-5">
         <Col md={4}>
           <Form.Label className="CE-form-label">Sex at birth</Form.Label>
-          <Form.Select {...register("sex")} name="sex" aria-label="Select Sex">
-            <option>Select Sex</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <Form.Select
+            {...register("sexatbirthid")}
+            name="sexatbirthid"
+            aria-label="Select Sex"
+          >
+            {formData["Sex At Birth"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Gender</Form.Label>
           <Form.Select
-            {...register("gender")}
-            name="gender"
+            {...register("genderidentityid")}
+            name="genderidentityid"
             aria-label="Select Gender"
           >
             <option>Select Gender</option>
-            {formData.gender.map((item, i) => {
+            {formData["Gender Identity"].map((item, i) => {
               return (
-                <option key={i} value={i + 1}>
-                  {item}
+                <option key={i} value={item.listId}>
+                  {item.listItem}
                 </option>
               );
             })}
@@ -165,12 +145,19 @@ function CE1({ register, control }) {
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Religion</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("religon")}
-            type="text"
-            name="religon"
-          />
+          <Form.Select
+            {...register("religionid")}
+            name="religionid"
+            aria-label="Select Religion"
+          >
+          <option>Select Religion</option>
+          {formData["Religion"].map((item, i) => {
+            return (
+              <option key={i} value={item.listId}>
+                {item.listItem}
+              </option>
+            );
+          })}</Form.Select>
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
@@ -201,9 +188,11 @@ function CE1({ register, control }) {
             aria-label="Select State"
           >
             <option>Select State</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {statesList.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
           </Form.Select>
         </Col>
         <Col md={2}>
@@ -233,14 +222,15 @@ function CE1({ register, control }) {
             name="phoneType"
             aria-label="Select Phone Type"
           >
-            {formData.phoneType.map((item, i) => {
+            {formData["PhoneType"].map((item, i) => {
               return (
-                <option key={i} value={i + 1}>
-                  {item}
+                <option key={i} value={item.listId}>
+                  {item.listItem}
                 </option>
               );
             })}
-          </Form.Select>        </Col>
+          </Form.Select>{" "}
+        </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Email Address</Form.Label>
           <Form.Control

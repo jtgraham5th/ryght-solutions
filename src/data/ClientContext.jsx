@@ -13,7 +13,20 @@ export function ClientProvider(props) {
   const [contactList, setContactList] = useState([]);
   const [activeClient, setActiveClient] = useState({});
   const [formData, setFormData] = useState({});
-  const [sortedClients, setSortedClients] = useState(abcObject);
+  const [sortedClients, setSortedClients] = useState({ ...abcObject });
+
+  const sortClients = (length, emptyObject) => {
+    for (let i = length - 100; i < length; i++) {
+      let nameArray = clientList[i].name.split(",");
+      let lastName = [...nameArray[0]];
+      let abcObjectKeys = Object.keys(sortedClients);
+      for (const key of abcObjectKeys) {
+        if (lastName[0].toLowerCase() === key.toLowerCase()) {
+          emptyObject[key] = [...emptyObject[key], clientList[i]].sort();
+        }
+      }
+    }
+  };
 
   const selectClient = (patientid) => {
     fetch(`http://www.ivronlogs.icu:8080/rs/api/patient/${patientid}`).then(
@@ -42,41 +55,39 @@ export function ClientProvider(props) {
     }
     return null;
   };
-  const getFormFields = () => {
-    fetch(`http://www.ivronlogs.icu:8080/rs/api/grouplist`).then((response) =>
-      response.json().then(async (data) => {
-        let groupObject = {
-          gender: [],
-          ethnicity: [],
-          phoneType: [],
-          contactType: [],
-        };
-        await data.forEach((group, index) => {
-          if (group.grouplistid >= 1 && group.grouplistid < 3) {
-            groupObject.gender = [...groupObject.gender, group.groupvalue];
-          }
-          if (group.grouplistid >= 3 && group.grouplistid < 13) {
-            groupObject.ethnicity = [
-              ...groupObject.ethnicity,
-              group.groupvalue,
-            ];
-          }
-          if (group.grouplistid >= 18 && group.grouplistid < 21) {
-            groupObject.phoneType = [
-              ...groupObject.phoneType,
-              group.groupvalue,
-            ];
-          }
-          if (group.grouplistid >= 21 && group.grouplistid < 25) {
-            groupObject.contactType = [
-              ...groupObject.contactType,
-              group.groupvalue,
-            ];
-          }
-        });
-        setFormData(groupObject);
-      })
-    );
+  const getGroupNames = async () => {
+    return await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
+      .then((response) => response.json())
+      .then(async (data) => {
+
+        console.log(data)
+        return data;
+      });
+  };
+  const getFormFields = async () => {
+    let groupObject = {};
+    await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
+      .then((response) => response.json())
+      .then(async (data) => {
+        console.log(data);
+        // console.log(groupListArray)
+        for (const group of data) {
+          await getGroupList(group.groupnameid).then((res) => {
+            let groupListObject = {};
+            let groupListArray = [];
+            res.forEach((item) => {
+              groupListObject.listId = item[0];
+              groupListObject.listItem = item[1];
+              groupListObject.groupId = item[2];
+              groupListArray.push(groupListObject);
+              groupListObject = {};
+            });
+            groupObject[`${group.groupname}`] = groupListArray;
+          });
+        }
+      });
+    console.log(groupObject);
+    setFormData(groupObject);
   };
   const getClient = async (patientid) => {
     return await fetch(
@@ -110,28 +121,6 @@ export function ClientProvider(props) {
       // })
     );
   };
-  const sortClients = (length) => {
-    let abcObjectCopy = abcObject;
-    for (let i = length - 100; i < length; i++) {
-      let nameArray = clientList[i].name.split(",");
-      let lastName = [...nameArray[0]];
-      let abcObjectKeys = Object.keys(sortedClients);
-      for (const key of abcObjectKeys) {
-        if (lastName[0].toLowerCase() === key.toLowerCase()) {
-          abcObjectCopy[key] = [...abcObjectCopy[key], clientList[i]];
-        }
-      }
-    }
-    setSortedClients(abcObjectCopy);
-  };
-
-  const sortAllClients = () => {
-    console.log("sorting clients")
-    for (let i = 100; i <= clientList.length; i += 100) {
-      sortClients(i);
-    }
-    console.log("done sorting")
-  };
   const updateClient = (patient) => {
     fetch(`http://www.ivronlogs.icu:8080/rs/api/patient/${patient.patientid}`, {
       method: "PUT",
@@ -145,7 +134,63 @@ export function ClientProvider(props) {
       })
     );
   };
+  const getGroupList = async (grouplistid) => {
+    return fetch(
+      `http://www.ivronlogs.icu:8080/rs/api/grouplist/gl_by_groupid?groupid=${grouplistid}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      });
+  };
+  // const getGroupList = async () => {
+  //   return await fetch(`http://www.ivronlogs.icu:8080/rs/api/grouplist`).then(
+  //     async (response) => {
+  //       await response.json().then((data) => {
+  //         console.log(data);
+  //         return data;
+  //       });
+  //     }
+  //   );
+  // };
 
+  const addClient = async (newClient) => {
+    return await fetch("http://www.ivronlogs.icu:8080/rs/api/patient", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newClient),
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          console.log(data);
+          return data;
+        })
+      )
+      .catch((e) => {
+        console.log(e);
+        return e;
+      });
+  };
+
+  const enrollClient = async (newClient) => {
+    await fetch("http://www.ivronlogs.icu:8080/rs/api/enroll", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newClient),
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          console.log(data);
+        })
+      )
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   useEffect(() => {
     if (!clientList.length > 0) getClientList();
     if (!formData.length > 0) getFormFields();
@@ -153,8 +198,13 @@ export function ClientProvider(props) {
   }, []);
 
   useEffect(() => {
-      console.log(clientList.length);
-      sortAllClients();
+    let abcObjectCopy = { ...abcObject };
+    console.log("start sorting");
+    for (let i = 100; i <= clientList.length; i += 100) {
+      sortClients(i, abcObjectCopy);
+    }
+    console.log("done sorting");
+    setSortedClients(abcObjectCopy);
   }, [clientList]);
 
   return (
@@ -162,12 +212,15 @@ export function ClientProvider(props) {
       value={{
         clientList,
         contactList,
+        addClient,
         updateClient,
         getClient,
         getClientList,
         getClientContact,
         selectClient,
-        sortAllClients,
+        getGroupList,
+        enrollClient,
+        getGroupNames,
         sortedClients,
         activeClient,
         formData,

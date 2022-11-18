@@ -114,12 +114,30 @@ function CE2({ register, control }) {
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
         <h5>Insurance Information</h5>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">Height</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("height")}
+            type="text"
+            name="height"
+          />
+        </Col>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">Weight</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("weight")}
+            type="number"
+            name="weight"
+          />
+        </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Allergies</Form.Label>
           <Form.Control
             className="goal-detail-input"
             {...register("allergies")}
-            type="number"
+            type="text"
             name="allergies"
           />
         </Col>
@@ -171,15 +189,6 @@ function CE2({ register, control }) {
             <option value="2">Two</option>
             <option value="3">Three</option>
           </Form.Select>
-        </Col>
-        <Col md={2}>
-          <Form.Label className="CE-form-label">Weight</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("weight")}
-            type="number"
-            name="weight"
-          />
         </Col>
 
       </Form.Group>
@@ -290,19 +299,7 @@ function CE2({ register, control }) {
             )}
           />
         </Col>
-      </Form.Group>
-      <Form.Group as={Row}>
-        <Col md={5}>
-          <Form.Check
-            {...register("diffClient")}
-            type="switch"
-            inline
-            name="diffClient"
-            label="Subscriber is different from client"
-          />{" "}
-        </Col>
-      </Form.Group>
-    </>
+      </Form.Group>    </>
   );
 }
 

@@ -5,6 +5,7 @@ import SelectClient from "./SelectClient";
 import NewClient from "./NewClient";
 import NewBilling from "./NewBilling";
 import { useClient } from "../data/ClientContext";
+import EditClient from "./EditClient";
 
 function CVHeader({ activeTab, setActiveTab }) {
   const { activeClient } = useClient();
@@ -19,8 +20,8 @@ function CVHeader({ activeTab, setActiveTab }) {
             </h2>
             <div className="CV-header-action-container">
               <SelectClient />
-              <NewClient />
-              <NewBilling />
+              <EditClient />
+              {/* <NewBilling /> */}
             </div>
           </Col>
         </Row>
