@@ -31,7 +31,7 @@
   height: 60px;
 }
 
-.nav-text a {
+a.nav-text {
   text-decoration: none;
   color: #f5f5f5;
   font-size: 18px;
@@ -39,13 +39,15 @@
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 8px 0px 8px 16px;
   border-radius: 4px;
 }
 
-.nav-text a:hover {
-  background-color: #fff;
-  color: #4a235a;
+a:hover.nav-text {
+  border: 1px solid silver;
+  border-radius: 10px;
+  text-shadow: 1px 1px 2px black;
+  color: #f5f5f5;
 }
 
 .nav-menu-items {

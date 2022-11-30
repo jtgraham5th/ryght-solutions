@@ -10,3 +10,16 @@
   margin-right: 00.25rem;
   cursor: pointer;
 }
+.list-unstyled {
+  overflow: auto !important;
+  height: 15rem !important;
+  border-top: 1px solid silver !important;
+  margin-bottom: 0 !important;
+}
+.dropdown-menu {
+  inset: 0px 0px auto auto !important;
+  transform: translate3d(26.1111px, 40px, 0px) !important;
+}
+.dropdown-container {
+  width:fit-content !important
+}

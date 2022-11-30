@@ -15,7 +15,7 @@ export const SidebarData = [
     path: '/client/overview/',
     icon: <PersonCircle />,
     cName: 'nav-text',
-    disabled: true,
+    disabled: false,
   },
   {
     title: 'Settings',

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 import CEAddContainer from "./CE_AddContainer";
@@ -10,7 +8,6 @@ import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
 import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
 
 function SA1({ register, control }) {
-  const { formData } = useClient();
   const [addNew, setAddNew] = useState({
     sectionTitle: "",
     familyPhysician: false,

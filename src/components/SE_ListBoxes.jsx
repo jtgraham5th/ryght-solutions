@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Card, Row, Col, Form, ListGroup, Button, Nav } from "react-bootstrap";
+import { Row, Col, Form, ListGroup, Button } from "react-bootstrap";
 import "../pages/Settings.css";
 import { useClient } from "../data/ClientContext";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 function SEListBoxes(props) {
-  const { formData, getGroupNames, addGroupItem } = useClient();
+  const { formData, getGroupNames, addGroupItem, deleteGroupItem} = useClient();
   const [groupNames, setGroupNames] = useState([]);
   const [activeGroup, setActiveGroup] = useState("");
   const { register, handleSubmit, reset } = useForm({});
@@ -18,6 +18,7 @@ function SEListBoxes(props) {
   };
   useEffect(() => {
     getNames();
+    // eslint-disable-next-line
   }, []);
 
   const addItem = async (data) => {
@@ -29,10 +30,10 @@ function SEListBoxes(props) {
     await addGroupItem(newItem).then((response) => reset());
   };
   return (
-    <Col md={10}>
+    <Col md={10} className="settings-main">
       <div className="text-start fs-2 mb-2">Setup Patient List Boxes</div>
-      <Row className="justify-content-between">
-        <Col md={6} className="border">
+      <Row className="justify-content-between h-100">
+        <Col md={6} className="border settings-activate">
           <Form.Label className="CE-form-label">Group Name</Form.Label>
           <Form.Select
             name="groupName"
@@ -54,7 +55,7 @@ function SEListBoxes(props) {
               })}
           </Form.Select>
           <div>
-            <ListGroup>
+            <ListGroup >
               <ListGroup.Item>
                 <Form.Switch
                   // onChange={onSwitchAction}
@@ -64,14 +65,16 @@ function SEListBoxes(props) {
                   disabled={!activeGroup}
                 />
               </ListGroup.Item>
+              <div className="settings-listgroup">
               {activeGroup &&
                 formData[activeGroup.groupname].map((item, i) => {
                   return (
-                    <ListGroup.Item key={i} value={item.listId}>
+                    <ListGroup.Item key={i} value={item.listId} className="d-flex justify-content-between align-items-start">
                       {item.listItem}
+                      <Button size="sm" variant="light" onClick={()=> deleteGroupItem(item.listId)}>X</Button>
                     </ListGroup.Item>
                   );
-                })}
+                })}</div>
               <Form onSubmit={handleSubmit(addItem)}>
                 <ListGroup.Item variant="secondary" className="d-flex flex-row">
                   <Form.Control
@@ -88,7 +91,7 @@ function SEListBoxes(props) {
             </ListGroup>
           </div>
         </Col>
-        <Col md={6} className="border">
+        <Col md={6} className="border settings-activate-overflow">
           {Object.keys(formData).map((group, i) => {
             return (
               <>

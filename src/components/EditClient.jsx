@@ -1,19 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import ClientEnrollmentManager from "./CE_Manager";
-import { client01 } from "../data/formData";
-import { useClient } from "../data/ClientContext";
-import "../App.css"
+import "../App.css";
 
 function EditClient() {
   const [show, setShow] = useState(false);
-  
+
   return (
     <>
       <Button
-      className="form-label-button"
         variant="outline-primary"
-        size="sm"
+        style={{ display: "flex", alignItems: "center", height: "max-content" }}
         onClick={() => setShow(true)}
       >
         Edit Client

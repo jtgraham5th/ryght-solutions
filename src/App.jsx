@@ -7,6 +7,7 @@ import UserDashboard from "./pages/UserDashboard";
 import Settings from "./pages/Settings";
 import Login from "./components/Login";
 import { ClientProvider } from "./data/ClientContext";
+import { UserProvider } from "./data/UserContext";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -16,33 +17,35 @@ function App() {
   return (
     <>
       <Router>
-        <ClientProvider>
-          <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-          <div
-            className={
-              !loginStatus ? "App landing" : sidebar ? "App active" : "App"
-            }
-          >
-            <Routes>
-              <Route
-                path="/*"
-                element={
-                  loginStatus ? (
-                    <UserDashboard />
-                  ) : (
-                    <Login setStatus={setLoginStatus} />
-                  )
-                }
-              />
-              <Route path="client/*" element={<ClientDashboard />} />
-              <Route path="settings/" element={<Settings />} />
-              {/* <Route path="/" exact element={<ClientView sidebar={sidebar} />} />
+        <UserProvider>
+          <ClientProvider>
+            <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+            <div
+              className={
+                !loginStatus ? "App landing" : sidebar ? "App active" : "App"
+              }
+            >
+              <Routes>
+                <Route
+                  path="/*"
+                  element={
+                    loginStatus ? (
+                      <UserDashboard />
+                    ) : (
+                      <Login setStatus={setLoginStatus} />
+                    )
+                  }
+                />
+                <Route path="client/*" element={<ClientDashboard />} />
+                <Route path="settings/" element={<Settings />} />
+                {/* <Route path="/" exact element={<ClientView sidebar={sidebar} />} />
           <Route path="/client" exact element={<ClientView sidebar={sidebar} />} />
           <Route path="/notes" element={<CVProgressNotes />} />
           <Route path="/files" element={<FileManager />} /> */}
-            </Routes>
-          </div>
-        </ClientProvider>
+              </Routes>
+            </div>
+          </ClientProvider>
+        </UserProvider>
       </Router>
     </>
   );

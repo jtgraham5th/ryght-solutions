@@ -4,7 +4,7 @@ import CVHeader from "../components/CV_Header";
 
 function ClientDashboard(props) {
   return (
-        <Card className="mt-3 w-100">
+        <Card className="mt-3 w-100 card-shadow">
           <CVHeader />
           <Card.Body>
             <ClientRoutes />

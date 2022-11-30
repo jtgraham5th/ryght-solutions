@@ -1,6 +1,6 @@
-.settings-menu{
+.settings-menu {
   border-right: 1px solid silver;
-  height: 90vh;
+  height: 80vh;
 }
 .select-container {
   height: 30rem !important;
@@ -28,4 +28,24 @@
   border-right: 1px solid silver;
   padding: 0rem !important;
   font-size: small;
+}
+.spinner-activate {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+.settings-main {
+  height: 80vh;
+}
+.settings-activate-overflow {
+  overflow: auto !important;
+  height: 94%;
+}
+.settings-activate {
+  height: 94%;
+}
+.settings-listgroup {
+  height: 20rem;
+  overflow: auto;
+  border: 1px solid silver;
 }

@@ -1,3 +1,16 @@
+import BPS1 from "../components/BPS_1";
+import BSP10 from "../components/BPS_10";
+import BSP11 from "../components/BPS_11";
+import BSP12 from "../components/BPS_12";
+import BSP13 from "../components/BPS_13";
+import BPS2 from "../components/BPS_2";
+import BSP3 from "../components/BPS_3";
+import BSP4 from "../components/BPS_4";
+import BSP5 from "../components/BPS_5";
+import BSP6 from "../components/BPS_6";
+import BSP7 from "../components/BPS_7";
+import BSP8 from "../components/BPS_8";
+import BSP9 from "../components/BPS_9";
 import CE1 from "../components/CE_1";
 import CE2 from "../components/CE_2";
 import CE3 from "../components/CE_3";
@@ -211,6 +224,38 @@ export const renderShortAssesment = (activePage, register, control) => {
       return <SA4 register={register} control={control} />;
     case 4:
       return <SA5 register={register} control={control} />;
+    default:
+      return <SA1 register={register} control={control} />;
+  }
+};
+export const renderAdolescentBPS = (activePage, register, control) => {
+  switch (activePage) {
+    case 0:
+      return <BPS1 register={register} control={control} />;
+    case 1:
+      return <BPS2 register={register} control={control} />;
+    case 2:
+      return <BSP3 register={register} control={control} />;
+    case 3:
+      return <BSP4 register={register} control={control} />;
+    case 4:
+      return <BSP5 register={register} control={control} />;
+    case 5:
+      return <BSP6 register={register} control={control} />;
+    case 6:
+      return <BSP7 register={register} control={control} />;
+    case 7:
+      return <BSP8 register={register} control={control} />;
+    case 8:
+      return <BSP9 register={register} control={control} />;
+    case 9:
+      return <BSP10 register={register} control={control} />;
+    case 10:
+      return <BSP11 register={register} control={control} />;
+    case 11:
+      return <BSP12 register={register} control={control} />;
+    case 12:
+      return <BSP13 register={register} control={control} />;
     default:
       return <SA1 register={register} control={control} />;
   }

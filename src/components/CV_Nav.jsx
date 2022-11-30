@@ -26,6 +26,7 @@ function CVNav() {
       <Nav.Item>
         <Nav.Link
           as={Link}
+          href="#overview"
           className="nav-link"
           to="overview"
           eventkey="overview"
@@ -34,34 +35,49 @@ function CVNav() {
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Link
+        <Nav.Link
+          as={Link}
+          href="#progress_notes"
           className="nav-link"
           to="progress-notes"
           eventkey="progress-notes"
         >
           <Telephone /> Progress Notes
-        </Link>
+        </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Link
+        <Nav.Link
+          as={Link}
+          href="#treatment"
           className="nav-link"
           to="treatment-plan"
           eventkey="treatment-plan"
         >
           <PeopleFill /> Treatment Plan
-        </Link>
+        </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Link className="nav-link" to="#prog_info" eventkey="#prog_info">
+        <Nav.Link
+          as={Link}
+          href="#prog_info"
+          className="nav-link"
+          to="#prog_info"
+          eventkey="#prog_info"
+        >
           <FileText />
           Program Information
-        </Link>
+        </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Link className="nav-link" to="pharmacy" eventkey="pharmacy">
-          {" "}
+        <Nav.Link
+          as={Link}
+          href="#pharmacy"
+          className="nav-link"
+          to="pharmacy"
+          eventkey="pharmacy"
+        >
           Pharmacy
-        </Link>
+        </Nav.Link>
       </Nav.Item>
     </Nav>
   );

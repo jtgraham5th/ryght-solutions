@@ -4,23 +4,33 @@ import { useForm } from "react-hook-form";
 import { ArrowRightSquare } from "react-bootstrap-icons";
 import familyPhoto from "../data/familytherapy.jpeg";
 import { useNavigate } from "react-router-dom";
+import {useUser} from "../data/UserContext"
 
 function Login({ setStatus }) {
   const { register, handleSubmit } = useForm();
+
+  const {setUser} = useUser()
+
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
+    setUser({userName: "Mrs. Graham"})
     setStatus(true);
     navigate("/");
   };
+
 
   return (
     <div className="login-container">
       <Card className="w-75">
         <Row className="pe-3">
           <Col md={6}>
-            <img src={familyPhoto} alt="family in therapy" className="login-photo" />
+            <img
+              src={familyPhoto}
+              alt="family in therapy"
+              className="login-photo"
+            />
           </Col>
           <Col
             md={6}

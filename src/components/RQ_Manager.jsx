@@ -6,7 +6,7 @@ import CE1 from "./CE_1";
 import CE2 from "./CE_2";
 import CE3 from "./CE_3";
 import CE4 from "./CE_4";
-import { renderClientEnrollment, renderShortAssesment } from "../data/formData";
+import { renderClientEnrollment, renderShortAssesment, renderAdolescentBPS } from "../data/formData";
 import { useForm } from "react-hook-form";
 
 function RequirementsManager({ data, show, setShow, containerName }) {
@@ -43,10 +43,10 @@ function RequirementsManager({ data, show, setShow, containerName }) {
   };
   const onSubmit = (data) => {
     setClientData((prevState) => ({ ...prevState, ...data }));
-    if (activePage < 4) {
+    if (activePage < 12) {
       setActivePage((page) => page + 1);
     }
-    if (activePage === 4) {
+    if (activePage === 12) {
       setAlert({
         message: <h6>Are you sure you want to save these changes?</h6>,
         data: clientData,
@@ -69,7 +69,7 @@ function RequirementsManager({ data, show, setShow, containerName }) {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Body>
           <Row className="d-flex justify-content-evenly align-items-center">
-            {renderShortAssesment(activePage, register, control)}
+            {renderAdolescentBPS(activePage, register, control)}
           </Row>
         </Modal.Body>
         <Modal.Footer className="flex-row justify-content-between p-2">
@@ -83,10 +83,10 @@ function RequirementsManager({ data, show, setShow, containerName }) {
           </Button>
           <Button
             className="PNM-nav-button p-1"
-            variant={activePage >= 4 ? "outline-success" : "outline-primary"}
+            variant={activePage >= 12 ? "outline-success" : "outline-primary"}
             type="submit"
           >
-            {activePage >= 4 ? "Complete" : "Next"}
+            {activePage >= 12 ? "Complete" : "Next"}
           </Button>
         </Modal.Footer>
       </Form>

@@ -17,13 +17,13 @@ import FileManager from "./FileManger";
 function CVProfile({ sidebar }) {
   return (
     <>
-      <CVDemographics />
+      {/* <CVDemographics /> */}
       <Row>
         <Col md={6}>
-          <ClientDetailsTabs />
+          {/* <ClientDetailsTabs /> */}
         </Col>
         <Col md={6}>
-          <Accordion defaultActiveKey="0" alwaysOpen className="mb-3">
+          <Accordion defaultActiveKey="0" alwaysOpen className="mb-3 card-shadow">
             <Accordion.Item eventKey="0">
               <Accordion.Header>Client Requirements</Accordion.Header>
               <Accordion.Body className="p-0">

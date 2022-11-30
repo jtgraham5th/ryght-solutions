@@ -1,19 +1,15 @@
-import { useState } from "react";
-import { Card, Row, Col, Form } from "react-bootstrap";
+import React, { useState, forwardRef, useEffect } from "react";
+import { Card, Row, Col, Form, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./UserDashboard.css";
 import DatePicker from "react-datepicker";
 import { useClient } from "../data/ClientContext";
+import ClientSelectDropdown from "../components/ClientSelectDropdown";
 
 function UserDashboard(props) {
   let navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
-  const { clientList, selectClient } = useClient();
-  
-  const handleClientSelect = (e) => {
-    selectClient(e.target.value);
-    navigate("/client/overview");
-  };
+  const { sortedClients } = useClient();
 
   return (
     <>
@@ -23,7 +19,7 @@ function UserDashboard(props) {
           <Card.Title>No Notifcations</Card.Title>
           <Row>
             <Col md={6}>
-              <Card>
+              <Card className="card-shadow">
                 <Card.Header>Schedule</Card.Header>
                 <Card.Body>
                   <DatePicker
@@ -36,7 +32,7 @@ function UserDashboard(props) {
               </Card>
             </Col>
             <Col md={6}>
-              <Card className="mb-3">
+              <Card className="mb-3 card-shadow">
                 <Card.Header>Next Visit</Card.Header>
                 <Card.Body>
                   <Row className="align-items-center">
@@ -59,28 +55,14 @@ function UserDashboard(props) {
                   </Row>
                 </Card.Body>
               </Card>
-              <Card className="mb-3">
+              <Card className="mb-3 card-shadow">
                 <Card.Header className="justify-content-between">
                   <Row className="align-items-center">
                     <Col>Recent Clients</Col>
                     <Col md={6}>
                       <Form.Group as={Row} className="justify-content-end">
-                        {/* <Form.Label column md="4" className="text-center p-0">
-                            Select Client
-                          </Form.Label> */}
-                        <Col md={8}>
-                          <Form.Select
-                            aria-label="Default select example"
-                            onChange={(e) => handleClientSelect(e)}
-                          >
-                            <option>Select Client</option>
-                            {clientList &&
-                              clientList.map((client, index) => (
-                                <option key={index} value={client.patientid}>
-                                  {client.name}
-                                </option>
-                              ))}
-                          </Form.Select>
+                        <Col md={8} className="dropdown-container">
+                          <ClientSelectDropdown />
                         </Col>
                       </Form.Group>
                     </Col>

@@ -59,7 +59,7 @@ function CE3({ register, control }) {
       <hr />
       <Form.Group as={Row} className="mb-2">
         <h5>Referral Source</h5>
-        <Col md={4}>
+        <Col md={8}>
           <Form.Label className="CE-form-label">
             Referral Source
             <div className="CE-form-label-button-container">
@@ -98,8 +98,8 @@ function CE3({ register, control }) {
             </div>
           </Form.Label>
           <Form.Select
-            {...register("referralSource")}
-            name="referralSource"
+            {...register("referralid")}
+            name="referralid"
             aria-label="Select Referral"
           >
             <option>Select Referral</option>
@@ -113,6 +113,34 @@ function CE3({ register, control }) {
           </Form.Select>
         </Col>
         <Col md={4}>
+          <Form.Label className="CE-form-label">
+            Referral Date <small>(optional)</small>
+          </Form.Label>
+          <Controller
+            control={control}
+            name="referraldate"
+            render={({ field }) => (
+              <DatePicker
+                className="datePicker"
+                onChange={(date) => field.onChange(date)}
+                selected={field.value}
+              />
+            )}
+          />
+        </Col>
+      </Form.Group>
+      <CEAddContainer
+        sectionTitle={
+          addNew.sectionTitle
+            ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
+            : ""
+        }
+        open={addNew.sectionTitle}
+        close={closeItem}
+        newForm={addNew.activeForm}
+      />
+      <Form.Group as={Row} className="mb-2">
+        <Col md={8}>
           <Form.Label className="CE-form-label">
             Referral Outsource
             <div className="CE-form-label-button-container">
@@ -156,18 +184,22 @@ function CE3({ register, control }) {
             aria-label="Select Outsource"
           >
             <option>Select Outsource</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {formData["Referral Outsource"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">
-            Referral Date <small>(optional)</small>
+            Date Outsourced 
           </Form.Label>
           <Controller
             control={control}
-            name="referralDate"
+            name="dateoutsourced"
             render={({ field }) => (
               <DatePicker
                 className="datePicker"
@@ -178,54 +210,59 @@ function CE3({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <CEAddContainer
-        sectionTitle={
-          addNew.sectionTitle
-            ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
-            : ""
-        }
-        open={addNew.sectionTitle}
-        close={closeItem}
-        newForm={addNew.activeForm}
-      />
-      <Form.Group as={Row} className="mb-5">
+      <Form.Group as={Row}>
+        <Col md={12}>
+          <Form.Label className="CE-form-label">
+            Internal Referral
+          </Form.Label>
+          <Form.Select
+            {...register("internalreferralid")}
+            name="internalreferralid"
+            aria-label="Select Referral"
+          >
+            <option>Select Referral</option>
+            {formData["Internal Referral"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label">
             Reason For Referral <small>(optional)</small>
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("referralReason")}
+            {...register("patient_comment")}
             as="textarea"
-            name="referralReason"
+            name="patient_comment"
             rows={3}
           />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
-        <h5>Referring Provider</h5>
-        <Col md={4}>
+        <Col md={6}>
           <Form.Label className="CE-form-label">
-            Referring Provider <small>(optional)</small>
+            Diagnosis Codes <small>(separate by comma)</small>
           </Form.Label>
-          <Form.Select
-            {...register("referringProvider")}
-            name="providerReferral"
-            aria-label="Select Referring Provider"
-          >
-            <option>Select Referring Provider</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </Form.Select>
-        </Col>
-        <Col md={4}>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("dxcodes")}
+            type="number"
+            name="dxcodes"
+          />        </Col>
+        <Col md={6}>
           <Form.Label className="CE-form-label">
-            Referral Date <small>(optional)</small>
+            Diagnosis Date
           </Form.Label>
           <Controller
             control={control}
-            name="providerReferralDate"
+            name="dxdate"
             render={({ field }) => (
               <DatePicker
                 className="datePicker"
@@ -236,17 +273,37 @@ function CE3({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} className="mb-4">
-        <Col md={12}>
+      <Form.Group as={Row} className="mb-2">
+        <Col md={6}>
           <Form.Label className="CE-form-label">
-            Reason For Referral <small>(optional)</small>
+            First Appointment Date
           </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("providerReferralReason")}
-            as="textarea"
-            name="providerReferralReason"
-            rows={3}
+          <Controller
+            control={control}
+            name="firstapptdate"
+            render={({ field }) => (
+              <DatePicker
+                className="datePicker"
+                onChange={(date) => field.onChange(date)}
+                selected={field.value}
+              />
+            )}
+          />
+        </Col>
+        <Col md={6}>
+          <Form.Label className="CE-form-label">
+            First Psy Date
+          </Form.Label>
+          <Controller
+            control={control}
+            name="firstpsydate"
+            render={({ field }) => (
+              <DatePicker
+                className="datePicker"
+                onChange={(date) => field.onChange(date)}
+                selected={field.value}
+              />
+            )}
           />
         </Col>
       </Form.Group>

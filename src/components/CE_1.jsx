@@ -18,25 +18,34 @@ function CE1({ register, control }) {
       <hr />
       <Form.Group as={Row} className="mb-2">
         <h5>Personal Information</h5>
-        <Col md={4}>
+        <Col md={3}>
           <Form.Label className="CE-form-label">First Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("firstname")}
+            {...register("pfirstname")}
             type="text"
-            name="firstname"
+            name="pfirstname"
           />
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <Form.Label className="CE-form-label">Last Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("lastname")}
+            {...register("plastname")}
             type="text"
-            name="lastname"
+            name="plastname"
           />
         </Col>
-        <Col md={4}>
+        <Col md={3}>
+          <Form.Label className="CE-form-label">Last Name</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("pinitial")}
+            type="text"
+            name="pinitial"
+          />
+        </Col>
+        <Col md={3}>
           <Form.Label className="CE-form-label">
             Preferred Name <small>(optional)</small>
           </Form.Label>
@@ -66,7 +75,7 @@ function CE1({ register, control }) {
         </div>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
-        <Col md={4}>
+        <Col md={6}>
           <Form.Label className="CE-form-label">Date of Birth</Form.Label>
           <Controller
             control={control}
@@ -80,7 +89,7 @@ function CE1({ register, control }) {
             )}
           />
         </Col>
-        <Col md={4}>
+        <Col md={6}>
           <Form.Label className="CE-form-label">
             Social Security # <small>(optional)</small>
           </Form.Label>
@@ -91,25 +100,8 @@ function CE1({ register, control }) {
             name="socsec"
           />
         </Col>
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Race</Form.Label>
-          <Form.Select
-            {...register("ethnicityid")}
-            name="ethnicityid"
-            aria-label="Select Race"
-          >
-            <option>Select Race</option>
-            {formData["Ethnicity"].map((item, i) => {
-              return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
-                </option>
-              );
-            })}
-          </Form.Select>
-        </Col>
       </Form.Group>
-      <Form.Group as={Row} className="mb-5">
+      <Form.Group as={Row} >
         <Col md={4}>
           <Form.Label className="CE-form-label">Sex at birth</Form.Label>
           <Form.Select
@@ -129,8 +121,8 @@ function CE1({ register, control }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Gender</Form.Label>
           <Form.Select
-            {...register("genderidentityid")}
-            name="genderidentityid"
+            {...register("genderid")}
+            name="genderid"
             aria-label="Select Gender"
           >
             <option>Select Gender</option>
@@ -144,20 +136,57 @@ function CE1({ register, control }) {
           </Form.Select>
         </Col>
         <Col md={4}>
+          <Form.Label className="CE-form-label">Preferred Pronouns</Form.Label>
+          <Form.Select
+            {...register("preferredpronounid")}
+            name="preferredpronounid"
+            aria-label="Select Pronouns"
+          >
+            {formData["Preferred Pronouns"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-5">
+        <Col md={4}>
+          <Form.Label className="CE-form-label">Race</Form.Label>
+          <Form.Select
+            {...register("ethnicityid")}
+            name="ethnicityid"
+            aria-label="Select Race"
+          >
+            <option>Select Race</option>
+            {formData["Ethnicity"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+
+        <Col md={4}>
           <Form.Label className="CE-form-label">Religion</Form.Label>
           <Form.Select
             {...register("religionid")}
             name="religionid"
             aria-label="Select Religion"
           >
-          <option>Select Religion</option>
-          {formData["Religion"].map((item, i) => {
-            return (
-              <option key={i} value={item.listId}>
-                {item.listItem}
-              </option>
-            );
-          })}</Form.Select>
+            <option>Select Religion</option>
+            {formData["Religion"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
+          </Form.Select>
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
@@ -166,25 +195,25 @@ function CE1({ register, control }) {
           <Form.Label className="CE-form-label">Street Address</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("address")}
+            {...register("paddress")}
             type="text"
-            name="address"
+            name="paddress"
           />
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">City</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("city")}
+            {...register("pcity")}
             type="text"
-            name="city"
+            name="pcity"
           />
         </Col>
         <Col md={2}>
           <Form.Label className="CE-form-label">State</Form.Label>
           <Form.Select
-            {...register("state")}
-            name="state"
+            {...register("pstate")}
+            name="pstate"
             aria-label="Select State"
           >
             <option>Select State</option>
@@ -199,28 +228,28 @@ function CE1({ register, control }) {
           <Form.Label className="CE-form-label">Zip Code</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("zipCode")}
+            {...register("pzipCode")}
             type="number"
-            name="zipCode"
+            name="pzipCode"
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} className="mb-5">
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Phone</Form.Label>
+      <Form.Group as={Row}>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">Phone 1</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("phone")}
+            {...register("pphone1")}
             type="number"
-            name="phone"
+            name="pphone1"
           />
         </Col>
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Phone Type</Form.Label>
+        <Col md={2}>
+        <Form.Label className="CE-form-label">Phone Type</Form.Label>
           <Form.Select
-            {...register("phoneType")}
-            name="phoneType"
-            aria-label="Select Phone Type"
+            {...register("pphone1type")}
+            name="pphone1type"
+            aria-label="Select State"
           >
             {formData["PhoneType"].map((item, i) => {
               return (
@@ -229,8 +258,61 @@ function CE1({ register, control }) {
                 </option>
               );
             })}
-          </Form.Select>{" "}
+          </Form.Select>
         </Col>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">Phone 2</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("pphone2")}
+            type="number"
+            name="pphone2"
+          />
+        </Col>
+        <Col md={2}>
+        <Form.Label className="CE-form-label">Phone Type</Form.Label>
+          <Form.Select
+            {...register("pphone2type")}
+            name="pphone2type"
+            aria-label="Select State"
+          >
+            {formData["PhoneType"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">Phone 3</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("pphone3")}
+            type="number"
+            name="pphone3"
+          />
+        </Col>
+        <Col md={2}>
+        <Form.Label className="CE-form-label">Phone Type</Form.Label>
+          <Form.Select
+            {...register("pphone3type")}
+            name="pphone3type"
+            aria-label="Select State"
+          >
+            {formData["PhoneType"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+        
+      </Form.Group>
+      <Form.Group as={Row} className="mb-5">
         <Col md={4}>
           <Form.Label className="CE-form-label">Email Address</Form.Label>
           <Form.Control
@@ -249,21 +331,98 @@ function CE1({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("emergencyContact")}
+            {...register("ecName")}
             type="text"
-            name="emergencyContact"
+            name="ecName"
           />
         </Col>
+        <Col md={4}>
+          <Form.Label className="CE-form-label">Relationship</Form.Label>
+          <Form.Select
+            {...register("ecRelationship")}
+            name="ecRelationship"
+            aria-label="Select State"
+          >
+            <option>Select State</option>
+            {statesList.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
+          </Form.Select>
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Col md={4}>
+          <Form.Label className="CE-form-label">Street Address</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("ecAddress")}
+            type="text"
+            name="ecAddress"
+          />
+        </Col>
+        <Col md={4}>
+          <Form.Label className="CE-form-label">City</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("ecCity")}
+            type="text"
+            name="ecCity"
+          />
+        </Col>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">State</Form.Label>
+          <Form.Select
+            {...register("ecState")}
+            name="ecState"
+            aria-label="Select State"
+          >
+            <option>Select State</option>
+            {statesList.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
+          </Form.Select>
+        </Col>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">Zip Code</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("ecZip")}
+            type="number"
+            name="ecZip"
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-2">
         <Col md={4}>
           <Form.Label className="CE-form-label">
             Phone <small>(optional)</small>
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("emergencyPhone")}
+            {...register("ecPhone")}
             type="number"
-            name="emergencyPhone"
+            name="ecPhone"
           />
+        </Col>
+        <Col md={4}>
+          <Form.Label className="CE-form-label">Phone Type</Form.Label>
+          <Form.Select
+            {...register("ecPhoneType")}
+            name="ecPhoneType"
+            aria-label="Select State"
+          >
+            {formData["PhoneType"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
+          </Form.Select>
         </Col>
       </Form.Group>
     </>

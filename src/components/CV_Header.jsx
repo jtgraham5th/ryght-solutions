@@ -6,20 +6,21 @@ import NewClient from "./NewClient";
 import NewBilling from "./NewBilling";
 import { useClient } from "../data/ClientContext";
 import EditClient from "./EditClient";
+import ClientSelectDropdown from "./ClientSelectDropdown";
 
 function CVHeader({ activeTab, setActiveTab }) {
   const { activeClient } = useClient();
 
   return (
     <>
-      <Card.Header className="text-start">
+      <Card.Header className="text-start border-bottom-0">
         <Row className="pb-3">
           <Col className="d-flex flex-row justify-content-between">
             <h2 className="m-0">
-              {activeClient.firstname} {activeClient.lastname}
+              {activeClient.pfirstname} {activeClient.plastname}
             </h2>
             <div className="CV-header-action-container">
-              <SelectClient />
+              <ClientSelectDropdown />
               <EditClient />
               {/* <NewBilling /> */}
             </div>
