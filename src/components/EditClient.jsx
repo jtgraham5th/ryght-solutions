@@ -10,7 +10,7 @@ function EditClient() {
     <>
       <Button
         variant="outline-primary"
-        style={{ display: "flex", alignItems: "center", height: "max-content" }}
+        style={{ display: "flex", alignItems: "center", height: "max-content", marginLeft: "1rem"}}
         onClick={() => setShow(true)}
       >
         Edit Client

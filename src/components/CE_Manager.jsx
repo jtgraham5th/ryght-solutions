@@ -28,7 +28,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
     updateContact,
     getContact,
   } = useClient();
-
+  
   const [contactData, setContactData] = useState({
     patient: {},
     emergency: {},
@@ -118,8 +118,8 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
         : 0,
     ins1_cardavailableid:
       edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins1_cardavailableid
-        : 0,
+        // ? activeClient.ins1_cardavailableid
+        ? 1 : 0,
     ins1_dateexpires:
       edit && Object.keys(activeClient).length !== 0
         ? Date.parse("10/11/1986")
@@ -150,8 +150,8 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
         : "",
     ins2_cardavailableid:
       edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins2_cardavailableid
-        : 0,
+        // ? activeClient.ins2_cardavailableid
+        ? 1 : 0,
     ins2_dateexpires:
       edit && Object.keys(activeClient).length !== 0
         ? Date.parse("10/11/1986")

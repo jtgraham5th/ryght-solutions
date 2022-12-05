@@ -27,5 +27,5 @@ div[role="main"] > .card-header {
   height: 75%;
   width: 35%;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-end;
 }

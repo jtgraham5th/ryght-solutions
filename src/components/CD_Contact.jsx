@@ -15,10 +15,10 @@ function CDContact() {
   }, []);
 
   return (
-    <ListGroup >
+    <ListGroup className={styles.dataGroup}>
       {contactInfo &&
         contactInfo.map((contact, index) => (
-          <ListGroup.Item as={Row} className="d-flex" key={index}>
+          <ListGroup.Item as={Row} className="d-flex w-100" key={index}>
             <Col md={6}>
               <Row>
                 <Col className="data-item">

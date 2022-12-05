@@ -18,12 +18,14 @@ export function ClientProvider(props) {
 
   const sortClients = (length, emptyObject) => {
     for (let i = length - 100; i < length; i++) {
-      let nameArray = clientList[i].name.split(",");
-      let lastName = [...nameArray[0]];
-      let abcObjectKeys = Object.keys(sortedClients);
-      for (const key of abcObjectKeys) {
-        if (lastName[0].toLowerCase() === key.toLowerCase()) {
-          emptyObject[key] = [...emptyObject[key], clientList[i]].sort();
+      if (clientList[i]) {
+        let nameArray = clientList[i].name.split(",");
+        let lastName = [...nameArray[0]];
+        let abcObjectKeys = Object.keys(sortedClients);
+        for (const key of abcObjectKeys) {
+          if (lastName[0].toLowerCase() === key.toLowerCase()) {
+            emptyObject[key] = [...emptyObject[key], clientList[i]].sort();
+          }
         }
       }
     }
@@ -386,7 +388,8 @@ export function ClientProvider(props) {
     for (let i = 100; i <= clientList.length; i += 100) {
       sortClients(i, abcObjectCopy);
     }
-    console.log("done sorting");
+    const leftovers = clientList.length - (clientList.length % 100) + 100;
+    sortClients(leftovers, abcObjectCopy);
     setSortedClients(abcObjectCopy);
     // eslint-disable-next-line
   }, [clientList]);

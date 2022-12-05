@@ -33,7 +33,7 @@ function ClientDetailsTabs() {
   return (
     <>
      <Card className="card-shadow">
-       <Card.Header as="h5">
+       <Card.Header>
          Client Details
         <ClientDetailsNav setActiveTab={setActiveTab} activeTab={activeTab} />
        </Card.Header>
