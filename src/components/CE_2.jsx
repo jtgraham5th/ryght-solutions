@@ -11,7 +11,6 @@ import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
 import CEFormPharmacy from "./CE_FormPharmacy";
 
 function CE2({ register, control, setValue }) {
-  const { formData } = useClient();
   const [addNew, setAddNew] = useState({
     sectionTitle: "",
     pharmacy: false,
@@ -19,6 +18,7 @@ function CE2({ register, control, setValue }) {
     insuranceProvider: false,
     activeForm: () => {},
   });
+  const { formData } = useClient();
   const [secondaryIns, toggleSecondaryIns] = useState(false);
 
   const addItem = (e) => {
@@ -302,7 +302,7 @@ function CE2({ register, control, setValue }) {
           <Form.Label className="CE-form-label">Date Expires</Form.Label>
           <Controller
             control={control}
-            name="ins2_dateexpires"
+            name="ins1_dateexpires"
             render={({ field }) => (
               <DatePicker
                 className="datePicker"

@@ -318,7 +318,6 @@ export function ClientProvider(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("get Contact", data.name);
         return data;
       })
       .catch((e) => {

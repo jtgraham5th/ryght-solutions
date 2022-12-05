@@ -28,7 +28,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
     updateContact,
     getContact,
   } = useClient();
-  
+
   const [contactData, setContactData] = useState({
     patient: {},
     emergency: {},
@@ -118,11 +118,12 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
         : 0,
     ins1_cardavailableid:
       edit && Object.keys(activeClient).length !== 0
-        // ? activeClient.ins1_cardavailableid
-        ? 1 : 0,
+        ? // ? activeClient.ins1_cardavailableid
+          1
+        : 0,
     ins1_dateexpires:
       edit && Object.keys(activeClient).length !== 0
-        ? Date.parse("10/11/1986")
+        ? Date.parse(activeClient.ins1_dateexpires)
         : Date.now(),
     ins1_carrierid:
       edit && Object.keys(activeClient).length !== 0
@@ -150,11 +151,12 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
         : "",
     ins2_cardavailableid:
       edit && Object.keys(activeClient).length !== 0
-        // ? activeClient.ins2_cardavailableid
-        ? 1 : 0,
+        ? // ? activeClient.ins2_cardavailableid
+          1
+        : 0,
     ins2_dateexpires:
       edit && Object.keys(activeClient).length !== 0
-        ? Date.parse("10/11/1986")
+        ? Date.parse(activeClient.ins2_dateexpires)
         : Date.now(),
     ins2_carrierid:
       edit && Object.keys(activeClient).length !== 0
@@ -214,11 +216,11 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
         : 0,
     referraldate:
       edit && Object.keys(activeClient).length !== 0
-        ? Date.parse("10/11/1986")
+        ? Date.parse(activeClient.referraldate)
         : Date.now(),
     dxdate:
       edit && Object.keys(activeClient).length !== 0
-        ? Date.parse("10/11/1986")
+        ? Date.parse(activeClient.dxdate)
         : Date.now(),
     internalreferralid:
       edit && Object.keys(activeClient).length !== 0
@@ -238,77 +240,75 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
         : "",
     dateoutsourced:
       edit && Object.keys(activeClient).length !== 0
-        ? Date.parse("10/11/1986")
+        ? Date.parse(activeClient.dateoutsourced)
         : Date.now(),
     firstapptdate:
       edit && Object.keys(activeClient).length !== 0
-        ? Date.parse("10/11/1986")
+        ? Date.parse(activeClient.firstapptdate)
         : Date.now(),
     firstpsydate:
       edit && Object.keys(activeClient).length !== 0
-        ? Date.parse("10/11/1986")
+        ? Date.parse(activeClient.firstpsydate)
         : Date.now(),
-    paddress: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.paddress
-    : "",
-    pcity: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pcity
-    : "",
-    pstate: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pstate
-    : "",
-    pZip: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pZip
-    : "",
-    pphone1: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pphone1
-    : "",
+    paddress:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.paddress
+        : "",
+    pcity:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.pcity : "",
+    pstate:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.pstate : "",
+    pZip:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.pZip : "",
+    pphone1:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pphone1
+        : "",
     pphone1type:
-    edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pphone1type
-    : 0,
-    pphone2: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pphone2
-    : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pphone1type
+        : 0,
+    pphone2:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pphone2
+        : "",
     pphone2type:
-    edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pphone2type
-    : 0,
-    pphone3: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.phone3
-    : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pphone2type
+        : 0,
+    pphone3:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone3 : "",
     pphone3type:
-    edit && Object.keys(activeClient).length !== 0
-    ? activeClient.pphone3type
-    : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pphone3type
+        : 0,
     // relationshipid: edit && contactData.patient ? contactData.patient.phone3typeid : 0,
-    ecName: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecName
-    : "",
+    ecName:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.ecName : "",
     ecAddress:
-    edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecAddress
-    : "",
-    ecCity: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecCity
-    : "",
-    ecState: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecState
-    : "",
-    ecZip: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecZip
-    : "",
-    ecPhone: edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecPhone
-    : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ecAddress
+        : "",
+    ecCity:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.ecCity : "",
+    ecState:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ecState
+        : "",
+    ecZip:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.ecZip : "",
+    ecPhone:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ecPhone
+        : "",
     ecPhoneType:
-    edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecPhoneType
-    : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ecPhoneType
+        : "",
     ecRelationship:
-    edit && Object.keys(activeClient).length !== 0
-    ? activeClient.ecRelationship
-    : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ecRelationship
+        : "",
     // relationshipid: edit && contactData.emergency ? contactData.emergency.phone3typeid : 0,
   };
   const handleClose = () => {
@@ -336,6 +336,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
     }
   };
   const onSubmit = (data) => {
+    console.log(data);
     setClientData((prevState) => ({ ...prevState, ...data }));
     if (activePage < 2) {
       nextPage();
@@ -343,7 +344,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
     if (activePage === 2) {
       setAlert({
         message: <h6>Are you sure you want to save these changes?</h6>,
-        data: clientData,
+        data: data,
         title: "Add New Client",
       });
     }
@@ -634,7 +635,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
             type="submit"
             // onClick={activePage >= 2 ? () => console.log("Add New Client") : nextPage}
           >
-            {activePage >= 2 ? edit ? "Save" : "Add New Client" : "Next"}
+            {activePage >= 2 ? (edit ? "Save" : "Add New Client") : "Next"}
           </Button>
         </Modal.Footer>
       </Form>

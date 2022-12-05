@@ -114,7 +114,7 @@ function CE3({ register, control }) {
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">
-            Referral Date <small>(optional)</small>
+            ReferralDate <small>(optional)</small>
           </Form.Label>
           <Controller
             control={control}
@@ -235,7 +235,6 @@ function CE3({ register, control }) {
             Reason For Referral <small>(optional)</small>
           </Form.Label>
           <Form.Control
-            disabled
             className="goal-detail-input"
             {...register("patient_comment")}
             as="textarea"
@@ -254,7 +253,7 @@ function CE3({ register, control }) {
             {...register("dxcodes")}
             type="text"
             name="dxcodes"
-          />{" "}
+          />
         </Col>
         <Col md={6}>
           <Form.Label className="CE-form-label">Diagnosis Date</Form.Label>
