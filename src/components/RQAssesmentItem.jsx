@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 function RQAssessmentItem({index, activeForm, setActiveForm, setShow}) {
   const [startDate, setStartDate] = useState(new Date());
   const [complete, setComplete] = useState(false);
+  
   const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
     <div className={styles.noWrap} onClick={onClick} ref={ref}>
       <span>

@@ -1,12 +1,13 @@
 import React, { useState, forwardRef } from "react";
-import { Form, Dropdown } from "react-bootstrap";
+import { Form, Dropdown, Spinner} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../pages/UserDashboard.css";
 import { useClient } from "../data/ClientContext";
 
 function ClientSelectDropdown(props) {
   let navigate = useNavigate();
-  const { selectClient, sortedClients } = useClient();
+
+  const { selectClient, sortedClients, loading } = useClient();
   const [alphaSelector, setAlphaSelector] = useState("");
   const [searchResults, setSearchResults] = useState(sortedClients["a"].sort());
   const [searchValue, setSearchValue] = useState("");
@@ -18,7 +19,6 @@ function ClientSelectDropdown(props) {
   const searchClients = (e) => {
     e.preventDefault();
     const searchTerm = e.currentTarget.value;
-    console.log(searchTerm);
     setSearchValue(searchTerm);
     if (searchTerm.length === 1) {
       setAlphaSelector(searchTerm);
@@ -69,19 +69,25 @@ function ClientSelectDropdown(props) {
   return (
     <Dropdown>
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-        Select Client
+        {loading ? <Spinner animation="border" size="sm" /> : ""} Select
+        Client
       </Dropdown.Toggle>
       <Dropdown.Menu as={CustomMenu}>
-        {searchResults.sort().map((result, index) => (
-          <Dropdown.Item
-            action
-            key={index}
-            eventKey={index}
-            onClick={() => handleClientSelect(result.patientid)}
-          >
-            {result.name}
+        {alphaSelector ? (
+          searchResults.sort().map((result, index) => (
+            <Dropdown.Item
+              key={index}
+              eventKey={index}
+              onClick={() => handleClientSelect(result.patientid)}
+            >
+              {result.name}
+            </Dropdown.Item>
+          ))
+        ) : (
+          <Dropdown.Item className="client-select-empty">
+            Start by typing the patient's last Name
           </Dropdown.Item>
-        ))}
+        )}
       </Dropdown.Menu>
     </Dropdown>
   );

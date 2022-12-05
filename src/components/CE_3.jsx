@@ -167,6 +167,7 @@ function CE3({ register, control }) {
                 </>
               ) : (
                 <Button
+                  disabled
                   size="sm"
                   variant="outline-primary"
                   name="referralOutsource"
@@ -179,6 +180,7 @@ function CE3({ register, control }) {
             </div>
           </Form.Label>
           <Form.Select
+            disabled
             {...register("referralOutsource")}
             name="referralOutsource"
             aria-label="Select Outsource"
@@ -194,9 +196,7 @@ function CE3({ register, control }) {
           </Form.Select>
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">
-            Date Outsourced 
-          </Form.Label>
+          <Form.Label className="CE-form-label">Date Outsourced</Form.Label>
           <Controller
             control={control}
             name="dateoutsourced"
@@ -212,9 +212,7 @@ function CE3({ register, control }) {
       </Form.Group>
       <Form.Group as={Row}>
         <Col md={12}>
-          <Form.Label className="CE-form-label">
-            Internal Referral
-          </Form.Label>
+          <Form.Label className="CE-form-label">Internal Referral</Form.Label>
           <Form.Select
             {...register("internalreferralid")}
             name="internalreferralid"
@@ -237,11 +235,12 @@ function CE3({ register, control }) {
             Reason For Referral <small>(optional)</small>
           </Form.Label>
           <Form.Control
+            disabled
             className="goal-detail-input"
             {...register("patient_comment")}
             as="textarea"
-            name="patient_comment"
             rows={3}
+            name="patient_comment"
           />
         </Col>
       </Form.Group>
@@ -253,13 +252,12 @@ function CE3({ register, control }) {
           <Form.Control
             className="goal-detail-input"
             {...register("dxcodes")}
-            type="number"
+            type="text"
             name="dxcodes"
-          />        </Col>
+          />{" "}
+        </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label">
-            Diagnosis Date
-          </Form.Label>
+          <Form.Label className="CE-form-label">Diagnosis Date</Form.Label>
           <Controller
             control={control}
             name="dxdate"
@@ -291,9 +289,7 @@ function CE3({ register, control }) {
           />
         </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label">
-            First Psy Date
-          </Form.Label>
+          <Form.Label className="CE-form-label">First Psy Date</Form.Label>
           <Controller
             control={control}
             name="firstpsydate"

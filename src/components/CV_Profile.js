@@ -17,7 +17,7 @@ import FileManager from "./FileManger";
 function CVProfile({ sidebar }) {
   return (
     <>
-      {/* <CVDemographics /> */}
+      <CVDemographics />
       <Row>
         <Col md={6}>
           {/* <ClientDetailsTabs /> */}

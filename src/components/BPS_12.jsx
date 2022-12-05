@@ -93,9 +93,9 @@ function BSP12({ register, control }) {
         <Col md={12}>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={3}
           />
         </Col>
@@ -298,9 +298,9 @@ function BSP12({ register, control }) {
           <Form.Label>Trauma</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>

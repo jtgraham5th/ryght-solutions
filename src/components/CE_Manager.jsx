@@ -11,153 +11,310 @@ import { useClient } from "../data/ClientContext";
 function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
   const [activePage, setActivePage] = useState(0);
-  const { control, register, handleSubmit, reset } = useForm({});
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { dirtyFields },
+  } = useForm({});
   const [clientData, setClientData] = useState({});
-  const { activeClient, addClient, enrollClient, updateClient, addContact } =
-    useClient();
+  const {
+    activeClient,
+    addClient,
+    updateClient,
+    addContact,
+    updateContact,
+    getContact,
+  } = useClient();
 
-  // const formatDate = (newDate) => {
-  //   console.log(activeClient);
-  //   return Date(newDate.split("/").reverse().join("-")).toString();
-  // };
+  const [contactData, setContactData] = useState({
+    patient: {},
+    emergency: {},
+    physician: {},
+    pharmacy: {},
+  });
+  const formatDate = (newDate) => {
+    return new Date(newDate).toISOString().slice(0, 10).replace("T", " ");
+  };
 
   const defaultValues = {
+    patientid:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.patientid
+        : 0,
     pfirstname:
-      Object.keys(activeClient).length !== 0 ? activeClient.pfirstname : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pfirstname
+        : "",
     plastname:
-      Object.keys(activeClient).length !== 0 ? activeClient.plastname : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.plastname
+        : "",
     pinitial:
-      Object.keys(activeClient).length !== 0 ? activeClient.initial : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pinitial
+        : "",
     preferredname:
-      Object.keys(activeClient).length !== 0 ? activeClient.preferredname : "",
-    dob: Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.preferredname
+        : "",
+    dob:
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse(activeClient.dob)
+        : Date.now(),
     maritalstatusid:
-      Object.keys(activeClient).length !== 0 ? activeClient.maritalstatusid : 0,
-    socsec: Object.keys(activeClient).length !== 0 ? activeClient.socsec : "",
-    ethicityid:
-      Object.keys(activeClient).length !== 0 ? activeClient.ethicityid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.maritalstatusid
+        : 0,
+    socsec:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.socsec : "",
+    ethnicityid:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ethnicityid
+        : 0,
     sexatbirthid:
-      Object.keys(activeClient).length !== 0 ? activeClient.sexatbirthid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.sexatbirthid
+        : 0,
     genderid:
-      Object.keys(activeClient).length !== 0 ? activeClient.genderid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.genderid
+        : 0,
     preferredpronounid:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.preferredpronounid
         : 0,
     religionid:
-      Object.keys(activeClient).length !== 0 ? activeClient.religionid : 0,
-    weight: Object.keys(activeClient).length !== 0 ? activeClient.weight : "",
-    height: Object.keys(activeClient).length !== 0 ? activeClient.height : "",
-    phone1: Object.keys(activeClient).length !== 0 ? activeClient.phone1 : "",
-    phone2: Object.keys(activeClient).length !== 0 ? activeClient.phone2 : "",
-    phone3: Object.keys(activeClient).length !== 0 ? activeClient.phone3 : "",
-    email: Object.keys(activeClient).length !== 0 ? activeClient.email : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.religionid
+        : 0,
+    weight:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.weight : "",
+    height:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.height : "",
+    phone1:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone1 : "",
+    phone2:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone2 : "",
+    phone3:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone3 : "",
+    email:
+      edit && Object.keys(activeClient).length !== 0 ? activeClient.email : "",
     enrolldate:
-      Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
+      edit && Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
     employer:
-      Object.keys(activeClient).length !== 0 ? activeClient.employer : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.employer
+        : "",
     employerphone:
-      Object.keys(activeClient).length !== 0 ? activeClient.employerphone : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.employerphone
+        : "",
     clientaddressid:
-      Object.keys(activeClient).length !== 0 ? activeClient.clientaddressid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.clientaddressid
+        : 0,
     ins1_cardavailableid:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.ins1_cardavailableid
         : 0,
     ins1_dateexpires:
-      Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse("10/11/1986")
+        : Date.now(),
     ins1_carrierid:
-      Object.keys(activeClient).length !== 0 ? activeClient.ins1_carrierid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins1_carrierid
+        : 0,
     ins1_planid:
-      Object.keys(activeClient).length !== 0 ? activeClient.ins1_planid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins1_planid
+        : 0,
     ins1_phone:
-      Object.keys(activeClient).length !== 0 ? activeClient.ins1_phone : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins1_phone
+        : "",
     ins1_policynumber:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.ins1_policynumber
         : "",
     ins1_relationshipid:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.ins1_relationshipid
         : 0,
     ins1_fundingsource:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.ins1_fundingsource
         : "",
-    isn2_cardavailableid:
-      Object.keys(activeClient).length !== 0
-        ? activeClient.isn2_cardavailableid
+    ins2_cardavailableid:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins2_cardavailableid
         : 0,
-    isn2_dateexpires:
-      Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
-    isn2_carrierid:
-      Object.keys(activeClient).length !== 0 ? activeClient.isn2_carrierid : 0,
-    isn2_planid:
-      Object.keys(activeClient).length !== 0 ? activeClient.isn2_planid : 0,
-    isn2_phone:
-      Object.keys(activeClient).length !== 0 ? activeClient.isn2_phone : "",
-    isn2_policynumber:
-      Object.keys(activeClient).length !== 0
-        ? activeClient.isn2_policynumber
+    ins2_dateexpires:
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse("10/11/1986")
+        : Date.now(),
+    ins2_carrierid:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins2_carrierid
+        : 0,
+    ins2_planid:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins2_planid
+        : 0,
+    ins2_phone:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins2_phone
         : "",
-    isn2_relationshipid:
-      Object.keys(activeClient).length !== 0
-        ? activeClient.isn2_relationshipid
+    ins2_policynumber:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins2_policynumber
+        : "",
+    ins2_relationshipid:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins2_relationshipid
         : 0,
-    isn2_fundingsource:
-      Object.keys(activeClient).length !== 0
-        ? activeClient.isn2_fundingsource
+    ins2_fundingsource:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.ins2_fundingsource
         : "",
     allergies:
-      Object.keys(activeClient).length !== 0 ? activeClient.allergies : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.allergies
+        : "",
     physicianid:
-      Object.keys(activeClient).length !== 0 ? activeClient.physicianid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.physicianid
+        : 0,
     pharmacy:
-      Object.keys(activeClient).length !== 0 ? activeClient.pharmacy : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.pharmacy
+        : "",
     pharmacyproviderid:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.pharmacyproviderid
         : 0,
     emergencycontactid:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.emergencycontactid
         : 0,
     emergencyrelationshipid:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.emergencyrelationshipid
         : 0,
     patient_comment:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.patient_comment
         : "",
     referralid:
-      Object.keys(activeClient).length !== 0 ? activeClient.referralid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.referralid
+        : 0,
     referraldate:
-      Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
-    dxdate: Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse("10/11/1986")
+        : Date.now(),
+    dxdate:
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse("10/11/1986")
+        : Date.now(),
     internalreferralid:
-      Object.keys(activeClient).length !== 0
+      edit && Object.keys(activeClient).length !== 0
         ? activeClient.internalreferralid
         : 0,
     statusid:
-      Object.keys(activeClient).length !== 0 ? activeClient.statusid : 0,
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.statusid
+        : 0,
     outcomeid:
-      Object.keys(activeClient).length !== 0 ? activeClient.outcomeid : 0,
-    dxcodes: Object.keys(activeClient).length !== 0 ? activeClient.dxcodes : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.outcomeid
+        : 0,
+    dxcodes:
+      edit && Object.keys(activeClient).length !== 0
+        ? activeClient.dxcodes
+        : "",
     dateoutsourced:
-      Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse("10/11/1986")
+        : Date.now(),
     firstapptdate:
-      Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse("10/11/1986")
+        : Date.now(),
     firstpsydate:
-      Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
-    photolink:
-      Object.keys(activeClient).length !== 0 ? activeClient.photolink : "",
+      edit && Object.keys(activeClient).length !== 0
+        ? Date.parse("10/11/1986")
+        : Date.now(),
+    paddress: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.paddress
+    : "",
+    pcity: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pcity
+    : "",
+    pstate: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pstate
+    : "",
+    pZip: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pZip
+    : "",
+    pphone1: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pphone1
+    : "",
+    pphone1type:
+    edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pphone1type
+    : 0,
+    pphone2: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pphone2
+    : "",
+    pphone2type:
+    edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pphone2type
+    : 0,
+    pphone3: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.phone3
+    : "",
+    pphone3type:
+    edit && Object.keys(activeClient).length !== 0
+    ? activeClient.pphone3type
+    : 0,
+    // relationshipid: edit && contactData.patient ? contactData.patient.phone3typeid : 0,
+    ecName: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecName
+    : "",
+    ecAddress:
+    edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecAddress
+    : "",
+    ecCity: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecCity
+    : "",
+    ecState: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecState
+    : "",
+    ecZip: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecZip
+    : "",
+    ecPhone: edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecPhone
+    : "",
+    ecPhoneType:
+    edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecPhoneType
+    : "",
+    ecRelationship:
+    edit && Object.keys(activeClient).length !== 0
+    ? activeClient.ecRelationship
+    : "",
+    // relationshipid: edit && contactData.emergency ? contactData.emergency.phone3typeid : 0,
   };
   const handleClose = () => {
     setActivePage(0);
     setShow(false);
   };
-
   const nextPage = () => {
     setActivePage((page) => page + 1);
   };
@@ -169,7 +326,9 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       case 0:
         return <CE1 register={register} control={control} />;
       case 1:
-        return <CE2 register={register} control={control} />;
+        return (
+          <CE2 register={register} control={control} setValue={setValue} />
+        );
       case 2:
         return <CE3 register={register} control={control} />;
       default:
@@ -192,19 +351,18 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
   const handleConfirm = (data) => {
     console.log(data);
     const newClient = {
-      patientid: data.patientid,
       pfirstname: data.pfirstname,
       pinitial: data.pinitial,
       plastname: data.plastname,
       maritalstatusid: data.maritalstatusid,
-      dob: data.dob,
+      dob: formatDate(data.dob),
       socsec: data.socsec,
       genderid: data.genderid,
       phone1: data.phone1,
       phone2: data.phone2,
       phone3: data.phone3,
       email: data.email,
-      enrolldate: data.enrolldate,
+      enrolldate: formatDate(data.enrolldate),
       religionid: data.religionid,
       ethnicityid: data.ethnicityid,
       sexatbirthid: data.sexatbirthid,
@@ -215,11 +373,11 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       referralid: data.referralid,
       internalreferralid: data.internalreferralid,
       dxcodes: data.dxcodes,
-      referraldate: data.referraldate,
-      dateoutsourced: data.dateoutsourced,
-      firstapptdate: data.firstapptdate,
-      firstpsydate: data.firstpsydate,
-      dxdate: data.dxdate,
+      referraldate: formatDate(data.referraldate),
+      dateoutsourced: formatDate(data.dateoutsourced),
+      firstapptdate: formatDate(data.firstapptdate),
+      firstpsydate: formatDate(data.firstpsydate),
+      dxdate: formatDate(data.dxdate),
       employer: data.employer,
       employerphone: data.employerphone,
       clientaddressid: data.clientaddressid,
@@ -228,7 +386,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       allergies: data.allergies,
       physicianid: data.physicianid,
       ins1_cardavailableid: data.ins1_cardavailableid,
-      ins1_dateexpires: data.ins1_dateexpires,
+      ins1_dateexpires: formatDate(data.ins1_dateexpires),
       ins1_carrierid: data.ins1_carrierid,
       ins1_planid: data.ins1_planid,
       ins1_phone: data.ins1_phone,
@@ -236,7 +394,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       ins1_relationshipid: data.ins1_relationshipid,
       ins1_fundingsource: data.ins1_fundingsource,
       ins2_cardavailableid: data.ins2_cardavailableid,
-      ins2_dateexpires: data.ins2_dateexpires,
+      ins2_dateexpires: formatDate(data.ins2_dateexpires),
       ins2_carrierid: data.ins2_carrierid,
       ins2_planid: data.ins2_planid,
       ins2_phone: data.ins2_phone,
@@ -248,6 +406,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       pharmacy: data.pharmacy,
       pharmacyproviderid: data.pharmacyproviderid,
       photolink: data.photolink,
+      patient_comment: data.patient_comment,
     };
     const patientContact = {
       name: data.pfirstname + " " + data.plastname,
@@ -255,17 +414,17 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       address2: "",
       city: data.pcity,
       state: data.pstate,
-      zip: data.pzipCode,
+      zip: data.pZip,
       udfid1: 0,
       udfid2: 0,
       contacttypeid: 21,
-      patientid: 676034,
+      patientid: data.patientid,
       relationshipid: 0,
       phone1: data.pphone1,
       phone1typeid: data.pphone1type,
-      phone2: data.pphone1,
+      phone2: data.pphone2,
       phone2typeid: data.pphone2type,
-      phone3: data.pphone1,
+      phone3: data.pphone3,
       phone3typeid: data.pphone3type,
       countyid: 0,
       isactive: 1,
@@ -279,15 +438,15 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       zip: data.ecZip,
       udfid1: 0,
       udfid2: 0,
-      contacttypeid: 21,
-      patientid: 676034,
+      contacttypeid: 22,
+      patientid: data.patientid,
       relationshipid: data.ecRelationship,
       phone1: data.ecPhone,
       phone1typeid: data.ecPhoneType,
       phone2: "",
-      phone2typeid: "",
+      phone2typeid: 0,
       phone3: "",
-      phone3typeid: "",
+      phone3typeid: 0,
       countyid: 0,
       isactive: 1,
     };
@@ -329,18 +488,49 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
     // };
     if (edit) {
       newClient.patientid = activeClient.patientid;
-      console.log(newClient);
-      updateClient(newClient);
+      console.log("update", newClient);
+      if (newClient.clientaddressid !== "0") {
+        console.log(" - update patient contact -");
+        updateContact(patientContact, newClient.clientaddressid).then(
+          (data) => {
+            newClient.clientaddressid = data;
+            updateClient(newClient);
+          }
+        );
+      } else {
+        console.log(" - add patient contact -");
+        addContact(patientContact).then((data) => {
+          newClient.clientaddressid = data;
+          updateClient(newClient);
+        });
+      }
+      if (newClient.emergencycontactid !== "0") {
+        console.log(" - update emergency contact -");
+        updateContact(emergencyContact, newClient.emergencycontactid).then(
+          (data) => {
+            newClient.emergencycontactid = data;
+            updateClient(newClient);
+          }
+        );
+      } else {
+        console.log(" - add emergency contact -");
+        addContact(emergencyContact).then((data) => {
+          newClient.emergencycontactid = data;
+          updateClient(newClient);
+        });
+      }
     } else {
       console.log(newClient);
       addClient(newClient).then((response) => {
-        console.log(response);
-        const patientid = response.patientid
-        let clientAddressID = addContact(patientid, 21, patientContact);
-        let emergencyContactID = addContact(patientid, 22, emergencyContact);
-        newClient.clientaddressid =  clientAddressID;
-        newClient.emergencycontactid = emergencyContactID;
-        console.log(newClient)
+        console.log("new client", response);
+        const patientid = response.patientid;
+        addContact(patientContact).then(
+          (data) => (newClient.clientaddressid = data)
+        );
+        addContact(emergencyContact).then(
+          (data) => (newClient.emergencycontactid = data)
+        );
+        newClient.patientid = patientid;
         updateClient(newClient);
       });
     }
@@ -349,16 +539,72 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
   };
 
   const handleCancel = (data) => {};
+  useEffect(() => {
+    return function cleanup() {
+      console.log("cleanup!");
+      setContactData({
+        patient: {},
+        emergency: {},
+        physician: {},
+        pharmacy: {},
+      });
+    };
+  }, []);
 
   useEffect(() => {
     console.log("reset");
-    reset({ ...defaultValues });
-    // eslint-disable-next-line
-  }, [activeClient]);
 
-  useEffect(() => {
-    console.log("reset");
     reset({ ...defaultValues });
+    if (activeClient.clientaddressid && activeClient.clientaddressid !== "0") {
+      console.log("has clientaddressid");
+      const getClientaddressid = async () =>
+        await getContact(activeClient.clientaddressid).then((data) =>
+          setContactData((prevState) => ({
+            ...prevState,
+            patient: data,
+          }))
+        );
+      getClientaddressid();
+    }
+    if (
+      activeClient.emergencycontactid &&
+      activeClient.emergencycontactid !== "0"
+    ) {
+      console.log("has emergencyaddressid");
+      const getEmergencyContact = async () =>
+        await getContact(activeClient.emergencycontactid).then((data) =>
+          setContactData((prevState) => ({
+            ...prevState,
+            emergency: data,
+          }))
+        );
+      getEmergencyContact();
+    }
+    if (activeClient.physicianid && activeClient.physicianid !== "0") {
+      console.log("has physicianid");
+      const getPhysician = async () =>
+        await getContact(activeClient.physicianid).then((data) =>
+          setContactData((prevState) => ({
+            ...prevState,
+            physician: data,
+          }))
+        );
+      getPhysician();
+    }
+    if (
+      activeClient.pharmacyproviderid &&
+      activeClient.pharmacyproviderid !== "0"
+    ) {
+      console.log("has pharmacyproviderid");
+      const getPharmacy = async () =>
+        await getContact(activeClient.pharmacyproviderid).then((data) =>
+          setContactData((prevState) => ({
+            ...prevState,
+            pharmacy: data,
+          }))
+        );
+      getPharmacy();
+    }
     // eslint-disable-next-line
   }, [activeClient]);
 
@@ -388,7 +634,7 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
             type="submit"
             // onClick={activePage >= 2 ? () => console.log("Add New Client") : nextPage}
           >
-            {activePage >= 2 ? "Add New Client" : "Next"}
+            {activePage >= 2 ? edit ? "Save" : "Add New Client" : "Next"}
           </Button>
         </Modal.Footer>
       </Form>

@@ -67,9 +67,9 @@ function BSP5({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -87,9 +87,9 @@ function BSP5({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -106,9 +106,9 @@ function BSP5({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -292,8 +292,8 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -303,8 +303,8 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -317,8 +317,8 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -328,8 +328,8 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -518,9 +518,9 @@ function BSP5({ register, control }) {
           If any of the above were checked, please provide details below.          </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>

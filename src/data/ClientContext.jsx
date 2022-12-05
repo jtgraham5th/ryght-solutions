@@ -29,12 +29,24 @@ export function ClientProvider(props) {
     }
   };
 
-  const selectClient = (patientid) => {
+  const selectClient = async (patientid) => {
     fetch(`http://www.ivronlogs.icu:8080/rs/api/enroll/${patientid}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setActiveClient(data);
+        let newObject = {};
+        getClientAddress(data.clientaddressid)
+          .then((contact) => {
+            newObject = { ...data, ...contact };
+          })
+          .then(() =>
+            getEmergencyContact(data.emergencycontactid)
+              .then((econtact) => {
+                newObject = { ...newObject, ...econtact };
+              })
+              .then(() => {
+                setActiveClient({ ...newObject });
+              })
+          );
       })
       .catch((e) => {
         console.log(e);
@@ -46,17 +58,22 @@ export function ClientProvider(props) {
       .then((data) => {
         // console.log(data);
         setContactList(data);
+        setFormData((prevData) => ({
+          ...prevData,
+          Pharmacy: getPharmacyList(data),
+          Physicians: getPhysicianList(data),
+        }));
       })
       .catch((e) => {
         console.log(e);
-      });
+      })
+      .then();
   };
   const getClientContact = (patientid) => {
     if (contactList) {
       const clientContact = contactList.filter(
         (contact, index) => contact.patientid === patientid
       );
-      console.log(clientContact);
       return clientContact;
     }
     return null;
@@ -65,7 +82,6 @@ export function ClientProvider(props) {
     return await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data);
         return data;
       })
       .catch((e) => {
@@ -77,7 +93,6 @@ export function ClientProvider(props) {
     await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data);
         // console.log(groupListArray)
         for (const group of data) {
           await getGroupList(group.groupnameid).then((res) => {
@@ -97,7 +112,6 @@ export function ClientProvider(props) {
       .catch((e) => {
         console.log(e);
       });
-    console.log(groupObject);
     setFormData(groupObject);
   };
   const getClient = async (patientid) => {
@@ -106,7 +120,6 @@ export function ClientProvider(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         return data;
       })
       .catch((e) => {
@@ -114,7 +127,7 @@ export function ClientProvider(props) {
       });
   };
   const getClientList = () => {
-    setLoading(true)
+    setLoading(true);
     fetch("http://www.ivronlogs.icu:8080/rs/api/enroll")
       .then((response) => response.json())
       .then((data) => {
@@ -122,21 +135,22 @@ export function ClientProvider(props) {
         data.forEach((client) =>
           clientArray.push({
             name: client.plastname + ", " + client.pfirstname,
-            isactive: client.isactive,
+            statusid: client.statusid,
             patientid: client.patientid,
           })
         );
         console.log(clientArray);
         setClientlist(clientArray);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
-        setLoading(false)
+        setLoading(false);
       });
   };
   const updateClient = (patient) => {
     setLoading(true);
+    console.log(patient);
     // fetch(`http://www.ivronlogs.icu:8080/rs/api/patient/${patient.patientid}`, {
     fetch(`http://www.ivronlogs.icu:8080/rs/api/enroll/${patient.patientid}`, {
       method: "PUT",
@@ -146,13 +160,26 @@ export function ClientProvider(props) {
       body: JSON.stringify(patient),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setLoading(false)
+      .then(async (data) => {
+        let newObject = {};
+        getClientAddress(data.clientaddressid)
+          .then((contact) => {
+            newObject = { ...data, ...contact };
+          })
+          .then(() =>
+            getEmergencyContact(data.emergencycontactid)
+              .then((econtact) => {
+                newObject = { ...newObject, ...econtact };
+              })
+              .then(() => {
+                setActiveClient({ ...newObject });
+                setLoading(false);
+              })
+          );
       })
       .catch((e) => {
         console.log(e);
-        setLoading(false)
+        setLoading(false);
       });
   };
   const getGroupList = async (grouplistid) => {
@@ -233,7 +260,8 @@ export function ClientProvider(props) {
   };
   const deleteGroupItem = async (grouplistid) => {
     return fetch(
-      `http://www.ivronlogs.icu:8080/rs/api/grouplist/${grouplistid}`, {
+      `http://www.ivronlogs.icu:8080/rs/api/grouplist/${grouplistid}`,
+      {
         method: "DELETE",
       }
     )
@@ -245,8 +273,8 @@ export function ClientProvider(props) {
         console.log(e);
       });
   };
-  const addContact = async (patientid, contacttype, contact) => {
-    return await fetch(`http://www.ivronlogs.icu:8080/rs/api/contact/contact_by_contacttypeid?patientid=${patientid}&contacttypeid=${contacttype}`, {
+  const addContact = async (contact) => {
+    return await fetch(`http://www.ivronlogs.icu:8080/rs/api/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -255,13 +283,94 @@ export function ClientProvider(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        return data.contactid;
+      })
+      .catch((e) => {
+        console.log(e);
+        return e;
+      });
+  };
+  const updateContact = async (contact, contactid) => {
+    return await fetch(
+      `http://www.ivronlogs.icu:8080/rs/api/contact/${contactid}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        return data.contactid;
+      })
+      .catch((e) => {
+        console.log(e);
+        return e;
+      });
+  };
+  const getContact = async (contactid) => {
+    return await fetch(
+      `http://www.ivronlogs.icu:8080/rs/api/contact/${contactid}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("get Contact", data.name);
         return data;
       })
       .catch((e) => {
         console.log(e);
         return e;
       });
+  };
+  const getPharmacyList = (contactList) => {
+    if (contactList) {
+      const pharmacyList = contactList.filter(
+        (contact) => contact.contacttypeid === "23"
+      );
+      console.log("pharmacyList", pharmacyList);
+      return pharmacyList;
+    }
+    return null;
+  };
+  const getPhysicianList = (contactList) => {
+    if (contactList) {
+      const physicianList = contactList.filter(
+        (contact) => contact.contacttypeid === "24"
+      );
+      console.log("physicianList", physicianList);
+      return physicianList;
+    }
+    return null;
+  };
+  const getClientAddress = async (clientaddressid) => {
+    const clientAddress = await getContact(clientaddressid);
+    return {
+      paddress: clientAddress.address1,
+      pcity: clientAddress.city,
+      pstate: clientAddress.state,
+      pZip: parseInt(clientAddress.zip),
+      pphone1: clientAddress.phone1,
+      pphone1type: clientAddress.phone1typeid,
+      pphone2: clientAddress.phone2,
+      pphone2type: clientAddress.phone2typeid,
+      pphone3: clientAddress.phone3,
+      pphone3type: clientAddress.phone3typeid,
+    };
+  };
+  const getEmergencyContact = async (emergencycontactid) => {
+    const emergencyContact = await getContact(emergencycontactid);
+    return {
+      ecName: emergencyContact.name,
+      ecAddress: emergencyContact.address1,
+      ecCity: emergencyContact.city,
+      ecState: emergencyContact.state,
+      ecZip: emergencyContact.zip,
+      ecPhone: emergencyContact.phone1,
+      ecPhoneType: emergencyContact.phone1typeid,
+      ecRelationship: emergencyContact.relationshipid,
+    };
   };
 
   useEffect(() => {
@@ -299,6 +408,8 @@ export function ClientProvider(props) {
         getGroupNames,
         addGroupItem,
         addContact,
+        updateContact,
+        getContact,
         sortedClients,
         activeClient,
         formData,

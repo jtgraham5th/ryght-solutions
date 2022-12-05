@@ -62,8 +62,8 @@ padding-right: 0.5rem
   width: 100% !important;
 }
 .goal-detail-input {
-  font-size: small !important;
-  padding: 0.3rem !important;
+  /* font-size: small !important; */
+  /* padding: 0.3rem !important; */
 }
 .detail-container {
   padding: 0px !important;

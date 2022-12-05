@@ -4,13 +4,17 @@ import "./CE_Manager.css";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { ClipboardHeartFill } from "react-bootstrap-icons";
+import { useClient } from "../data/ClientContext";
 import CEAddContainer from "./CE_AddContainer";
 import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
 import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
+import CEFormPharmacy from "./CE_FormPharmacy";
 
-function CE2({ register, control }) {
+function CE2({ register, control, setValue }) {
+  const { formData } = useClient();
   const [addNew, setAddNew] = useState({
     sectionTitle: "",
+    pharmacy: false,
     familyPhysician: false,
     insuranceProvider: false,
     activeForm: () => {},
@@ -41,6 +45,8 @@ function CE2({ register, control }) {
     switch (name) {
       case "familyPhysician":
         return CEFormFamilyPhysician;
+      case "pharmacy":
+        return CEFormPharmacy;
       case "insuranceProvider":
         return CEFormInsuranceProvider;
       default:
@@ -62,7 +68,7 @@ function CE2({ register, control }) {
           <Form.Control
             className="goal-detail-input"
             {...register("employer")}
-            type="number"
+            type="text"
             name="employer"
           />
         </Col>
@@ -76,7 +82,7 @@ function CE2({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} >
+      <Form.Group as={Row} className="mb-3">
         <h5>Medical Information</h5>
         <Col md={2}>
           <Form.Label className="CE-form-label">Height</Form.Label>
@@ -105,7 +111,8 @@ function CE2({ register, control }) {
             name="allergies"
           />
         </Col>
-
+      </Form.Group>
+      <Form.Group as={Row} className="mb-4">
         <Col md={4}>
           <Form.Label className="CE-form-label">
             Family Physician
@@ -148,10 +155,65 @@ function CE2({ register, control }) {
             name="physicianid"
             aria-label="Select Family Physician"
           >
-            <option>Select Physician</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {formData["Physicians"] && formData["Physicians"].map((item, i) => {
+              return (
+                <option key={i} value={item.contactid}>
+                  {item.name}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+
+        <Col md={4}>
+          <Form.Label className="CE-form-label">
+            Pharmacy{" "}
+            <div className="CE-form-label-button-container">
+              {addNew.pharmacy ? (
+                <>
+                  <Button
+                    className="CE-form-label-button me-2"
+                    name="pharmacy"
+                    variant="outline-success"
+                    size="sm"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    className="CE-form-label-button"
+                    name="pharmacy"
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={closeItem}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  size="sm"
+                  variant="outline-primary"
+                  name="pharmacy"
+                  className="CE-form-label-button"
+                  onClick={addItem}
+                >
+                  new
+                </Button>
+              )}
+            </div>
+          </Form.Label>
+          <Form.Select
+            {...register("pharmacyproviderid")}
+            name="pharmacyproviderid"
+            aria-label="Select Pharmacy Provider"
+          >
+            {formData["Pharmacy"] && formData["Pharmacy"].map((item, i) => {
+              return (
+                <option key={i} value={item.contactid}>
+                  {item.name}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
       </Form.Group>
@@ -161,25 +223,14 @@ function CE2({ register, control }) {
             ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
             : ""
         }
-        open={addNew.sectionTitle === "familyPhysician"}
+        open={
+          addNew.sectionTitle === "familyPhysician" ||
+          addNew.sectionTitle === "pharmacy"
+        }
         close={closeItem}
         newForm={addNew.activeForm}
+        setValue={setValue}
       />
-      <Form.Group as={Row} className="mb-4">
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Pharmacy</Form.Label>
-          <Form.Select
-            {...register("pharmacy")}
-            name="pharmacy"
-            aria-label="Select Pharmacy Provider"
-          >
-            <option>Select Pharmacy Provider</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </Form.Select>
-        </Col>
-      </Form.Group>
 
       <Form.Group as={Row}>
         <h5>Primary Insurance Provider</h5>
@@ -210,6 +261,7 @@ function CE2({ register, control }) {
                 </>
               ) : (
                 <Button
+                  disabled
                   size="sm"
                   variant="outline-primary"
                   name="insuranceProvider"
@@ -222,8 +274,9 @@ function CE2({ register, control }) {
             </div>
           </Form.Label>
           <Form.Select
-            {...register("isn2_carrierid")}
-            name="isn2_carrierid"
+            disabled
+            {...register("ins2_carrierid")}
+            name="ins2_carrierid"
             aria-label="Select Funding Source"
           >
             <option>Select Insurance Provider</option>
@@ -235,17 +288,19 @@ function CE2({ register, control }) {
         <Col md={5}>
           <Form.Label className="CE-form-label">Policy Number</Form.Label>
           <Form.Control
+            disabled
             className="goal-detail-input"
-            {...register("isn2_policynumber")}
+            {...register("ins2_policynumber")}
             type="number"
-            name="isn2_policynumber"
+            name="ins2_policynumber"
           />
         </Col>
         <Col md={2}>
           <Form.Label className="CE-form-label">Date Expires</Form.Label>
           <Controller
+            disabled
             control={control}
-            name="isn2_dateexpires"
+            name="ins2_dateexpires"
             render={({ field }) => (
               <DatePicker
                 className="datePicker"
@@ -270,6 +325,7 @@ function CE2({ register, control }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Insurance Plan</Form.Label>
           <Form.Select
+            disabled
             {...register("pharmacy")}
             name="ins1_planid"
             aria-label="Select Funding Source"
@@ -283,6 +339,7 @@ function CE2({ register, control }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Phone Number</Form.Label>
           <Form.Control
+            disabled
             className="goal-detail-input"
             {...register("ins1_phone")}
             type="number"
@@ -292,6 +349,7 @@ function CE2({ register, control }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Funding Source</Form.Label>
           <Form.Control
+            disabled
             className="goal-detail-input"
             {...register("ins1_fundingsource")}
             type="number"
@@ -303,6 +361,7 @@ function CE2({ register, control }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Relationship</Form.Label>
           <Form.Select
+            disabled
             {...register("ins1_relationshipid")}
             name="ins1_relationshipid"
             aria-label="Select Funding Source"
@@ -315,6 +374,7 @@ function CE2({ register, control }) {
         </Col>
         <Col md={4} className="mt-4">
           <Form.Check
+            disabled
             {...register("ins1_cardavailableid")}
             name="ins1_cardavailableid"
             type="switch"
@@ -323,9 +383,12 @@ function CE2({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <Accordion defaultActiveKey="0" alwaysOpen className="mb-3 p-0 second-provider">
+      <Accordion disabled className="mb-3 p-0 second-provider">
         <Accordion.Item eventKey="0">
-          <Accordion.Header> + Add Secondary Insurance Provider</Accordion.Header>
+          <Accordion.Header>
+            {" "}
+            + Add Secondary Insurance Provider
+          </Accordion.Header>
           <Accordion.Body className="">
             <Form.Group as={Row}>
               <h5>Secondary Insurance Provider</h5>
@@ -418,8 +481,8 @@ function CE2({ register, control }) {
                   Insurance Plan
                 </Form.Label>
                 <Form.Select
-                  {...register("isn2_planid")}
-                  name="isn2_planid"
+                  {...register("ins2_planid")}
+                  name="ins2_planid"
                   aria-label="Select Funding Source"
                 >
                   <option>Select Insurance Plan</option>
@@ -432,9 +495,9 @@ function CE2({ register, control }) {
                 <Form.Label className="CE-form-label">Phone Number</Form.Label>
                 <Form.Control
                   className="goal-detail-input"
-                  {...register("isn2_phone")}
+                  {...register("ins2_phone")}
                   type="number"
-                  name="isn2_phone"
+                  name="ins2_phone"
                 />
               </Col>
               <Col md={4}>
@@ -443,17 +506,17 @@ function CE2({ register, control }) {
                 </Form.Label>
                 <Form.Control
                   className="goal-detail-input"
-                  {...register("isn2_fundingsource")}
+                  {...register("ins2_fundingsource")}
                   type="number"
-                  name="isn2_fundingsource"
+                  name="ins2_fundingsource"
                 />
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-4">
               <Col md={4} className="mt-4">
                 <Form.Check
-                  {...register("isn2_cardavailableid")}
-                  name="isn2_cardavailableid"
+                  {...register("ins2_cardavailableid")}
+                  name="ins2_cardavailableid"
                   type="switch"
                   id="custom-switch"
                   label="Card Available"
@@ -462,8 +525,8 @@ function CE2({ register, control }) {
               <Col md={4}>
                 <Form.Label className="CE-form-label">Relationship</Form.Label>
                 <Form.Select
-                  {...register("isn2_relationshipid")}
-                  name="isn2_relationshipid"
+                  {...register("ins2_relationshipid")}
+                  name="ins2_relationshipid"
                   aria-label="Select Funding Source"
                 >
                   <option>Select Relationship</option>

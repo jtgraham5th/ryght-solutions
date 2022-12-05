@@ -1,12 +1,61 @@
 import { Row, Button, Collapse, Card } from "react-bootstrap";
 import "./CE_Manager.css";
 import { useForm } from "react-hook-form";
+import { useClient } from "../data/ClientContext";
 
-function CEAddContainer({ sectionTitle, open, close, newForm: NewForm }) {
-  const { register, getValues } = useForm();
-  
+function CEAddContainer({
+  sectionTitle,
+  open,
+  close,
+  newForm: NewForm,
+  setValue,
+}) {
+  const { activeClient, addContact } = useClient();
+
+  const { register, getValues,reset } = useForm({
+    patientid:
+      Object.keys(activeClient).length !== 0 ? activeClient.patientid : 0,
+  });
+
   const onSubmit = (e) => {
-    console.log(getValues());
+    const data = getValues();
+    const newContact = {
+      name: data.name,
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zip: "",
+      udfid1: 0,
+      udfid2: 0,
+      contacttypeid: 0,
+      patientid: data.patientid,
+      relationshipid: 0,
+      phone1: data.phone1,
+      phone1typeid: 0,
+      phone2: data.phone2,
+      phone2typeid: 0,
+      phone3: "",
+      phone3typeid: 0,
+      countyid: 0,
+      isactive: 1,
+    };
+    switch (sectionTitle) {
+      case "familyPhysician":
+        newContact.contacttypeid = 24;
+      case "pharmacy":
+        newContact.contacttypeid = 23;
+    }
+
+    addContact(newContact).then((data) => {
+      switch (sectionTitle) {
+        case "familyPhysician":
+          setValue("physicianid", data);
+        case "pharmacy":
+          setValue("pharmacyproviderid", data);
+      }
+    });
+    reset()
     close(e);
     // console.log(data)
   };

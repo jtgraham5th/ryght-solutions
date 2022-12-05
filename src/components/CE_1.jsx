@@ -27,6 +27,15 @@ function CE1({ register, control }) {
             name="pfirstname"
           />
         </Col>
+        <Col md={2}>
+          <Form.Label className="CE-form-label">Inital</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("pinitial")}
+            type="text"
+            name="pinitial"
+          />
+        </Col>
         <Col md={3}>
           <Form.Label className="CE-form-label">Last Name</Form.Label>
           <Form.Control
@@ -34,15 +43,6 @@ function CE1({ register, control }) {
             {...register("plastname")}
             type="text"
             name="plastname"
-          />
-        </Col>
-        <Col md={3}>
-          <Form.Label className="CE-form-label">Last Name</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pinitial")}
-            type="text"
-            name="pinitial"
           />
         </Col>
         <Col md={3}>
@@ -63,6 +63,7 @@ function CE1({ register, control }) {
           {formData["Marital Status"].map((item, i) => {
             return (
               <Form.Check
+                key={item + i}
                 inline
                 {...register("maritalstatusid")}
                 type="radio"
@@ -101,7 +102,7 @@ function CE1({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} >
+      <Form.Group as={Row}>
         <Col md={4}>
           <Form.Label className="CE-form-label">Sex at birth</Form.Label>
           <Form.Select
@@ -216,7 +217,6 @@ function CE1({ register, control }) {
             name="pstate"
             aria-label="Select State"
           >
-            <option>Select State</option>
             {statesList.map((state, index) => (
               <option key={index} value={state}>
                 {state}
@@ -228,9 +228,9 @@ function CE1({ register, control }) {
           <Form.Label className="CE-form-label">Zip Code</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("pzipCode")}
+            {...register("pZip")}
             type="number"
-            name="pzipCode"
+            name="pZip"
           />
         </Col>
       </Form.Group>
@@ -245,7 +245,7 @@ function CE1({ register, control }) {
           />
         </Col>
         <Col md={2}>
-        <Form.Label className="CE-form-label">Phone Type</Form.Label>
+          <Form.Label className="CE-form-label">Phone Type</Form.Label>
           <Form.Select
             {...register("pphone1type")}
             name="pphone1type"
@@ -270,7 +270,7 @@ function CE1({ register, control }) {
           />
         </Col>
         <Col md={2}>
-        <Form.Label className="CE-form-label">Phone Type</Form.Label>
+          <Form.Label className="CE-form-label">Phone Type</Form.Label>
           <Form.Select
             {...register("pphone2type")}
             name="pphone2type"
@@ -295,7 +295,7 @@ function CE1({ register, control }) {
           />
         </Col>
         <Col md={2}>
-        <Form.Label className="CE-form-label">Phone Type</Form.Label>
+          <Form.Label className="CE-form-label">Phone Type</Form.Label>
           <Form.Select
             {...register("pphone3type")}
             name="pphone3type"
@@ -310,7 +310,6 @@ function CE1({ register, control }) {
             })}
           </Form.Select>
         </Col>
-        
       </Form.Group>
       <Form.Group as={Row} className="mb-5">
         <Col md={4}>
@@ -341,14 +340,15 @@ function CE1({ register, control }) {
           <Form.Select
             {...register("ecRelationship")}
             name="ecRelationship"
-            aria-label="Select State"
+            aria-label="Select Relationship"
           >
-            <option>Select State</option>
-            {statesList.map((state, index) => (
-              <option key={index} value={state}>
-                {state}
-              </option>
-            ))}
+            {formData["Relationship"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
       </Form.Group>
@@ -378,12 +378,13 @@ function CE1({ register, control }) {
             name="ecState"
             aria-label="Select State"
           >
-            <option>Select State</option>
-            {statesList.map((state, index) => (
-              <option key={index} value={state}>
-                {state}
-              </option>
-            ))}
+            {statesList.map((state, index) => {
+              return (
+                <option key={index} value={state}>
+                  {state}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
         <Col md={2}>

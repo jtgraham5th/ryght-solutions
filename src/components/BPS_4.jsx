@@ -250,9 +250,9 @@ function BSP4({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -269,9 +269,9 @@ function BSP4({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -287,9 +287,9 @@ function BSP4({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -306,9 +306,9 @@ function BSP4({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -321,9 +321,9 @@ function BSP4({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -335,9 +335,9 @@ function BSP4({ register, control }) {
           </Form.Label>{" "}
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>

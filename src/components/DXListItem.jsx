@@ -15,7 +15,7 @@ function DXListItem({ type, disabled, index }) {
           <Form.Check
             type="checkbox"
             // label={type}
-            id={`disabled-default-${type}`}
+            // id={`disabled-default-${type}`}
           />
         </Col>
         <Col md={5}>

@@ -39,6 +39,9 @@ function SEActivateClients(props) {
     console.log("sorted list has been updated");
     setInactiveClients(sortedClients[inactiveAlpha]);
     setActiveClients(sortedClients[activeAlpha]);
+    console.log(sortedClients);
+    console.log(inactiveClients);
+    console.log(activeClients);
   }, [sortedClients]);
 
   useEffect(() => {
@@ -79,7 +82,7 @@ function SEActivateClients(props) {
       for (const patient of patientArray) {
         let patientData = await getClient(patient.patientid);
         console.log(patientData);
-        patientData.isactive = patientData.isactive === "1" ? "0" : "1";
+        patientData.statusid = patientData.statusid === "1" ? "0" : "1";
         activePatients.push(patientData);
       }
       return activePatients;
@@ -142,7 +145,7 @@ function SEActivateClients(props) {
                     <Spinner animation="border" variant="primary" />
                   ) : (
                     activeClients.map((client, index) => {
-                      if (client.isactive > 0) {
+                      if (client.statusid > 0) {
                         return (
                           <ListGroup.Item
                             action
@@ -188,25 +191,21 @@ function SEActivateClients(props) {
             <Card.Body className="inactive-list-group p-0">
               <ListGroup>
                 {moveToActive.map((client, index) => {
-                  if (client.isactive < 1) {
-                    return (
-                      <ListGroup.Item
-                        action
-                        key={index}
-                        onClick={() =>
-                          setMoveToActive((prevState) =>
-                            prevState.filter(
-                              (value) => value.name !== client.name
-                            )
+                  return (
+                    <ListGroup.Item
+                      action
+                      key={index}
+                      onClick={() =>
+                        setMoveToActive((prevState) =>
+                          prevState.filter(
+                            (value) => value.name !== client.name
                           )
-                        }
-                      >
-                        {client.name}
-                      </ListGroup.Item>
-                    );
-                  } else {
-                    return null;
-                  }
+                        )
+                      }
+                    >
+                      {client.name}
+                    </ListGroup.Item>
+                  );
                 })}
               </ListGroup>
             </Card.Body>
@@ -227,7 +226,7 @@ function SEActivateClients(props) {
             <Card.Body className="inactive-list-group p-0">
               <ListGroup>
                 {moveToInactive.map((client, index) => {
-                  if (client.isactive > 0) {
+                  if (client.statusid > 0) {
                     return (
                       <ListGroup.Item
                         action
@@ -296,7 +295,7 @@ function SEActivateClients(props) {
                     <Spinner animation="border" variant="primary" />
                   ) : (
                     inactiveClients.map((client, index) => {
-                      if (client.isactive < 1) {
+                      if (client.statusid < 1) {
                         return (
                           <ListGroup.Item
                             action

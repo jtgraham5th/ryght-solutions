@@ -5,7 +5,6 @@ import "./ClientDemographics.css";
 
 function CVDemographics() {
   const { activeClient, formData } = useClient();
-  console.log(activeClient)
 
   const getFormValue = (groupName, activeListId) => {
     const formDataArray = formData[groupName];
@@ -13,7 +12,6 @@ function CVDemographics() {
       return item.listId === activeListId;
     });
     if (data) {
-      
       return data.listItem;
     } else {
       return "";
@@ -42,18 +40,18 @@ function CVDemographics() {
               </Col>
               <Col md={4} className="data-item">
                 Gender:
-                <strong>{getFormValue("Gender Identity",parseInt(activeClient.genderidentityid) )}</strong>
+                <strong>{getFormValue("Gender Identity",parseInt(activeClient.genderid) )}</strong>
               </Col>
             </Row>
             <Row>
               <Col md={6} className="data-item">
-                Marital Status:{" "}
+                Marital Status:
                 <strong>
                   <strong>{getFormValue("Marital Status", parseInt(activeClient.maritalstatusid))}</strong>
                 </strong>
               </Col>
               <Col md={6} className="data-item">
-                Religion:{" "}
+                Religion:
                 <strong>
                   <strong>{getFormValue("Religion", parseInt(activeClient.religionid) )}</strong>
                 </strong>

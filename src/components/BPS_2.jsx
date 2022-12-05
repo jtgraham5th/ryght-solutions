@@ -325,9 +325,9 @@ function BPS2({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -341,9 +341,9 @@ function BPS2({ register, control }) {
           <Form.Text>This should be in the client’s own words.</Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -354,9 +354,9 @@ function BPS2({ register, control }) {
           What is the parent’s/family’s perception of the problem?          </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -368,9 +368,9 @@ function BPS2({ register, control }) {
           <Form.Text>Include the onset of the problem, duration, frequency, past intervention/services and the results of the services.</Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -381,9 +381,9 @@ function BPS2({ register, control }) {
           What services is the client asking for? </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>

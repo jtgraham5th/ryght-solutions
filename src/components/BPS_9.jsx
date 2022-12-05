@@ -65,8 +65,8 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
           />
         </Col>
         <Col md={6}>
@@ -75,8 +75,8 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
           />
         </Col>
       </Form.Group>
@@ -87,9 +87,9 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -102,9 +102,9 @@ function BSP9({ register, control }) {
           <Form.Text>(Include both in-school suspensions and out-of-school suspensions)</Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -116,9 +116,9 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -130,9 +130,9 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -144,9 +144,9 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -158,9 +158,9 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -172,9 +172,9 @@ function BSP9({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>
@@ -187,9 +187,9 @@ function BSP9({ register, control }) {
           <Form.Text>(Include both the client’s and parent’s descriptions)</Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={2}
           />
         </Col>

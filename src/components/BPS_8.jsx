@@ -118,9 +118,9 @@ function BSP8({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
+            {...register("changefield")}
             as="textarea"
-            name="patient_comment"
+            name="changefield"
             rows={3}
           />
         </Col>
@@ -132,8 +132,8 @@ function BSP8({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
           />
         </Col>
         <Col md={6}>
@@ -142,8 +142,8 @@ function BSP8({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
           />
         </Col>
       </Form.Group>
@@ -229,8 +229,8 @@ function BSP8({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("patient_comment")}
-            name="patient_comment"
+            {...register("changefield")}
+            name="changefield"
           />
         </Col>
       </Form.Group>      

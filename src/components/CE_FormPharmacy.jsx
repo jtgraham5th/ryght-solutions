@@ -1,11 +1,11 @@
 import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
 
-function CEFormFamilyPhysician({ register }) {
+function CEFormPharmacy({ register }) {
   return (
 <>      <Form.Group as={Row}>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Physician Name</Form.Label>
+          <Form.Label className="CE-form-label">Pharmacy Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
             {...register("name")}
@@ -16,7 +16,7 @@ function CEFormFamilyPhysician({ register }) {
       </Form.Group>
       <Form.Group as={Row}>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Office Phone Number</Form.Label>
+          <Form.Label className="CE-form-label">Phone Number</Form.Label>
           <Form.Control
             className="goal-detail-input"
             {...register("phone1")}
@@ -40,4 +40,4 @@ function CEFormFamilyPhysician({ register }) {
   );
 }
 
-export default CEFormFamilyPhysician;
+export default CEFormPharmacy;

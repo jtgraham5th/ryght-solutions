@@ -64,7 +64,6 @@ function FileManager() {
           <Form.Group
             as={Row}
             className={styles.fileUpload}
-            controlId="formPlaintextEmail"
           >
             <div className="text-start small ps-2">Choose File to Upload:</div>
             <Form.Control type="file" size="sm" />
