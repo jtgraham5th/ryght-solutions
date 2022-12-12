@@ -11,7 +11,6 @@ import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
 import CEFormPharmacy from "./CE_FormPharmacy";
 
 function CE2({ register, control, setValue }) {
-  const { formData } = useClient();
   const [addNew, setAddNew] = useState({
     sectionTitle: "",
     pharmacy: false,
@@ -19,6 +18,7 @@ function CE2({ register, control, setValue }) {
     insuranceProvider: false,
     activeForm: () => {},
   });
+  const { formData } = useClient();
   const [secondaryIns, toggleSecondaryIns] = useState(false);
 
   const addItem = (e) => {
@@ -155,13 +155,14 @@ function CE2({ register, control, setValue }) {
             name="physicianid"
             aria-label="Select Family Physician"
           >
-            {formData["Physicians"] && formData["Physicians"].map((item, i) => {
-              return (
-                <option key={i} value={item.contactid}>
-                  {item.name}
-                </option>
-              );
-            })}
+            {formData["Physicians"] &&
+              formData["Physicians"].map((item, i) => {
+                return (
+                  <option key={i} value={item.contactid}>
+                    {item.name}
+                  </option>
+                );
+              })}
           </Form.Select>
         </Col>
 
@@ -207,13 +208,14 @@ function CE2({ register, control, setValue }) {
             name="pharmacyproviderid"
             aria-label="Select Pharmacy Provider"
           >
-            {formData["Pharmacy"] && formData["Pharmacy"].map((item, i) => {
-              return (
-                <option key={i} value={item.contactid}>
-                  {item.name}
-                </option>
-              );
-            })}
+            {formData["Pharmacy"] &&
+              formData["Pharmacy"].map((item, i) => {
+                return (
+                  <option key={i} value={item.contactid}>
+                    {item.name}
+                  </option>
+                );
+              })}
           </Form.Select>
         </Col>
       </Form.Group>
@@ -236,7 +238,7 @@ function CE2({ register, control, setValue }) {
         <h5>Primary Insurance Provider</h5>
         <Col md={5}>
           <Form.Label className="CE-form-label">
-            Insurance Carrier
+            Funding Source
             <div className="CE-form-label-button-container">
               {addNew.insuranceProvider ? (
                 <>
@@ -274,33 +276,33 @@ function CE2({ register, control, setValue }) {
             </div>
           </Form.Label>
           <Form.Select
-            disabled
-            {...register("ins2_carrierid")}
-            name="ins2_carrierid"
+            {...register("ins1_fundingsource")}
+            name="ins1_fundingsource"
             aria-label="Select Funding Source"
           >
-            <option>Select Insurance Provider</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {formData["Funding Source "].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
         <Col md={5}>
           <Form.Label className="CE-form-label">Policy Number</Form.Label>
           <Form.Control
-            disabled
             className="goal-detail-input"
-            {...register("ins2_policynumber")}
-            type="number"
-            name="ins2_policynumber"
+            {...register("ins1_policynumber")}
+            type="text"
+            name="ins1_policynumber"
           />
         </Col>
         <Col md={2}>
           <Form.Label className="CE-form-label">Date Expires</Form.Label>
           <Controller
-            disabled
             control={control}
-            name="ins2_dateexpires"
+            name="ins1_dateexpires"
             render={({ field }) => (
               <DatePicker
                 className="datePicker"
@@ -321,60 +323,25 @@ function CE2({ register, control, setValue }) {
         close={closeItem}
         newForm={addNew.activeForm}
       />
-      <Form.Group as={Row}>
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Insurance Plan</Form.Label>
-          <Form.Select
-            disabled
-            {...register("pharmacy")}
-            name="ins1_planid"
-            aria-label="Select Funding Source"
-          >
-            <option>Select Insurance Plan</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </Form.Select>
-        </Col>
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Phone Number</Form.Label>
-          <Form.Control
-            disabled
-            className="goal-detail-input"
-            {...register("ins1_phone")}
-            type="number"
-            name="ins1_phone"
-          />
-        </Col>
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Funding Source</Form.Label>
-          <Form.Control
-            disabled
-            className="goal-detail-input"
-            {...register("ins1_fundingsource")}
-            type="number"
-            name="ins1_fundingsource"
-          />
-        </Col>
-      </Form.Group>
       <Form.Group as={Row} className="mb-4">
         <Col md={4}>
           <Form.Label className="CE-form-label">Relationship</Form.Label>
           <Form.Select
-            disabled
             {...register("ins1_relationshipid")}
             name="ins1_relationshipid"
             aria-label="Select Funding Source"
           >
-            <option>Select Relationship</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {formData["Relationship"].map((item, i) => {
+              return (
+                <option key={i} value={item.listId}>
+                  {item.listItem}
+                </option>
+              );
+            })}
           </Form.Select>
         </Col>
         <Col md={4} className="mt-4">
           <Form.Check
-            disabled
             {...register("ins1_cardavailableid")}
             name="ins1_cardavailableid"
             type="switch"
@@ -386,7 +353,6 @@ function CE2({ register, control, setValue }) {
       <Accordion disabled className="mb-3 p-0 second-provider">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            {" "}
             + Add Secondary Insurance Provider
           </Accordion.Header>
           <Accordion.Body className="">
@@ -394,7 +360,7 @@ function CE2({ register, control, setValue }) {
               <h5>Secondary Insurance Provider</h5>
               <Col md={5}>
                 <Form.Label className="CE-form-label">
-                  Insurance Carrier
+                  Funding Source
                   <div className="CE-form-label-button-container">
                     {addNew.insuranceProvider ? (
                       <>
@@ -419,6 +385,7 @@ function CE2({ register, control, setValue }) {
                       </>
                     ) : (
                       <Button
+                        disabled
                         size="sm"
                         variant="outline-primary"
                         name="insuranceProvider"
@@ -431,30 +398,33 @@ function CE2({ register, control, setValue }) {
                   </div>
                 </Form.Label>
                 <Form.Select
-                  {...register("ins1_carrierid")}
-                  name="ins1_carrierid"
+                  {...register("ins2_fundingsource")}
+                  name="ins2_fundingsource"
                   aria-label="Select Funding Source"
                 >
-                  <option>Select Insurance Provider</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  {formData["Funding Source "].map((item, i) => {
+                    return (
+                      <option key={i} value={item.listId}>
+                        {item.listItem}
+                      </option>
+                    );
+                  })}
                 </Form.Select>
               </Col>
               <Col md={5}>
                 <Form.Label className="CE-form-label">Policy Number</Form.Label>
                 <Form.Control
                   className="goal-detail-input"
-                  {...register("ins1_policynumber")}
-                  type="number"
-                  name="ins1_policynumber"
+                  {...register("ins2_policynumber")}
+                  type="text"
+                  name="ins2_policynumber"
                 />
               </Col>
               <Col md={2}>
                 <Form.Label className="CE-form-label">Date Expires</Form.Label>
                 <Controller
                   control={control}
-                  name="ins1_dateexpires"
+                  name="ins2_dateexpires"
                   render={({ field }) => (
                     <DatePicker
                       className="datePicker"
@@ -475,44 +445,23 @@ function CE2({ register, control, setValue }) {
               close={closeItem}
               newForm={addNew.activeForm}
             />
-            <Form.Group as={Row}>
+            <Form.Group as={Row} className="mb-4">
               <Col md={4}>
-                <Form.Label className="CE-form-label">
-                  Insurance Plan
-                </Form.Label>
+                <Form.Label className="CE-form-label">Relationship</Form.Label>
                 <Form.Select
-                  {...register("ins2_planid")}
-                  name="ins2_planid"
+                  {...register("ins2_relationshipid")}
+                  name="ins2_relationshipid"
                   aria-label="Select Funding Source"
                 >
-                  <option>Select Insurance Plan</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  {formData["Relationship"].map((item, i) => {
+                    return (
+                      <option key={i} value={item.listId}>
+                        {item.listItem}
+                      </option>
+                    );
+                  })}
                 </Form.Select>
               </Col>
-              <Col md={4}>
-                <Form.Label className="CE-form-label">Phone Number</Form.Label>
-                <Form.Control
-                  className="goal-detail-input"
-                  {...register("ins2_phone")}
-                  type="number"
-                  name="ins2_phone"
-                />
-              </Col>
-              <Col md={4}>
-                <Form.Label className="CE-form-label">
-                  Funding Source
-                </Form.Label>
-                <Form.Control
-                  className="goal-detail-input"
-                  {...register("ins2_fundingsource")}
-                  type="number"
-                  name="ins2_fundingsource"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-4">
               <Col md={4} className="mt-4">
                 <Form.Check
                   {...register("ins2_cardavailableid")}
@@ -521,19 +470,6 @@ function CE2({ register, control, setValue }) {
                   id="custom-switch"
                   label="Card Available"
                 />
-              </Col>
-              <Col md={4}>
-                <Form.Label className="CE-form-label">Relationship</Form.Label>
-                <Form.Select
-                  {...register("ins2_relationshipid")}
-                  name="ins2_relationshipid"
-                  aria-label="Select Funding Source"
-                >
-                  <option>Select Relationship</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </Form.Select>
               </Col>
             </Form.Group>
           </Accordion.Body>

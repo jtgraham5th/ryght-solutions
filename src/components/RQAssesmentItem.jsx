@@ -7,12 +7,30 @@ import {
   Check2Square,
   XSquare,
 } from "react-bootstrap-icons";
+import { requirements } from "../data/formData";
+
 import DatePicker from "react-datepicker";
 
-function RQAssessmentItem({index, activeForm, setActiveForm, setShow}) {
+function RQAssessmentItem({ index, data, setShow, setActiveForm }) {
   const [startDate, setStartDate] = useState(new Date());
   const [complete, setComplete] = useState(false);
-  
+
+  const getAssessmentInfo = () => {
+    const assessmentInfo = requirements.filter(
+      (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
+    );
+    console.log(assessmentInfo);
+    if (assessmentInfo.length > 0) {
+      return assessmentInfo[0].name;
+    } else return "NULL";
+  };
+
+  // const checkForRecord = () => {
+  //   console.log(data)
+  //   if (data.recid){
+
+  //   } exle
+  // }
   const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
     <div className={styles.noWrap} onClick={onClick} ref={ref}>
       <span>
@@ -22,8 +40,9 @@ function RQAssessmentItem({index, activeForm, setActiveForm, setShow}) {
   ));
   const viewForm = () => {
     //right now set active form based on a switch case
-    setShow(true)
-  }
+    setActiveForm(data);
+    setShow(true);
+  };
 
   return (
     <Card
@@ -35,9 +54,10 @@ function RQAssessmentItem({index, activeForm, setActiveForm, setShow}) {
         <Row className={styles.assessmentItem}>
           <Col xs={8} className="text-start">
             <Card.Title>
-              <FlagFill color="orange" /> Assessment{" "}
+              <FlagFill color="orange" />
+              {getAssessmentInfo()}
             </Card.Title>
-            <Card.Subtitle>Biopsychosocial </Card.Subtitle>
+            <Card.Subtitle></Card.Subtitle>
           </Col>
           <Col className={styles.assessmentDetail} xs={4}>
             <Card.Text className="fw-bold mb-0">Due:</Card.Text>

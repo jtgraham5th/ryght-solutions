@@ -1,56 +1,10 @@
-import { useState } from "react";
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
-import BPSRating from "./BPS_Rating";
 import BPSSubstanceAbuse from "./BPS_SubstanceAbuse";
 
 function BSP8({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
-
   return (
     <>
       <div className="CE-section-title">
@@ -77,36 +31,45 @@ function BSP8({ register, control }) {
         </Col>
       </Row>
       <Form.Group as={Row} className="mb-3">
-        <BPSSubstanceAbuse register={register} title="Alcohol" />
-        <BPSSubstanceAbuse register={register} title="Cannabis" />
-        <BPSSubstanceAbuse register={register} title="Cocaine" />
+        <BPSSubstanceAbuse register={register} title="Alcohol" field={1} />
+        <BPSSubstanceAbuse register={register} title="Cannabis" field={5} />
+        <BPSSubstanceAbuse register={register} title="Cocaine" field={9} />
         <BPSSubstanceAbuse
           register={register}
           title="Stimulants"
           subtitle="(Crystal, speed, amphetamines)"
+          field={13}
         />
-        <BPSSubstanceAbuse register={register} title="Metamphetamine" />
+        <BPSSubstanceAbuse
+          register={register}
+          title="Metamphetamine"
+          field={17}
+        />
         <BPSSubstanceAbuse
           register={register}
           title="Inhalants"
           subtitle="(LSD, PCP, mushrooms)"
+          field={21}
         />
         <BPSSubstanceAbuse
           register={register}
           title="Opioids"
           subtitle="(Heroine, Narcotics, Methadone)"
+          field={25}
         />
         <BPSSubstanceAbuse
           register={register}
           title="Sedative/Hypnotics"
           subtitle="(Valium, Xanax)"
+          field={29}
         />
         <BPSSubstanceAbuse
           register={register}
           title="Designer Drugs"
           subtitle="(Herbal, Steroids, Cough Syrup)"
+          field={33}
         />
-        <BPSSubstanceAbuse register={register} title="Tobacco" />
+        <BPSSubstanceAbuse register={register} title="Tobacco" field={37} />
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
             What consequences has the client faced as a result of the
@@ -118,9 +81,9 @@ function BSP8({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={3}
           />
         </Col>
@@ -128,22 +91,20 @@ function BSP8({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={6}>
           <Form.Label className="CE-form-label mb-0">
-          Longest period of sobriety?
+            Longest period of sobriety?
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
-            name="changefield"
+            {...register("f37")}
+            name="f37"
           />
         </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label mb-0">
-          When?
-          </Form.Label>
+          <Form.Label className="CE-form-label mb-0">When?</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
-            name="changefield"
+            {...register("f38")}
+            name="f38"
           />
         </Col>
       </Form.Group>
@@ -152,88 +113,88 @@ function BSP8({ register, control }) {
         <Col md={7}>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f39")}
             type="checkbox"
-            name="maritalStatus"
+            name="f39"
             value="None"
             label="None"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f39")}
             type="checkbox"
-            name="maritalStatus"
+            name="f39"
             value="Probation"
             label="Probation"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f39")}
             type="checkbox"
-            name="maritalStatus"
+            name="f39"
             value="Parole"
             label="Parole"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f39")}
+            name="f39"
             value="DFCS/CPS"
             label="DFCS/CPS"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f39")}
             type="checkbox"
-            name="maritalStatus"
+            name="f39"
             value="DUI"
             label="DUI"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f39")}
             type="checkbox"
-            name="maritalStatus"
+            name="f39"
             value="Restraining Order"
             label="Restraining Order"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f39")}
+            name="f39"
             value="Prostitution"
             label="Prostitution"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f39")}
+            name="f39"
             value="Eating Disorder"
             label="Eating Disorder"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f39")}
+            name="f39"
             value="Other"
             label="Other"
           />
         </Col>
         <Col md={5}>
           <Form.Label className="CE-form-label mb-0">
-          Name of Probation Officer, Parole Officer, Case Manager
+            Name of Probation Officer, Parole Officer, Case Manager
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
-            name="changefield"
+            {...register("f40")}
+            name="f40"
           />
         </Col>
-      </Form.Group>      
+      </Form.Group>
     </>
   );
 }

@@ -20,7 +20,7 @@ function CVProfile({ sidebar }) {
       <CVDemographics />
       <Row>
         <Col md={6}>
-          {/* <ClientDetailsTabs /> */}
+          <ClientDetailsTabs />
         </Col>
         <Col md={6}>
           <Accordion defaultActiveKey="0" alwaysOpen className="mb-3 card-shadow">

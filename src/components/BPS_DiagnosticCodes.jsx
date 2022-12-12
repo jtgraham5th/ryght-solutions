@@ -1,7 +1,7 @@
 import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
 
-function BPSDiagnosticCodes({ register, title}) {
+function BPSDiagnosticCodes({ register, title, field}) {
   return (
     <Form.Group as={Row} className="mb-3 align-items-center rounded">
       <Col md={1} >
@@ -9,14 +9,14 @@ function BPSDiagnosticCodes({ register, title}) {
       </Col>
       <Col md={5} className="d-flex justify-content-center">
         <Form.Control
-          {...register(title)}
+          {...register(`f${field}`)}
           className="mb-2"
           aria-label="Text input with radio button"
         />
       </Col>
       <Col md={5} className="d-flex justify-content-center">
         <Form.Control
-          {...register(title)}
+          {...register(`f${field + 1}`)}
           className="mb-2"
           aria-label="Text input with radio button"
         />

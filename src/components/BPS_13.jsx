@@ -1,55 +1,9 @@
-import { useState } from "react";
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
-import BPSRating from "./BPS_Rating";
 
 function BSP13({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
-
   return (
     <>
       <div className="CE-section-title">
@@ -74,9 +28,9 @@ function BSP13({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={4}
           />
         </Col>
@@ -84,5 +38,4 @@ function BSP13({ register, control }) {
     </>
   );
 }
-
 export default BSP13;

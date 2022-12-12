@@ -1,54 +1,9 @@
-import { useState } from "react";
 import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
 
 function BPS2({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
-
   return (
     <>
       <div className="CE-section-title">
@@ -63,9 +18,9 @@ function BPS2({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("pfirstname")}
+            {...register("f1")}
             type="text"
-            name="pfirstname"
+            name="f1"
           />
         </Col>
       </Form.Group>
@@ -76,9 +31,9 @@ function BPS2({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("PGName")}
+            {...register("f2")}
             type="text"
-            name="PGName"
+            name="f2"
           />
         </Col>
       </Form.Group>
@@ -88,33 +43,33 @@ function BPS2({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Apperance</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f3")}
             type="checkbox"
-            name="maritalStatus"
+            name="f3"
             value="Well Groomed"
             label="Well Groomed"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f3")}
             type="checkbox"
-            name="maritalStatus"
+            name="f3"
             value="Unkempt"
             label="Unkempt"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f3")}
             type="checkbox"
-            name="maritalStatus"
+            name="f3"
             value="Disheveled"
             label="Disheveled"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f3")}
+            name="f3"
             value="Malodorus"
             label="Malodorus"
           />
@@ -125,33 +80,33 @@ function BPS2({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Build</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f4")}
             type="checkbox"
-            name="maritalStatus"
+            name="f4"
             value="Average"
             label="Average"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f4")}
             type="checkbox"
-            name="maritalStatus"
+            name="f4"
             value="Thin"
             label="Thin"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f4")}
             type="checkbox"
-            name="maritalStatus"
+            name="f4"
             value="Overweight"
             label="Overweight"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f4")}
+            name="f4"
             value="Obese"
             label="Obese"
           />
@@ -162,57 +117,57 @@ function BPS2({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Demeanor</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f5")}
             type="checkbox"
-            name="maritalStatus"
+            name="f5"
             value="Cooperative"
             label="Cooperative"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f5")}
             type="checkbox"
-            name="maritalStatus"
+            name="f5"
             value="Hostile"
             label="Hostile"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f5")}
             type="checkbox"
-            name="maritalStatus"
+            name="f5"
             value="Guarded"
             label="Guarded"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f5")}
+            name="f5"
             value="Withdrawn"
             label="Withdrawn"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f5")}
             type="checkbox"
-            name="maritalStatus"
+            name="f5"
             value="Preoccupied"
             label="Preoccupied"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f5")}
             type="checkbox"
-            name="maritalStatus"
+            name="f5"
             value="Demanding"
             label="Demanding"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f5")}
+            name="f5"
             value="Seductive"
             label="Seductive"
           />
@@ -223,25 +178,25 @@ function BPS2({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Eye Contact</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f6")}
             type="checkbox"
-            name="maritalStatus"
+            name="f6"
             value="Average"
             label="Average"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f6")}
             type="checkbox"
-            name="maritalStatus"
+            name="f6"
             value="Decreased"
             label="Decreased"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f6")}
             type="checkbox"
-            name="maritalStatus"
+            name="f6"
             value="Increased"
             label="Increased"
           />
@@ -252,65 +207,65 @@ function BPS2({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Speech</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Clear"
             label="Clear"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Slurred"
             label="Slurred"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Rapid"
             label="Rapid"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f7")}
+            name="f7"
             value="Slow"
             label="Slow"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Pressured"
             label="Pressured"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Soft"
             label="Soft"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f7")}
+            name="f7"
             value="Loud"
             label="Loud"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f7")}
+            name="f7"
             value="Monotone"
             label="Monotone"
           />
@@ -325,9 +280,9 @@ function BPS2({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={2}
           />
         </Col>
@@ -341,9 +296,9 @@ function BPS2({ register, control }) {
           <Form.Text>This should be in the client’s own words.</Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f61")}
             as="textarea"
-            name="changefield"
+            name="f61"
             rows={2}
           />
         </Col>
@@ -351,12 +306,13 @@ function BPS2({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label">
-          What is the parent’s/family’s perception of the problem?          </Form.Label>
+            What is the parent’s/family’s perception of the problem?{" "}
+          </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f62")}
             as="textarea"
-            name="changefield"
+            name="f62"
             rows={2}
           />
         </Col>
@@ -364,13 +320,17 @@ function BPS2({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-          Describe precipitating events:          </Form.Label>
-          <Form.Text>Include the onset of the problem, duration, frequency, past intervention/services and the results of the services.</Form.Text>
+            Describe precipitating events:{" "}
+          </Form.Label>
+          <Form.Text>
+            Include the onset of the problem, duration, frequency, past
+            intervention/services and the results of the services.
+          </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f63")}
             as="textarea"
-            name="changefield"
+            name="f63"
             rows={2}
           />
         </Col>
@@ -378,12 +338,13 @@ function BPS2({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label">
-          What services is the client asking for? </Form.Label>
+            What services is the client asking for?{" "}
+          </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f64")}
             as="textarea"
-            name="changefield"
+            name="f64"
             rows={2}
           />
         </Col>

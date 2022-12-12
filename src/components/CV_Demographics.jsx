@@ -31,36 +31,36 @@ function CVDemographics() {
           <Col md={6}>
             <Row>
               <Col md={6} className="data-item">
-                DOB: <strong>{activeClient.dob}</strong>
+                DOB: <strong className="ps-2">{activeClient.dob}</strong>
               </Col>
             </Row>
             <Row>
-              <Col md={4} className="data-item">
-                Sex at Birth: <strong>{getFormValue("Sex At Birth", parseInt(activeClient.sexatbirthid))}</strong>
+              <Col md={6} className="data-item">
+                Sex at Birth: <strong className="ps-2">{getFormValue("Sex At Birth", parseInt(activeClient.sexatbirthid))}</strong>
               </Col>
-              <Col md={4} className="data-item">
+              <Col md={6} className="data-item">
                 Gender:
-                <strong>{getFormValue("Gender Identity",parseInt(activeClient.genderid) )}</strong>
+                <strong className="ps-2">{getFormValue("Gender Identity",parseInt(activeClient.genderid) )}</strong>
               </Col>
             </Row>
             <Row>
               <Col md={6} className="data-item">
                 Marital Status:
-                <strong>
-                  <strong>{getFormValue("Marital Status", parseInt(activeClient.maritalstatusid))}</strong>
-                </strong>
+                  <strong className="ps-2">{getFormValue("Marital Status", parseInt(activeClient.maritalstatusid))}</strong>
               </Col>
               <Col md={6} className="data-item">
-                Religion:
-                <strong>
-                  <strong>{getFormValue("Religion", parseInt(activeClient.religionid) )}</strong>
-                </strong>
+                Pronouns:
+                  <strong className="ps-2">{getFormValue("Preferred Pronouns", parseInt(activeClient.preferredpronounid))}</strong>
               </Col>
             </Row>
             <Row>
+            <Col md={6} className="data-item">
+                Religion:
+                  <strong className="ps-2">{getFormValue("Religion", parseInt(activeClient.religionid) )}</strong>
+              </Col>
               <Col md={6} className="data-item">
                 Ethnicity:
-                <strong>{getFormValue("Ethnicity", parseInt(activeClient.ethnicityid))}</strong>
+                <strong className="ps-2">{getFormValue("Ethnicity", parseInt(activeClient.ethnicityid))}</strong>
               </Col>
             </Row>
           </Col>

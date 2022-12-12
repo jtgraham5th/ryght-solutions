@@ -53,7 +53,7 @@
 }
 .nav-item {
   white-space: nowrap;
-  font-size: smaller !important;
+  /* font-size: smaller !important; */
   padding-left: 0.1rem;
   padding-right: 0.1rem;
 

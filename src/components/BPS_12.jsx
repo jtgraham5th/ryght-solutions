@@ -1,56 +1,10 @@
-import { useState } from "react";
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
-import BPSRating from "./BPS_Rating";
 import BPSDiagnosticCodes from "./BPS_DiagnosticCodes";
 
 function BSP12({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
-
   return (
     <>
       <div className="CE-section-title">
@@ -71,10 +25,10 @@ function BSP12({ register, control }) {
           Diagnosis Title
         </Col>
       </Row>
-      <BPSDiagnosticCodes register={register} title="A." />
-      <BPSDiagnosticCodes register={register} title="B." />
-      <BPSDiagnosticCodes register={register} title="C." />
-      <BPSDiagnosticCodes register={register} title="D." />
+      <BPSDiagnosticCodes register={register} title="A." field={1} />
+      <BPSDiagnosticCodes register={register} title="B." field={3} />
+      <BPSDiagnosticCodes register={register} title="C." field={5} />
+      <BPSDiagnosticCodes register={register} title="D." field={7} />
       <Row className="mb-3">
         <h5>Axis II: Personality Disorders; Mental Retardation</h5>
         <Col md={1} className="fs-5"></Col>
@@ -85,41 +39,41 @@ function BSP12({ register, control }) {
           Diagnosis Title
         </Col>
       </Row>
-      <BPSDiagnosticCodes register={register} title="E." />
-      <BPSDiagnosticCodes register={register} title="F." />
+      <BPSDiagnosticCodes register={register} title="E." field={9} />
+      <BPSDiagnosticCodes register={register} title="F." field={11} />
       <Form.Group as={Row} className="mb-3">
         <h5>Axis III: Medical Problems</h5>
         <Form.Text className="mb-2">(List all Medical Problems)</Form.Text>
         <Col md={12}>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={3}
           />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3">
         <h5>Axis IV: Psychosocial and Environmental Problems</h5>
-        <Form.Text className="mb-2" >Check Yes or No for each problem</Form.Text>
+        <Form.Text className="mb-2">Check Yes or No for each problem</Form.Text>
         <Col md={4} className="pb-2 pt-2 border">
           <Form.Label className="CE-form-label d-flex mb-0">
             Primary Support Group
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f13")}
             type="radio"
-            name="maritalStatus"
+            name="f13"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f13")}
             type="radio"
-            name="maritalStatus"
+            name="f13"
             value="No"
             label="No"
           />
@@ -130,17 +84,17 @@ function BSP12({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f14")}
             type="radio"
-            name="maritalStatus"
+            name="f14"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f14")}
             type="radio"
-            name="maritalStatus"
+            name="f14"
             value="No"
             label="No"
           />
@@ -151,17 +105,17 @@ function BSP12({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f16")}
             type="radio"
-            name="maritalStatus"
+            name="f16"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f16")}
             type="radio"
-            name="maritalStatus"
+            name="f16"
             value="No"
             label="No"
           />
@@ -172,38 +126,36 @@ function BSP12({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f17")}
             type="radio"
-            name="maritalStatus"
+            name="f17"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f17")}
             type="radio"
-            name="maritalStatus"
+            name="f17"
             value="No"
             label="No"
           />
         </Col>
         <Col md={4} className="pb-2 pt-2 border">
-          <Form.Label className="CE-form-label d-flex mb-0">
-            Housing
-          </Form.Label>
+          <Form.Label className="CE-form-label d-flex mb-0">Housing</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f18")}
             type="radio"
-            name="maritalStatus"
+            name="f18"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f18")}
             type="radio"
-            name="maritalStatus"
+            name="f18"
             value="No"
             label="No"
           />
@@ -214,17 +166,17 @@ function BSP12({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f19")}
             type="radio"
-            name="maritalStatus"
+            name="f19"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f19")}
             type="radio"
-            name="maritalStatus"
+            name="f19"
             value="No"
             label="No"
           />
@@ -235,17 +187,17 @@ function BSP12({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f20")}
             type="radio"
-            name="maritalStatus"
+            name="f20"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f20")}
             type="radio"
-            name="maritalStatus"
+            name="f20"
             value="No"
             label="No"
           />
@@ -256,17 +208,17 @@ function BSP12({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f21")}
             type="radio"
-            name="maritalStatus"
+            name="f21"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f21")}
             type="radio"
-            name="maritalStatus"
+            name="f21"
             value="No"
             label="No"
           />
@@ -277,45 +229,45 @@ function BSP12({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f22")}
             type="radio"
-            name="maritalStatus"
+            name="f22"
             value="Yes"
             label="Yes"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f22")}
             type="radio"
-            name="maritalStatus"
+            name="f22"
             value="No"
             label="No"
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} >
+      <Form.Group as={Row}>
         <Col md={10}>
           <Form.Label>Trauma</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f61")}
             as="textarea"
-            name="changefield"
+            name="f61"
             rows={2}
           />
         </Col>
         <Col md={2} className="d-flex justify-content-end flex-column">
-        <Form.Check
-            {...register("maritalStatus")}
+          <Form.Check
+            {...register("f23")}
             type="radio"
-            name="maritalStatus"
+            name="f23"
             value="Yes"
             label="Yes"
           />
           <Form.Check
-            {...register("maritalStatus")}
+            {...register("f23")}
             type="radio"
-            name="maritalStatus"
+            name="f23"
             value="No"
             label="No"
           />

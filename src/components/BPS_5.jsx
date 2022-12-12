@@ -1,54 +1,9 @@
-import { useState } from "react";
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
 
 function BSP5({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
-
   return (
     <>
       <div className="CE-section-title">
@@ -67,9 +22,9 @@ function BSP5({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={2}
           />
         </Col>
@@ -87,9 +42,9 @@ function BSP5({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f61")}
             as="textarea"
-            name="changefield"
+            name="f61"
             rows={2}
           />
         </Col>
@@ -106,37 +61,37 @@ function BSP5({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f62")}
             as="textarea"
-            name="changefield"
+            name="f62"
             rows={2}
           />
         </Col>
       </Form.Group>
 
       <Form.Group as={Row} className="mb-4">
-        <h5>Prescribed Mediations</h5>
+        <h5>Prescribed Medications</h5>
         <Col md={2} className="d-flex flex-column">
           <Form.Label className="CE-form-label mb-2">
             Medication Name
           </Form.Label>
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f1")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f2")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f3")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f4")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
@@ -146,22 +101,22 @@ function BSP5({ register, control }) {
             Dose / Frequency
           </Form.Label>
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f5")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f6")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f7")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f8")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
@@ -169,22 +124,22 @@ function BSP5({ register, control }) {
         <Col md={2} className="d-flex flex-column">
           <Form.Label className="CE-form-label mb-2">Prescribed by?</Form.Label>
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f9")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f10")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f11")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f12")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
@@ -194,22 +149,22 @@ function BSP5({ register, control }) {
             When Prescribed?
           </Form.Label>
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f13")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f14")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f15")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f16")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
@@ -217,22 +172,22 @@ function BSP5({ register, control }) {
         <Col md={2} className="d-flex flex-column">
           <Form.Label className="CE-form-label mb-2">Next Refill?</Form.Label>
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f17")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f18")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f19")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f20")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
@@ -240,22 +195,22 @@ function BSP5({ register, control }) {
         <Col md={2} className="d-flex flex-column">
           <Form.Label className="CE-form-label mb-2">Side Effects?</Form.Label>
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f21")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f22")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f23")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
           <Form.Control
-            {...register("parents.mother")}
+            {...register("f24")}
             className="mb-2"
             aria-label="Text input with radio button"
           />
@@ -268,21 +223,25 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Row>
             <Col md={1}>
-          <Form.Check
-            inline
-            {...register("maritalStatus")}
-            type="radio"
-            name="maritalStatus"
-            value="Yes"
-            label="Yes"
-          /></Col><Col md={11}>
-          <Form.Label className="CE-form-label">No, Explain</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pfirstname")}
-            type="text"
-            name="pfirstname"
-          /></Col></Row>
+              <Form.Check
+                inline
+                {...register("f25")}
+                type="radio"
+                name="f25"
+                value="Yes"
+                label="Yes"
+              />
+            </Col>
+            <Col md={11}>
+              <Form.Label className="CE-form-label">No, Explain</Form.Label>
+              <Form.Control
+                className="goal-detail-input"
+                {...register("f25")}
+                type="text"
+                name="pfirstname"
+              />
+            </Col>
+          </Row>
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-5">
@@ -292,9 +251,8 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
-            name="changefield"
-            rows={2}
+            {...register("f26")}
+            name="f26"
           />
         </Col>
         <Col md={6}>
@@ -303,9 +261,8 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
-            name="changefield"
-            rows={2}
+            {...register("f27")}
+            name="f27"
           />
         </Col>
       </Form.Group>
@@ -317,75 +274,77 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
-            name="changefield"
+            {...register("f28")}
+            name="f28"
             rows={2}
           />
         </Col>
         <Col md={6}>
           <Form.Label className="CE-form-label mb-0">
-            Current Height: 
+            Current Height:
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
-            name="changefield"
+            {...register("f29")}
+            name="f29"
             rows={2}
           />
         </Col>
       </Form.Group>
 
       <Form.Group as={Row} className="mb-4">
-      <Col md={3} className="d-flex flex-column">
+        <Col md={3} className="d-flex flex-column">
           <Form.Label className="CE-form-label mb-2">Appetite</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f30")}
             type="checkbox"
-            name="maritalStatus"
+            name="f30"
             value="Good"
             label="Good"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f30")}
             type="checkbox"
-            name="maritalStatus"
+            name="f30"
             value="Fair"
             label="Fair"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f30")}
             type="checkbox"
-            name="maritalStatus"
+            name="f30"
             value="Poor, explain below"
             label="Poor, explain below"
           />
         </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label mb-2">Eating Behavior</Form.Label>
+          <Form.Label className="CE-form-label mb-2">
+            Eating Behavior
+          </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f31")}
             type="checkbox"
-            name="maritalStatus"
+            name="f31"
             value="Binges/overeats to excess"
             label="Binges/overeats to excess"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f31")}
             type="checkbox"
-            name="maritalStatus"
+            name="f31"
             value="Restricts food/vomits/over-exercises to avoid weight gain"
             label="Restricts food/vomits/over-exercises to avoid weight gain"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f31")}
             type="checkbox"
-            name="maritalStatus"
+            name="f31"
             value="Hiding/Hording food"
             label="Hiding/Hording food"
           />
@@ -394,25 +353,25 @@ function BSP5({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Other</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f32")}
             type="checkbox"
-            name="maritalStatus"
+            name="f32"
             value="Recently gained/lost significant weight"
             label="Recently gained/lost significant weight"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f32")}
             type="checkbox"
-            name="maritalStatus"
+            name="f32"
             value="Special Dietary Needs"
             label="Special Dietary Needs"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f32")}
             type="checkbox"
-            name="maritalStatus"
+            name="f32"
             value="Allergies, explain below"
             label="Allergies, explain below"
           />
@@ -423,89 +382,89 @@ function BSP5({ register, control }) {
         <Col md={12}>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f33")}
             type="checkbox"
-            name="maritalStatus"
+            name="f33"
             value="None"
             label="None"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f33")}
             type="checkbox"
-            name="maritalStatus"
+            name="f33"
             value="Glasses"
             label="Glasses"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f33")}
             type="checkbox"
-            name="maritalStatus"
+            name="f33"
             value="Walker"
             label="Walker"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f33")}
+            name="f33"
             value="Braille"
             label="Braille"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f33")}
             type="checkbox"
-            name="maritalStatus"
+            name="f33"
             value="Hearing Aids"
             label="Hearing Aids"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f33")}
             type="checkbox"
-            name="maritalStatus"
+            name="f33"
             value="Cane"
             label="Cane"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f33")}
+            name="f33"
             value="Crutches"
             label="Crutches"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f33")}
+            name="f33"
             value="Wheelchair"
             label="Wheelchair"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f33")}
+            name="f33"
             value="Translated Written Information"
             label="Translated Written Information"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f33")}
+            name="f33"
             value="Translator for Speaking"
             label="Translator for Speaking"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f33")}
+            name="f33"
             value="Other"
             label="Other"
           />
@@ -515,12 +474,13 @@ function BSP5({ register, control }) {
       <Form.Group as={Row} className="mb-4">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-          If any of the above were checked, please provide details below.          </Form.Label>
+            If any of the above were checked, please provide details below.{" "}
+          </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={2}
           />
         </Col>

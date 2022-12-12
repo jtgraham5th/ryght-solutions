@@ -1,53 +1,11 @@
-import { useState } from "react";
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
 
 function BPS1({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
 
   return (
     <>
@@ -61,16 +19,16 @@ function BPS1({ register, control }) {
           <Form.Label className="CE-form-label">Client Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("pfirstname")}
+            {...register("f1")}
             type="text"
-            name="pfirstname"
+            name="f1"
           />
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Assessment Date</Form.Label>
           <Controller
             control={control}
-            name="dob"
+            name="f2"
             render={({ field }) => (
               <DatePicker
                 className="datePicker"
@@ -84,9 +42,9 @@ function BPS1({ register, control }) {
           <Form.Label className="CE-form-label">Assessor Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("pinitial")}
+            {...register("f3")}
             type="text"
-            name="pinitial"
+            name="f3"
           />
         </Col>
       </Form.Group>
@@ -97,27 +55,27 @@ function BPS1({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("PGName")}
+            {...register("f4")}
             type="text"
-            name="PGName"
+            name="f4"
           />
         </Col>
         <Col md={3}>
           <Form.Label className="CE-form-label">Home Phone</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("homePhone")}
+            {...register("f5")}
             type="number"
-            name="homePhone"
+            name="f5"
           />
         </Col>
         <Col md={3}>
           <Form.Label className="CE-form-label">Mobile Phone</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("mobilePhone")}
+            {...register("f6")}
             type="number"
-            name="mobilePhone"
+            name="f6"
           />
         </Col>
       </Form.Group>
@@ -126,25 +84,25 @@ function BPS1({ register, control }) {
           <Form.Label className="CE-form-label">Street Address</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("address")}
+            {...register("f7")}
             type="text"
-            name="address"
+            name="f7"
           />
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">City</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("city")}
+            {...register("f8")}
             type="text"
-            name="city"
+            name="f8"
           />
         </Col>
         <Col md={2}>
           <Form.Label className="CE-form-label">State</Form.Label>
           <Form.Select
-            {...register("state")}
-            name="state"
+            {...register("f9")}
+            name="f9"
             aria-label="Select State"
           >
             <option>Select State</option>
@@ -157,9 +115,9 @@ function BPS1({ register, control }) {
           <Form.Label className="CE-form-label">Zip Code</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("zipCode")}
+            {...register("f10")}
             type="number"
-            name="zipCode"
+            name="f10"
           />
         </Col>
       </Form.Group>
@@ -168,26 +126,26 @@ function BPS1({ register, control }) {
           <Form.Label className="CE-form-label">Date of Birth</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("PGName")}
+            {...register("f11")}
             type="text"
-            name="PGName"
+            name="f11"
           />
         </Col>
         <Col md={3}>
           <Form.Label className="CE-form-label">Age</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("PGName")}
+            {...register("f12")}
             type="text"
-            name="PGName"
+            name="f12"
           />
         </Col>
 
         <Col md={3}>
           <Form.Label className="CE-form-label">Race</Form.Label>
           <Form.Select
-            {...register("ethnicityid")}
-            name="ethnicityid"
+            {...register("f13")}
+            name="f13"
             aria-label="Select Race"
           >
             <option>Select Race</option>
@@ -204,8 +162,8 @@ function BPS1({ register, control }) {
         <Col md={3}>
           <Form.Label className="CE-form-label">Gender</Form.Label>
           <Form.Select
-            {...register("genderid")}
-            name="genderid"
+            {...register("f14")}
+            name="f14"
             aria-label="Select Gender"
           >
             <option>Select Gender</option>
@@ -224,18 +182,18 @@ function BPS1({ register, control }) {
           <Form.Label className="CE-form-label">Social Security #</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("socsec")}
+            {...register("f15")}
             type="password"
-            name="socsec"
+            name="f15"
           />
         </Col>
         <Col md={6}>
           <Form.Label className="CE-form-label">Current Address</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("socsec")}
+            {...register("f16")}
             type="password"
-            name="socsec"
+            name="f16"
           />
         </Col>
       </Form.Group>
@@ -244,27 +202,27 @@ function BPS1({ register, control }) {
           <Form.Label className="CE-form-label">Emergency Contact</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("socsec")}
+            {...register("f17")}
             type="password"
-            name="socsec"
+            name="f17"
           />
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Relationship</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("socsec")}
+            {...register("f18")}
             type="password"
-            name="socsec"
+            name="f18"
           />
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Contact Telephone</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("socsec")}
+            {...register("f19")}
             type="password"
-            name="socsec"
+            name="f19"
           />
         </Col>
       </Form.Group>
@@ -274,33 +232,33 @@ function BPS1({ register, control }) {
         <Col md={12}>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f20")}
             type="radio"
-            name="maritalStatus"
+            name="f20"
             value="Medicaid Standard"
             label="Medicaid Standard"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f20")}
             type="radio"
-            name="maritalStatus"
+            name="f20"
             value="Amerigroup"
             label="Amerigroup"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f20")}
             type="radio"
-            name="maritalStatus"
+            name="f20"
             value="Cenpatico"
             label="Cenpatico"
           />
           <Form.Check
             inline
             type="radio"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f20")}
+            name="f20"
             value="None/Fee-for-Services"
             label="None/Fee-for-Services"
           />
