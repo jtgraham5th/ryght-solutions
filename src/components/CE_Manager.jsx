@@ -19,7 +19,6 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
     setValue,
     formState: { dirtyFields },
   } = useForm({});
-  const [clientData, setClientData] = useState({});
   const {
     activeClient,
     addClient,
@@ -337,7 +336,6 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
   };
   const onSubmit = (data) => {
     console.log(data);
-    setClientData((prevState) => ({ ...prevState, ...data }));
     if (activePage < 2) {
       nextPage();
     }

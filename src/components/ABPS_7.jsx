@@ -4,7 +4,7 @@ import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 import BPSRating from "./BPS_Rating";
 
-function BSP7({ register, control }) {
+function ABSP7({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
@@ -22,53 +22,53 @@ function BSP7({ register, control }) {
           Duration
         </Col>
       </Row>
-      <BPSRating register={register} title="Anxiety" field={1} />
-      <BPSRating register={register} title="Appetite Problems" field={3} />
-      <BPSRating register={register} title="Bizarre Behaviors" field={5} />
+      <BPSRating register={register} title="Anxiety" name="f1" />
+      <BPSRating register={register} title="Appetite Problems" name="f2" />
+      <BPSRating register={register} title="Bizarre Behaviors" name="f3" />
       <BPSRating
         register={register}
         title="Bizarre Ideations (Delusions)"
-        field={7}
+        name="f4"
       />
-      <BPSRating register={register} title="Conduct Problems" field={9} />
-      <BPSRating register={register} title="Depression" field={11} />
-      <BPSRating register={register} title="Eating Disorder" field={13} />
-      <BPSRating register={register} title="Gender Issues" field={15} />
-      <BPSRating register={register} title="Imparied Memory" field={17} />
+      <BPSRating register={register} title="Conduct Problems" name="f5" />
+      <BPSRating register={register} title="Depression" name="f6" />
+      <BPSRating register={register} title="Eating Disorder" name="f7" />
+      <BPSRating register={register} title="Gender Issues" name="f8" />
+      <BPSRating register={register} title="Imparied Memory" name="f9" />
       <BPSRating
         register={register}
         title="Indep. Living Problems"
-        field={19}
+        name="f10"
       />
       <BPSRating
         register={register}
         title="Lack of Support System"
-        field={21}
+        name="f11"
       />
-      <BPSRating register={register} title="Loss of Energy" field={23} />
-      <BPSRating register={register} title="Loss of Interest" field={25} />
-      <BPSRating register={register} title="Obesessive/Compulsive" field={27} />
-      <BPSRating register={register} title="Panic Attacks" field={29} />
-      <BPSRating register={register} title="Paranoid Ideation" field={31} />
-      <BPSRating register={register} title="Phobia" field={33} />
+      <BPSRating register={register} title="Loss of Energy" name="f12" />
+      <BPSRating register={register} title="Loss of Interest" name="f13" />
+      <BPSRating register={register} title="Obesessive/Compulsive" name="f14" />
+      <BPSRating register={register} title="Panic Attacks" name="f15" />
+      <BPSRating register={register} title="Paranoid Ideation" name="f16" />
+      <BPSRating register={register} title="Phobia" name="f17" />
       <BPSRating
         register={register}
         title="Poor Interpersonal Skills"
-        field={35}
+        name="f18"
       />
-      <BPSRating register={register} title="Poor Judgement" field={37} />
-      <BPSRating register={register} title="Poor Self Care Skills" field={39} />
-      <BPSRating register={register} title="School Problems" field={41} />
-      <BPSRating register={register} title="Sexual Acting Out" field={43} />
-      <BPSRating register={register} title="Sleep Problems" field={45} />
-      <BPSRating register={register} title="Somatization" field={47} />
+      <BPSRating register={register} title="Poor Judgement" name="f19" />
+      <BPSRating register={register} title="Poor Self Care Skills" name="f20" />
+      <BPSRating register={register} title="School Problems" name="f21" />
+      <BPSRating register={register} title="Sexual Acting Out" name="f22" />
+      <BPSRating register={register} title="Sleep Problems" name="f23" />
+      <BPSRating register={register} title="Somatization" name="f24" />
       <BPSRating
         register={register}
         title="Unusual Body Movements"
-        field={49}
+        name="f25"
       />
-      <BPSRating register={register} title="Other" field={51} />
-      <BPSRating register={register} title="Other" field={53} />
+      <BPSRating register={register} title="Other" name="f26" />
+      <BPSRating register={register} title="Other" name="f27" />
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
@@ -105,4 +105,4 @@ function BSP7({ register, control }) {
   );
 }
 
-export default BSP7;
+export default ABSP7;

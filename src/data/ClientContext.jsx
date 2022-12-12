@@ -12,6 +12,7 @@ export function ClientProvider(props) {
   const [clientList, setClientlist] = useState([]);
   const [contactList, setContactList] = useState([]);
   const [activeClient, setActiveClient] = useState({});
+  const [clientRequirements, setClientRequirements] = useState([]);
   const [formData, setFormData] = useState({});
   const [sortedClients, setSortedClients] = useState({ ...abcObject });
   const [loading, setLoading] = useState(false);
@@ -373,6 +374,55 @@ export function ClientProvider(props) {
       ecRelationship: emergencyContact.relationshipid,
     };
   };
+  const addClientRequirements = async (data) => {
+    let newRequirements = [];
+    await data
+      .forEach((requirement, index) => {
+        let newRequirement = [
+          {
+            billingid: 0,
+            patientid: activeClient.patientid,
+            doctypeid: requirement.doctypeid,
+            lastuserid: 101,
+          },
+        ];
+        console.log(newRequirement);
+        fetch(`http://www.ivronlogs.club:8080/generic_api/17`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newRequirement),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            newRequirements.push(data[0]);
+          });
+        //www.ivronlogs.club:8080/generic_api/17
+        // return recid
+
+        // add recid to requirement object
+        // requirement.recid = index;
+
+        // push updated requirement object to requirement array
+        // newRequirements.push(requirement);
+      })
+      .then(() => {
+        console.log(newRequirements);
+        getClientRequirements();
+      });
+  };
+  const getClientRequirements = () => {
+    fetch(
+      `http://www.ivronlogs.club:8080/generic_api/list/17?listing=patientid=${activeClient.patientid}&orderby=billingid`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("client requirements", data);
+        setClientRequirements(data);
+      });
+  };
 
   useEffect(() => {
     if (!clientList.length > 0) getClientList();
@@ -393,6 +443,13 @@ export function ClientProvider(props) {
     // eslint-disable-next-line
   }, [clientList]);
 
+  useEffect(() => {
+    // get document ids
+
+    if (Object.keys(activeClient).length !== 0) getClientRequirements();
+    // eslint-disable-next-line
+  }, [activeClient]);
+
   return (
     <ClientContext.Provider
       value={{
@@ -412,6 +469,8 @@ export function ClientProvider(props) {
         addContact,
         updateContact,
         getContact,
+        clientRequirements,
+        addClientRequirements,
         sortedClients,
         activeClient,
         formData,

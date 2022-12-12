@@ -4,7 +4,7 @@ import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 import BPSSubstanceAbuse from "./BPS_SubstanceAbuse";
 
-function BSP8({ register, control }) {
+function ABSP8({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
@@ -95,16 +95,16 @@ function BSP8({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("f37")}
-            name="f37"
+            {...register("f41")}
+            name="f41"
           />
         </Col>
         <Col md={6}>
           <Form.Label className="CE-form-label mb-0">When?</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("f38")}
-            name="f38"
+            {...register("f42")}
+            name="f42"
           />
         </Col>
       </Form.Group>
@@ -113,73 +113,73 @@ function BSP8({ register, control }) {
         <Col md={7}>
           <Form.Check
             inline
-            {...register("f39")}
+            {...register("f43")}
             type="checkbox"
-            name="f39"
+            name="f43"
             value="None"
             label="None"
           />
           <Form.Check
             inline
-            {...register("f39")}
+            {...register("f43")}
             type="checkbox"
-            name="f39"
+            name="f43"
             value="Probation"
             label="Probation"
           />
           <Form.Check
             inline
-            {...register("f39")}
+            {...register("f43")}
             type="checkbox"
-            name="f39"
+            name="f43"
             value="Parole"
             label="Parole"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("f39")}
-            name="f39"
+            {...register("f43")}
+            name="f43"
             value="DFCS/CPS"
             label="DFCS/CPS"
           />
           <Form.Check
             inline
-            {...register("f39")}
+            {...register("f43")}
             type="checkbox"
-            name="f39"
+            name="f43"
             value="DUI"
             label="DUI"
           />
           <Form.Check
             inline
-            {...register("f39")}
+            {...register("f43")}
             type="checkbox"
-            name="f39"
+            name="f43"
             value="Restraining Order"
             label="Restraining Order"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("f39")}
-            name="f39"
+            {...register("f43")}
+            name="f43"
             value="Prostitution"
             label="Prostitution"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("f39")}
-            name="f39"
+            {...register("f43")}
+            name="f43"
             value="Eating Disorder"
             label="Eating Disorder"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("f39")}
-            name="f39"
+            {...register("f43")}
+            name="f43"
             value="Other"
             label="Other"
           />
@@ -190,8 +190,8 @@ function BSP8({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("f40")}
-            name="f40"
+            {...register("f44")}
+            name="f44"
           />
         </Col>
       </Form.Group>
@@ -199,4 +199,4 @@ function BSP8({ register, control }) {
   );
 }
 
-export default BSP8;
+export default ABSP8;

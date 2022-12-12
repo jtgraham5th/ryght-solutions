@@ -1,56 +1,9 @@
-import { useState } from "react";
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
-import BPSRating from "./BPS_Rating";
-import BPSSubstanceAbuse from "./BPS_SubstanceAbuse";
 
 function BSP10({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
-
   return (
     <>
       <div className="CE-section-title">
@@ -70,9 +23,9 @@ function BSP10({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={2}
           />
         </Col>
@@ -88,9 +41,9 @@ function BSP10({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f61")}
             as="textarea"
-            name="changefield"
+            name="f61"
             rows={2}
           />
         </Col>
@@ -107,9 +60,9 @@ function BSP10({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f62")}
             as="textarea"
-            name="changefield"
+            name="f62"
             rows={2}
           />
         </Col>
@@ -121,9 +74,9 @@ function BSP10({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f63")}
             as="textarea"
-            name="changefield"
+            name="f63"
             rows={2}
           />
         </Col>
@@ -135,9 +88,9 @@ function BSP10({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f64")}
             as="textarea"
-            name="changefield"
+            name="f64"
             rows={2}
           />
         </Col>
@@ -146,7 +99,7 @@ function BSP10({ register, control }) {
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
             What are the client and family’s expectation of and preferences for
-            this service?{" "}
+            this service?
           </Form.Label>
           <Form.Text>
             (This should include the client’s own words of his/her expected
@@ -154,9 +107,9 @@ function BSP10({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f65")}
             as="textarea"
-            name="changefield"
+            name="f65"
             rows={2}
           />
         </Col>

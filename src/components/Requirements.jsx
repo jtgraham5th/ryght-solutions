@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { Row, Col, Alert } from "react-bootstrap";
+import { Row, Col, Alert, Button } from "react-bootstrap";
 import styles from "./Requirements.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RQAssessmentItem from "./RQAssesmentItem";
 import RequirementsManager from "./RQ_Manager";
+import RequirementsViewer from "./RQ_Viewer";
+import { useClient } from "../data/ClientContext";
 
 function Requirements() {
-  const [show, setShow] = useState();
-  const [activeForm, setActiveForm] = useState();
+  const [showViewer, setShowViewer] = useState(false);
+  const [showManager, setShowManager] = useState(false);
+  const [activeForm, setActiveForm] = useState({});
+  const { clientRequirements } = useClient();
+  console.log(clientRequirements);
   // const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
   //   <td className={styles.noWrap} onClick={onClick} ref={ref}>
   //     <span>
@@ -18,30 +23,39 @@ function Requirements() {
   // ));
   return (
     <>
-      <h5 className="text-start ps-2 m-2">Client Requirements Checklist</h5>
-      <Alert variant="secondary" className={styles.dataAlert}>
-        0 Complete | 5 Incomplete | 5 Total Requirements | 0.00% Completion
-      </Alert>
+      <Row className="w-100 m-0 justify-content-center p-2">
+        <Button className="w-75 mt-3 mb-3" onClick={() => setShowManager(true)}>
+          Manage Client Requirements
+        </Button>
+        <Alert variant="secondary" className={styles.dataAlert}>
+          0 Complete | 5 Incomplete | 5 Total Requirements | 0.00% Completion
+        </Alert>
+      </Row>
       <Row className={styles.dataTableRow}>
         <Col className={styles.dataTableCol}>
-          {Array.apply(null, Array(5)).map((value, i) => {
+          {clientRequirements.map((value, i) => {
             return (
               <RQAssessmentItem
                 key={i}
                 index={i}
-                activeForm={activeForm}
+                data={value}
+                setShow={setShowViewer}
                 setActiveForm={setActiveForm}
-                setShow={setShow}
               />
             );
           })}
         </Col>
       </Row>
-      <RequirementsManager
-        show={show}
-        setShow={setShow}
+      <RequirementsViewer
+        show={showViewer}
+        setShow={setShowViewer}
         containerName="test"
         data={activeForm}
+      />
+      <RequirementsManager
+        show={showManager}
+        setShow={setShowManager}
+        containerName="Requirements Manager"
       />
     </>
   );

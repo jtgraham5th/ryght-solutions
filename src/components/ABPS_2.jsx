@@ -1,9 +1,9 @@
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 
-function BPS2({ register, control }) {
+function ABPS2({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
@@ -291,9 +291,12 @@ function BPS2({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            What is the client’s presenting problem/why are they here?
+            Origin of problem/when it began:
           </Form.Label>
-          <Form.Text>This should be in the client’s own words.</Form.Text>
+          <Form.Text>
+            Include the onset of the problem, duration, frequency, past
+            intervention/services and the results of the services.
+          </Form.Text>
           <Form.Control
             className="goal-detail-input"
             {...register("f61")}
@@ -306,7 +309,7 @@ function BPS2({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label">
-            What is the parent’s/family’s perception of the problem?{" "}
+            Related Issues that exacerbate the problem:
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
@@ -320,12 +323,8 @@ function BPS2({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Describe precipitating events:{" "}
+            Interventions previously tried:
           </Form.Label>
-          <Form.Text>
-            Include the onset of the problem, duration, frequency, past
-            intervention/services and the results of the services.
-          </Form.Text>
           <Form.Control
             className="goal-detail-input"
             {...register("f63")}
@@ -335,22 +334,8 @@ function BPS2({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} className="mb-3">
-        <Col md={12}>
-          <Form.Label className="CE-form-label">
-            What services is the client asking for?{" "}
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f64")}
-            as="textarea"
-            name="f64"
-            rows={2}
-          />
-        </Col>
-      </Form.Group>
     </>
   );
 }
 
-export default BPS2;
+export default ABPS2;

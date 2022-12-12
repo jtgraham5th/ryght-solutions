@@ -3,7 +3,7 @@ import "./CE_Manager.css";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 
-function BSP13({ register, control }) {
+function ABSP15({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
@@ -38,4 +38,4 @@ function BSP13({ register, control }) {
     </>
   );
 }
-export default BSP13;
+export default ABSP15;

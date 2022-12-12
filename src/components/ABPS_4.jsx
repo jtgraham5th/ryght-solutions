@@ -3,7 +3,7 @@ import "./CE_Manager.css";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 
-function BSP5({ register, control }) {
+function ABSP4({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
@@ -29,48 +29,8 @@ function BSP5({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} className="mb-3">
-        <Col md={12}>
-          <Form.Label className="CE-form-label mb-0">
-            What was the client’s health at birth? Early development?{" "}
-          </Form.Label>
-          <Form.Text>
-            Include any delays with walking, crawling, sitting up, concerns with
-            height/weight, any problems with running, jumping, climbing,
-            balancing, coordination, problems with hearing, vision or speech;
-            current with immunizations
-          </Form.Text>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f61")}
-            as="textarea"
-            name="f61"
-            rows={2}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-3">
-        <Col md={12}>
-          <Form.Label className="CE-form-label mb-0">
-            What is the client’s prenatal history?
-          </Form.Label>
-          <Form.Text>
-            (Include any substance abuse, physical abuse, medications, and
-            illnesses during mother’s pregnancy, prenatal exposure to alcohol,
-            tobacco and other drugs)
-          </Form.Text>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f62")}
-            as="textarea"
-            name="f62"
-            rows={2}
-          />
-        </Col>
-      </Form.Group>
-
       <Form.Group as={Row} className="mb-4">
-        <h5>Prescribed Medications</h5>
+        <h5>Prescribed Mediations</h5>
         <Col md={2} className="d-flex flex-column">
           <Form.Label className="CE-form-label mb-2">
             Medication Name
@@ -478,9 +438,9 @@ function BSP5({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("f60")}
+            {...register("f61")}
             as="textarea"
-            name="f60"
+            name="f61"
             rows={2}
           />
         </Col>
@@ -489,4 +449,4 @@ function BSP5({ register, control }) {
   );
 }
 
-export default BSP5;
+export default ABSP4;

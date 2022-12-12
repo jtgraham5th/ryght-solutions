@@ -1,53 +1,9 @@
-import { useState } from "react";
-import { Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+import { Row, Col, Form} from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
-import CEAddContainer from "./CE_AddContainer";
-import CEFormFamilyPhysician from "./CE_FormFamilyPhysician";
-import CEFormInsuranceProvider from "./CE_FormInsuranceProvider";
 
 function BSP3({ register, control }) {
-  const [addNew, setAddNew] = useState({
-    sectionTitle: "",
-    familyPhysician: false,
-    insuranceProvider: false,
-    activeForm: () => {},
-  });
-
-  const addItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: sectionName,
-      activeForm: renderSectionForm(sectionName),
-      [sectionName]: true,
-    }));
-  };
-  const closeItem = (e) => {
-    e.preventDefault();
-    let sectionName = e.target.name;
-    setAddNew((prevState) => ({
-      ...prevState,
-      sectionTitle: "",
-      activeForm: () => {},
-      [sectionName]: false,
-    }));
-  };
-
-  const renderSectionForm = (name) => {
-    switch (name) {
-      case "familyPhysician":
-        return CEFormFamilyPhysician;
-      case "insuranceProvider":
-        return CEFormInsuranceProvider;
-      default:
-        return CEFormFamilyPhysician;
-    }
-  };
 
   return (
     <>
@@ -62,41 +18,41 @@ function BSP3({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Suicidality</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f1")}
             type="checkbox"
-            name="maritalStatus"
+            name="f1"
             value="None"
             label="None"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f1")}
             type="checkbox"
-            name="maritalStatus"
+            name="f1"
             value="Ideation"
             label="Ideation"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f1")}
             type="checkbox"
-            name="maritalStatus"
+            name="f1"
             value="Plan"
             label="Plan"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f1")}
+            name="f1"
             value="Intent w/o means"
             label="Intent w/o means"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f1")}
+            name="f1"
             value="Intent w/ means"
             label="Intent w/ means"
           />
@@ -105,41 +61,41 @@ function BSP3({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Homicidality</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f2")}
             type="checkbox"
-            name="maritalStatus"
+            name="f2"
             value="None"
             label="None"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f2")}
             type="checkbox"
-            name="maritalStatus"
+            name="f2"
             value="Ideation"
             label="Ideation"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f2")}
             type="checkbox"
-            name="maritalStatus"
+            name="f2"
             value="Plan"
             label="Plan"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f2")}
+            name="f2"
             value="Intent w/o means"
             label="Intent w/o means"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f2")}
+            name="f2"
             value="Intent w/ means"
             label="Intent w/ means"
           />
@@ -150,41 +106,41 @@ function BSP3({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f3")}
             type="checkbox"
-            name="maritalStatus"
+            name="f3"
             value="Sufficient"
             label="Sufficient"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f3")}
             type="checkbox"
-            name="maritalStatus"
+            name="f3"
             value="Moderate"
             label="Moderate"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f3")}
             type="checkbox"
-            name="maritalStatus"
+            name="f3"
             value="Minimal"
             label="Minimal"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f3")}
+            name="f3"
             value="Inconsistent"
             label="Inconsistent"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f3")}
+            name="f3"
             value="Explosive"
             label="Explosive"
           />
@@ -195,33 +151,33 @@ function BSP3({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f4")}
             type="checkbox"
-            name="maritalStatus"
+            name="f4"
             value="None"
             label="None"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f4")}
             type="checkbox"
-            name="maritalStatus"
+            name="f4"
             value="Abuse"
             label="Abuse"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f4")}
             type="checkbox"
-            name="maritalStatus"
+            name="f4"
             value="Dependence"
             label="Dependence"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f4")}
+            name="f4"
             value="Unstable remission"
             label="Unstable remission"
           />
@@ -232,51 +188,51 @@ function BSP3({ register, control }) {
           <Form.Label className="CE-form-label mb-2 italics">Medical Risks</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f5")}
             type="radio"
-            name="maritalStatus"
+            name="f5"
             value="None"
             label="None"
           />
           <Form.Label className="CE-form-label">Yes, Explain</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("pfirstname")}
+            {...register("f5")}
             type="text"
-            name="pfirstname"
+            name="f5"
           />
         </Col>
         <Col md={3} className="d-flex flex-column">
           <Form.Label className="CE-form-label mb-2">Neglect</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f6")}
             type="checkbox"
-            name="maritalStatus"
+            name="f6"
             value="None"
             label="None"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f6")}
             type="checkbox"
-            name="maritalStatus"
+            name="f6"
             value="Nutritional"
             label="Nutritional"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f6")}
             type="checkbox"
-            name="maritalStatus"
+            name="f6"
             value="Educational"
             label="Educational"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f6")}
+            name="f6"
             value="Medical"
             label="Medical"
           />
@@ -285,33 +241,33 @@ function BSP3({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Abuse</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Verbal / Emotional"
             label="Verbal / Emotional"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Physical"
             label="Physical"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f7")}
             type="checkbox"
-            name="maritalStatus"
+            name="f7"
             value="Sexual"
             label="Sexual"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f7")}
+            name="f7"
             value="Family Violence"
             label="Family Violence"
           />
@@ -320,41 +276,41 @@ function BSP3({ register, control }) {
           <Form.Label className="CE-form-label mb-2">Trauma</Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f8")}
             type="checkbox"
-            name="maritalStatus"
+            name="f8"
             value="Deaths"
             label="Deaths"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f8")}
             type="checkbox"
-            name="maritalStatus"
+            name="f8"
             value="Separation from family"
             label="Separation from family"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f8")}
             type="checkbox"
-            name="maritalStatus"
+            name="f8"
             value="Abuse"
             label="Abuse"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f8")}
+            name="f8"
             value="Violence"
             label="Violence"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f8")}
+            name="f8"
             value="Other"
             label="Other"
           />
@@ -367,73 +323,73 @@ function BSP3({ register, control }) {
           </Form.Label>
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f9")}
             type="checkbox"
-            name="maritalStatus"
+            name="f9"
             value="Unprotected Sex"
             label="Unprotected Sex"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f9")}
             type="checkbox"
-            name="maritalStatus"
+            name="f9"
             value="Shoplifting"
             label="Shoplifting"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f9")}
             type="checkbox"
-            name="maritalStatus"
+            name="f9"
             value="Reckless Driving"
             label="Reckless Driving"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f9")}
+            name="f9"
             value="Gang Involvement"
             label="Gang Involvement"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f9")}
             type="checkbox"
-            name="maritalStatus"
+            name="f9"
             value="Drug Dealing"
             label="Drug Dealing"
           />
           <Form.Check
             inline
-            {...register("maritalStatus")}
+            {...register("f9")}
             type="checkbox"
-            name="maritalStatus"
+            name="f9"
             value="Carrying/Using Weapon"
             label="Carrying/Using Weapon"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f9")}
+            name="f9"
             value="Prostitution"
             label="Prostitution"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f9")}
+            name="f9"
             value="Eating Disorder"
             label="Eating Disorder"
           />
           <Form.Check
             inline
             type="checkbox"
-            {...register("maritalStatus")}
-            name="maritalStatus"
+            {...register("f9")}
+            name="f9"
             value="Other"
             label="Other"
           />
@@ -450,9 +406,9 @@ function BSP3({ register, control }) {
           </Form.Text>
           <Form.Control
             className="goal-detail-input"
-            {...register("changefield")}
+            {...register("f60")}
             as="textarea"
-            name="changefield"
+            name="f60"
             rows={2}
           />
         </Col>

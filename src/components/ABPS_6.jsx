@@ -3,38 +3,20 @@ import "./CE_Manager.css";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 
-function BSP9({ register, control }) {
+function ABSP6({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
         <PersonLinesFill size={30} className="me-3" />
-        <h3>Education Assessment</h3>
+        <h3>Health and Wellness</h3>
       </div>
       <hr />
       <Form.Group as={Row} className="mb-3">
-        <Col md={6}>
-          <Form.Label className="CE-form-label mb-0">
-            School currently attending
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f1")}
-            name="f1"
-          />
-        </Col>
-        <Col md={6}>
-          <Form.Label className="CE-form-label mb-0">Grade</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f2")}
-            name="f2"
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Is the client in special classes? If so, what type?
+            Are there any issues/problems such as (housing, medication, safety,
+            school, transportation, health, behaviors, etc.) that would
+            interfere with your daily living?{" "}
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
@@ -48,12 +30,9 @@ function BSP9({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Has the client ever been suspended or expelled from school and/or
-            bus?
+            What things do you need to do for yourself every day to keep feeling
+            alright?
           </Form.Label>
-          <Form.Text>
-            (Include both in-school suspensions and out-of-school suspensions)
-          </Form.Text>
           <Form.Control
             className="goal-detail-input"
             {...register("f61")}
@@ -66,7 +45,7 @@ function BSP9({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Is the client in special classes? If so, what type?
+            What things (triggers) might cause an increase in your symptoms?
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
@@ -77,10 +56,12 @@ function BSP9({ register, control }) {
           />
         </Col>
       </Form.Group>
+
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Does the client have frequent absences, truancy?
+            What are things that you can do to address your triggers before they
+            lead to more serious symptoms?{" "}
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
@@ -94,8 +75,10 @@ function BSP9({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Does the client need or is receiving tutoring services?
+            What are some early warning signs that others have reported and/or
+            you have observed when you are starting to have problems?{" "}
           </Form.Label>
+          <Form.Text>This should include the client’s own words</Form.Text>
           <Form.Control
             className="goal-detail-input"
             {...register("f64")}
@@ -108,8 +91,7 @@ function BSP9({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Is the client currently failing, and has the client ever been
-            retained?
+            What are things you must do if you experience early warning signs?{" "}
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
@@ -123,7 +105,7 @@ function BSP9({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            What does the client like and dislike about school?
+            What are signs/symptoms that indicate things are getting worse?{" "}
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
@@ -137,11 +119,9 @@ function BSP9({ register, control }) {
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
           <Form.Label className="CE-form-label mb-0">
-            Describe client’s peer relationships?
+            What are some things that can help reduce your symptoms when things
+            are breaking down?{" "}
           </Form.Label>
-          <Form.Text>
-            (Include both the client’s and parent’s descriptions)
-          </Form.Text>
           <Form.Control
             className="goal-detail-input"
             {...register("f67")}
@@ -151,8 +131,51 @@ function BSP9({ register, control }) {
           />
         </Col>
       </Form.Group>
+      <Form.Group as={Row} className="mb-3">
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-0">
+            These are my SUPPORTERS, the people who I want to help me when the
+            symptoms I listed above come up:{" "}
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f68")}
+            as="textarea"
+            name="f68"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3">
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-0">
+            The people I do not want involved and why:{" "}
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f69")}
+            as="textarea"
+            name="f69"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3">
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-0">
+            What is your religious preference:{" "}
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f70")}
+            as="textarea"
+            name="f70"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
     </>
   );
 }
 
-export default BSP9;
+export default ABSP6;

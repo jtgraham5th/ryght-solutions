@@ -4,7 +4,7 @@ import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
 import BPSDiagnosticCodes from "./BPS_DiagnosticCodes";
 
-function BSP12({ register, control }) {
+function ABSP14({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
@@ -277,4 +277,4 @@ function BSP12({ register, control }) {
   );
 }
 
-export default BSP12;
+export default ABSP14;

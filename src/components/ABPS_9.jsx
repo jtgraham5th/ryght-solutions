@@ -2,8 +2,9 @@ import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../data/ClientContext";
+import ABPSHistOfViolence from "./ABPS_HistOfViolence";
 
-function BSP4({ register, control }) {
+function ABSP9({ register, control }) {
   return (
     <>
       <div className="CE-section-title">
@@ -212,62 +213,6 @@ function BSP4({ register, control }) {
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} className="mb-2">
-        <h5>Family History</h5>
-        <Col md={12}>
-          <Form.Label className="CE-form-label mb-0">
-            Medical Problems
-          </Form.Label>
-          <Form.Text>
-            Heart Disease, Lung Disease, Cancer, Strokes, Dementia, Diabetes,
-            Asthma, etc
-          </Form.Text>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f61")}
-            as="textarea"
-            name="f61"
-            rows={2}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-2">
-        <Col md={12}>
-          <Form.Label className="CE-form-label mb-0">
-            Substance Abuse
-          </Form.Label>
-          <Form.Text>
-            Alcohol, Cocaine, Cannabis, Stimulants, Inhalants, Hallucinogens,
-            Sedatives, Designer Drugs
-          </Form.Text>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f62")}
-            as="textarea"
-            name="f62"
-            rows={2}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-4">
-        <Col md={12}>
-          <Form.Label className="CE-form-label mb-0">
-            Mental Illnesses/Bx Problems
-          </Form.Label>
-          <Form.Text>
-            depression, schizophrenia, bipolar disorder, anxiety, ADD, ADHD,
-            Learning Disorders, School Behavior Problems, Incarcerations,
-            Gambling
-          </Form.Text>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("f63")}
-            as="textarea"
-            name="f63"
-            rows={2}
-          />
-        </Col>
-      </Form.Group>
       <hr />
       <Form.Group as={Row} className="mb-3">
         <Col md={12}>
@@ -276,9 +221,9 @@ function BSP4({ register, control }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("f64")}
+            {...register("f61")}
             as="textarea"
-            name="f64"
+            name="f61"
             rows={2}
           />
         </Col>
@@ -290,9 +235,185 @@ function BSP4({ register, control }) {
           </Form.Label>{" "}
           <Form.Control
             className="goal-detail-input"
+            {...register("f62")}
+            as="textarea"
+            name="f62"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3">
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-0">
+            How would you describe yourself as a child growing up in your
+            family? (Popular, aggressive, awkward, etc….)
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f63")}
+            as="textarea"
+            name="f63"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3">
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-0">
+            Did you experience problems during your childhood? (Conflict with
+            parents, siblings, teachers, overweight, etc….)
+          </Form.Label>{" "}
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f64")}
+            as="textarea"
+            name="f64"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <h5>Marital History</h5>
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-2">Apperance</Form.Label>
+          <Form.Check
+            inline
+            {...register("f22")}
+            type="checkbox"
+            name="f22"
+            value="Married"
+            label="Married"
+          />
+          <Form.Check
+            inline
+            {...register("f22")}
+            type="checkbox"
+            name="f22"
+            value="Single"
+            label="Single"
+          />
+          <Form.Check
+            inline
+            {...register("f22")}
+            type="checkbox"
+            name="f22"
+            value="Co-Habitation"
+            label="Co-Habitation"
+          />
+          <Form.Check
+            inline
+            type="checkbox"
+            {...register("f22")}
+            name="f22"
+            value="Separated"
+            label="Separated"
+          />
+          <Form.Check
+            inline
+            type="checkbox"
+            {...register("f22")}
+            name="f22"
+            value="Widowed"
+            label="Widowed"
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Col md={6}>
+          <Form.Label className="CE-form-label mb-2">
+            Number of Previous Marriages
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f23")}
+            type="text"
+            name="f23"
+          />
+        </Col>
+        <Col md={6}>
+          <Form.Label className="CE-form-label mb-2">
+            Length of Time with current partner:
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f24")}
+            type="text"
+            name="f24"
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-2">
+            How would you describe your relationship with your current partner?
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
             {...register("f65")}
             as="textarea"
             name="f65"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3">
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-2">
+            Is there violence of history of violence in past or current
+            relationships?
+          </Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f66")}
+            as="textarea"
+            name="f66"
+            rows={2}
+          />
+        </Col>
+      </Form.Group>
+      <ABPSHistOfViolence
+        register={register}
+        title="Physical Abuse"
+        field1="f23"
+      />
+      <ABPSHistOfViolence
+        register={register}
+        title="Domestic Violence"
+        field1="f24"
+      />
+      <ABPSHistOfViolence
+        register={register}
+        title="Community Violence"
+        field1="f25"
+      />
+      <ABPSHistOfViolence
+        register={register}
+        title="Physical Neglect"
+        field1="f26"
+      />
+      <ABPSHistOfViolence
+        register={register}
+        title="Emotional Abuse"
+        field1="f27"
+      />
+      <ABPSHistOfViolence
+        register={register}
+        title="Elder Abuse"
+        field1="f28"
+      />
+      <ABPSHistOfViolence
+        register={register}
+        title="Sexual Abuse"
+        field1="f29"
+      />
+      <Form.Group as={Row} className="mb-4">
+        <Col md={12}>
+          <Form.Label className="CE-form-label mb-0">Comments</Form.Label>
+          <Form.Control
+            className="goal-detail-input"
+            {...register("f67")}
+            as="textarea"
+            name="f67"
             rows={2}
           />
         </Col>
@@ -301,4 +422,4 @@ function BSP4({ register, control }) {
   );
 }
 
-export default BSP4;
+export default ABSP9;

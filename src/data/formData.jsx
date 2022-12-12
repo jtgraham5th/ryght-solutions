@@ -1,3 +1,21 @@
+import ABPS1 from "../components/ABPS_1";
+import ABSP10 from "../components/ABPS_10";
+import ABSP11 from "../components/ABPS_11";
+import ABSP12 from "../components/ABPS_12";
+import ABSP13 from "../components/ABPS_13";
+import ABSP14 from "../components/ABPS_14";
+import ABSP15 from "../components/ABPS_15";
+import ABPS2 from "../components/ABPS_2";
+import ABSP3 from "../components/ABPS_3";
+import ABSP4 from "../components/ABPS_4";
+import ABSP5 from "../components/ABPS_5";
+import ABSP6 from "../components/ABPS_6";
+import ABSP7 from "../components/ABPS_7";
+import ABSP8 from "../components/ABPS_8";
+import ABSP9 from "../components/ABPS_9";
+import ANSA1 from "../components/ANSA_1";
+import ANSA2 from "../components/ANSA_2";
+import ANSA3 from "../components/ANSA_3";
 import BPS1 from "../components/BPS_1";
 import BSP10 from "../components/BPS_10";
 import BSP11 from "../components/BPS_11";
@@ -11,6 +29,11 @@ import BSP6 from "../components/BPS_6";
 import BSP7 from "../components/BPS_7";
 import BSP8 from "../components/BPS_8";
 import BSP9 from "../components/BPS_9";
+import CANS1 from "../components/CANS_1";
+import CANS2 from "../components/CANS_2";
+import CANS3 from "../components/CANS_3";
+import CANS4 from "../components/CANS_4";
+import CANS5 from "../components/CANS_5";
 import CE1 from "../components/CE_1";
 import CE2 from "../components/CE_2";
 import CE3 from "../components/CE_3";
@@ -196,7 +219,58 @@ export const abcObject = {
   y: [],
   z: [],
 };
-export const statesList = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO','MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+export const statesList = [
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
+];
 
 export const renderClientEnrollment = (activePage, register, control) => {
   switch (activePage) {
@@ -260,3 +334,112 @@ export const renderAdolescentBPS = (activePage, register, control) => {
       return <SA1 register={register} control={control} />;
   }
 };
+
+export const renderAdultBPS = (activePage, register, control) => {
+  switch (activePage) {
+    case 0:
+      return <ABPS1 register={register} control={control} />;
+    case 1:
+      return <ABPS2 register={register} control={control} />;
+    case 2:
+      return <ABSP3 register={register} control={control} />;
+    case 3:
+      return <ABSP4 register={register} control={control} />;
+    case 4:
+      return <ABSP5 register={register} control={control} />;
+    case 5:
+      return <ABSP6 register={register} control={control} />;
+    case 6:
+      return <ABSP7 register={register} control={control} />;
+    case 7:
+      return <ABSP8 register={register} control={control} />;
+    case 8:
+      return <ABSP9 register={register} control={control} />;
+    case 9:
+      return <ABSP10 register={register} control={control} />;
+    case 10:
+      return <ABSP11 register={register} control={control} />;
+    case 11:
+      return <ABSP12 register={register} control={control} />;
+    case 12:
+      return <ABSP13 register={register} control={control} />;
+    case 13:
+      return <ABSP14 register={register} control={control} />;
+    case 14:
+      return <ABSP15 register={register} control={control} />;
+    default:
+      return <SA1 register={register} control={control} />;
+  }
+};
+export const renderCANS = (activePage, register, control) => {
+  switch (activePage) {
+    case 0:
+      return <CANS1 register={register} control={control} />;
+    case 1:
+      return <CANS2 register={register} control={control} />;
+    case 2:
+      return <CANS3 register={register} control={control} />;
+    case 3:
+      return <CANS4 register={register} control={control} />;
+    case 4:
+      return <CANS5 register={register} control={control} />;
+    default:
+      return <CANS1 register={register} control={control} />;
+  }
+};
+export const renderANSA = (activePage, register, control) => {
+  switch (activePage) {
+    case 0:
+      return <ANSA1 register={register} control={control} />;
+    case 1:
+      return <ANSA2 register={register} control={control} />;
+    case 2:
+      return <ANSA3 register={register} control={control} />;
+    default:
+      return <ANSA1 register={register} control={control} />;
+  }
+};
+export const requirements = [
+  {
+    name: "Adolescent Biopsychosocial Assessment",
+    type: "assessment",
+    pages: 12,
+    doctypeid: "4",
+  },
+  {
+    name: "Adult Biopsychosocial Assessment",
+    type: "assessment",
+    pages: 15,
+    doctypeid: "5",
+  },
+  {
+    name: "Child and Adolescent Needs and Strengths (CASA)",
+    type: "assessment",
+    pages: 5,
+    doctypeid: "6",
+  },
+  {
+    name: "Adult Needs and Strengths Assessment (ANSA)",
+    type: "assessment",
+    pages: 3,
+    doctypeid: "7",
+  },
+  {
+    name: "C-SSRS Adolescent - Lifetime Recent (Initial/Annual)",
+    type: "assessment",
+    pages: 10,
+    doctypeid: "8",
+  },
+  {
+    name: "C-SSRS Adult - Lifetime Recent (Initial/Annual)",
+    type: "assessment",
+    pages: 10,
+    doctypeid: "9",
+  },
+  {
+    name: "Order of Services",
+    type: "assessment",
+    pages: 10,
+    doctypeid: "10",
+  },
+];
