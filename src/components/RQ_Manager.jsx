@@ -94,7 +94,7 @@ function RequirementsManager({ show, setShow, containerName }) {
     const assessmentInfo = requirements.filter(
       (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
     );
-    console.log(assessmentInfo);
+    // console.log(assessmentInfo);
     if (assessmentInfo.length > 0) {
       return assessmentInfo[0].name;
     } else return "NULL";
@@ -192,7 +192,7 @@ function RequirementsManager({ show, setShow, containerName }) {
                 <h3 className="RQ-section-header">Selected Requirements</h3>
                 <ListGroup className="RQ-list-active">
                   {clientRequirements.map((requirement, index) => {
-                    console.log(requirement);
+                    // console.log(requirement);
                     return (
                       <ListGroup.Item variant="secondary" key={index}>
                         <div>{getAssessmentInfo(requirement)}</div>
@@ -216,7 +216,7 @@ function RequirementsManager({ show, setShow, containerName }) {
                 onClick={createRequirements}
               >
                 Save {newRequirements.length} Client Requirements for{" "}
-                {activeClient.pfirstname + " " + activeClient.plastname}{" "}
+                {activeClient[20].pfirstname + " " + activeClient[20].plastname}{" "}
               </Button>
             </Col>
           </Row>

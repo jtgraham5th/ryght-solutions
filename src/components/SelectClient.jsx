@@ -3,11 +3,18 @@ import "../pages/ClientView.css";
 import { useClient } from "../data/ClientContext";
 
 function SelectClient() {
-  const { selectClient, clientList } = useClient();
+  const { selectClient, clientList, getContactList } = useClient();
 
-  const handleClientSelect = (e) => {
-    selectClient(e.target.value);
+  const handleClientSelect = async (e) => {
+    for (let i = 20; i < 23; i++) {
+      await selectClient(e.target.value, i);
+    }
+    for (let i = 21; i < 25; i++) {
+      await getContactList(e.target.value, i);
+    }
+    return;
   };
+
 
   return (
     <Form.Select

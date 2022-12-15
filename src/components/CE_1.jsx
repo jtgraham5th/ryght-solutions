@@ -68,8 +68,8 @@ function CE1({ register, control }) {
                 {...register("maritalstatusid")}
                 type="radio"
                 name="maritalstatusid"
-                value={item.listId}
-                label={item.listItem}
+                value={item.GroupListID}
+                label={item.GroupValue}
               />
             );
           })}
@@ -112,8 +112,8 @@ function CE1({ register, control }) {
           >
             {formData["Sex At Birth"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -129,8 +129,8 @@ function CE1({ register, control }) {
             <option>Select Gender</option>
             {formData["Gender Identity"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -145,8 +145,8 @@ function CE1({ register, control }) {
           >
             {formData["Preferred Pronouns"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -164,8 +164,8 @@ function CE1({ register, control }) {
             <option>Select Race</option>
             {formData["Ethnicity"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -182,8 +182,8 @@ function CE1({ register, control }) {
             <option>Select Religion</option>
             {formData["Religion"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -253,8 +253,8 @@ function CE1({ register, control }) {
           >
             {formData["PhoneType"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -278,8 +278,8 @@ function CE1({ register, control }) {
           >
             {formData["PhoneType"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -303,8 +303,8 @@ function CE1({ register, control }) {
           >
             {formData["PhoneType"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -344,8 +344,8 @@ function CE1({ register, control }) {
           >
             {formData["Relationship"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -418,8 +418,8 @@ function CE1({ register, control }) {
           >
             {formData["PhoneType"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}

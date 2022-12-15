@@ -19,7 +19,7 @@ function RQAssessmentItem({ index, data, setShow, setActiveForm }) {
     const assessmentInfo = requirements.filter(
       (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
     );
-    console.log(assessmentInfo);
+    // console.log(assessmentInfo);
     if (assessmentInfo.length > 0) {
       return assessmentInfo[0].name;
     } else return "NULL";

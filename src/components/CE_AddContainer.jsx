@@ -14,7 +14,7 @@ function CEAddContainer({
 
   const { register, getValues,reset } = useForm({
     patientid:
-      Object.keys(activeClient).length !== 0 ? activeClient.patientid : 0,
+      activeClient.length > 0 ? activeClient[20].patientid : 0,
   });
 
   const onSubmit = (e) => {

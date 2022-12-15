@@ -10,7 +10,7 @@ function CDPersonal() {
     <ListGroup className={styles.dataGroup} variant="flush">
       <ListGroup.Item className="ps-0 pt-0" as="Row">
       <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">{activeClient.pfirstname + " " + activeClient.plastname}</div>
+            <div className="me-auto">{activeClient[20].pfirstname + " " + activeClient[20].plastname}</div>
             <div className="fw-bold">Full Name</div>
           </Col>
 

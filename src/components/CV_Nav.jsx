@@ -11,7 +11,6 @@ import styles from "./ClientDetails.module.scss";
 
 function CVNav() {
   const setTab = (e) => {
-    console.log(e);
     setActiveTab(e);
   };
   const [activeTab, setActiveTab] = useState("#overview");

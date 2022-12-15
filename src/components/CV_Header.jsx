@@ -17,7 +17,7 @@ function CVHeader({ activeTab, setActiveTab }) {
         <Row className="pb-3">
           <Col className="d-flex flex-row justify-content-between">
             <h2 className="m-0">
-              {activeClient.pfirstname} {activeClient.plastname}
+              {activeClient[20].pfirstname} {activeClient[20].plastname}
             </h2>
             <div className="CV-header-action-container">
               <ClientSelectDropdown />

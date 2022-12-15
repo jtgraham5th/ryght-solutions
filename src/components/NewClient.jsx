@@ -21,7 +21,7 @@ function NewClient() {
         show={show}
         setShow={setShow}
         containerName="Client Enrollment"
-        data={client01.treatmentPlan.goals}
+        edit={false}
       />
     </>
   );

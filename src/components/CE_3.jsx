@@ -105,8 +105,8 @@ function CE3({ register, control }) {
             <option>Select Referral</option>
             {formData["Referral Source"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -188,8 +188,8 @@ function CE3({ register, control }) {
             <option>Select Outsource</option>
             {formData["Referral Outsource"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -221,8 +221,8 @@ function CE3({ register, control }) {
             <option>Select Referral</option>
             {formData["Internal Referral"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}

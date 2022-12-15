@@ -152,8 +152,8 @@ function ABPS1({ register, control }) {
             <option>Select Race</option>
             {/* {formData["Ethnicity"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })} */}
@@ -170,8 +170,8 @@ function ABPS1({ register, control }) {
             <option>Select Gender</option>
             {/* {formData["Gender Identity"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })} */}
