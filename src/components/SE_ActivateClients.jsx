@@ -100,7 +100,7 @@ function SEActivateClients(props) {
         }
       })
       .then(async () => {
-        await getClientList();
+        await getClientList(20);
       });
     // .then(async () => {
     //   await sortAllClients();

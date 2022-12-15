@@ -11,6 +11,7 @@ import { useClient } from "../data/ClientContext";
 function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
   const [activePage, setActivePage] = useState(0);
+  const [tempID, setTempID] = useState();
   const {
     control,
     register,
@@ -21,295 +22,17 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
   } = useForm({});
   const {
     activeClient,
+    activeContacts,
     addClient,
     updateClient,
     addContact,
     updateContact,
-    getContact,
   } = useClient();
 
-  const [contactData, setContactData] = useState({
-    patient: {},
-    emergency: {},
-    physician: {},
-    pharmacy: {},
-  });
   const formatDate = (newDate) => {
     return new Date(newDate).toISOString().slice(0, 10).replace("T", " ");
   };
 
-  const defaultValues = {
-    patientid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.patientid
-        : 0,
-    pfirstname:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pfirstname
-        : "",
-    plastname:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.plastname
-        : "",
-    pinitial:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pinitial
-        : "",
-    preferredname:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.preferredname
-        : "",
-    dob:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.dob)
-        : Date.now(),
-    maritalstatusid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.maritalstatusid
-        : 0,
-    socsec:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.socsec : "",
-    ethnicityid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ethnicityid
-        : 0,
-    sexatbirthid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.sexatbirthid
-        : 0,
-    genderid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.genderid
-        : 0,
-    preferredpronounid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.preferredpronounid
-        : 0,
-    religionid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.religionid
-        : 0,
-    weight:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.weight : "",
-    height:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.height : "",
-    phone1:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone1 : "",
-    phone2:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone2 : "",
-    phone3:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone3 : "",
-    email:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.email : "",
-    enrolldate:
-      edit && Object.keys(activeClient).length !== 0 ? Date.now() : Date.now(),
-    employer:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.employer
-        : "",
-    employerphone:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.employerphone
-        : "",
-    clientaddressid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.clientaddressid
-        : 0,
-    ins1_cardavailableid:
-      edit && Object.keys(activeClient).length !== 0
-        ? // ? activeClient.ins1_cardavailableid
-          1
-        : 0,
-    ins1_dateexpires:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.ins1_dateexpires)
-        : Date.now(),
-    ins1_carrierid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins1_carrierid
-        : 0,
-    ins1_planid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins1_planid
-        : 0,
-    ins1_phone:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins1_phone
-        : "",
-    ins1_policynumber:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins1_policynumber
-        : "",
-    ins1_relationshipid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins1_relationshipid
-        : 0,
-    ins1_fundingsource:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins1_fundingsource
-        : "",
-    ins2_cardavailableid:
-      edit && Object.keys(activeClient).length !== 0
-        ? // ? activeClient.ins2_cardavailableid
-          1
-        : 0,
-    ins2_dateexpires:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.ins2_dateexpires)
-        : Date.now(),
-    ins2_carrierid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins2_carrierid
-        : 0,
-    ins2_planid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins2_planid
-        : 0,
-    ins2_phone:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins2_phone
-        : "",
-    ins2_policynumber:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins2_policynumber
-        : "",
-    ins2_relationshipid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins2_relationshipid
-        : 0,
-    ins2_fundingsource:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ins2_fundingsource
-        : "",
-    allergies:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.allergies
-        : "",
-    physicianid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.physicianid
-        : 0,
-    pharmacy:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pharmacy
-        : "",
-    pharmacyproviderid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pharmacyproviderid
-        : 0,
-    emergencycontactid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.emergencycontactid
-        : 0,
-    emergencyrelationshipid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.emergencyrelationshipid
-        : 0,
-    patient_comment:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.patient_comment
-        : "",
-    referralid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.referralid
-        : 0,
-    referraldate:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.referraldate)
-        : Date.now(),
-    dxdate:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.dxdate)
-        : Date.now(),
-    internalreferralid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.internalreferralid
-        : 0,
-    statusid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.statusid
-        : 0,
-    outcomeid:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.outcomeid
-        : 0,
-    dxcodes:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.dxcodes
-        : "",
-    dateoutsourced:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.dateoutsourced)
-        : Date.now(),
-    firstapptdate:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.firstapptdate)
-        : Date.now(),
-    firstpsydate:
-      edit && Object.keys(activeClient).length !== 0
-        ? Date.parse(activeClient.firstpsydate)
-        : Date.now(),
-    paddress:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.paddress
-        : "",
-    pcity:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.pcity : "",
-    pstate:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.pstate : "",
-    pZip:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.pZip : "",
-    pphone1:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pphone1
-        : "",
-    pphone1type:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pphone1type
-        : 0,
-    pphone2:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pphone2
-        : "",
-    pphone2type:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pphone2type
-        : 0,
-    pphone3:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.phone3 : "",
-    pphone3type:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.pphone3type
-        : 0,
-    // relationshipid: edit && contactData.patient ? contactData.patient.phone3typeid : 0,
-    ecName:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.ecName : "",
-    ecAddress:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ecAddress
-        : "",
-    ecCity:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.ecCity : "",
-    ecState:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ecState
-        : "",
-    ecZip:
-      edit && Object.keys(activeClient).length !== 0 ? activeClient.ecZip : "",
-    ecPhone:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ecPhone
-        : "",
-    ecPhoneType:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ecPhoneType
-        : "",
-    ecRelationship:
-      edit && Object.keys(activeClient).length !== 0
-        ? activeClient.ecRelationship
-        : "",
-    // relationshipid: edit && contactData.emergency ? contactData.emergency.phone3typeid : 0,
-  };
   const handleClose = () => {
     setActivePage(0);
     setShow(false);
@@ -334,19 +57,158 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
         return <CE1 register={register} control={control} />;
     }
   };
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
-    if (activePage < 2) {
+    const t20 = [
+      {
+        patientid: edit ? activeClient[20].patientid : tempID ? tempID : 0,
+        pfirstname: data.pfirstname,
+        pinitial: data.pinitial,
+        plastname: data.plastname,
+        preferredname: data.preferredname,
+        maritalstatusid: data.maritalstatusid,
+        dob: formatDate(data.dob),
+        socsec: data.socsec,
+        sexatbirthid: data.sexatbirthid,
+        genderid: data.genderid,
+        preferredpronounid: data.preferredpronounid,
+        ethnicityid: data.ethnicityid,
+        religionid: data.religionid,
+        email: data.email,
+        statusid: data.statusid,
+      },
+    ];
+    const t21 = [
+      {
+        patientid:
+          edit && activeClient.length > 0
+            ? activeClient[20].patientid
+            : tempID
+            ? tempID
+            : 0,
+        employer: data.employer,
+        employerphone: data.employerphone,
+        weight: data.weight,
+        allergies: data.allergies,
+        physicianid: data.physicianid,
+        pharmacyproviderid: data.pharmacyproviderid,
+        ins1_fundingsource: data.ins1_fundingsource,
+        ins1_policynumber: data.ins1_policynumber,
+        ins1_dateexpires: formatDate(data.ins1_dateexpires),
+        ins1_relationshipid: data.ins1_relationshipid,
+        ins1_cardavailableid: data.ins1_cardavailableid,
+        ins2_fundingsource: data.ins2_fundingsource,
+        ins2_policynumber: data.ins2_policynumber,
+        ins2_dateexpires: formatDate(data.ins2_dateexpires),
+        ins2_relationshipid: data.ins2_relationshipid,
+        ins2_cardavailableid: data.ins2_cardavailableid,
+      },
+    ];
+    const t22 = [
+      {
+        patientid:
+          edit && activeClient.length > 0
+            ? activeClient[20].patientid
+            : tempID
+            ? tempID
+            : 0,
+        referralid: data.referralid,
+        referraldate: formatDate(data.referraldate),
+        referralOutsourceid: 0,
+        dateoutsourced: formatDate(data.dateoutsourced),
+        internalreferralid: data.internalreferralid,
+        patient_comment: data.patient_comment,
+        dxcodes: data.dxcodes,
+        dxdate: formatDate(data.dxdate),
+        firstapptdate: formatDate(data.firstapptdate),
+        firstpsydate: formatDate(data.firstpsydate),
+      },
+    ];
+    const patientContact = [
+      {
+        contactid:
+          edit && activeContacts.patient[0].contactid
+            ? activeContacts.patient[0].contactid
+            : 0,
+        name: data.pfirstname + " " + data.plastname,
+        address1: data.paddress,
+        address2: "",
+        city: data.pcity,
+        state: data.pstate,
+        zip: data.pZip,
+        // udfid1: 0,
+        // udfid2: 0,
+        contacttypeid: 21,
+        patientid: parseInt(data.patientid),
+        relationshipid: 0,
+        phone1: data.pphone1,
+        phone1typeid: parseInt(data.pphone1type),
+        phone2: data.pphone2,
+        phone2typeid: parseInt(data.pphone2type),
+        phone3: data.pphone3,
+        phone3typeid: parseInt(data.pphone3type),
+        countyid: 0,
+        isactive: 1,
+      },
+    ];
+    const emergencyContact = [
+      {
+        contactid:
+          edit && activeContacts.emergency[0].contactid
+            ? activeContacts.emergency[0].contactid
+            : 0,
+        name: data.ecName,
+        address1: data.ecAddress,
+        address2: "",
+        city: data.ecCity,
+        state: data.ecState,
+        zip: data.ecZip,
+        // udfid1: 0,
+        // udfid2: 0,
+        contacttypeid: 22,
+        patientid: parseInt(data.patientid),
+        relationshipid: parseInt(data.ecRelationship),
+        phone1: data.ecPhone,
+        phone1typeid: parseInt(data.ecPhoneType),
+        phone2: "",
+        phone2typeid: 0,
+        phone3: "",
+        phone3typeid: 0,
+        countyid: 0,
+        isactive: 1,
+      },
+    ];
+
+    if (activePage === 0) {
+      if (edit || tempID) {
+        updateClient(t20, 20);
+        updateContact(patientContact, activeContacts.patient[0].contactid);
+        updateContact(emergencyContact, activeContacts.emergency[0].contactid);
+        nextPage();
+      } else {
+        console.log(emergencyContact, patientContact);
+        const newPatientId = await addClient(t20);
+        patientContact[0].patientid = newPatientId;
+        emergencyContact[0].patientid = newPatientId;
+        console.log(newPatientId);
+        addContact(patientContact, 20);
+        addContact(emergencyContact, 20);
+        setTempID(newPatientId);
+        nextPage();
+      }
+    }
+    if (activePage === 1) {
+      updateClient(t21, 21);
       nextPage();
     }
     if (activePage === 2) {
-      setAlert({
-        message: <h6>Are you sure you want to save these changes?</h6>,
-        data: data,
-        title: "Add New Client",
-      });
+      updateClient(t22, 22);
+      handleClose();
+      //trigger popup
+      reset();
     }
   };
+
   const handleConfirm = (data) => {
     console.log(data);
     const newClient = {
@@ -407,132 +269,6 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
       photolink: data.photolink,
       patient_comment: data.patient_comment,
     };
-    const patientContact = {
-      name: data.pfirstname + " " + data.plastname,
-      address1: data.paddress,
-      address2: "",
-      city: data.pcity,
-      state: data.pstate,
-      zip: data.pZip,
-      udfid1: 0,
-      udfid2: 0,
-      contacttypeid: 21,
-      patientid: data.patientid,
-      relationshipid: 0,
-      phone1: data.pphone1,
-      phone1typeid: data.pphone1type,
-      phone2: data.pphone2,
-      phone2typeid: data.pphone2type,
-      phone3: data.pphone3,
-      phone3typeid: data.pphone3type,
-      countyid: 0,
-      isactive: 1,
-    };
-    const emergencyContact = {
-      name: data.ecName,
-      address1: data.ecAddress,
-      address2: "",
-      city: data.ecCity,
-      state: data.ecState,
-      zip: data.ecZip,
-      udfid1: 0,
-      udfid2: 0,
-      contacttypeid: 22,
-      patientid: data.patientid,
-      relationshipid: data.ecRelationship,
-      phone1: data.ecPhone,
-      phone1typeid: data.ecPhoneType,
-      phone2: "",
-      phone2typeid: 0,
-      phone3: "",
-      phone3typeid: 0,
-      countyid: 0,
-      isactive: 1,
-    };
-    console.log("newClient:", newClient);
-    console.log("patientContact:", patientContact);
-    console.log("emergencyContact:", emergencyContact);
-
-    // const newClient = {
-    //   firstname: data.firstname,
-    //   lastname: data.lastname,
-    //   initial: "",
-    //   preferredname: data.preferredname,
-    //   dob: "10/11/1986",
-    //   maritalstatusid: data.maritalstatusid,
-    //   socsec: data.socsec,
-    //   ethicityid: data.ethicityid,
-    //   sexatbirthid: data.sexatbirthid,
-    //   sexid: data.sexatbirthid,
-    //   genderidentiyid: data.genderidentiyid,
-    //   religionid: data.religionid,
-    //   weight: data.weight,
-    //   height: data.height,
-    //   sharenoteid: "000",
-    //   isactive: "1",
-    //   allergies: "none",
-    // };
-    // const enrollNewClient = {
-    //   dateofadmission: "10/11/1986",
-    //   dxcodes: "",
-    //   dxdate: "1/20/2022",
-    //   outcomestatusid: 9,
-    //   enrollstatusid: 1,
-    //   referralsourceid: 0,
-    //   firstapptdate: "1/20/2022",
-    //   firstpsydate: "1/20/2022",
-    //   patientid: 100000,
-    //   pharmacyproviderid: 0,
-    //   familyphysicianid: 0,
-    // };
-    if (edit) {
-      newClient.patientid = activeClient.patientid;
-      console.log("update", newClient);
-      if (newClient.clientaddressid !== "0") {
-        console.log(" - update patient contact -");
-        updateContact(patientContact, newClient.clientaddressid).then(
-          (data) => {
-            newClient.clientaddressid = data;
-            updateClient(newClient);
-          }
-        );
-      } else {
-        console.log(" - add patient contact -");
-        addContact(patientContact).then((data) => {
-          newClient.clientaddressid = data;
-          updateClient(newClient);
-        });
-      }
-      if (newClient.emergencycontactid !== "0") {
-        console.log(" - update emergency contact -");
-        updateContact(emergencyContact, newClient.emergencycontactid).then(
-          (data) => {
-            newClient.emergencycontactid = data;
-            updateClient(newClient);
-          }
-        );
-      } else {
-        console.log(" - add emergency contact -");
-        addContact(emergencyContact).then((data) => {
-          newClient.emergencycontactid = data;
-          updateClient(newClient);
-        });
-      }
-    } else {
-      console.log(newClient);
-      addClient(newClient).then((response) => {
-        console.log("new client", response);
-        const patientid = response.patientid;
-        addContact(patientContact).then(
-          (data) => (newClient.clientaddressid = data)
-        );
-        addContact(emergencyContact).then(
-          (data) => (newClient.emergencycontactid = data)
-        );
-        newClient.patientid = patientid;
-        updateClient(newClient);
-      });
-    }
     handleClose();
     reset();
   };
@@ -541,71 +277,110 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
   useEffect(() => {
     return function cleanup() {
       console.log("cleanup!");
-      setContactData({
-        patient: {},
-        emergency: {},
-        physician: {},
-        pharmacy: {},
-      });
+      setTempID();
     };
   }, []);
 
   useEffect(() => {
-    console.log("reset");
-
-    reset({ ...defaultValues });
-    if (activeClient.clientaddressid && activeClient.clientaddressid !== "0") {
-      console.log("has clientaddressid");
-      const getClientaddressid = async () =>
-        await getContact(activeClient.clientaddressid).then((data) =>
-          setContactData((prevState) => ({
-            ...prevState,
-            patient: data,
-          }))
-        );
-      getClientaddressid();
-    }
-    if (
-      activeClient.emergencycontactid &&
-      activeClient.emergencycontactid !== "0"
-    ) {
-      console.log("has emergencyaddressid");
-      const getEmergencyContact = async () =>
-        await getContact(activeClient.emergencycontactid).then((data) =>
-          setContactData((prevState) => ({
-            ...prevState,
-            emergency: data,
-          }))
-        );
-      getEmergencyContact();
-    }
-    if (activeClient.physicianid && activeClient.physicianid !== "0") {
-      console.log("has physicianid");
-      const getPhysician = async () =>
-        await getContact(activeClient.physicianid).then((data) =>
-          setContactData((prevState) => ({
-            ...prevState,
-            physician: data,
-          }))
-        );
-      getPhysician();
-    }
-    if (
-      activeClient.pharmacyproviderid &&
-      activeClient.pharmacyproviderid !== "0"
-    ) {
-      console.log("has pharmacyproviderid");
-      const getPharmacy = async () =>
-        await getContact(activeClient.pharmacyproviderid).then((data) =>
-          setContactData((prevState) => ({
-            ...prevState,
-            pharmacy: data,
-          }))
-        );
-      getPharmacy();
+    console.log("ACTIVE CLIENT CHANGE", activeClient);
+    if (Object.keys(activeClient).length !== 0) {
+      let defaultValues = {
+        patientid: edit ? activeClient[20].patientid : 0,
+        pfirstname: edit ? activeClient[20].pfirstname : "",
+        plastname: edit ? activeClient[20].plastname : "",
+        pinitial: edit ? activeClient[20].pinitial : "",
+        preferredname: edit ? activeClient[20].preferredname : "",
+        dob: edit ? Date.parse(activeClient[20].dob) : Date.now(),
+        maritalstatusid: edit ? parseInt(activeClient[20].maritalstatusid) : 0,
+        socsec: edit ? activeClient[20].socsec : "",
+        ethnicityid: edit ? activeClient[20].ethnicityid : 0,
+        sexatbirthid: edit ? activeClient[20].sexatbirthid : 0,
+        genderid: edit ? activeClient[20].genderid : 0,
+        preferredpronounid: edit ? activeClient[20].preferredpronounid : 0,
+        religionid: edit ? activeClient[20].religionid : 0,
+        weight: edit ? activeClient[21].weight : "",
+        height: edit ? activeClient[21].height : "",
+        email: edit ? activeClient[20].email : "",
+        employer: edit ? activeClient[21].employer : "",
+        employerphone: edit ? activeClient[21].employerphone : "",
+        ins1_cardavailableid: edit // ? activeClient[21].ins1_cardavailableid
+          ? 1
+          : 0,
+        ins1_dateexpires: edit
+          ? Date.parse(activeClient[21].ins1_dateexpires)
+          : Date.now(),
+        ins1_policynumber: edit ? activeClient[21].ins1_policynumber : "",
+        ins1_relationshipid: edit ? activeClient[21].ins1_relationshipid : 0,
+        ins1_fundingsource: edit ? activeClient[21].ins1_fundingsource : "",
+        ins2_cardavailableid: edit // ? activeClient[21].ins2_cardavailableid
+          ? 1
+          : 0,
+        ins2_dateexpires: edit
+          ? Date.parse(activeClient[21].ins2_dateexpires)
+          : Date.now(),
+        ins2_policynumber: edit ? activeClient[21].ins2_policynumber : "",
+        ins2_relationshipid: edit ? activeClient[21].ins2_relationshipid : 0,
+        ins2_fundingsource: edit ? activeClient[21].ins2_fundingsource : "",
+        allergies: edit ? activeClient[21].allergies : "",
+        physicianid: edit ? activeClient[21].physicianid : 0,
+        pharmacy: edit ? activeClient[21].pharmacy : "",
+        pharmacyproviderid: edit ? activeClient[21].pharmacyproviderid : 0,
+        patient_comment: edit ? activeClient[22].patient_comment : "",
+        referralid: edit ? activeClient[22].referralid : 0,
+        referraldate: edit
+          ? Date.parse(activeClient[22].referraldate)
+          : Date.now(),
+        dxdate: edit ? Date.parse(activeClient[22].dxdate) : Date.now(),
+        internalreferralid: edit ? activeClient[22].internalreferralid : 0,
+        statusid: edit ? activeClient[20].statusid : 0,
+        outcomeid: edit ? activeClient[22].outcomeid : 0,
+        dxcodes: edit ? activeClient[22].dxcodes : "",
+        dateoutsourced: edit
+          ? Date.parse(activeClient[22].dateoutsourced)
+          : Date.now(),
+        firstapptdate: edit
+          ? Date.parse(activeClient[22].firstapptdate)
+          : Date.now(),
+        firstpsydate: edit
+          ? Date.parse(activeClient[22].firstpsydate)
+          : Date.now(),
+      };
+      if (activeContacts.patient && activeContacts.patient.length > 0) {
+        console.log(activeContacts.patient);
+        const patientContact = {
+          paddress: edit ? activeContacts.patient[0].address1 : "",
+          pcity: edit ? activeContacts.patient[0].city : "",
+          pstate: edit ? activeContacts.patient[0].state : "",
+          pZip: edit ? activeContacts.patient[0].zip : "",
+          pphone1: edit ? parseInt(activeContacts.patient[0].Phone1) : "",
+          pphone1type: edit ? activeContacts.patient[0].Phone1TypeID : 0,
+          pphone2: edit ? activeContacts.patient[0].Phone2 : "",
+          pphone2type: edit ? activeContacts.patient[0].Phone2TypeID : 0,
+          pphone3: edit ? activeContacts.patient[0].Phone3 : "",
+          pphone3type: edit ? activeContacts.patient[0].Phone3TypeID : 0,
+        };
+        defaultValues = { ...defaultValues, ...patientContact };
+      }
+      if (activeContacts.emergency && activeContacts.emergency.length > 0) {
+        console.log(activeContacts.emergency);
+        const emergencyContact = {
+          ecName: edit ? activeContacts.emergency[0].name : "",
+          ecAddress: edit ? activeContacts.emergency[0].address1 : "",
+          ecCity: edit ? activeContacts.emergency[0].city : "",
+          ecState: edit ? activeContacts.emergency[0].state : "",
+          ecZip: edit ? activeContacts.emergency[0].zip : "",
+          ecPhone: edit ? parseInt(activeContacts.emergency[0].Phone1) : "",
+          ecPhoneType: edit ? activeContacts.emergency[0].Phone1TypeID : "",
+          ecRelationship: edit
+            ? activeContacts.emergency[0].RelationshipID
+            : "",
+        };
+        defaultValues = { ...defaultValues, ...emergencyContact };
+      }
+      reset({ ...defaultValues });
     }
     // eslint-disable-next-line
-  }, [activeClient]);
+  }, [activeClient, activeContacts]);
 
   return (
     <Modal show={show} dialogClassName="PNM-width" onHide={handleClose}>
@@ -633,7 +408,11 @@ function ClientEnrollmentManager({ show, setShow, containerName, edit }) {
             type="submit"
             // onClick={activePage >= 2 ? () => console.log("Add New Client") : nextPage}
           >
-            {activePage >= 2 ? (edit ? "Save" : "Add New Client") : "Next"}
+            {activePage >= 2
+              ? edit
+                ? "Subit & Exit"
+                : "Save and Continue"
+              : "Next"}
           </Button>
         </Modal.Footer>
       </Form>

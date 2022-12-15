@@ -10,7 +10,7 @@ function CDContact() {
 
   useEffect(() => {
     if (contactInfo.length < 1) {
-      setContactInfo(getClientContact(activeClient.patientid));
+      setContactInfo(getClientContact(activeClient[20].patientid));
     }
   }, []);
 

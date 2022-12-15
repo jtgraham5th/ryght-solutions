@@ -87,6 +87,7 @@ function CE2({ register, control, setValue }) {
         <Col md={2}>
           <Form.Label className="CE-form-label">Height</Form.Label>
           <Form.Control
+            disabled
             className="goal-detail-input"
             {...register("height")}
             type="text"
@@ -158,8 +159,8 @@ function CE2({ register, control, setValue }) {
             {formData["Physicians"] &&
               formData["Physicians"].map((item, i) => {
                 return (
-                  <option key={i} value={item.contactid}>
-                    {item.name}
+                  <option key={i} value={item.GroupListID}>
+                    {item.GroupValue}
                   </option>
                 );
               })}
@@ -168,7 +169,7 @@ function CE2({ register, control, setValue }) {
 
         <Col md={4}>
           <Form.Label className="CE-form-label">
-            Pharmacy{" "}
+            Pharmacy
             <div className="CE-form-label-button-container">
               {addNew.pharmacy ? (
                 <>
@@ -211,8 +212,8 @@ function CE2({ register, control, setValue }) {
             {formData["Pharmacy"] &&
               formData["Pharmacy"].map((item, i) => {
                 return (
-                  <option key={i} value={item.contactid}>
-                    {item.name}
+                  <option key={i} value={item.GroupListID}>
+                    {item.GroupValue}
                   </option>
                 );
               })}
@@ -282,8 +283,8 @@ function CE2({ register, control, setValue }) {
           >
             {formData["Funding Source "].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
@@ -324,7 +325,7 @@ function CE2({ register, control, setValue }) {
         newForm={addNew.activeForm}
       />
       <Form.Group as={Row} className="mb-4">
-        <Col md={4}>
+        {/* <Col md={4}>
           <Form.Label className="CE-form-label">Relationship</Form.Label>
           <Form.Select
             {...register("ins1_relationshipid")}
@@ -333,13 +334,13 @@ function CE2({ register, control, setValue }) {
           >
             {formData["Relationship"].map((item, i) => {
               return (
-                <option key={i} value={item.listId}>
-                  {item.listItem}
+                <option key={i} value={item.GroupListID}>
+                  {item.GroupValue}
                 </option>
               );
             })}
           </Form.Select>
-        </Col>
+        </Col> */}
         <Col md={4} className="mt-4">
           <Form.Check
             {...register("ins1_cardavailableid")}
@@ -404,8 +405,8 @@ function CE2({ register, control, setValue }) {
                 >
                   {formData["Funding Source "].map((item, i) => {
                     return (
-                      <option key={i} value={item.listId}>
-                        {item.listItem}
+                      <option key={i} value={item.GroupListID}>
+                        {item.GroupValue}
                       </option>
                     );
                   })}
@@ -455,8 +456,8 @@ function CE2({ register, control, setValue }) {
                 >
                   {formData["Relationship"].map((item, i) => {
                     return (
-                      <option key={i} value={item.listId}>
-                        {item.listItem}
+                      <option key={i} value={item.GroupListID}>
+                        {item.GroupValue}
                       </option>
                     );
                   })}

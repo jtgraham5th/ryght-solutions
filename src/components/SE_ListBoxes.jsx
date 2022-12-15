@@ -69,9 +69,9 @@ function SEListBoxes(props) {
               {activeGroup &&
                 formData[activeGroup.groupname].map((item, i) => {
                   return (
-                    <ListGroup.Item key={i} value={item.listId} className="d-flex justify-content-between align-items-start">
-                      {item.listItem}
-                      <Button size="sm" variant="light" onClick={()=> deleteGroupItem(item.listId)}>X</Button>
+                    <ListGroup.Item key={i} value={item.GroupListID} className="d-flex justify-content-between align-items-start">
+                      {item.GroupValue}
+                      <Button size="sm" variant="light" onClick={()=> deleteGroupItem(item.GroupListID)}>X</Button>
                     </ListGroup.Item>
                   );
                 })}</div>
@@ -105,8 +105,8 @@ function SEListBoxes(props) {
                 >
                   {formData[group].map((item, i) => {
                     return (
-                      <option key={i} value={item.listId}>
-                        {item.listItem}
+                      <option key={i} value={item.GroupListID}>
+                        {item.GroupValue}
                       </option>
                     );
                   })}

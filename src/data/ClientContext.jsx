@@ -11,7 +11,8 @@ export function useClient() {
 export function ClientProvider(props) {
   const [clientList, setClientlist] = useState([]);
   const [contactList, setContactList] = useState([]);
-  const [activeClient, setActiveClient] = useState({});
+  const [activeClient, setActiveClient] = useState({ 20: {}, 21: {}, 22: {} });
+  const [activeContacts, setActiveContacts] = useState({});
   const [clientRequirements, setClientRequirements] = useState([]);
   const [formData, setFormData] = useState({});
   const [sortedClients, setSortedClients] = useState({ ...abcObject });
@@ -24,7 +25,7 @@ export function ClientProvider(props) {
         let lastName = [...nameArray[0]];
         let abcObjectKeys = Object.keys(sortedClients);
         for (const key of abcObjectKeys) {
-          if (lastName[0].toLowerCase() === key.toLowerCase()) {
+          if (lastName[0] && lastName[0].toLowerCase() === key.toLowerCase()) {
             emptyObject[key] = [...emptyObject[key], clientList[i]].sort();
           }
         }
@@ -32,40 +33,51 @@ export function ClientProvider(props) {
     }
   };
 
-  const selectClient = async (patientid) => {
-    fetch(`http://www.ivronlogs.icu:8080/rs/api/enroll/${patientid}`)
+  const selectClient = async (patientid, tid) => {
+    // if (activeClient.length === 3) {
+    //   setActiveClient([]);
+    // }
+    fetch(`http://www.ivronlogs.club:8080/generic_api/${patientid}?tid=${tid}`)
       .then((response) => response.json())
-      .then((data) => {
-        let newObject = {};
-        getClientAddress(data.clientaddressid)
-          .then((contact) => {
-            newObject = { ...data, ...contact };
-          })
-          .then(() =>
-            getEmergencyContact(data.emergencycontactid)
-              .then((econtact) => {
-                newObject = { ...newObject, ...econtact };
-              })
-              .then(() => {
-                setActiveClient({ ...newObject });
-              })
-          );
+      .then(async (data) => {
+        setActiveClient((prevState) => ({
+          ...prevState,
+          [tid]: { ...data[0] },
+        }));
       })
       .catch((e) => {
         console.log(e);
       });
   };
-  const getContactList = (patientid) => {
-    fetch(`http://www.ivronlogs.icu:8080/rs/api/contact`)
+  const getContactList = async (patientid, type) => {
+    // fetch(`http://www.ivronlogs.icu:8080/rs/api/contact`)
+    let activeContacts = {};
+    await fetch(
+      `http://www.ivronlogs.club:8080/generic_api/list/23?listing=patientid=${patientid},contacttypeid=${type}&orderby=name`
+    )
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
-        setContactList(data);
-        setFormData((prevData) => ({
-          ...prevData,
-          Pharmacy: getPharmacyList(data),
-          Physicians: getPhysicianList(data),
-        }));
+        console.log(data, type);
+        let contactType = "";
+        switch (type) {
+          case 21:
+            contactType = "patient";
+            break;
+          case 22:
+            contactType = "emergency";
+            break;
+          case 23:
+            contactType = "pharmacy";
+            break;
+          case 24:
+            contactType = "physician";
+            break;
+          default:
+            break;
+        }
+        setActiveContacts((prevState) => {
+          return { ...prevState, [contactType]: data };
+        });
       })
       .catch((e) => {
         console.log(e);
@@ -93,28 +105,27 @@ export function ClientProvider(props) {
   };
   const getFormFields = async () => {
     let groupObject = {};
-    await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
+    await fetch(
+      `http://www.ivronlogs.club:8080/generic_api/list/25?listing=isactive=1&orderby=groupnameid`
+    )
       .then((response) => response.json())
       .then(async (data) => {
-        // console.log(groupListArray)
+        console.log(data);
         for (const group of data) {
           await getGroupList(group.groupnameid).then((res) => {
-            let groupListObject = {};
-            let groupListArray = [];
+            console.log(res);
+            let groupArray = [];
             res.forEach((item) => {
-              groupListObject.listId = item[0];
-              groupListObject.listItem = item[1];
-              groupListObject.groupId = item[2];
-              groupListArray.push(groupListObject);
-              groupListObject = {};
+              groupArray.push(item);
             });
-            groupObject[`${group.groupname}`] = groupListArray;
+            groupObject[`${group.groupname}`] = groupArray;
           });
         }
       })
       .catch((e) => {
         console.log(e);
       });
+    console.log(groupObject);
     setFormData(groupObject);
   };
   const getClient = async (patientid) => {
@@ -129,9 +140,11 @@ export function ClientProvider(props) {
         console.log(e);
       });
   };
-  const getClientList = () => {
+  const getClientList = (tid) => {
     setLoading(true);
-    fetch("http://www.ivronlogs.icu:8080/rs/api/enroll")
+    fetch(
+      `http://www.ivronlogs.club:8080/generic_api/list/${tid}?listing=statusid=0&orderby=plastname`
+    )
       .then((response) => response.json())
       .then((data) => {
         let clientArray = [];
@@ -151,43 +164,12 @@ export function ClientProvider(props) {
         setLoading(false);
       });
   };
-  const updateClient = (patient) => {
-    setLoading(true);
-    console.log(patient);
-    // fetch(`http://www.ivronlogs.icu:8080/rs/api/patient/${patient.patientid}`, {
-    fetch(`http://www.ivronlogs.icu:8080/rs/api/enroll/${patient.patientid}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(patient),
-    })
-      .then((response) => response.json())
-      .then(async (data) => {
-        let newObject = {};
-        getClientAddress(data.clientaddressid)
-          .then((contact) => {
-            newObject = { ...data, ...contact };
-          })
-          .then(() =>
-            getEmergencyContact(data.emergencycontactid)
-              .then((econtact) => {
-                newObject = { ...newObject, ...econtact };
-              })
-              .then(() => {
-                setActiveClient({ ...newObject });
-                setLoading(false);
-              })
-          );
-      })
-      .catch((e) => {
-        console.log(e);
-        setLoading(false);
-      });
-  };
-  const getGroupList = async (grouplistid) => {
+  const getGroupList = async (GroupListID) => {
+    //   return await fetch(`http://www.ivronlogs.icu:8080/rs/api/grouplist`).then(
+    // return fetch(
+    //   `http://www.ivronlogs.icu:8080/rs/api/grouplist/gl_by_groupid?groupid=${GroupListID}`
     return fetch(
-      `http://www.ivronlogs.icu:8080/rs/api/grouplist/gl_by_groupid?groupid=${grouplistid}`
+      `http://www.ivronlogs.club:8080/generic_api/list/24?listing=groupid=${GroupListID}&orderby=groupid`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -197,30 +179,44 @@ export function ClientProvider(props) {
         console.log(e);
       });
   };
-  // const getGroupList = async () => {
-  //   return await fetch(`http://www.ivronlogs.icu:8080/rs/api/grouplist`).then(
-  //     async (response) => {
-  //       await response.json().then((data) => {
-  //         console.log(data);
-  //         return data;
-  //       });
-  //     }
-  //   );
-  // };
-
-  const addClient = async (newClient) => {
+  const updateClient = async (client, tid) => {
+    //   fetch(`http://www.ivronlogs.icu:8080/rs/api/patient/${patient.patientid}`, {
+    //   fetch(`http://www.ivronlogs.icu:8080/rs/api/enroll/${patient.patientid}`, {
+    return await fetch(
+      `http://www.ivronlogs.club:8080/generic_api/${activeClient[20].patientid}?tid=${tid}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(client),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        return data[0];
+      })
+      .catch((e) => {
+        console.log(e);
+        return e;
+      });
+  };
+  const addClient = async (client) => {
     // return await fetch("http://www.ivronlogs.icu:8080/rs/api/patient", {
-    return await fetch("http://www.ivronlogs.icu:8080/rs/api/enroll/", {
-      method: "POST",
+    //  return await fetch("http://www.ivronlogs.icu:8080/rs/api/enroll/", {
+    return await fetch(`http://www.ivronlogs.club:8080/generic_api/20`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newClient),
+      body: JSON.stringify(client),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        return data;
+        getClientList(20);
+        return data[0].patientid;
       })
       .catch((e) => {
         console.log(e);
@@ -228,22 +224,6 @@ export function ClientProvider(props) {
       });
   };
 
-  const enrollClient = async (newClient) => {
-    await fetch("http://www.ivronlogs.icu:8080/rs/api/enroll", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newClient),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
   const addGroupItem = async (groupItemObject) => {
     return await fetch("http://www.ivronlogs.icu:8080/rs/api/grouplist", {
       method: "POST",
@@ -261,9 +241,9 @@ export function ClientProvider(props) {
         console.log(e);
       });
   };
-  const deleteGroupItem = async (grouplistid) => {
+  const deleteGroupItem = async (GroupListID) => {
     return fetch(
-      `http://www.ivronlogs.icu:8080/rs/api/grouplist/${grouplistid}`,
+      `http://www.ivronlogs.icu:8080/rs/api/grouplist/${GroupListID}`,
       {
         method: "DELETE",
       }
@@ -277,8 +257,10 @@ export function ClientProvider(props) {
       });
   };
   const addContact = async (contact) => {
-    return await fetch(`http://www.ivronlogs.icu:8080/rs/api/contact`, {
-      method: "POST",
+    // return await fetch(`http://www.ivronlogs.icu:8080/rs/api/contact`, {
+    return await fetch(`http://www.ivronlogs.club:8080/generic_api/23`, {
+      // method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -286,6 +268,7 @@ export function ClientProvider(props) {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         return data.contactid;
       })
       .catch((e) => {
@@ -294,10 +277,12 @@ export function ClientProvider(props) {
       });
   };
   const updateContact = async (contact, contactid) => {
+    // return await fetch(
+    //   `http://www.ivronlogs.icu:8080/rs/api/contact/${contactid}`,
     return await fetch(
-      `http://www.ivronlogs.icu:8080/rs/api/contact/${contactid}`,
+      `http://www.ivronlogs.club:8080/generic_api/${contactid}?tid=23`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -306,7 +291,7 @@ export function ClientProvider(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-        return data.contactid;
+        return data[0].contactid;
       })
       .catch((e) => {
         console.log(e);
@@ -314,8 +299,10 @@ export function ClientProvider(props) {
       });
   };
   const getContact = async (contactid) => {
+    // return await fetch(
+    //   `http://www.ivronlogs.icu:8080/rs/api/contact/${contactid}`
     return await fetch(
-      `http://www.ivronlogs.icu:8080/rs/api/contact/${contactid}`
+      `http://www.ivronlogs.club:8080/generic_api/${contactid}?tid=23`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -381,7 +368,7 @@ export function ClientProvider(props) {
         let newRequirement = [
           {
             billingid: 0,
-            patientid: activeClient.patientid,
+            patientid: activeClient[20].patientid,
             doctypeid: requirement.doctypeid,
             lastuserid: 101,
           },
@@ -415,7 +402,7 @@ export function ClientProvider(props) {
   };
   const getClientRequirements = () => {
     fetch(
-      `http://www.ivronlogs.club:8080/generic_api/list/17?listing=patientid=${activeClient.patientid}&orderby=billingid`
+      `http://www.ivronlogs.club:8080/generic_api/list/17?listing=patientid=${activeClient[20].patientid}&orderby=billingid`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -425,9 +412,9 @@ export function ClientProvider(props) {
   };
 
   useEffect(() => {
-    if (!clientList.length > 0) getClientList();
+    if (!clientList.length > 0) getClientList(20);
     if (!formData.length > 0) getFormFields();
-    if (!contactList.length > 0) getContactList();
+    // if (!contactList.length > 0) getContactList();
     // eslint-disable-next-line
   }, []);
 
@@ -445,8 +432,8 @@ export function ClientProvider(props) {
 
   useEffect(() => {
     // get document ids
-
-    if (Object.keys(activeClient).length !== 0) getClientRequirements();
+    console.log(activeClient);
+    if (activeClient.length > 0) getClientRequirements();
     // eslint-disable-next-line
   }, [activeClient]);
 
@@ -460,10 +447,11 @@ export function ClientProvider(props) {
         getClient,
         getClientList,
         getClientContact,
+        getContactList,
         selectClient,
         getGroupList,
         deleteGroupItem,
-        enrollClient,
+        // enrollClient,
         getGroupNames,
         addGroupItem,
         addContact,
@@ -473,6 +461,7 @@ export function ClientProvider(props) {
         addClientRequirements,
         sortedClients,
         activeClient,
+        activeContacts,
         formData,
         loading,
         setLoading,

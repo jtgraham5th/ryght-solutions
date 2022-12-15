@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from "react";
-import { Form, Dropdown, Spinner} from "react-bootstrap";
+import { Form, Dropdown, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../pages/UserDashboard.css";
 import { useClient } from "../data/ClientContext";
@@ -7,14 +7,19 @@ import { useClient } from "../data/ClientContext";
 function ClientSelectDropdown(props) {
   let navigate = useNavigate();
 
-  const { selectClient, sortedClients, loading } = useClient();
+  const { selectClient, getContactList, sortedClients, loading } = useClient();
   const [alphaSelector, setAlphaSelector] = useState("");
   const [searchResults, setSearchResults] = useState(sortedClients["a"].sort());
   const [searchValue, setSearchValue] = useState("");
 
-  const handleClientSelect = (patientid) => {
-    selectClient(patientid);
-    navigate("/client/overview");
+  const handleClientSelect = async (patientid) => {
+    for (let i = 20; i < 23; i++) {
+      await selectClient(patientid, i);
+    }
+    for (let i = 21; i < 25; i++) {
+      await getContactList(patientid, i);
+    }
+    return;
   };
   const searchClients = (e) => {
     e.preventDefault();
@@ -69,8 +74,7 @@ function ClientSelectDropdown(props) {
   return (
     <Dropdown>
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-        {loading ? <Spinner animation="border" size="sm" /> : ""} Select
-        Client
+        {loading ? <Spinner animation="border" size="sm" /> : ""} Select Client
       </Dropdown.Toggle>
       <Dropdown.Menu as={CustomMenu}>
         {alphaSelector ? (
@@ -78,7 +82,11 @@ function ClientSelectDropdown(props) {
             <Dropdown.Item
               key={index}
               eventKey={index}
-              onClick={() => handleClientSelect(result.patientid)}
+              onClick={() => {
+                handleClientSelect(result.patientid).then(() =>
+                  navigate("/client/overview")
+                );
+              }}
             >
               {result.name}
             </Dropdown.Item>

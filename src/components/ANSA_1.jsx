@@ -52,8 +52,8 @@ function ANSA1({ register, control }) {
             <option>Select Gender</option>
             {formData["Gender Identity"].map((item, i) => {
               return (
-                <option key={i} value={item.listItem}>
-                  {item.listItem}
+                <option key={i} value={item.GroupValue}>
+                  {item.GroupValue}
                 </option>
               );
             })}
