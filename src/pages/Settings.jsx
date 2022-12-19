@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Card, Row, Col, ListGroup } from "react-bootstrap";
-import "./Settings.css";
-import SEActivateClients from "../components/SE_ActivateClients";
-import SEListBoxes from "../components/SE_ListBoxes";
+import "../features/settings/settings.css";
+import { SEActivateClients } from "../features/settings";
+import { SEListBoxes } from "../features/settings";
 
 function Settings(props) {
   // let navigate = useNavigate();
@@ -23,20 +23,20 @@ function Settings(props) {
     <>
       <Card className="w-100 h-100">
         <Card.Body as={Row} className="h-100">
-            <Col md={2} className="settings-menu">
-              <Card>
-                <Card.Header>Settings Menu</Card.Header>
-                <ListGroup>
-                  <ListGroup.Item action onClick={() => setActiveSetting(0)}>
-                    Active Patients
-                  </ListGroup.Item>
-                  <ListGroup.Item action onClick={() => setActiveSetting(1)}>
-                    Setup List Boxes
-                  </ListGroup.Item>
-                </ListGroup>
-              </Card>
-            </Col>
-            {renderSetting()}
+          <Col md={2} className="settings-menu">
+            <Card>
+              <Card.Header>Settings Menu</Card.Header>
+              <ListGroup>
+                <ListGroup.Item action onClick={() => setActiveSetting(0)}>
+                  Active Patients
+                </ListGroup.Item>
+                <ListGroup.Item action onClick={() => setActiveSetting(1)}>
+                  Setup List Boxes
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+          {renderSetting()}
         </Card.Body>
       </Card>
     </>

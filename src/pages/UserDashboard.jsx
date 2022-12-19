@@ -1,15 +1,13 @@
-import React, { useState, forwardRef, useEffect } from "react";
-import { Card, Row, Col, Form, Dropdown } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./UserDashboard.css";
 import DatePicker from "react-datepicker";
-import { useClient } from "../data/ClientContext";
 import ClientSelectDropdown from "../components/ClientSelectDropdown";
 
 function UserDashboard(props) {
   let navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
-  const { sortedClients } = useClient();
 
   return (
     <>

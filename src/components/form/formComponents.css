@@ -1,0 +1,28 @@
+.RQ-form-label {
+    width: 100%;
+    margin: 0%;
+    font-weight: 200;
+    display: flex;
+    justify-content: space-between;
+  
+    /* font-weight: bold; */
+  }
+  .CE-form-label {
+    width: 100%;
+    margin: 0%;
+    font-weight: 200;
+    display: flex;
+    justify-content: space-between;
+  
+    /* font-weight: bold; */
+  }
+  .CE-form-label-button {
+    padding: 0.1rem !important;
+    /* height: 25% !important; */
+  }
+  .CE-form-label-button-container {
+    width: 25%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  

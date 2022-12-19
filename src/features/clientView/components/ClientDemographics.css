@@ -1,0 +1,74 @@
+
+.data-row {
+  align-items: center;
+}
+.data-issues{
+  overflow: auto;
+  height: fit-content;
+  max-height: 9rem;
+}
+/* Demographic Info Component */
+.clientDemo {
+  margin-top: 1.5rem;
+  /* height: 11rem !important; */
+  /* max-height: 14rem !important; */
+  overflow: hidden;
+}
+.demoInfo {
+  /* font-size: small; */
+  height: 100%;
+  align-items: center
+}
+.clientDetails {
+  padding: 0 !important;
+}
+.clientImg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Personal Data Component */
+.data-item {
+  /* font-size: small !important; */
+  padding-left: 1rem !important;
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+}
+
+.data-item > .form-check {
+  min-height: unset !important;
+}
+.data-item > .form-select, .data-item > input {
+  padding: 0.3rem;
+  font-size: small;
+}
+.data-group {
+  flex-direction: row !important;
+  flex-wrap: wrap;
+}
+/* Personal Information */
+.pi {
+  /* padding-left: 0 !important;
+  padding-right: 0 !important; */
+}
+.nav-item {
+  white-space: nowrap;
+  /* font-size: smaller !important; */
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
+
+}
+
+.pi-nav {
+  align-content: center;
+  /* flex-direction: column; */
+  padding-left: 0rem !important;
+  padding-right: 0rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-right: 1px solid #dee2e6;
+  height: 100%;
+
+  /* flex-flow: nowrap !important; */
+  /* overflow-x: scroll; */
+}
