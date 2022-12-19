@@ -5,9 +5,9 @@ import Sidebar from "./components/Sidebar";
 import ClientDashboard from "./pages/ClientDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import Settings from "./pages/Settings";
-import Login from "./components/Login";
-import { ClientProvider } from "./data/ClientContext";
-import { UserProvider } from "./data/UserContext";
+import { Login } from "./features/authentication";
+import { ClientProvider } from "./context/ClientContext";
+import { UserProvider } from "./context/UserContext";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);

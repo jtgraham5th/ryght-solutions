@@ -1,11 +1,10 @@
-import { Container, ListGroup, Nav, Navbar, Offcanvas } from "react-bootstrap";
+import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ArrowRightSquare, XLg } from "react-bootstrap-icons";
+import { ArrowRightSquare } from "react-bootstrap-icons";
 import "./Sidebar.css";
 import { SidebarData } from "./SidebarData";
-import NewClient from "./NewClient";
-import { useUser } from "../data/UserContext";
-import ClientSelectDropdown from "./ClientSelectDropdown";
+import NewClientBtn from "./NewClientBtn";
+import { useUser } from "../context/UserContext";
 
 function Sidebar({ sidebar, setSidebar }) {
   const { user } = useUser();
@@ -21,7 +20,7 @@ function Sidebar({ sidebar, setSidebar }) {
             <div className="d-flex">
               <Nav className="justify-content-center">
                 <Nav.Item>
-                  <NewClient />
+                  <NewClientBtn />
                 </Nav.Item>
               </Nav>
               <Navbar.Toggle />

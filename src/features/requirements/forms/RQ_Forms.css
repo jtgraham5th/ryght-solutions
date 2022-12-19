@@ -1,0 +1,109 @@
+.form-switch .form-check-input {
+  width: 3rem !important;
+  height: 1.5rem !important;
+  margin-right: 1rem;
+}
+.form-check-input:checked {
+  background-color: #4a235a !important;
+  border-color: #4a235a !important;
+}
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgb(74 35 90 / 25%) !important;
+}
+
+.RQ-section-title {
+  display: flex;
+  color: #4a235a;
+  margin-bottom: 1rem;
+}
+.RQ-form-label {
+  width: 100%;
+  margin: 0%;
+  font-weight: 200;
+  display: flex;
+  justify-content: space-between;
+
+  /* font-weight: bold; */
+}
+.RQ-form-label-button {
+  padding: 0.1rem !important;
+  /* height: 25% !important; */
+}
+.RQ-form-label-button-container {
+  width: 25%;
+  display: flex;
+  justify-content: flex-end;
+}
+/* ================================ */
+.PNM-width {
+  max-width: 95% !important;
+  max-height: 90% !important;
+}
+form > .modal-body {
+  height: 75vh !important;
+  overflow-y: auto;
+}
+.list-container {
+  height: 7rem;
+  margin-bottom: 1rem;
+  overflow-y: auto;
+  border-radius: 0% !important;
+}
+.list-container-item {
+  font-size: small;
+  padding: 0.3rem 1rem !important;
+  border-left: 0px !important;
+  border-radius: 0% !important;
+  border-right: 0px !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.datePicker {
+  width: 100% !important;
+}
+.goal-detail-input {
+  /* font-size: small !important; */
+  /* padding: 0.3rem !important; */
+}
+.detail-container {
+  padding: 0px !important;
+  margin-bottom: 1rem !important;
+  flex: 0 0 auto !important;
+  width: 30% !important;
+}
+.detail-header {
+  display: flex;
+  /* width: 9rem !important; */
+  align-content: center;
+  justify-content: flex-end;
+}
+.detail-header > button:nth-child(1) {
+  margin-right: 0.5rem;
+}
+.detail-container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+}
+.detail-card-body {
+  padding: 0.25rem 0.95rem !important;
+}
+.cardFocus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgb(74 35 90 / 25%);
+}
+.second-provider {
+  width: 95% !important
+}
+.accordion-button {
+  color: var(--bs-accordion-active-color) !important;
+  border: 1px solid var(--bs-accordion-active-color) !important;
+}
