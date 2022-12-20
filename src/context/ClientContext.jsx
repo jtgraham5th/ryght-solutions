@@ -63,13 +63,11 @@ export function ClientProvider(props) {
 
   const getContactList = async (patientid, type) => {
     // fetch(`http://www.ivronlogs.icu:8080/rs/api/contact`)
-    let activeContacts = {};
     await fetch(
-      `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=patientid=${patientid},contacttypeid=${type}&orderby=name`
+      `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=patientid=${patientid},contacttypeid=${type}&orderby=contactid`
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, type);
         let contactType = "";
         switch (type) {
           case 21:
@@ -122,10 +120,8 @@ export function ClientProvider(props) {
     )
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data);
         for (const group of data) {
           await getGroupList(group.groupnameid).then((res) => {
-            console.log(res);
             let groupArray = [];
             res.forEach((item) => {
               groupArray.push(item);
@@ -137,7 +133,6 @@ export function ClientProvider(props) {
       .catch((e) => {
         console.log(e);
       });
-    console.log(groupObject);
     setFormData(groupObject);
     getPharmacyList();
     getPhysicianList();
@@ -155,6 +150,7 @@ export function ClientProvider(props) {
       });
   };
   const getClientList = (tid) => {
+    console.log("***")
     setLoading(true);
     fetch(
       `http://www.ivronlogs.icu:8080/rs1/generic_api/list/${tid}?listing=statusid=0&orderby=plastname`
@@ -169,7 +165,7 @@ export function ClientProvider(props) {
             patientid: client.patientid,
           })
         );
-        console.log(clientArray);
+        console.log("retrieved client list succesfully!");
         setClientlist(clientArray);
         setLoading(false);
       })
@@ -217,7 +213,7 @@ export function ClientProvider(props) {
       .catch((error) => {
         console.log(error)
         setLoading(false)
-        return new Error(error)
+        throw new Error(error)
       })
     };
   const addClient = async (client) => {
@@ -238,7 +234,7 @@ export function ClientProvider(props) {
       })
       .catch((error) => {
         console.log(error);
-        return new Error(error)
+        throw new Error(error)
       });
   };
 
@@ -286,12 +282,11 @@ export function ClientProvider(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        return data.contactid;
+        return data[0].contactid;
       })
       .catch((e) => {
         console.log(e);
-        return e;
+        throw new Error(e);
       });
   };
   const updateContact = async (contact, contactid) => {
@@ -315,7 +310,7 @@ export function ClientProvider(props) {
       })
       .catch((e) => {
         console.log(e);
-        return e;
+        throw new Error(e)
       });
   };
   const getContact = async (contactid) => {
@@ -339,7 +334,6 @@ export function ClientProvider(props) {
     )
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data);
         setFormData((prevState) => ({...prevState, Pharmacy: data}));
       })
       .catch((e) => {
@@ -352,40 +346,11 @@ export function ClientProvider(props) {
     )
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data);
         setFormData((prevState) => ({...prevState, Physician: data}));
       })
       .catch((e) => {
         console.log(e);
       });
-  };
-  const getClientAddress = async (clientaddressid) => {
-    const clientAddress = await getContact(clientaddressid);
-    return {
-      paddress: clientAddress.address1,
-      pcity: clientAddress.city,
-      pstate: clientAddress.state,
-      pZip: parseInt(clientAddress.zip),
-      pphone1: clientAddress.phone1,
-      pphone1type: clientAddress.phone1typeid,
-      pphone2: clientAddress.phone2,
-      pphone2type: clientAddress.phone2typeid,
-      pphone3: clientAddress.phone3,
-      pphone3type: clientAddress.phone3typeid,
-    };
-  };
-  const getEmergencyContact = async (emergencycontactid) => {
-    const emergencyContact = await getContact(emergencycontactid);
-    return {
-      ecName: emergencyContact.name,
-      ecAddress: emergencyContact.address1,
-      ecCity: emergencyContact.city,
-      ecState: emergencyContact.state,
-      ecZip: emergencyContact.zip,
-      ecPhone: emergencyContact.phone1,
-      ecPhoneType: emergencyContact.phone1typeid,
-      ecRelationship: emergencyContact.relationshipid,
-    };
   };
   const addClientRequirements = async (data) => {
     let newRequirements = [];
@@ -452,13 +417,13 @@ export function ClientProvider(props) {
     }
     const leftovers = clientList.length - (clientList.length % 100) + 100;
     sortClients(leftovers, abcObjectCopy);
+    console.log(abcObjectCopy)
     setSortedClients(abcObjectCopy);
     // eslint-disable-next-line
   }, [clientList]);
 
   useEffect(() => {
     // get document ids
-    console.log(activeClient);
     if (activeClient.length > 0) getClientRequirements();
     // eslint-disable-next-line
   }, [activeClient]);

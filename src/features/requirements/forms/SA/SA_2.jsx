@@ -55,16 +55,6 @@ function SA2({ register, control }) {
           />
         </div>
       </Form.Group>
-      <FormAddContainer
-        sectionTitle={
-          addNew.sectionTitle
-            ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
-            : ""
-        }
-        open={addNew.sectionTitle === "familyPhysician"}
-        close={closeItem}
-        newForm={addNew.activeForm}
-      />
       <Form.Group as={Row} className="mb-2">
         <Col md={12}>
           <Form.Label className="RQ-form-label">

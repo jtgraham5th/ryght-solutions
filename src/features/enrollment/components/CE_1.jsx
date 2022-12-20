@@ -5,7 +5,6 @@ import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../../../context/ClientContext";
 import { statesList } from "../../../data/formData";
-import formatDate from "../../../utils/formatDate";
 
 export function CE1({ register, control, formState }) {
   const { formData } = useClient();
@@ -21,7 +20,7 @@ export function CE1({ register, control, formState }) {
       <Form.Group as={Row} className="mb-2">
         <h5>Personal Information</h5>
         <Col md={3}>
-          <Form.Label className="CE-form-label">First Name</Form.Label>
+          <Form.Label className="CE-form-label">First Name *</Form.Label>
           <Form.Control
             className="goal-detail-input"
             {...register("pfirstname", { required: true, maxLength: 40 })}
@@ -43,7 +42,7 @@ export function CE1({ register, control, formState }) {
           />
         </Col>
         <Col md={3}>
-          <Form.Label className="CE-form-label">Last Name</Form.Label>
+          <Form.Label className="CE-form-label">Last Name *</Form.Label>
           <Form.Control
             className="goal-detail-input"
             {...register("plastname", { required: true, maxLength: 40 })}
@@ -59,7 +58,7 @@ export function CE1({ register, control, formState }) {
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("preferredname", { required: true, maxLength: 40 })}
+            {...register("preferredname", { maxLength: 40 })}
             type="text"
             name="preferredname"
             isValid={touchedFields.preferredname && !errors.preferredname}
@@ -68,7 +67,7 @@ export function CE1({ register, control, formState }) {
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
-        <Form.Label className="CE-form-label mb-2">Marital Status</Form.Label>
+        <Form.Label className="CE-form-label mb-2">Marital Status *</Form.Label>
         <div>
           {formData["Marital Status"].map((item, i) => {
             return (
@@ -83,7 +82,9 @@ export function CE1({ register, control, formState }) {
                       type="radio"
                       inline
                       {...field}
-                      defaultChecked={parseInt(field.value) === parseInt(item.grouplistid)}
+                      defaultChecked={
+                        parseInt(field.value) === parseInt(item.grouplistid)
+                      }
                       value={parseInt(item.grouplistid)}
                       onChange={(e) => {
                         return field.onChange(parseInt(item.grouplistid));
@@ -116,11 +117,11 @@ export function CE1({ register, control, formState }) {
         </Col>
         <Col md={6}>
           <Form.Label className="CE-form-label">
-            Social Security # <small>(optional)</small>
+            Social Security # *<small>(optional)</small>
           </Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("socsec", { required: true, maxLength: 9 })}
+            {...register("socsec", { maxLength: 9 })}
             type="password"
             name="socsec"
             isValid={touchedFields.socsec && !errors.socsec}
@@ -130,7 +131,7 @@ export function CE1({ register, control, formState }) {
       </Form.Group>
       <Form.Group as={Row}>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Sex at birth</Form.Label>
+          <Form.Label className="CE-form-label">Sex at birth *</Form.Label>
           <Form.Select
             {...register("sexatbirthid", {
               required: true,
@@ -152,7 +153,7 @@ export function CE1({ register, control, formState }) {
           </Form.Select>
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Gender</Form.Label>
+          <Form.Label className="CE-form-label">Gender *</Form.Label>
           <Form.Select
             {...register("genderid", {
               required: true,
@@ -175,7 +176,9 @@ export function CE1({ register, control, formState }) {
           </Form.Select>
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Preferred Pronouns</Form.Label>
+          <Form.Label className="CE-form-label">
+            Preferred Pronouns *
+          </Form.Label>
           <Form.Select
             {...register("preferredpronounid", {
               required: true,
@@ -201,7 +204,7 @@ export function CE1({ register, control, formState }) {
       </Form.Group>
       <Form.Group as={Row} className="mb-5">
         <Col md={4}>
-          <Form.Label className="CE-form-label">Race</Form.Label>
+          <Form.Label className="CE-form-label">Race *</Form.Label>
           <Form.Select
             {...register("ethnicityid", {
               required: true,
@@ -225,7 +228,7 @@ export function CE1({ register, control, formState }) {
         </Col>
 
         <Col md={4}>
-          <Form.Label className="CE-form-label">Religion</Form.Label>
+          <Form.Label className="CE-form-label">Religion *</Form.Label>
           <Form.Select
             {...register("religionid", {
               required: true,
@@ -268,6 +271,8 @@ export function CE1({ register, control, formState }) {
             {...register("pcity", { maxLength: 100 })}
             type="text"
             name="pcity"
+            isValid={touchedFields.pcity && !errors.pcity}
+            isInvalid={errors.pcity}
           />
         </Col>
         <Col md={2}>
@@ -276,8 +281,8 @@ export function CE1({ register, control, formState }) {
             {...register("pstate", { maxLength: 2 })}
             name="pstate"
             aria-label="Select State"
-            isValid={touchedFields.pcity && !errors.pcity}
-            isInvalid={errors.pcity}
+            isValid={touchedFields.pstate && !errors.pstate}
+            isInvalid={errors.pstate}
           >
             {statesList.map((state, index) => (
               <option key={index} value={state}>
@@ -347,35 +352,6 @@ export function CE1({ register, control, formState }) {
             aria-label="Select State"
             isValid={touchedFields.pphone2type && !errors.pphone2type}
             isInvalid={errors.pphone2type}
-          >
-            {formData["PhoneType"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
-        </Col>
-        <Col md={2}>
-          <Form.Label className="CE-form-label">Phone 3</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pphone3", { maxLength: 15 })}
-            type="number"
-            name="pphone3"
-            isValid={touchedFields.pphone3 && !errors.pphone3}
-            isInvalid={errors.pphone3}
-          />
-        </Col>
-        <Col md={2}>
-          <Form.Label className="CE-form-label">Phone Type</Form.Label>
-          <Form.Select
-            {...register("pphone3type", { valueAsNumber: true, maxLength: 2 })}
-            name="pphone3type"
-            aria-label="Select State"
-            isValid={touchedFields.pphone3type && !errors.pphone3type}
-            isInvalid={errors.pphone3type}
           >
             {formData["PhoneType"].map((item, i) => {
               return (

@@ -14,7 +14,7 @@ export function PN4({ register, control }) {
     <>
       <Form.Group>
         <Form.Label className="PNM-form-label mb-2">Add New Goals</Form.Label>
-        <PNMGoalsManager
+        <PNGoalsManager
           selectedGoal={selectedGoal}
           setSelectedGoal={setSelectedGoal}
           data={client01.treatmentPlan.goals}

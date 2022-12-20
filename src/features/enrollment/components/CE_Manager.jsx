@@ -1,22 +1,22 @@
 import { Button, Row, Modal, Form, Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "./CE_Manager.css";
-import { CE1 } from "./CE_1";
-import { CE2 } from "./CE_2";
-import { CE3 } from "./CE_3";
 import { useForm } from "react-hook-form";
 import { useClient } from "../../../context/ClientContext";
 import {
-  parseFormData20,
-  parseFormData21,
-  parseFormData22,
-  parsePatientContact,
-  parseEmergencyContact,
+  parseFormData,
   parseDefaultPC,
   parseDefaultEC,
   parseDefaultValues,
+  defaultEC,
+  defaultPC,
 } from "../utils/parseData";
 import FormUpdate from "../../../components/FormUpdate";
+import {
+  hasECFieldsChanged,
+  hasPCFieldsChanged,
+  renderPage,
+} from "../utils/formhelper";
 
 export function CEManager({ show, setShow, containerName, edit }) {
   const [activePage, setActivePage] = useState(0);
@@ -26,9 +26,10 @@ export function CEManager({ show, setShow, containerName, edit }) {
     message: "",
     show: false,
   });
+  const [editing, setEditing] = useState(edit);
 
-  const { control, register, handleSubmit, reset, setValue, formState } =
-    useForm({ mode: "onChange" });
+  const { control, register, handleSubmit, reset, setValue, formState, watch } =
+    useForm({ mode: "onBlur" });
   const {
     activeClient,
     activeContacts,
@@ -39,218 +40,206 @@ export function CEManager({ show, setShow, containerName, edit }) {
     resetClient,
     loading,
   } = useClient();
-  const { isDirty, isValid } = formState;
+  const { isDirty, isValid, dirtyFields } = formState;
 
   const handleClose = () => {
     setActivePage(0);
-    setShow(false);
+    setEditing(false);
     reset();
+    setShow(false);
   };
   const nextPage = () => {
     setActivePage((page) => page + 1);
   };
-  const prevPage = () => {
-    setActivePage((page) => page - 1);
-  };
-  const renderPage = () => {
-    switch (activePage) {
-      case 0:
-        return (
-          <CE1 register={register} control={control} formState={formState} />
-        );
-      case 1:
-        return (
-          <CE2
-            register={register}
-            control={control}
-            setValue={setValue}
-            formState={formState}
-          />
-        );
-      case 2:
-        return (
-          <CE3 register={register} control={control} formState={formState} />
-        );
-      default:
-        return (
-          <CE1 register={register} control={control} formState={formState} />
-        );
+  const prevPage = async () => {
+    const data = watch();
+    const { t21, t22 } = parseFormData(
+      data,
+      editing,
+      tempID,
+      activeClient,
+      activeContacts
+    );
+    if (isDirty) {
+      switch (activePage) {
+        case 1:
+          try {
+            await updateClient(t21, 21);
+            setToggleUpdate({
+              status: "Success",
+              message: "Client data has been successfully updated.",
+              show: true,
+            });
+            setActivePage((page) => page - 1);
+            resetClient(!tempID ? activeClient[20].patientid : tempID);
+          } catch (error) {
+            setToggleUpdate({
+              status: "Error",
+              message: "There was an error saving the data. Please try again.",
+              show: true,
+            });
+          }
+          break;
+        case 2:
+          try {
+            await updateClient(t22, 22);
+            setToggleUpdate({
+              status: "Success",
+              message: "Client data has been successfully updated.",
+              show: true,
+            });
+            setActivePage((page) => page - 1);
+            resetClient(!tempID ? activeClient[20].patientid : tempID);
+          } catch (error) {
+            setToggleUpdate({
+              status: "Error",
+              message: "There was an error saving the data. Please try again.",
+              show: true,
+            });
+          }
+          break;
+        default:
+          setActivePage((page) => page - 1);
+          break;
+      }
+    } else {
+      setActivePage((page) => page - 1);
     }
   };
 
+  useEffect(() => {
+    console.log("Editing is :", editing);
+  }, [editing]);
+
   const onSubmit = async (data) => {
+    console.log("Editing is :", editing);
+    console.log(activePage);
     if (isDirty) {
-      const t20 = parseFormData20(data, edit, tempID, activeClient);
-      const t21 = parseFormData21(data, edit, tempID, activeClient);
-      const t22 = parseFormData22(data, edit, tempID, activeClient);
-      const patientContact = parsePatientContact(data, edit, activeContacts);
-      const emergencyContact = parseEmergencyContact(
+      const { t20, t21, t22, patientContact, emergencyContact } = parseFormData(
         data,
-        edit,
+        editing,
+        tempID,
+        activeClient,
         activeContacts
       );
+      let newPatientId = false;
 
-      if (activePage === 0) {
-        if (edit || tempID) {
-          updateClient(t20, 20).then((res) => {
-            if (res.name === "Error") {
+      switch (activePage) {
+        case 0:
+          try {
+            if (editing || tempID) {
+              await updateClient(t20, 20);
+              console.log("Client updated successfully");
               setToggleUpdate({
-                status: res.name,
-                message: "There was an error saving client. Please try again",
-                show: true,
-              });
-              return;
-            } else {
-              setToggleUpdate({
-                status: res.name,
+                status: "Success",
                 message: "Client data has been successfully updated.",
                 show: true,
               });
-              if (activeContacts.patient.length > 0) {
-                updateContact(
+            } else {
+              const result = await addClient(t20);
+              newPatientId = result;
+              if (result instanceof Error) {
+                console.log("error adding client");
+                setToggleUpdate({
+                  status: result.name,
+                  message:
+                    "There was an error adding the client. Please try again.",
+                  show: true,
+                });
+                return;
+              }
+              setTempID(newPatientId);
+              console.log("Client added successfully");
+              setToggleUpdate({
+                status: "Success",
+                message: "Client has been successfully added.",
+                show: true,
+              });
+              setEditing(true);
+            }
+
+            if (hasPCFieldsChanged(dirtyFields, defaultPC)) {
+              if (activeContacts.patient && activeContacts.patient.length > 0) {
+                await updateContact(
                   patientContact,
                   activeContacts.patient[0].contactid
-                ).then((res) => {
-                  if (res.name === "Error") {
-                    setToggleUpdate({
-                      status: res.name,
-                      message: "There was an error saving patient contact. Please try again",
-                      show: true,
-                    });
-                    return;
-                  }
-                });
+                );
               } else {
-                addContact(patientContact, 20).then((res) => {
-                  if (res.name === "Error") {
-                    setToggleUpdate({
-                      status: res.name,
-                      message: "There was an error adding patient contact. Please try again",
-                      show: true,
-                    });
-                    return;
-                  }
-                });
+                await addContact(patientContact, 20);
               }
-              if (activeContacts.emergency.length > 0) {
-                updateContact(
+            }
+
+            if (hasECFieldsChanged(dirtyFields, defaultEC)) {
+              if (
+                activeContacts.emergency &&
+                activeContacts.emergency.length > 0
+              ) {
+                await updateContact(
                   emergencyContact,
                   activeContacts.emergency[0].contactid
-                ).then((res) => {
-                  if (res.name === "Error") {
-                    setToggleUpdate({
-                      status: res.name,
-                      message: "There was an error saving emergency contact. Please try again",
-                      show: true,
-                    });
-                    return;
-                  }
-                });
+                );
               } else {
-                addContact(emergencyContact, 20).then((res) => {
-                  if (res.name === "Error") {
-                    setToggleUpdate({
-                      status: res.name,
-                      message: "There was an error adding emergency contact. Please try again",
-                      show: true,
-                    });
-                    return;
-                  }
-                });
+                await addContact(emergencyContact, 20);
               }
-              resetClient(activeClient[20].patientid);
-              nextPage();
             }
-          });
-        } else {
-          await addClient(t20).then((res) => {
-            if (res.name === "Error") {
-              setToggleUpdate({
-                status: res.name,
-                message: "There was an error adding new client. Please try again",
-                show: true,
-              });
-              return;
-            } else {
-              let newPatientId = res;
-              resetClient(newPatientId);
-              patientContact[0].patientid = newPatientId;
-              emergencyContact[0].patientid = newPatientId;
-              addContact(patientContact, 20).then((res) => {
-                if (res.name === "Error") {
-                  setToggleUpdate({
-                    status: res.name,
-                    message: "There was an error adding patient contact. Please try again",
-                    show: true,
-                  });
-                  return;
-                }
-              });
-              addContact(emergencyContact, 20).then((res) => {
-                if (res.name === "Error") {
-                  setToggleUpdate({
-                    status: res.name,
-                    message: "There was an error adding emergency contact. Please try again",
-                    show: true,
-                  });
-                  return;
-                }
-              });
-              setTempID(newPatientId);
-              setToggleUpdate({
-                status: res.name,
-                message: "New Patient Created.",
-                show: true,
-              });
-              edit = true;
-              nextPage();
-            }
-          });
-        }
-      }
-      if (activePage === 1) {
-        updateClient(t21, 21).then((res) => {
-          if (res.name === "Error") {
-            setToggleUpdate({
-              status: res.name,
-              message: "There was an error saving client. Please try again",
-              show: true,
-            });
-            return;
-          } else {
-            setToggleUpdate({
-              status: res.name,
-              message: "Client data has been successfully updated.",
-              show: true,
-            });
-            resetClient(activeClient[20].patientid);
+            resetClient(
+              !newPatientId ? activeClient[20].patientid : newPatientId
+            );
             nextPage();
-          }
-        });
-      }
-      if (activePage === 2) {
-        updateClient(t22, 22).then((res) => {
-          if (res.name === "Error") {
+          } catch (error) {
+            console.log("there was an error", error);
             setToggleUpdate({
-              status: res.name,
-              message: "There was an error saving client. Please try again",
+              status: "Error",
+              message: "There was an error saving the data. Please try again.",
               show: true,
             });
-            return;
-          } else {
+          }
+          break;
+        case 1:
+          try {
+            await updateClient(t21, 21);
             setToggleUpdate({
-              status: res.name,
+              status: "Success",
               message: "Client data has been successfully updated.",
               show: true,
             });
-            resetClient(activeClient[20].patientid);
-            handleClose();
+            resetClient(activeClient[21].patientid);
+            nextPage();
+          } catch (error) {
+            setToggleUpdate({
+              status: "Error",
+              message:
+                "There was an error saving the contact data. Please try again.",
+              show: true,
+            });
           }
-        });
-        reset();
+          break;
+        case 2:
+          try {
+            await updateClient(t22, 22);
+            setToggleUpdate({
+              status: "Success",
+              message: "Client data has been successfully updated.",
+              show: true,
+            });
+            resetClient(activeClient[22].patientid);
+            setEditing(false);
+            handleClose();
+          } catch (error) {
+            setToggleUpdate({
+              status: "Error",
+              message:
+                "There was an error saving the contact data. Please try again.",
+              show: true,
+            });
+          }
+          break;
+        default:
+          break;
       }
     } else if (activePage === 2) {
       handleClose();
+      setEditing(false);
     } else {
       nextPage();
     }
@@ -266,15 +255,14 @@ export function CEManager({ show, setShow, containerName, edit }) {
   }, []);
 
   useEffect(() => {
-    console.log("activeclient has changed!");
     if (Object.keys(activeClient).length !== 0) {
-      let defaultValues = parseDefaultValues(edit, activeClient);
+      let defaultValues = parseDefaultValues(editing, activeClient);
       if (activeContacts.patient && activeContacts.patient.length > 0) {
-        const patientContact = parseDefaultPC(edit, activeContacts);
+        const patientContact = parseDefaultPC(editing, activeContacts);
         defaultValues = { ...defaultValues, ...patientContact };
       }
       if (activeContacts.emergency && activeContacts.emergency.length > 0) {
-        const emergencyContact = parseDefaultEC(edit, activeContacts);
+        const emergencyContact = parseDefaultEC(editing, activeContacts);
         defaultValues = { ...defaultValues, ...emergencyContact };
       }
       reset({ ...defaultValues });
@@ -290,17 +278,21 @@ export function CEManager({ show, setShow, containerName, edit }) {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Body>
           <Row className="d-flex justify-content-evenly align-items-center">
-            {renderPage()}
+            {
+              (renderPage =
+                (activePage, register, control, formState, setValue))
+            }
           </Row>
         </Modal.Body>
         <Modal.Footer className="flex-row justify-content-between p-2">
           <Button
             className="PNM-nav-button p-1"
             variant="outline-primary"
-            disabled={activePage === 0 ? true : false}
+            disabled={activePage === 0 || !isValid ? true : false}
             onClick={activePage === 0 ? () => {} : prevPage}
           >
-            Previous
+            {loading ? <Spinner animation="border" size="sm" /> : ""}
+            Save & Go Back
           </Button>
           <FormUpdate
             data={toggleUpdate}
@@ -316,11 +308,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           >
             {loading ? <Spinner animation="border" size="sm" /> : ""}
 
-            {activePage >= 2
-              ? edit
-                ? "Save & Exit"
-                : "Save and Continue"
-              : "Next"}
+            {activePage >= 2 ? " Save & Exit" : " Save and Continue"}
           </Button>
         </Modal.Footer>
       </Form>

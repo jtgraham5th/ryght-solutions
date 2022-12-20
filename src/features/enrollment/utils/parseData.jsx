@@ -4,20 +4,24 @@ export const parseFormData20 = (data, edit, tempID, activeClient) => {
   return [
     {
       patientid: edit ? activeClient[20].patientid : tempID ? tempID : 0,
-      pfirstname: data.pfirstname,
-      pinitial: data.pinitial,
-      plastname: data.plastname,
-      preferredname: data.preferredname,
-      maritalstatusid: parseInt(data.maritalstatusid),
-      dob: formatDate(data.dob),
-      socsec: data.socsec,
-      sexatbirthid: parseInt(data.sexatbirthid),
-      genderid: parseInt(data.genderid),
-      preferredpronounid: parseInt(data.preferredpronounid),
-      ethnicityid: parseInt(data.ethnicityid),
-      religionid: parseInt(data.religionid),
-      email: data.email,
-      statusid: parseInt(data.statusid),
+      pfirstname: data.pfirstname ? data.pfirstname : "",
+      pinitial: data.pinitial ? data.pinitial : "",
+      plastname: data.plastname ? data.plastname : "",
+      preferredname: data.preferredname ? data.preferredname : "",
+      maritalstatusid: data.maritalstatusid
+        ? parseInt(data.maritalstatusid)
+        : 0,
+      dob: data.dob ? formatDate(data.dob) : formatDate(Date.now()),
+      socsec: data.socsec ? data.socsec : "",
+      sexatbirthid: data.sexatbirthid ? parseInt(data.sexatbirthid) : 0,
+      genderid: data.genderid ? parseInt(data.genderid) : 0,
+      preferredpronounid: data.preferredpronounid
+        ? parseInt(data.preferredpronounid)
+        : 0,
+      ethnicityid: data.ethnicityid ? parseInt(data.ethnicityid) : 0,
+      religionid: data.religionid ? parseInt(data.religionid) : 0,
+      email: data.email ? data.email : "",
+      statusid: data.statusid ? parseInt(data.statusid) : 0,
     },
   ];
 };
@@ -30,22 +34,40 @@ export const parseFormData21 = (data, edit, tempID, activeClient) => {
           : tempID
           ? tempID
           : 0,
-      employer: data.employer,
-      employerphone: data.employerphone,
-      weight: data.weight,
-      allergies: data.allergies,
-      physicianid: parseInt(data.physicianid),
-      pharmacyproviderid: parseInt(data.pharmacyproviderid),
-      ins1_fundingsource: data.ins1_fundingsource,
-      ins1_policynumber: data.ins1_policynumber,
-      ins1_dateexpires: formatDate(data.ins1_dateexpires),
-      ins1_relationshipid: parseInt(data.ins1_relationshipid),
-      ins1_cardavailableid: parseInt(data.ins1_cardavailableid),
-      ins2_fundingsource: data.ins2_fundingsource,
-      ins2_policynumber: data.ins2_policynumber,
-      ins2_dateexpires: formatDate(data.ins2_dateexpires),
-      ins2_relationshipid: parseInt(data.ins2_relationshipid),
-      ins2_cardavailableid: parseInt(data.ins2_cardavailableid),
+      employer: data.employer ? data.employer : "",
+      employerphone: data.employerphone ? data.employerphone : "",
+      weight: data.weight ? parseInt(data.weight) : 0,
+      allergies: data.allergies ? data.allergies : "",
+      physicianid: data.physicianid ? parseInt(data.physicianid) : 0,
+      pharmacyproviderid: data.pharmacyproviderid
+        ? parseInt(data.pharmacyproviderid)
+        : 0,
+      ins1_fundingsource: data.ins1_fundingsource
+        ? parseInt(data.ins1_fundingsource)
+        : 0,
+      ins1_policynumber: data.ins1_policynumber ? data.ins1_policynumber : "",
+      ins1_dateexpires: data.ins1_dateexpires
+        ? formatDate(data.ins1_dateexpires)
+        : formatDate(Date.now()),
+      ins1_relationshipid: data.ins1_relationshipid
+        ? parseInt(data.ins1_relationshipid)
+        : 0,
+      ins1_cardavailableid: data.ins1_cardavailableid
+        ? parseInt(data.ins1_cardavailableid)
+        : 0,
+      ins2_fundingsource: data.ins2_fundingsource
+        ? parseInt(data.ins2_fundingsource)
+        : 0,
+      ins2_policynumber: data.ins2_policynumber ? data.ins2_policynumber : "",
+      ins2_dateexpires: data.ins2_dateexpires
+        ? formatDate(data.ins2_dateexpires)
+        : formatDate(Date.now()),
+      ins2_relationshipid: data.ins2_relationshipid
+        ? parseInt(data.ins2_relationshipid)
+        : 0,
+      ins2_cardavailableid: data.ins2_cardavailableid
+        ? parseInt(data.ins2_cardavailableid)
+        : 0,
     },
   ];
 };
@@ -58,24 +80,35 @@ export const parseFormData22 = (data, edit, tempID, activeClient) => {
           : tempID
           ? tempID
           : 0,
-      referralid: parseInt(data.referralid),
-      referraldate: formatDate(data.referraldate),
+      referralid: data.referralid ? parseInt(data.referralid) : 0,
+      referraldate: data.referraldate
+        ? formatDate(data.referraldate)
+        : formatDate(Date.now()),
       referralOutsourceid: parseInt(0),
-      dateoutsourced: formatDate(data.dateoutsourced),
-      internalreferralid: parseInt(data.internalreferralid),
-      patient_comment: data.patient_comment,
-      dxcodes: data.dxcodes,
-      dxdate: formatDate(data.dxdate),
-      firstapptdate: formatDate(data.firstapptdate),
-      firstpsydate: formatDate(data.firstpsydate),
+      dateoutsourced: data.dateoutsourced
+        ? formatDate(data.dateoutsourced)
+        : formatDate(Date.now()),
+      internalreferralid: data.internalreferralid
+        ? parseInt(data.internalreferralid)
+        : 0,
+      patient_comment: data.patient_comment ? data.patient_comment : "",
+      dxcodes: data.dxcodes ? data.dxcodes : "",
+      dxdate: data.dxdate ? formatDate(data.dxdate) : formatDate(Date.now()),
+      firstapptdate: data.firstapptdate
+        ? formatDate(data.firstapptdate)
+        : formatDate(Date.now()),
+      firstpsydate: data.firstpsydate
+        ? formatDate(data.firstpsydate)
+        : formatDate(Date.now()),
     },
   ];
 };
 export const parsePatientContact = (data, edit, activeContacts) => {
+  console.log("contacts:", activeContacts);
   return [
     {
       contactid:
-        edit && activeContacts.patient.length > 0
+        edit && (activeContacts.patient && activeContacts.patient > 0)
           ? activeContacts.patient[0].contactid
           : 0,
       name: data.pfirstname + " " + data.plastname,
@@ -104,7 +137,7 @@ export const parseEmergencyContact = (data, edit, activeContacts) => {
   return [
     {
       contactid:
-        edit && activeContacts.emergency.length > 0
+        edit && (activeContacts.emergency && activeContacts.emergency > 0)
           ? activeContacts.emergency[0].contactid
           : 0,
       name: data.ecName,
@@ -142,36 +175,50 @@ export const parseDefaultValues = (edit, activeClient) => {
     ethnicityid: edit ? parseInt(activeClient[20].ethnicityid) : 0,
     sexatbirthid: edit ? parseInt(activeClient[20].sexatbirthid) : 0,
     genderid: edit ? parseInt(activeClient[20].genderid) : 0,
-    preferredpronounid: edit ? parseInt(activeClient[20].preferredpronounid) : 0,
+    preferredpronounid: edit
+      ? parseInt(activeClient[20].preferredpronounid)
+      : 0,
     religionid: edit ? parseInt(activeClient[20].religionid) : 0,
     weight: edit ? activeClient[21].weight : "",
     height: edit ? activeClient[21].height : "",
     email: edit ? activeClient[20].email : "",
     employer: edit ? activeClient[21].employer : "",
     employerphone: edit ? activeClient[21].employerphone : "",
-    ins1_cardavailableid: edit ? parseInt(activeClient[21].ins1_cardavailableid) : 0,
+    ins1_cardavailableid: edit
+      ? parseInt(activeClient[21].ins1_cardavailableid)
+      : 0,
     ins1_dateexpires: edit
       ? Date.parse(activeClient[21].ins1_dateexpires)
       : Date.now(),
     ins1_policynumber: edit ? activeClient[21].ins1_policynumber : "",
-    ins1_relationshipid: edit ? parseInt(activeClient[21].ins1_relationshipid) : 0,
+    ins1_relationshipid: edit
+      ? parseInt(activeClient[21].ins1_relationshipid)
+      : 0,
     ins1_fundingsource: edit ? activeClient[21].ins1_fundingsource : "",
-    ins2_cardavailableid: edit ? parseInt(activeClient[21].ins2_cardavailableid) : 0,
+    ins2_cardavailableid: edit
+      ? parseInt(activeClient[21].ins2_cardavailableid)
+      : 0,
     ins2_dateexpires: edit
       ? Date.parse(activeClient[21].ins2_dateexpires)
       : Date.now(),
     ins2_policynumber: edit ? activeClient[21].ins2_policynumber : "",
-    ins2_relationshipid: edit ? parseInt(activeClient[21].ins2_relationshipid) : 0,
+    ins2_relationshipid: edit
+      ? parseInt(activeClient[21].ins2_relationshipid)
+      : 0,
     ins2_fundingsource: edit ? activeClient[21].ins2_fundingsource : "",
     allergies: edit ? activeClient[21].allergies : "",
     physicianid: edit ? parseInt(activeClient[21].physicianid) : 0,
     pharmacy: edit ? activeClient[21].pharmacy : "",
-    pharmacyproviderid: edit ? parseInt(activeClient[21].pharmacyproviderid) : 0,
+    pharmacyproviderid: edit
+      ? parseInt(activeClient[21].pharmacyproviderid)
+      : 0,
     patient_comment: edit ? activeClient[22].patient_comment : "",
     referralid: edit ? parseInt(activeClient[22].referralid) : 0,
     referraldate: edit ? Date.parse(activeClient[22].referraldate) : Date.now(),
     dxdate: edit ? Date.parse(activeClient[22].dxdate) : Date.now(),
-    internalreferralid: edit ? parseInt(activeClient[22].internalreferralid) : 0,
+    internalreferralid: edit
+      ? parseInt(activeClient[22].internalreferralid)
+      : 0,
     statusid: edit ? parseInt(activeClient[20].statusid) : 0,
     outcomeid: edit ? parseInt(activeClient[22].outcomeid) : 0,
     dxcodes: edit ? activeClient[22].dxcodes : "",
@@ -209,4 +256,41 @@ export const parseDefaultEC = (edit, activeContacts) => {
     ecPhoneType: edit ? activeContacts.emergency[0].phone1typeid : "",
     ecRelationship: edit ? activeContacts.emergency[0].RelationshipID : "",
   };
+};
+export const defaultPC = {
+  paddress: true,
+  pcity: true,
+  pstate: true,
+  pZip: true,
+  pphone1: true,
+  pphone1type: true,
+  pphone2: true,
+  pphone2type: true,
+  pphone3: true,
+  pphone3type: true,
+};
+
+export const defaultEC = {
+  ecName: true,
+  ecAddress: true,
+  ecCity: true,
+  ecState: true,
+  ecZip: true,
+  ecPhone: true,
+  ecPhoneType: true,
+  ecRelationship: true,
+};
+export const parseFormData = (
+  data,
+  editing,
+  tempID,
+  activeClient,
+  activeContacts
+) => {
+  const t20 = parseFormData20(data, editing, tempID, activeClient);
+  const t21 = parseFormData21(data, editing, tempID, activeClient);
+  const t22 = parseFormData22(data, editing, tempID, activeClient);
+  const patientContact = parsePatientContact(data, editing, activeContacts);
+  const emergencyContact = parseEmergencyContact(data, editing, activeContacts);
+  return { t20, t21, t22, patientContact, emergencyContact };
 };
