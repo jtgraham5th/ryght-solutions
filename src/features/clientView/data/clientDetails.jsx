@@ -32,13 +32,13 @@ export const dataColumn3 = (formData, activeClient) => {
       field: "Marital Status",
       value: getFormValue(
         "Marital Status",
-        activeClient[20].sexatbirthid,
+        activeClient[20].maritalstatusid,
         formData
       ),
     },
     {
       field: "Religion",
-      value: getFormValue("Religion", activeClient[20].religonid, formData),
+      value: getFormValue("Religion", activeClient[20].religionid, formData),
     },
   ];
 };
