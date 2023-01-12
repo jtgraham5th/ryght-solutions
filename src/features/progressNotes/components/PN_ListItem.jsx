@@ -1,49 +1,38 @@
 import { Row, Col, ListGroup, Button } from "react-bootstrap";
 import "./PN_Manager.css";
+import { useClient } from "../../../context/ClientContext";
 
-export function PNListItem({ type, disabled, note, showNote, selectNote }) {
+export function PNListItem({ type, disabled, note, showNote, selectNote, active }) {
+  const { activeClient } = useClient();
   const viewNote = () => {
     selectNote(note);
-    showNote(true);
+    // showNote(true);
   };
 
   return (
-    <ListGroup.Item
-      key={`default-${type}`}
-      disabled={disabled}
-      className="pl-1"
-      style={{ borderLeft: "0px", borderRight: "0px" }}
-    >
-      <Row className="pn-list-item">
-        <Col md={1}>
-          <Button
-            className="p-1"
-            variant="outline-secondary"
-            size="sm"
-            onClick={viewNote}
-          >
-            View Note
-          </Button>
+    <ListGroup.Item key={`default-${type}`} action disabled={disabled} active={active} onClick={viewNote}>
+      <Row>
+        <Col md={6} className="d-flex flex-column">
+          <div>
+            <small className="fst-italic">{note.f1}</small>
+          </div>
+          <h6 className="fw-bold mb-0">
+            {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+          </h6>
+          <div>
+            <small className="fw-bold">Goal: </small>
+            <small>{note.f13}</small>
+          </div>
         </Col>
-        <Col>{new Date(note.dateOfService).toLocaleDateString("en-US")}</Col>
-        <Col>
+        <Col md={6} className="d-flex flex-column text-end">
           <small>
-            {new Date(note.timeStart).toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-            -
-            {new Date(note.timeEnd).toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
+            {note.f2} - {note.f3}
           </small>
+          <div>
+            <small className="text-secondary fw-bold">Units: </small>
+            <small>{note.f5}</small>
+          </div>
         </Col>
-        <Col>John Doe</Col>
-        <Col>{note.goal}</Col>
-        <Col>Locked</Col>
-        <Col>Larry Anderson</Col>
-        <Col>{new Date().toLocaleDateString("en-US")}</Col>
       </Row>
     </ListGroup.Item>
   );

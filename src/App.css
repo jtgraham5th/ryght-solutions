@@ -1,10 +1,14 @@
 #root {
+  height: 100vh;
+}
+body {
+  background-color: rgb(146,113,159) !important;
 }
 .landing{
   background-color: rgb(219, 211, 222);
   height: 93.4vh;
-  padding: 0% !important;
-  margin: 0% !important;
+  /* padding: 0% !important; */
+  /* margin: 0% !important; */
   text-align: center;
   width: 100%
 }
@@ -12,17 +16,18 @@
   padding-left: 1rem;
   transition: 350ms;
   margin: 1rem 2rem;
+  height: 90%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 .App.active {
-  padding-left: 11rem;
-  margin-right: 0rem;
+  /* padding-left: 11rem; */
+  /* margin-right: 0rem; */
   transition: 350ms;
 }
 .modal-width {

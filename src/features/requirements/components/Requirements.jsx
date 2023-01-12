@@ -13,7 +13,6 @@ export function Requirements() {
   const [showManager, setShowManager] = useState(false);
   const [activeForm, setActiveForm] = useState({});
   const { clientRequirements } = useClient();
-  console.log(clientRequirements);
   // const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
   //   <td className={styles.noWrap} onClick={onClick} ref={ref}>
   //     <span>

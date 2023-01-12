@@ -36,6 +36,7 @@ export const parseFormData21 = (data, edit, tempID, activeClient) => {
           : 0,
       employer: data.employer ? data.employer : "",
       employerphone: data.employerphone ? data.employerphone : "",
+      height: data.height ? parseInt(data.height) : 0,
       weight: data.weight ? parseInt(data.weight) : 0,
       allergies: data.allergies ? data.allergies : "",
       physicianid: data.physicianid ? parseInt(data.physicianid) : 0,
@@ -72,10 +73,11 @@ export const parseFormData21 = (data, edit, tempID, activeClient) => {
   ];
 };
 export const parseFormData22 = (data, edit, tempID, activeClient) => {
+  console.log(edit, activeClient[20], activeClient[23])
   return [
     {
       patientid:
-        edit && activeClient.length > 0
+        edit && activeClient[20]
           ? activeClient[20].patientid
           : tempID
           ? tempID
@@ -93,6 +95,7 @@ export const parseFormData22 = (data, edit, tempID, activeClient) => {
         : 0,
       patient_comment: data.patient_comment ? data.patient_comment : "",
       dxcodes: data.dxcodes ? data.dxcodes : "",
+      servicecodes: data.servicecodes ? data.servicecodes : "",
       dxdate: data.dxdate ? formatDate(data.dxdate) : formatDate(Date.now()),
       firstapptdate: data.firstapptdate
         ? formatDate(data.firstapptdate)
@@ -108,7 +111,7 @@ export const parsePatientContact = (data, edit, activeContacts) => {
   return [
     {
       contactid:
-        edit && (activeContacts.patient && activeContacts.patient > 0)
+        edit && activeContacts.patient && activeContacts.patient > 0
           ? activeContacts.patient[0].contactid
           : 0,
       name: data.pfirstname + " " + data.plastname,
@@ -137,7 +140,7 @@ export const parseEmergencyContact = (data, edit, activeContacts) => {
   return [
     {
       contactid:
-        edit && (activeContacts.emergency && activeContacts.emergency > 0)
+        edit && activeContacts.emergency && activeContacts.emergency > 0
           ? activeContacts.emergency[0].contactid
           : 0,
       name: data.ecName,
@@ -293,4 +296,23 @@ export const parseFormData = (
   const patientContact = parsePatientContact(data, editing, activeContacts);
   const emergencyContact = parseEmergencyContact(data, editing, activeContacts);
   return { t20, t21, t22, patientContact, emergencyContact };
+};
+export const parsePhoneNumber = (value, setValue,fieldName ) => {
+  // Get the current value of the phone number field
+  
+  // Use regular expressions or string manipulation techniques
+  // to add the desired formatting to the phone number
+  const formattedValue = value.replace(/\D/g, '').substring(0, 10);
+  let formattedValueWithDashes;
+  if (formattedValue.length >= 7) {
+    formattedValueWithDashes = formattedValue.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+  } else if (formattedValue.length >= 4) {
+    formattedValueWithDashes = formattedValue.replace(/(\d{3})(\d{3})/, '($1) $2');
+  } else {
+    formattedValueWithDashes = formattedValue;
+  }
+    
+    console.log(formattedValue)
+  // Update the value of the phone number field in the form data object
+  setValue(fieldName, formattedValueWithDashes);
 };

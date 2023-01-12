@@ -2,23 +2,29 @@ import { useState } from "react";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { Search } from "react-bootstrap-icons";
 import ModalContainer from "../../../components/ModalContainer";
-import {GoalsManager} from "../../treatmentPlan";
+import { GoalsManager } from "../../treatmentPlan";
 import { client01 } from "../../../data/formData";
+import { useClient } from "../../../context/ClientContext";
+import { parseObjectives, parseInterventions } from "../utils/parseData";
 
 export function GoalList() {
   const [show, setShow] = useState(false);
-
+  const { activeTreatmentPlan } = useClient();
+  console.log(activeTreatmentPlan);
   return (
-    <Card className="h-100 mb-3">
+    <Card className="h-100 mb-3 border-0" >
       <Card.Body>
         <Row className="justify-content-between">
           <Col md={3}>
-            <h5 className="p-1 m-0">Client Goals</h5>
+            <h3 className="p-1 m-0">Client Goals</h3>
           </Col>
           <Col md={6}>
             <Row className="justify-content-end">
-              <Col md={3} className="p-0">
-                <Button variant="link" size="sm" onClick={() => setShow(true)}>
+              <Col md={3} className="p-0 text-end">
+                <Button
+                  variant="primary"
+                  onClick={() => setShow(true)}
+                >
                   Manage Goals
                 </Button>
               </Col>
@@ -38,106 +44,130 @@ export function GoalList() {
           </Col>
         </Row>
         <Row className="p-3 mt-2">
-          {client01.treatmentPlan.goals.map((goal, index) => (
-            <Card key={index}>
-              <Card.Body as={Row}>
-                <Col md={4}>
-                  <Card.Title>{goal.goalName}</Card.Title>
-                  <Card.Text>{goal.description}</Card.Text>
-                  <Row className="mb-3">
-                    <Col md={4}>
-                      <h6>Open Date</h6>
-                      <Card.Text>{goal.openDate}</Card.Text>
-                    </Col>
-                    <Col md={4}>
-                      <h6>Target Date</h6>
-                      <Card.Text>{goal.targetDate}</Card.Text>
-                    </Col>
-                    <Col md={4}>
-                      <h6>Closed Date</h6>
-                      <Card.Text>{goal.openDate}</Card.Text>
-                    </Col>
-                  </Row>
-                  <Row className="mb-3">
-                    <Col md="auto">
-                      <h6>Current Status</h6>
-                      <Card.Text className="font-italics">
-                        {goal.status}
-                      </Card.Text>
-                    </Col>
-                  </Row>
-                  <Row className="mb-3">
-                    <Col md={6}>
-                      <h6>Goal Frequency</h6>
-                      <Card.Text>{goal.goalFrequency}</Card.Text>
-                    </Col>
-                    <Col md={6}>
-                      <h6>Measurement Number</h6>
-                      <Card.Text>
-                        {goal.measurement.number} {goal.measurement.unit}
-                      </Card.Text>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col md={8}>
-                  {goal.objectives.map((objective, i) => (
-                    <Card key={i} className="mb-3">
-                      <Card.Body>
-                        <Card.Title>{objective.objectiveName}</Card.Title>
-                        <Card.Text>{objective.description}</Card.Text>
-                        <Row className="mb-3">
-                          <Col md={4}>
-                            <h6>Open Date</h6>
-                            <Card.Text>{objective.openDate}</Card.Text>
-                          </Col>
-                          <Col md={4}>
-                            <h6>Start Date</h6>
-                            <Card.Text>{objective.targetDate}</Card.Text>
-                          </Col>
-                          <Col md={4}>
-                            <h6>Current Status</h6>
-                            <Card.Text>{objective.status}</Card.Text>
-                          </Col>
-                        </Row>
-                        {objective.interventions.map((intervention, x) => (
-                          <Card key={x} className="mb-3">
+          {activeTreatmentPlan.goals && activeTreatmentPlan.goals.length > 1 ? (
+            activeTreatmentPlan.goals.map((goal, index) => (
+              <Card key={index} className="shadow mb-2" border="dark">
+                <Card.Body as={Row}>
+                  <Col md={4}>
+                    <h3>{goal.goalname}</h3>
+                    <Card.Text>{goal.description}</Card.Text>
+                    <Row className="mb-3">
+                      <Col md={4}>
+                        <h6 className="fw-lighter">Open Date</h6>
+                        <Card.Text>{goal.opendate}</Card.Text>
+                      </Col>
+                      <Col md={4}>
+                        <h6 className="fw-lighter">Target Date</h6>
+                        <Card.Text>{goal.targetdate}</Card.Text>
+                      </Col>
+                      <Col md={4}>
+                        <h6 className="fw-lighter">Closed Date</h6>
+                        <Card.Text>{goal.opendate}</Card.Text>
+                      </Col>
+                    </Row>
+                    {/* <Row className="mb-3">
+                      <Col md={6}>
+                        <h6 className="fw-lighter">Goal Frequency</h6>
+                        <Card.Text>{goal.goalFrequency}</Card.Text>
+                      </Col>
+                      <Col md={6}>
+                        <h6 className="fw-lighter">Measurement Number</h6>
+                        <Card.Text>
+                          {goal.measurement.number} {goal.measurement.unit}
+                        </Card.Text>
+                      </Col>
+                    </Row> */}
+                  </Col>
+                  <Col md={8}>
+                    {parseObjectives(activeTreatmentPlan, goal).length > 0 ? (
+                      parseObjectives(activeTreatmentPlan, goal).map(
+                        (objective, i) => (
+                          <Card key={i} className="mb-3 shadow" border="primary">
                             <Card.Body>
-                              <Card.Subtitle>
-                                {intervention.description}
-                              </Card.Subtitle>
-                              <hr />
                               <Row className="mb-3">
-                                <Col md={3}>
-                                  <h6>Services</h6>
-                                  <Card.Text>{intervention.services}</Card.Text>
+                                <Col md={8}>
+                                  <Card.Title>
+                                    {i + 1 + ". " + objective.description}
+                                  </Card.Title>
                                 </Col>
                                 <Col md={2}>
-                                  <h6>Frequency</h6>
-                                  <Card.Text>
-                                    {intervention.frequency}
-                                  </Card.Text>
+                                  <h6 className="fw-lighter">Open Date</h6>
+                                  <Card.Text>{objective.opendate}</Card.Text>
                                 </Col>
-                                <Col md={3}>
-                                  <h6>Staff</h6>
-                                  <Card.Text>
-                                    {intervention.staffType}
-                                  </Card.Text>
-                                </Col>
-                                <Col md={4}>
-                                  <h6>Current Status</h6>
-                                  <Card.Text>{intervention.status}</Card.Text>
+                                <Col md={2}>
+                                  <h6 className="fw-lighter">Target Date</h6>
+                                  <Card.Text>{objective.targetdate}</Card.Text>
                                 </Col>
                               </Row>
+                              {parseInterventions(
+                                activeTreatmentPlan,
+                                objective
+                              ).map((intervention, x) => (
+                                <Card key={x} className="mb-3">
+                                  <Card.Body>
+                                    <Card.Subtitle>
+                                      {intervention.description}
+                                    </Card.Subtitle>
+                                    </Card.Body>
+                                    <Card.Footer className="bg-light">
+                                      <Row>
+                                      <Col md={6}>
+                                        <h6 className="fw-lighter">Services</h6>
+                                        <Card.Text>
+                                          Service Development Plan
+                                          {intervention.services}
+                                        </Card.Text>
+                                      </Col>
+                                      <Col md={3}>
+                                        <h6 className="fw-lighter">Frequency</h6>
+                                        <Card.Text>
+                                          Semi-Annually
+                                          {intervention.frequency}
+                                        </Card.Text>
+                                      </Col>
+                                      <Col md={3}>
+                                        <h6 className="fw-lighter">Staff</h6>
+                                        <Card.Text>
+                                          Doctor
+                                          {intervention.staffType}
+                                        </Card.Text>
+                                      </Col></Row>
+                                  </Card.Footer>
+                                </Card>
+                              ))}
                             </Card.Body>
                           </Card>
-                        ))}
-                      </Card.Body>
-                    </Card>
-                  ))}
-                </Col>
+                        )
+                      )
+                    ) : (
+                      <Card className="h-100 text-center">
+                        <Card.Body className="d-flex flex-column justify-content-center">
+                          <h3 className="text-muted">
+                            This goal currently has no defined objectives.
+                          </h3>
+                          <h5 className="fw-lighter">
+                            Click the 'Manage Goals' Button to start a new
+                            objective.
+                          </h5>
+                        </Card.Body>
+                      </Card>
+                    )}
+                  </Col>
+                </Card.Body>
+              </Card>
+            ))
+          ) : (
+            <Card className="text-center">
+              <Card.Body className="d-flex flex-column justify-content-center">
+                <h3 className="text-muted">
+                  Patient currenly has no defined goals.
+                </h3>
+                <h5 className="fw-lighter">
+                  Click the 'Manage Goals' Button to start a new goal.
+                </h5>
               </Card.Body>
             </Card>
-          ))}
+          )}
         </Row>
       </Card.Body>
       <ModalContainer

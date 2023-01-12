@@ -11,10 +11,12 @@ function UserDashboard(props) {
 
   return (
     <>
-      <Card className="mt-3">
+      <Card className="mt-3 card-shadow">
+            <Card.Header>
+              <h3>Welcome back, Mrs. Graham</h3>
+              <Card.Title>No Notifcations</Card.Title>
+            </Card.Header>
         <Card.Body>
-          <h3>Welcome back, Mrs. Graham</h3>
-          <Card.Title>No Notifcations</Card.Title>
           <Row>
             <Col md={6}>
               <Card className="card-shadow">
@@ -30,7 +32,7 @@ function UserDashboard(props) {
               </Card>
             </Col>
             <Col md={6}>
-              <Card className="mb-3 card-shadow">
+              <Card className="mb-4 card-shadow">
                 <Card.Header>Next Visit</Card.Header>
                 <Card.Body>
                   <Row className="align-items-center">
@@ -53,7 +55,7 @@ function UserDashboard(props) {
                   </Row>
                 </Card.Body>
               </Card>
-              <Card className="mb-3 card-shadow">
+              <Card className="mb-4 card-shadow">
                 <Card.Header className="justify-content-between">
                   <Row className="align-items-center">
                     <Col>Recent Clients</Col>

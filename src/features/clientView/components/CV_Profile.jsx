@@ -77,7 +77,7 @@ export function CVProfile({ sidebar }) {
             <Accordion.Item eventKey="0">
               <Accordion.Header>Diagnosis & Problems</Accordion.Header>
               <Accordion.Body className="p-0">
-                <Diagnosis />
+                {/* <Diagnosis /> */}
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>

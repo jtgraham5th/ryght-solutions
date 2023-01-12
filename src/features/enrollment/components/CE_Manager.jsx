@@ -34,9 +34,9 @@ export function CEManager({ show, setShow, containerName, edit }) {
     activeClient,
     activeContacts,
     addClient,
-    updateClient,
-    addContact,
-    updateContact,
+    updateActiveClient,
+    addClientContact,
+    updateClientContact,
     resetClient,
     loading,
   } = useClient();
@@ -44,7 +44,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
 
   const handleClose = () => {
     setActivePage(0);
-    setEditing(false);
+    setEditing(edit);
     reset();
     setShow(false);
   };
@@ -64,7 +64,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
       switch (activePage) {
         case 1:
           try {
-            await updateClient(t21, 21);
+            await updateActiveClient(t21, activeClient[20].patientid, 21);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
@@ -82,7 +82,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 2:
           try {
-            await updateClient(t22, 22);
+            await updateActiveClient(t22, activeClient[20].patientid, 22);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
@@ -113,7 +113,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
 
   const onSubmit = async (data) => {
     console.log("Editing is :", editing);
-    console.log(activePage);
+    console.log(data);
     if (isDirty) {
       const { t20, t21, t22, patientContact, emergencyContact } = parseFormData(
         data,
@@ -128,7 +128,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
         case 0:
           try {
             if (editing || tempID) {
-              await updateClient(t20, 20);
+              await updateActiveClient(t20, activeClient[20].patientid, 20);
               console.log("Client updated successfully");
               setToggleUpdate({
                 status: "Success",
@@ -160,12 +160,14 @@ export function CEManager({ show, setShow, containerName, edit }) {
 
             if (hasPCFieldsChanged(dirtyFields, defaultPC)) {
               if (activeContacts.patient && activeContacts.patient.length > 0) {
-                await updateContact(
+                await updateClientContact(
                   patientContact,
                   activeContacts.patient[0].contactid
                 );
+                console.log("Client PC updated successfully");
               } else {
-                await addContact(patientContact, 20);
+                await addClientContact(patientContact, 20);
+                console.log("Client PC added successfully");
               }
             }
 
@@ -174,12 +176,14 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 activeContacts.emergency &&
                 activeContacts.emergency.length > 0
               ) {
-                await updateContact(
+                await updateClientContact(
                   emergencyContact,
                   activeContacts.emergency[0].contactid
                 );
+                console.log("Client EC updated successfully");
               } else {
-                await addContact(emergencyContact, 20);
+                await addClientContact(emergencyContact, 20);
+                console.log("Client EC added successfully");
               }
             }
             resetClient(
@@ -197,7 +201,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 1:
           try {
-            await updateClient(t21, 21);
+            await updateActiveClient(t21, activeClient[20].patientid, 21);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
@@ -216,14 +220,13 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 2:
           try {
-            await updateClient(t22, 22);
+            await updateActiveClient(t22, activeClient[20].patientid, 22);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
               show: true,
             });
             resetClient(activeClient[22].patientid);
-            setEditing(false);
             handleClose();
           } catch (error) {
             setToggleUpdate({
@@ -239,7 +242,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
       }
     } else if (activePage === 2) {
       handleClose();
-      setEditing(false);
     } else {
       nextPage();
     }
@@ -258,11 +260,19 @@ export function CEManager({ show, setShow, containerName, edit }) {
     if (Object.keys(activeClient).length !== 0) {
       let defaultValues = parseDefaultValues(editing, activeClient);
       if (activeContacts.patient && activeContacts.patient.length > 0) {
-        const patientContact = parseDefaultPC(editing, activeContacts);
+        const patientContact = parseDefaultPC(
+          editing,
+          activeContacts,
+          setValue
+        );
         defaultValues = { ...defaultValues, ...patientContact };
       }
       if (activeContacts.emergency && activeContacts.emergency.length > 0) {
-        const emergencyContact = parseDefaultEC(editing, activeContacts);
+        const emergencyContact = parseDefaultEC(
+          editing,
+          activeContacts,
+          setValue
+        );
         defaultValues = { ...defaultValues, ...emergencyContact };
       }
       reset({ ...defaultValues });
@@ -278,10 +288,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Body>
           <Row className="d-flex justify-content-evenly align-items-center">
-            {
-              (renderPage =
-                (activePage, register, control, formState, setValue))
-            }
+            {renderPage(activePage, register, control, formState, setValue)}
           </Row>
         </Modal.Body>
         <Modal.Footer className="flex-row justify-content-between p-2">

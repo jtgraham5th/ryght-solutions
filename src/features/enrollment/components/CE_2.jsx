@@ -8,7 +8,8 @@ import { useClient } from "../../../context/ClientContext";
 import { FormAddContainer } from "../../../components/form/Form_AddContainer";
 import { FormFamilyPhysician } from "../../../components/form/Form_FamilyPhysician";
 import { FormInsuranceProvider } from "../../../components/form/Form_InsuranceProvider";
-import { CEFormPharmacy } from "./CE_FormPharmacy";
+import { FormPharmacy } from "../../../components/form/Form_Pharmacy";
+import { renderSectionTitle } from "../utils/formhelper";
 
 export function CE2({ register, control, setValue, formState }) {
   const [addNew, setAddNew] = useState({
@@ -18,9 +19,9 @@ export function CE2({ register, control, setValue, formState }) {
     insuranceProvider: false,
     activeForm: () => {},
   });
-  const { formData, activeContacts } = useClient();
+  const { formData } = useClient();
   const { touchedFields, errors } = formState;
-  
+
   const addItem = (e) => {
     e.preventDefault();
     let sectionName = e.target.name;
@@ -46,7 +47,7 @@ export function CE2({ register, control, setValue, formState }) {
       case "familyPhysician":
         return FormFamilyPhysician;
       case "pharmacy":
-        return CEFormPharmacy;
+        return FormPharmacy;
       case "insuranceProvider":
         return FormInsuranceProvider;
       default:
@@ -91,11 +92,15 @@ export function CE2({ register, control, setValue, formState }) {
         <Col md={2}>
           <Form.Label className="CE-form-label">Height</Form.Label>
           <Form.Control
-            disabled
             className="goal-detail-input"
-            // {...register("height")}
+            {...register("height", {
+              pattern: /^\d{1,2}'\d{1,2}$/,
+              maxLength: 5,
+            })}
             type="text"
             name="height"
+            isValid={touchedFields.height && !errors.height}
+            isInvalid={errors.height}
           />
         </Col>
         <Col md={2}>
@@ -235,11 +240,7 @@ export function CE2({ register, control, setValue, formState }) {
         </Col>
       </Form.Group>
       <FormAddContainer
-        sectionTitle={
-          addNew.sectionTitle
-            ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
-            : ""
-        }
+        sectionTitle={renderSectionTitle(addNew.sectionTitle)}
         open={
           addNew.sectionTitle === "familyPhysician" ||
           addNew.sectionTitle === "pharmacy"

@@ -20,11 +20,7 @@ function App() {
         <UserProvider>
           <ClientProvider>
             <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-            <div
-              className={
-                !loginStatus ? "App landing" : sidebar ? "App active" : "App"
-              }
-            >
+            <div className="App">
               <Routes>
                 <Route
                   path="/*"
@@ -36,12 +32,11 @@ function App() {
                     )
                   }
                 />
-                <Route path="client/*" element={<ClientDashboard />} />
+                <Route
+                  path="patient/:patientid/*"
+                  element={<ClientDashboard />}
+                ></Route>
                 <Route path="settings/" element={<Settings />} />
-                {/* <Route path="/" exact element={<ClientView sidebar={sidebar} />} />
-          <Route path="/client" exact element={<ClientView sidebar={sidebar} />} />
-          <Route path="/notes" element={<CVProgressNotes />} />
-          <Route path="/files" element={<FileManager />} /> */}
               </Routes>
             </div>
           </ClientProvider>

@@ -10,7 +10,7 @@ export function FormAddContainer({
   newForm: NewForm,
   setValue,
 }) {
-  const { activeClient, addContact } = useClient();
+  const { activeClient, addClientContact } = useClient();
 
   const { register, getValues,reset } = useForm({
     patientid:
@@ -47,7 +47,7 @@ export function FormAddContainer({
         newContact.contacttypeid = 23;
     }
 
-    addContact(newContact).then((data) => {
+    addClientContact(newContact).then((data) => {
       switch (sectionTitle) {
         case "familyPhysician":
           setValue("physicianid", data);

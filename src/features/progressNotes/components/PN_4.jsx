@@ -1,57 +1,86 @@
-import { Form } from "react-bootstrap";
-import { useState } from "react";
+import { Form, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
 import "./PN_Manager.css";
-import {PNGoalsManager} from "./PN_GoalsManager";
-import { client01 } from "../data/ProgressNotes";
+import { PNGoalsManager } from "./PN_GoalsManager";
+import { TextAreaField } from "../../../components/form/fieldCreator";
+import { useClient } from "../../../context/ClientContext";
+import { parseGOI } from "../utils/parseData";
 
-export function PN4({ register, control }) {
+export function PN4({ register, control, setValue, getValues }) {
   const [selectedGoal, setSelectedGoal] = useState({
     goal: null,
     objective: null,
     intervention: null,
   });
+  const { activeTreatmentPlan } = useClient();
+
+  useEffect(() => {
+    const pnGoal = getValues("f13");
+    const pnObjective = getValues("f14");
+    const pnIntervention = getValues("f15");
+    async function setGOIValues() {
+       parseGOI(
+        activeTreatmentPlan,
+        setSelectedGoal,
+        pnGoal,
+        pnObjective,
+        pnIntervention
+      );
+    }
+    setGOIValues();
+  }, []);
+  useEffect(() => {
+    console.log(selectedGoal);
+  }, [selectedGoal]);
+
+  useEffect(() => {
+    if (selectedGoal.goal) setValue("f13", selectedGoal.goal.description);
+    if (selectedGoal.objective)
+      setValue("f14", selectedGoal.objective.description);
+    if (selectedGoal.intervention)
+      setValue("f15", selectedGoal.intervention.description);
+  }, [selectedGoal]);
+
   return (
     <>
-      <Form.Group>
-        <Form.Label className="PNM-form-label mb-2">Add New Goals</Form.Label>
-        <PNGoalsManager
-          selectedGoal={selectedGoal}
-          setSelectedGoal={setSelectedGoal}
-          data={client01.treatmentPlan.goals}
-        />
-      </Form.Group>
-      <Form.Group
-        className="PNM-form-label w-100 mb-3"
-        controlId="exampleForm.ControlTextarea1"
-      >
-        <Form.Label>Behavior</Form.Label>
-        <Form.Control {...register("progBehavior")} as="textarea" rows={3} />
-      </Form.Group>
-      <Form.Group
-        className="PNM-form-label w-100 mb-3"
-        controlId="exampleForm.ControlTextarea1"
-      >
-        <Form.Label>Intervention</Form.Label>
-        <Form.Control
-          {...register("progIntervention")}
-          as="textarea"
-          rows={3}
-        />
-      </Form.Group>
-      <Form.Group
-        className="PNM-form-label w-100 mb-3"
-        controlId="exampleForm.ControlTextarea1"
-      >
-        <Form.Label>Resopnse</Form.Label>
-        <Form.Control {...register("progResponse")} as="textarea" rows={3} />
-      </Form.Group>
-      <Form.Group
-        className="PNM-form-label w-100 mb-3"
-        controlId="exampleForm.ControlTextarea1"
-      >
-        <Form.Label>Plan</Form.Label>
-        <Form.Control {...register("progPlan")} as="textarea" rows={3} />
-      </Form.Group>
+      <Row>
+        <h3 className="text-primary">Progress Note</h3>
+
+        <Col md={4} className="pe-4 ps-4 pt-2 border-end bg-light">
+          <Form.Label>
+            Select a goal, objective and intervention to use for this progress
+            note.
+          </Form.Label>
+          <PNGoalsManager
+            selectedGoal={selectedGoal}
+            setSelectedGoal={setSelectedGoal}
+          />
+        </Col>
+        <Col md={8}>
+          <Form.Group className="">
+            <TextAreaField
+              register={register}
+              labelName="Behavior"
+              fieldName="f63"
+            />
+            <TextAreaField
+              register={register}
+              labelName="Intervention"
+              fieldName="f64"
+            />
+            <TextAreaField
+              register={register}
+              labelName="Response"
+              fieldName="f65"
+            />
+            <TextAreaField
+              register={register}
+              labelName="Plan"
+              fieldName="f66"
+            />
+          </Form.Group>
+        </Col>
+      </Row>
     </>
   );
 }

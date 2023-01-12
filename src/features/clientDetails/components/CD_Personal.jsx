@@ -1,109 +1,73 @@
-import { Col, ListGroup } from "react-bootstrap";
+import { Row, Col, ListGroup } from "react-bootstrap";
 import styles from "../ClientDetails.module.scss";
 import { useClient } from "../../../context/ClientContext";
+import { getFormValue, renderDetail } from "../utils/formatData";
 
 export function CDPersonal() {
-  const { activeClient } = useClient();
-
+  const { activeClient, formData } = useClient();
+  const dataArray1 = [
+    { field: "DOB", value: activeClient[20].dob },
+    { field: "Height", value: activeClient[21].height },
+    { field: "Weight", value: activeClient[21].weight },
+    {
+      field: "Marital Status",
+      value: getFormValue(
+        "Marital Status",
+        activeClient[20].sexatbirthid,
+        formData
+      ),
+    },
+    {
+      field: "Ethnicity",
+      value: getFormValue("Ethnicity", activeClient[20].ethnicityid, formData),
+    },
+  ];
+  const dataArray2 = [
+    {
+      field: "Sex At Birth",
+      value: getFormValue(
+        "Sex At Birth",
+        activeClient[20].sexatbirthid,
+        formData
+      ),
+    },
+    {
+      field: "Gender Identity",
+      value: getFormValue(
+        "Gender Identity",
+        activeClient[20].genderid,
+        formData
+      ),
+    },
+    {
+      field: "Preferred Pronouns",
+      value: getFormValue(
+        "Preferred Pronouns",
+        activeClient[20].preferredpronounid,
+        formData
+      ),
+    },
+    {
+      field: "Religion",
+      value: getFormValue("Religion", activeClient[20].religonid, formData),
+    },
+  ];
   return (
-    // <Row fluid>
-    <ListGroup className={styles.dataGroup} variant="flush">
-      <ListGroup.Item className="ps-0 pt-0" as="Row">
-      <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">{activeClient[20].pfirstname + " " + activeClient[20].plastname}</div>
-            <div className="fw-bold">Full Name</div>
-          </Col>
-
-        </ListGroup.Item>
-        <ListGroup.Item>
-        {/* <Row className={styles.dataGroupRow}> */}
-          {/* <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Comment</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Record ID</div>
-          </Col> */}
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">NickName</div>
-          </Col>
-          {/* <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Sexual Orientation</div>
-          </Col> */}
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Gender Expression</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Gender</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">DOB</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">SSN</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Height</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Weight</div>
-          </Col>
-          {/* <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Eye Color</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Hair Color</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Primary Race</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Secondary Race</div>
-          </Col> */}
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Ethnicity</div>
-          </Col>
-          {/* <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Preferred Language</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Needs Interpreter</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Name of Interpreter</div>
-          </Col> */}
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Marital Status</div>
-          </Col>
-          {/* <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Siblings</div>
-          </Col>
-          <Col md="auto" className={styles.dataItem}>
-            <div className="me-auto">Cras justo odio</div>
-            <div className="fw-bold">Payer Client ID</div>
-          </Col> */}
-          {/* </Row> */}
-      </ListGroup.Item>
-    </ListGroup>
-    // </Row>
+    <Row>
+      <Col md={6} className="pe-0">
+        <ListGroup className={styles.dataGroup} variant="flush">
+          {dataArray1.map((data, i) =>
+            renderDetail(data.field, data.value, 5, 7)
+          )}
+        </ListGroup>
+      </Col>
+      <Col md={6} className="ps-0">
+        <ListGroup className={styles.dataGroup} variant="flush">
+          {dataArray2.map((data, i) =>
+            renderDetail(data.field, data.value, 7, 5)
+          )}
+        </ListGroup>
+      </Col>
+    </Row>
   );
 }

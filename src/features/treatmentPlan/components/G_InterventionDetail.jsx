@@ -9,22 +9,35 @@ import {
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Pencil } from "react-bootstrap-icons";
-import { useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import { useForm, Controller } from "react-hook-form";
 import "./G_Manager.css";
+import { useClient } from "../../../context/ClientContext";
+import { parseIntervention } from "../utils/parseData";
 
-export function InterventionDetail({ intervention, focus, setFocus, setAlert }) {
+export function InterventionDetail({
+  intervention,
+  focus,
+  setFocus,
+  setAlert,
+  objectiveid,
+}) {
   const [editIntervention, setEditIntervention] = useState(false);
-
-  const { register, handleSubmit, setValue } = useForm();
+  const { activeClient, updateClientIntervention, addClientIntervention } =
+    useClient();
+  const { patientid } = activeClient[20];
+  const { control, register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
-      setValue("parentGoal", intervention.parentGoal);
-      setValue("parentObjective", intervention.parentObjective);
-      setValue("status", intervention.status);
-      setValue("services", intervention.services);
-      setValue("frequency", intervention.frequency);
-      setValue("staffType", intervention.staffType);
-      setValue("description", intervention.description);
+    if (!intervention) {
+      const blankIntervention = parseIntervention(
+        patientid,
+        objectiveid,
+        intervention
+      );
+      reset({ ...blankIntervention[0] });
+      // eslint-disable-next-line
+    } else reset({ ...intervention });
   }, [intervention]);
 
   useEffect(() => {
@@ -34,28 +47,15 @@ export function InterventionDetail({ intervention, focus, setFocus, setAlert }) 
   }, [focus.editing]);
 
   const onSubmit = (data) => {
-    console.log(data)
-    // e.preventDefault();
-    // const dataObject = {};
-    // const data = new FormData(e.target);
-    // for (const entry of data.entries()) {
-    //   dataObject[`${entry[0]}`] = entry[1];
-    // }
-    // if (focus.editing === "new-intervention")
-    //   console.log("--new goal created--");
-    // console.log(dataObject);
-    // setAlert({
-    //   message: (
-    //     <h6>
-    //       Are you sure you want to save:
-    //       <br /> <strong>{dataObject.description}</strong>?
-    //     </h6>
-    //   ),
-    //   data: dataObject,
-    //   title: `${
-    //     focus.editing === "new-interventino" ? "Save New " : "Update "
-    //   } Intervention?`,
-    // });
+    const newIntervention = parseIntervention(data, patientid, objectiveid);
+    console.log(newIntervention);
+    if (focus.editing === "new-intervention") {
+      console.log("new intervention");
+      addClientIntervention(newIntervention);
+    } else if (editIntervention) {
+      console.log("updated intervention");
+      updateClientIntervention(newIntervention);
+    }
     exitEdit();
   };
 
@@ -143,74 +143,38 @@ export function InterventionDetail({ intervention, focus, setFocus, setAlert }) 
             </Collapse>
 
             <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">Goal</Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("parentGoal")}
-                name="parentGoal"
-                type="text"
-                readOnly={editIntervention ? false : true}
-                disabled={!intervention ? true : false}
-              />
-            </ListGroupItem>
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">Objective</Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("parentObjective")}
-                name="parentObjective"
-                type="text"
-                readOnly={editIntervention ? false : true}
-                disabled={!intervention ? true : false}
-              />
-            </ListGroupItem>
-
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
               <Form.Label className="w-50 m-0 pe-1 small">
-                Current Status
+                Assigned Staff
               </Form.Label>
               <Form.Control
                 className="goal-detail-input"
-                {...register("status")}
-                name="status"
+                {...register("stafftitleid")}
+                name="stafftitleid"
                 type="text"
                 readOnly={editIntervention ? false : true}
-                disabled={!intervention ? true : false}
+                disabled={true}
+                // disabled={!intervention ? true : false}
               />
             </ListGroupItem>
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">Services</Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("services")}
-                name="services"
-                type="text"
-                readOnly={editIntervention ? false : true}
-                disabled={!intervention ? true : false}
-              />
-            </ListGroupItem>
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">Frequency</Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("frequency")}
-                name="frequency"
-                type="text"
-                readOnly={editIntervention ? false : true}
-                disabled={!intervention ? true : false}
-              />
-            </ListGroupItem>
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
+            <ListGroupItem className="d-flex justify-content-center align-items-center small p-1 ps-3 pe-3">
               <Form.Label className="w-50 m-0 pe-1 small">
-                Staff Type
+                Target Date
               </Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("staffType")}
-                name="staffType"
-                type="text"
-                readOnly={editIntervention ? false : true}
-                disabled={!intervention ? true : false}
+              <Controller
+                control={control}
+                name="targetdate"
+                defaultValue=""
+                render={({ field }) => (
+                  <DatePicker
+                    className="datePicker"
+                    selected={field.value}
+                    onChange={(date) => {
+                      field.onChange(date);
+                    }}
+                    readOnly={editIntervention ? false : true}
+                    disabled={!intervention ? true : false}
+                  />
+                )}
               />
             </ListGroupItem>
           </ListGroup>

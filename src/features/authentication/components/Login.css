@@ -12,9 +12,10 @@
   margin-bottom: 2rem;
 }
 .login-container {
-  background-color: rgb(219, 211, 222);
+  /* background-color: rgb(219, 211, 222); */
   display: flex;
   justify-content: center;
+  align-self: center;
 }
 .login-container > .card {
   box-shadow: 1px 2px 15px !important

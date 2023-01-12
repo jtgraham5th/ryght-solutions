@@ -2,6 +2,9 @@ import { CE1 } from "../components/CE_1";
 import { CE2 } from "../components/CE_2";
 import { CE3 } from "../components/CE_3";
 
+export const renderSectionTitle = (sectionTitle) => {
+  return sectionTitle ? sectionTitle.split(/(?=[A-Z])/).join(" ") : "";
+};
 export const hasPCFieldsChanged = (dirtyFields, defaultPC) => {
   return Object.keys(dirtyFields).some((value) =>
     Object.keys(defaultPC).includes(value)
@@ -24,7 +27,12 @@ export const renderPage = (
   switch (activePage) {
     case 0:
       return (
-        <CE1 register={register} control={control} formState={formState} />
+        <CE1
+          register={register}
+          control={control}
+          setValue={setValue}
+          formState={formState}
+        />
       );
     case 1:
       return (
@@ -37,7 +45,12 @@ export const renderPage = (
       );
     case 2:
       return (
-        <CE3 register={register} control={control} formState={formState} />
+        <CE3
+          register={register}
+          control={control}
+          formState={formState}
+          setValue={setValue}
+        />
       );
     default:
       return (

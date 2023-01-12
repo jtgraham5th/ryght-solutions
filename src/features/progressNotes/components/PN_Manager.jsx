@@ -1,22 +1,27 @@
 import { Button, Row, Modal, Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./PN_Manager.css";
 import AlertContainer from "../../../components/AlertContainer";
-import {PN1} from "./PN_1";
-import {PN2} from "./PN_2";
-import {PN3} from "./PN_3";
-import {PN4} from "./PN_4";
+import { PN1 } from "./PN_1";
+import { PN4 } from "./PN_4";
 import { useForm } from "react-hook-form";
+import {
+  parseDefaultProgressNote,
+  parseProgressNote,
+} from "../utils/parseData";
+import { useClient } from "../../../context/ClientContext";
 
-export function PNManager({ data, show, setShow, containerName }) {
+export function PNManager({ data, show, setShow, containerName, edit }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
   const [activePage, setActivePage] = useState(0);
-  const { control, register, handleSubmit, reset } = useForm();
-  const [progressNoteData, setProgressNoteData] = useState({});
+  const { control, register, handleSubmit, reset, setValue, watch, getValues } =
+    useForm();
+  const { updateClientProgNote, addClientProgNote, activeClient } = useClient();
 
   const handleClose = () => {
     setActivePage(0);
     setShow(false);
+    reset();
   };
   const handleShow = () => setAlert(true);
   const nextPage = () => {
@@ -28,35 +33,68 @@ export function PNManager({ data, show, setShow, containerName }) {
   const renderPage = () => {
     switch (activePage) {
       case 0:
-        return <PN1 register={register} control={control} />;
+        return (
+          <PN1
+            register={register}
+            control={control}
+            setValue={setValue}
+            watch={watch}
+            getValues={getValues}
+            data={data}
+          />
+        );
       case 1:
-        return <PN2 register={register} control={control} />;
-      case 2:
-        return <PN3 register={register} control={control} />;
-      case 3:
-        return <PN4 register={register} control={control} />;
+        return (
+          <PN4
+            register={register}
+            control={control}
+            setValue={setValue}
+            getValues={getValues}
+          />
+        );
       default:
-        return <PN1 register={register} control={control} />;
+        return (
+          <PN1
+            register={register}
+            control={control}
+            setValue={setValue}
+            watch={watch}
+            getValues={getValues}
+          />
+        );
     }
   };
   const onSubmit = (data) => {
-    setProgressNoteData((prevState) => ({ ...prevState, ...data }));
-    if (activePage < 3) {
+    console.log(data);
+
+    if (activePage < 1) {
       setActivePage((page) => page + 1);
     }
-    if (activePage === 3) {
+    if (activePage === 1) {
       setAlert({
         message: <h6>Are you sure you want to save these changes?</h6>,
-        data: progressNoteData,
+        data: parseProgressNote(data, activeClient[20].patientid),
         title: "Save Progress Notes",
       });
     }
   };
   const handleConfirm = (data) => {
     console.log(data);
+    if (edit) updateClientProgNote(data, activeClient[20].patientid);
+    else addClientProgNote(data, activeClient[20].patientid);
     handleClose();
     reset();
   };
+
+  useEffect(() => {
+    if (edit && data) {
+      console.log(edit);
+      const updatedProgNote = parseDefaultProgressNote(data);
+      console.log(updatedProgNote)
+      reset({ ...updatedProgNote });
+    }
+    // eslint-disable-next-line
+  }, [data]);
 
   const handleCancel = (data) => {};
   return (
