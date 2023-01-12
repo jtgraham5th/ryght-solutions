@@ -63,7 +63,7 @@ function ClientSelectDropdown(props) {
             {React.Children.toArray(children).filter(
               (child) =>
                 !searchValue ||
-                child.props.children.toLowerCase().includes(searchValue)
+                child.props.children.includes(searchValue)
             )}
           </ul>
         </div>

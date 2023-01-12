@@ -13,6 +13,7 @@
 .list-unstyled {
   overflow: auto !important;
   height: 15rem !important;
+  width: 20rem !important;
   border-top: 1px solid silver !important;
   margin-bottom: 0 !important;
 }
