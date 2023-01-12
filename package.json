@@ -17,10 +17,15 @@
     "react-hook-form": "^7.35.0",
     "react-multiselect-dropdown-bootstrap": "^1.1.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-to-print": "^2.14.7",
-    "sass": "^1.54.0",
+    "sass": "^1.57.1",
     "web-vitals": "^2.1.4"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   },
   "scripts": {
     "predeploy": "npm run build",

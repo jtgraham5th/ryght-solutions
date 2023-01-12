@@ -1,0 +1,94 @@
+import { Form, ListGroup, Card } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import { Controller } from "react-hook-form";
+import { useClient } from "../../context/ClientContext";
+
+export function DateField(props) {
+  const { control, labelName, fieldName, labelStyle, fieldStyle, ...other } =
+    props;
+  return (
+    <>
+      <Form.Label className={`fs-6 me-3 text-nowrap ${labelStyle}`}>
+        {labelName}
+      </Form.Label>
+      <Controller
+        control={control}
+        name={fieldName}
+        render={({ field }) => (
+          <DatePicker
+            {...other}
+            className={`datePicker ${fieldStyle}`}
+            selected={field.value}
+            onChange={(date) => {
+              field.onChange(date);
+            }}
+          />
+        )}
+      />
+    </>
+  );
+}
+export function SelectField(props) {
+  const { register, labelName, fieldName, groupName, listData, labelStyle, fieldStyle, ...other } =
+    props;
+  const { formData } = useClient();
+  const renderOptions = () => {
+    if (listData) return listData;
+    else if (groupName) return formData[groupName];
+    return [];
+  };
+  return (
+    <>
+      {labelName ? (
+        <Form.Label className={`fs-6 ${labelStyle}`}>{labelName}</Form.Label>
+      ) : null}
+      <Form.Select {...register(fieldName)} name={fieldName} className={`${fieldStyle}`} {...other}>
+        {renderOptions().map((item, i) => {
+          return (
+            <option key={i} value={item.grouplistid}>
+              {item.groupvalue}
+            </option>
+          );
+        })}
+      </Form.Select>
+    </>
+  );
+}
+export function TextAreaField(props) {
+  const { register, labelName, fieldName, readOnly, disabled, rows, ...other } =
+    props;
+  return (
+    <>
+      <Form.Label className="fs-6 ">{labelName}</Form.Label>
+      <Form.Control
+        {...register(fieldName)}
+        as="textarea"
+        rows={rows ? rows : 3}
+        className="mb-3"
+        readOnly={readOnly}
+        disabled={disabled}
+        {...other}
+      />
+    </>
+  );
+}
+export function TextField({
+  register,
+  labelName,
+  fieldName,
+  readOnly,
+  disabled,
+}) {
+  return (
+    <>
+      <Form.Label className="fs-5 ">{labelName}</Form.Label>
+      <Form.Control
+        {...register(fieldName)}
+        type="text"
+        rows={3}
+        readOnly={readOnly}
+        disabled={disabled}
+      />
+    </>
+  );
+}

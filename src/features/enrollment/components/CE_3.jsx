@@ -1,22 +1,34 @@
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { PeopleFill } from "react-bootstrap-icons";
 import { useState } from "react";
-import {FormAddContainer} from "../../../components/form/Form_AddContainer";
-import {CEFormReferralSource} from "./CE_FormReferralSource";
-import {CEFormReferralOutSource} from "./CE_FormReferralOutSource";
+import { FormAddContainer } from "../../../components/form/Form_AddContainer";
+import { CEFormReferralSource } from "./CE_FormReferralSource";
+import { CEFormReferralOutSource } from "./CE_FormReferralOutSource";
 import { useClient } from "../../../context/ClientContext";
+import { Diagnosis } from "../../diagnosis/components/Diagnosis";
+import { Services } from "../../services";
+import { PreviewItems } from "../../../components/form/PreviewItems";
+import {
+  DateField,
+  TextAreaField,
+  SelectField,
+} from "../../../components/form/fieldCreator";
+import { renderSectionTitle } from "../utils/formhelper";
+import { LabelButtonGroup } from "./CE_LabelButtonGroup";
 
-export function CE3({ register, control, formState }) {
+export function CE3({ register, control, formState, setValue }) {
   const [addNew, setAddNew] = useState({
     sectionTitle: "",
     referralSource: false,
     referralOutsource: false,
     activeForm: () => {},
   });
-  const { formData } = useClient();
+  const { getActiveServiceCodes, getActiveDXCodes } = useClient();
+  const [selectedDX, setSelectedDX] = useState(getActiveDXCodes());
+  const [selectedServices, setSelectedServices] = useState(
+    getActiveServiceCodes()
+  );
   const { touchedFields, errors } = formState;
 
   const addItem = (e) => {
@@ -39,6 +51,11 @@ export function CE3({ register, control, formState }) {
       [sectionName]: false,
     }));
   };
+  const removeService = (code) => {
+    setSelectedServices((prevState) =>
+      prevState.filter((item) => item.code !== code.code)
+    );
+  };
 
   const renderSectionForm = (name) => {
     switch (name) {
@@ -58,265 +75,139 @@ export function CE3({ register, control, formState }) {
         <h3>Referring Information</h3>
       </div>
       <hr />
-      <Form.Group as={Row} className="mb-2">
-        <h5>Referral Source</h5>
-        <Col md={8}>
-          <Form.Label className="CE-form-label">
-            Referral Source
-            <div className="CE-form-label-button-container">
-              {addNew.referralSource ? (
-                <>
-                  <Button
-                    className="CE-form-label-button me-2"
-                    name="referralSource"
-                    type="submit"
-                    variant="outline-success"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    className="CE-form-label-button"
-                    name="referralSource"
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={closeItem}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  size="sm"
-                  variant="outline-primary"
-                  name="referralSource"
-                  className="CE-form-label-button"
-                  onClick={addItem}
-                >
-                  new
-                </Button>
-              )}
-            </div>
-          </Form.Label>
-          <Form.Select
-            {...register("referralid",{ valueAsNumber: true })}
-            name="referralid"
-            aria-label="Select Referral"
+      <Form.Group as={Row} className="mb-3 align-items-center">
+        <Col md={4}>
+          <LabelButtonGroup
+            title="Referral Source"
+            trigger={addNew.referralSource}
+            name="referralSource"
+            add={addItem}
+            close={closeItem}
+          />
+          <SelectField
+            register={register}
+            fieldName="referralid"
+            groupName="Referral Source"
             isValid={touchedFields.referralid && !errors.referralid}
             isInvalid={errors.referralid}
-          >
-            <option>Select Referral</option>
-            {formData["Referral Source"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+            fieldStyle="mb-3"
+          />
+          <DateField
+            control={control}
+            labelName="Referrall Date"
+            fieldName="referraldate"
+            fieldStyle="mb-2"
+          />
+          <hr />
+          <DateField
+            control={control}
+            labelName="First Appointment Date"
+            fieldName="firstapptdate"
+          />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">
-            ReferralDate <small>(optional)</small>
-          </Form.Label>
-          <Controller
+          <LabelButtonGroup
+            title="Referral OutSource"
+            trigger={addNew.referralOutsource}
+            name="referralOutsource"
+            add={addItem}
+            close={closeItem}
+          />
+          <SelectField
+            register={register}
+            fieldName="referralOutsource"
+            groupName="Referral Outsource"
+            isValid={
+              touchedFields.referralOutsource && !errors.referralOutsource
+            }
+            isInvalid={errors.referralOutsource}
+            disabled
+            fieldStyle="mb-3"
+          />
+
+          <DateField
             control={control}
-            name="referraldate"
-            
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
-              />
-            )}
+            labelName="Date of Outsourced"
+            fieldName="dateoutsourced"
+            fieldStyle="mb-2"
+          />
+          <hr />
+          <DateField
+            control={control}
+            labelName="First Psy Date"
+            fieldName="firstpsydate"
+          />
+        </Col>
+        <Col md={4}>
+          <SelectField
+            register={register}
+            labelName="Internal Referral"
+            fieldName="internalreferralid"
+            groupName="Internal Referral"
+            isValid={
+              touchedFields.internalreferralid && !errors.internalreferralid
+            }
+            isInvalid={errors.internalreferralid}
+            fieldStyle="mb-3"
+          />
+          <TextAreaField
+            register={register}
+            labelName="Reason For Referral"
+            fieldName="patient_comment"
+            isValid={touchedFields.patient_comment && !errors.patient_comment}
+            isInvalid={errors.patient_comment}
+            rows={5}
           />
         </Col>
       </Form.Group>
       <FormAddContainer
-        sectionTitle={
-          addNew.sectionTitle
-            ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
-            : ""
-        }
-        open={addNew.sectionTitle}
+        sectionTitle={renderSectionTitle(addNew.sectionTitle)}
+        open={addNew.sectionTitle ? true : false}
         close={closeItem}
         newForm={addNew.activeForm}
       />
-      <Form.Group as={Row} className="mb-2">
-        <Col md={8}>
-          <Form.Label className="CE-form-label">
-            Referral Outsource
-            <div className="CE-form-label-button-container">
-              {addNew.referralOutsource ? (
-                <>
-                  <Button
-                    className="CE-form-label-button me-2"
-                    name="referralOutsource"
-                    type="submit"
-                    variant="outline-success"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    className="CE-form-label-button"
-                    name="referralOutsource"
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={closeItem}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  disabled
-                  size="sm"
-                  variant="outline-primary"
-                  name="referralOutsource"
-                  className="CE-form-label-button"
-                  onClick={addItem}
-                >
-                  new
-                </Button>
-              )}
-            </div>
-          </Form.Label>
-          <Form.Select
-            disabled
-            {...register("referralOutsource",{ valueAsNumber: true })}
-            name="referralOutsource"
-            aria-label="Select Outsource"
-            isValid={touchedFields.referralOutsource && !errors.referralOutsource}
-            isInvalid={errors.referralOutsource}
-          >
-            <option>Select Outsource</option>
-            {formData["Referral Outsource"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
-        </Col>
-        <Col md={4}>
-          <Form.Label className="CE-form-label">Date Outsourced</Form.Label>
-          <Controller
-            control={control}
-            name="dateoutsourced"
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
-              />
-            )}
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row}>
-        <Col md={12}>
-          <Form.Label className="CE-form-label">Internal Referral</Form.Label>
-          <Form.Select
-            {...register("internalreferralid", { valueAsNumber: true })}
-            name="internalreferralid"
-            aria-label="Select Referral"
-            isValid={touchedFields.internalreferralid && !errors.internalreferralid}
-            isInvalid={errors.internalreferralid}
-
-          >
-            <option>Select Referral</option>
-            {formData["Internal Referral"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-3">
-        <Col md={12}>
-          <Form.Label className="CE-form-label">
-            Reason For Referral <small>(optional)</small>
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("patient_comment",{ maxLength: 255 })}
-            as="textarea"
-            rows={3}
-            name="patient_comment"
-            isValid={touchedFields.patient_comment && !errors.patient_comment}
-            isInvalid={errors.patient_comment}
-
-          />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} className="mb-2">
+      <hr />
+      <Form.Group as={Row} className="mb-4 align-items-center">
         <Col md={6}>
-          <Form.Label className="CE-form-label">
-            Diagnosis Codes <small>(separate by comma)</small>
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("dxcodes", { maxLength: 255 })}
-            type="text"
-            name="dxcodes"
-            isValid={touchedFields.dxcodes && !errors.dxcodes}
-            isInvalid={errors.dxcodes}
-
+          <Services
+            selectedServices={selectedServices}
+            setSelectedServices={setSelectedServices}
+            setValue={setValue}
+            fieldName="servicecodes"
+            disablePreview
           />
         </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label">Diagnosis Date</Form.Label>
-          <Controller
-            control={control}
-            name="dxdate"
-            
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
-              />
-            )}
+          <PreviewItems
+            state={selectedServices}
+            setState={setSelectedServices}
+            title="Current Patient Services"
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row} className="mb-2">
+      <hr />
+      <Form.Group as={Row} className="mb-4">
         <Col md={6}>
-          <Form.Label className="CE-form-label">
-            First Appointment Date
-          </Form.Label>
-          <Controller
-            control={control}
-            name="firstapptdate"
-            
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
-              />
-            )}
+          <Diagnosis
+            selectedDX={selectedDX}
+            setSelectedDX={setSelectedDX}
+            setValue={setValue}
+            fieldName="dxcodes"
+            disablePreview
           />
         </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label">First Psy Date</Form.Label>
-          <Controller
-            control={control}
-            name="firstpsydate"
-            
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
+          <PreviewItems
+            state={selectedDX}
+            setState={setSelectedDX}
+            title="Current Patient Diagnosis"
+            header={
+              <DateField
+                control={control}
+                labelName="Diagnosis Date"
+                fieldName="dxdate"
               />
-            )}
+            }
           />
         </Col>
       </Form.Group>

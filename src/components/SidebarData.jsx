@@ -12,7 +12,7 @@ export const SidebarData = [
   },
   {
     title: 'Clients',
-    path: '/client/overview/',
+    path: '/patient/blank/',
     icon: <PersonCircle />,
     cName: 'nav-text',
     disabled: false,

@@ -1,17 +1,18 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 
 import { CVProfile } from "../features/clientView";
 import { CDPharmacy } from "../features/clientDetails";
 import { CVProgressNotes } from "../features/clientView";
 import { CVTreatmentPlan } from "../features/clientView";
+import { CVProgramInfo } from "../features/clientView/components/CV_ProgramInfo";
 
 const ClientRoutes = () => {
   return (
     <Routes>
-      <Route path="overview" element={<CVProfile />} />
+      <Route path="*" element={<CVProfile />} />
       <Route path="progress-notes" element={<CVProgressNotes />} />
       <Route path="treatment-plan" element={<CVTreatmentPlan />} />
-      {/* <Route path="/program-info" element={Settings} /> */}
+      <Route path="program-info" element={<CVProgramInfo />} />
       <Route path="pharmacy" element={<CDPharmacy />} />
     </Routes>
   );

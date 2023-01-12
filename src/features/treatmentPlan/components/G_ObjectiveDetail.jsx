@@ -11,23 +11,32 @@ import { useEffect, useState } from "react";
 import { Pencil } from "react-bootstrap-icons";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
-import formatDate from "../../../utils/formatDate";
 import "./G_Manager.css";
+import { useClient } from "../../../context/ClientContext";
+import { parseObjective } from "../utils/parseData";
 
-export function ObjectiveDetail({ objective, focus, setFocus, setAlert }) {
+export function ObjectiveDetail({
+  objective,
+  focus,
+  setFocus,
+  setAlert,
+  goalid,
+}) {
   const [editObjective, setEditObjective] = useState(false);
+  const { activeClient, updateClientObjective, addClientObjective } =
+    useClient();
+  const { patientid } = activeClient[20];
 
-  const { control, register, handleSubmit, setValue } = useForm();
+  const { control, register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
-    if (objective) {
-      setValue("objectiveName", objective.objectiveName);
-      setValue("targetDate", new Date(objective.targetDate));
-      setValue("openDate", new Date(objective.openDate));
-      setValue("parentGoal", objective.parentGoal);
-      setValue("status", objective.status);
-      setValue("description", objective.description);
+    if (!objective) {
+      const blankObjective = parseObjective(patientid, goalid, objective);
+      reset({ ...blankObjective[0] });
+    } else {
+      reset({ ...objective });
     }
+    // eslint-disable-next-line
   }, [objective]);
 
   useEffect(() => {
@@ -37,26 +46,15 @@ export function ObjectiveDetail({ objective, focus, setFocus, setAlert }) {
   }, [focus.editing]);
 
   const onSubmit = (data) => {
-    console.log(data);
-    // const dataObject = {};
-    // const data = new FormData(e.target);
-    // for (const entry of data.entries()) {
-    //   dataObject[`${entry[0]}`] = entry[1];
-    // }
-    // if (focus.editing === "new-objective") console.log("--new goal created--");
-    // console.log(dataObject);
-    // setAlert({
-    //   message: (
-    //     <h6>
-    //       Are you sure you want to save:
-    //       <br /> <strong>{dataObject.objectiveName}</strong>?
-    //     </h6>
-    //   ),
-    //   data: dataObject,
-    //   title: `${
-    //     focus.editing === "new-objective" ? "Save New " : "Update "
-    //   } Objective?`,
-    // });
+    const newObjective = parseObjective(patientid, goalid, data);
+    console.log(newObjective);
+    if (focus.editing === "new-objective") {
+      console.log("new objective");
+      addClientObjective(newObjective);
+    } else if (editObjective) {
+      console.log("updated objective");
+      updateClientObjective(newObjective);
+    }
     exitEdit();
   };
 
@@ -141,25 +139,14 @@ export function ObjectiveDetail({ objective, focus, setFocus, setAlert }) {
                 <Pencil className="ms-2" />
               </ListGroup.Item>
             </Collapse>
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">Objective</Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("objectiveName")}
-                type="text"
-                readOnly={editObjective ? false : true}
-                disabled={!objective ? true : false}
-              />
-            </ListGroupItem>
             <ListGroupItem className="d-flex justify-content-center align-items-center small p-1 ps-3 pe-3">
               <Form.Label className="w-50 m-0 pe-1 small">
                 Target Date
               </Form.Label>
               <Controller
                 control={control}
-                name="targetDate"
+                name="targetdate"
                 defaultValue=""
-                
                 render={({ field }) => (
                   <DatePicker
                     className="datePicker"
@@ -177,9 +164,8 @@ export function ObjectiveDetail({ objective, focus, setFocus, setAlert }) {
               <Form.Label className="w-50 m-0 pe-1 small">Open Date</Form.Label>
               <Controller
                 control={control}
-                name="openDate"
+                name="opendate"
                 defaultValue=""
-                
                 render={({ field }) => (
                   <DatePicker
                     className="datePicker"
@@ -193,37 +179,12 @@ export function ObjectiveDetail({ objective, focus, setFocus, setAlert }) {
                 )}
               />
             </ListGroupItem>
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">Goal</Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("parentGoal")}
-                type="text"
-                name="parentGoal"
-                readOnly={editObjective ? false : true}
-                disabled={!objective ? true : false}
-              />
-            </ListGroupItem>
-
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">
-                Current Status
-              </Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("status")}
-                type="text"
-                name="status"
-                readOnly={editObjective ? false : true}
-                disabled={!objective ? true : false}
-              />
-            </ListGroupItem>
           </ListGroup>
         </Form.Group>
-        <Card.Body className="detail-card-body">
-          <Form.Label className="small">Objective</Form.Label>
+        <Card.Body>
+          <Form.Label className="w-50 m-0 pe-1 small">Objective</Form.Label>
           <Form.Control
-            className="mb-3 small"
+            className="mb-2 small"
             {...register("description")}
             as="textarea"
             size="sm"

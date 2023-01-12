@@ -84,7 +84,7 @@ function ClientSelectDropdown(props) {
               eventKey={index}
               onClick={() => {
                 handleClientSelect(result.patientid).then(() =>
-                  navigate("/client/overview")
+                  navigate(`/patient/${result.patientid}`)
                 );
               }}
             >

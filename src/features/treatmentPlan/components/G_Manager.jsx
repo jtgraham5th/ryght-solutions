@@ -6,17 +6,26 @@ import {
   ListGroup,
   ListGroupItem,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./G_Manager.css";
 import { ArrowDown } from "react-bootstrap-icons";
-import {GoalDetail} from "./G_GoalDetail";
-import {ObjectiveDetail} from "./G_ObjectiveDetail";
-import {InterventionDetail} from "./G_InterventionDetail";
+import { GoalDetail } from "./G_GoalDetail";
+import { ObjectiveDetail } from "./G_ObjectiveDetail";
+import { InterventionDetail } from "./G_InterventionDetail";
 import AlertContainer from "../../../components/AlertContainer";
+import { useClient } from "../../../context/ClientContext";
+import {
+  parseDefaultGoal,
+  parseDefaultObjective,
+  parseDefaultIntervention,
+  parseInterventions,
+  parseObjectives,
+} from "../utils/parseData";
 
 export function GoalsManager({ data }) {
+  const { activeTreatmentPlan, activeClient } = useClient();
+  const { patientid } = activeClient[20];
   const [alert, setAlert] = useState({ message: "", data: "" });
-  const [goals] = useState(data);
   const [activeGoal, setActiveGoal] = useState();
   const [activeObjective, setActiveObjective] = useState("");
   const [activeIntervention, setActiveIntervention] = useState("");
@@ -26,7 +35,7 @@ export function GoalsManager({ data }) {
     interventions: false,
     editing: "",
   });
-
+  useEffect(() => {});
   const goalSelect = (goal) => {
     setCardFocus({
       ...cardFocus,
@@ -35,25 +44,13 @@ export function GoalsManager({ data }) {
       interventions: false,
     });
     if (goal !== activeGoal) {
-      setActiveGoal(goal);
+      setActiveGoal(parseDefaultGoal(true, patientid, goal));
       setActiveObjective("");
       setActiveIntervention("");
     }
   };
   const newGoal = () => {
-    setActiveGoal({
-      goal: "",
-      status: "",
-      openDate: new Date(),
-      targetDate: new Date(),
-      addedDate: new Date(),
-      frequency: "",
-      measurementNumber: "",
-      measurementUnit: "",
-      description: "",
-      comments: "",
-      objectives: [],
-    });
+    setActiveGoal(parseDefaultGoal(false, patientid));
     setCardFocus({
       ...cardFocus,
       objectives: false,
@@ -63,15 +60,9 @@ export function GoalsManager({ data }) {
     });
   };
   const newObjective = () => {
-    setActiveObjective({
-      objective: "",
-      parentGoal: "",
-      openDate: new Date(),
-      targetDate: new Date(),
-      status: "",
-      description: "",
-      interventions: [],
-    });
+    setActiveObjective(
+      parseDefaultObjective(false, patientid, activeGoal.goalid)
+    );
     setCardFocus({
       ...cardFocus,
       objectives: true,
@@ -89,20 +80,16 @@ export function GoalsManager({ data }) {
       interventions: false,
     });
     if (objective !== activeObjective) {
-      setActiveObjective(objective);
+      setActiveObjective(
+        parseDefaultObjective(true, patientid, activeGoal.goalid, objective)
+      );
       setActiveIntervention("");
     }
   };
   const newIntervention = () => {
-    setActiveIntervention({
-      parentGoal: "",
-      parentObjective: "",
-      status: "",
-      services: "",
-      frequency: "",
-      staffType: "",
-      description: "",
-    });
+    setActiveIntervention(
+      parseDefaultIntervention(false, patientid, activeObjective.objectiveid)
+    );
     setCardFocus({
       ...cardFocus,
       objectives: false,
@@ -120,7 +107,14 @@ export function GoalsManager({ data }) {
       interventions: true,
     });
     if (intervention !== activeIntervention) {
-      setActiveIntervention(intervention);
+      setActiveIntervention(
+        parseDefaultIntervention(
+          true,
+          patientid,
+          activeObjective.objectiveid,
+          intervention
+        )
+      );
     }
   };
 
@@ -144,19 +138,20 @@ export function GoalsManager({ data }) {
             </div>
           </Card.Header>
           <Card.Body className="p-0">
-            <ListGroup className="list-container">
-              {goals.map((goal, index) => (
-                <ListGroupItem
-                  className="list-container-item"
-                  key={`goal-${index}`}
-                  onClick={() => goalSelect(goal)}
-                  active={activeGoal === goal ? true : false}
-                  variant={"flush"}
-                  disabled={cardFocus.editing ? true : false}
-                >
-                  {goal.goalName}
-                </ListGroupItem>
-              ))}
+            <ListGroup numbered className="list-container">
+              {activeTreatmentPlan &&
+                activeTreatmentPlan.goals.map((goal, index) => (
+                  <ListGroupItem
+                    className="list-container-item"
+                    key={`goal-${index}`}
+                    onClick={() => goalSelect(goal)}
+                    active={activeGoal === goal ? true : false}
+                    variant={"flush"}
+                    disabled={cardFocus.editing ? true : false}
+                  >
+                    {goal.goalname}
+                  </ListGroupItem>
+                ))}
             </ListGroup>
           </Card.Body>
         </Card>
@@ -177,19 +172,21 @@ export function GoalsManager({ data }) {
             </div>
           </Card.Header>
           <Card.Body className="p-0">
-            <ListGroup className="list-container">
+            <ListGroup numbered className="list-container">
               {activeGoal &&
-                activeGoal.objectives.map((objective, index) => (
-                  <ListGroupItem
-                    key={`objective-${index}`}
-                    className="list-container-item"
-                    onClick={() => objectiveSelect(objective)}
-                    active={activeObjective === objective ? true : false}
-                    disabled={cardFocus.editing ? true : false}
-                  >
-                    {objective.objectiveName}
-                  </ListGroupItem>
-                ))}
+                parseObjectives(activeTreatmentPlan, activeGoal).map(
+                  (objective, index) => (
+                    <ListGroupItem
+                      key={`objective-${index}`}
+                      className="list-container-item"
+                      onClick={() => objectiveSelect(objective)}
+                      active={activeObjective === objective ? true : false}
+                      disabled={cardFocus.editing ? true : false}
+                    >
+                      {objective.description}
+                    </ListGroupItem>
+                  )
+                )}
             </ListGroup>
           </Card.Body>
         </Card>
@@ -210,19 +207,23 @@ export function GoalsManager({ data }) {
             </div>
           </Card.Header>
           <Card.Body className="p-0">
-            <ListGroup className="list-container">
+            <ListGroup numbered className="list-container">
               {activeObjective &&
-                activeObjective.interventions.map((intervention, index) => (
-                  <ListGroupItem
-                    key={`intervention-${index}`}
-                    className="list-container-item"
-                    onClick={() => interventionSelect(intervention)}
-                    active={activeIntervention === intervention ? true : false}
-                    disabled={cardFocus.editing ? true : false}
-                  >
-                    {intervention.description}
-                  </ListGroupItem>
-                ))}
+                parseInterventions(activeTreatmentPlan, activeObjective).map(
+                  (intervention, index) => (
+                    <ListGroupItem
+                      key={`intervention-${index}`}
+                      className="list-container-item"
+                      onClick={() => interventionSelect(intervention)}
+                      active={
+                        activeIntervention === intervention ? true : false
+                      }
+                      disabled={cardFocus.editing ? true : false}
+                    >
+                      {intervention.description}
+                    </ListGroupItem>
+                  )
+                )}
             </ListGroup>
           </Card.Body>
         </Card>
@@ -251,12 +252,14 @@ export function GoalsManager({ data }) {
           focus={cardFocus}
           setFocus={setCardFocus}
           setAlert={setAlert}
+          goalid={activeGoal ? activeGoal.goalid : 0}
         />
         <InterventionDetail
           intervention={activeIntervention}
           focus={cardFocus}
           setFocus={setCardFocus}
           setAlert={setAlert}
+          objectiveid={activeObjective ? activeObjective.objectiveid : 0}
         />
       </Row>
       <AlertContainer

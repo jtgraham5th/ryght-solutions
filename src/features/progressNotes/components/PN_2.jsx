@@ -1,24 +1,16 @@
-import {
-  Row,
-  Accordion,
-  Form,
-} from "react-bootstrap";
+import { Row, Card, Form } from "react-bootstrap";
 import "./PN_Manager.css";
-import {Diagnosis} from "../../diagnosis";
+import { Diagnosis } from "../../diagnosis";
 
 export function PN2({ data }) {
   return (
-    <>
-      <Form.Group as={Row}>
-        <Accordion className="mb-3">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>Diagnosis & Problems</Accordion.Header>
-            <Accordion.Body className="p-0">
-              <Diagnosis />
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </Form.Group>
-    </>
+    <Form.Group as={Row}>
+      <div className="CE-section-title">
+          <h3>Progress Note</h3>
+        </div>
+      <Card >
+        {/* <Diagnosis /> */}
+      </Card>
+    </Form.Group>
   );
 }

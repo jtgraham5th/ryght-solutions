@@ -12,25 +12,21 @@ import { useState, useEffect } from "react";
 import { Pencil } from "react-bootstrap-icons";
 import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
-import formatDate from "../../../utils/formatDate";
+import { useClient } from "../../../context/ClientContext";
 import "./G_Manager.css";
+import { parseGoal } from "../utils/parseData";
 
 export function GoalDetail({ goal, focus, setFocus, setAlert }) {
   const [editGoal, setEditGoal] = useState(false);
+  const { activeClient, updateClientGoal, addClientGoal } = useClient();
+  const { patientid } = activeClient[20];
 
-  const { control, register, handleSubmit, setValue } = useForm();
+  const { control, register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
-    if (goal){
-      setValue("targetDate", new Date(goal.targetDate));
-      setValue("addedDate", new Date(goal.addedDate));
-      setValue("frequency", goal.frequency);
-      setValue("status", goal.status);
-      setValue("goalName", goal.goalName);
-      setValue("description", goal.description);
-      setValue("comments", goal.comments);}
-      // setValue("measurement", { unit: goal.measurement.unit });
-      // setValue("measurement", { number: goal.measurement.number });
+    console.log(goal);
+    reset({ ...goal });
+    // eslint-disable-next-line
   }, [goal]);
 
   useEffect(() => {
@@ -40,25 +36,15 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
   }, [focus.editing]);
 
   const onSubmit = (data) => {
-    console.log(data);
-    // e.preventDefault();
-    // const dataObject = {};
-    // const data = new FormData(e.target);
-    // for (const entry of data.entries()) {
-    //   dataObject[`${entry[0]}`] = entry[1];
-    // }
-    // if (focus.editing === "new-goal") console.log("--new goal created--");
-    // console.log(dataObject);
-    setAlert({
-      message: (
-        <h6>
-          Are you sure you want to save:
-          <br /> <strong>{data.goalName}</strong>?
-        </h6>
-      ),
-      data: data,
-      title: `${focus.editing === "new-goal" ? "Save New " : "Update "} Goal?`,
-    });
+    const newGoal = parseGoal(data, patientid);
+    console.log(newGoal);
+    if (focus.editing === "new-goal") {
+      console.log("new goal");
+      addClientGoal(newGoal);
+    } else if (editGoal) {
+      console.log("updated goal");
+      updateClientGoal(newGoal);
+    }
     exitEdit();
   };
 
@@ -149,9 +135,9 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
               <Form.Label className="w-50 m-0 pe-1 small">Goal Name</Form.Label>
               <Form.Control
                 className="goal-detail-input"
-                {...register("goalName")}
+                {...register("goalname")}
                 type="text"
-                name="goalName"
+                name="goalname"
                 readOnly={editGoal ? false : true}
                 disabled={!goal ? true : false}
               />
@@ -163,9 +149,7 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
 
               <Controller
                 control={control}
-                name="targetDate"
-                defaultValue=""
-                
+                name="targetdate"
                 render={({ field }) => (
                   <DatePicker
                     className="datePicker"
@@ -185,9 +169,8 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
               </Form.Label>
               <Controller
                 control={control}
-                name="addedDate"
+                name="dateclosed"
                 defaultValue=""
-                
                 render={({ field }) => (
                   <DatePicker
                     className="datePicker"
@@ -202,20 +185,7 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
               />
             </ListGroupItem>
 
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">
-                Current Status
-              </Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("status")}
-                type="text"
-                name="status"
-                readOnly={editGoal ? false : true}
-                disabled={!goal ? true : false}
-              />
-            </ListGroupItem>
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
+            {/* <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
               <Form.Label className="w-50 m-0 pe-1 small">
                 Goal Frequency
               </Form.Label>
@@ -248,7 +218,7 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
                   disabled={!goal ? true : false}
                 />
               </InputGroup>
-            </ListGroupItem>
+            </ListGroupItem> */}
           </ListGroup>
         </Form.Group>
         <Card.Body className="detail-card-body">
@@ -258,18 +228,19 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
             as="textarea"
             rows={3}
             readOnly={editGoal ? false : true}
-            {...register("measurement.unit")}
+            {...register("description")}
             name="description"
             disabled={!goal ? true : false}
           />
           <Form.Label className="small">Comments:</Form.Label>
           <Form.Control
             className="mb-3"
+            size="sm"
             as="textarea"
             rows={3}
             readOnly={editGoal ? false : true}
-            {...register("measurement.unit")}
-            name="comments"
+            {...register("comment")}
+            name="comment"
             disabled={!goal ? true : false}
           />
         </Card.Body>

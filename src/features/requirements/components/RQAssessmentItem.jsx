@@ -105,7 +105,7 @@ export function RQAssessmentItem({ index, data, setShow, setActiveForm }) {
               )}
             </Button>
           </Col>
-          <Col className={styles.assessmentDetail} xs={4} x>
+          <Col className={styles.assessmentDetail} xs={4} >
             <div>Date Completed:</div>
             <Card.Text className="fw-bold mb-0">
               {complete ? "01/01/2022" : "---"}

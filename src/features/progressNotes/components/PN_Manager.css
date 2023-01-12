@@ -129,7 +129,7 @@ form > .modal-body {
   padding: 0px !important;
   margin-bottom: 1rem !important;
   flex: 0 0 auto !important;
-  width: 30% !important;
+  width: 100% !important;
 }
 .detail-container-header {
   display: flex;

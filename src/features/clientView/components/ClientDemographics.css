@@ -1,11 +1,10 @@
-
 .data-row {
   align-items: center;
 }
-.data-issues{
+.data-issues {
   overflow: auto;
   height: fit-content;
-  max-height: 9rem;
+  max-height: 3rem;
 }
 /* Demographic Info Component */
 .clientDemo {
@@ -17,14 +16,14 @@
 .demoInfo {
   /* font-size: small; */
   height: 100%;
-  align-items: center
+  align-items: center;
+  padding-bottom: 0 !important;
 }
 .clientDetails {
   padding: 0 !important;
 }
 .clientImg {
-  width: 100%;
-  height: 100%;
+  width: 65%;
 }
 
 /* Personal Data Component */
@@ -38,7 +37,8 @@
 .data-item > .form-check {
   min-height: unset !important;
 }
-.data-item > .form-select, .data-item > input {
+.data-item > .form-select,
+.data-item > input {
   padding: 0.3rem;
   font-size: small;
 }
@@ -56,7 +56,6 @@
   /* font-size: smaller !important; */
   padding-left: 0.1rem;
   padding-right: 0.1rem;
-
 }
 
 .pi-nav {
@@ -71,4 +70,9 @@
 
   /* flex-flow: nowrap !important; */
   /* overflow-x: scroll; */
+}
+.demoImageCol {
+  flex: 0 0 auto !important;
+  width: 11.666667 !important;
+  padding: 0 !important;
 }

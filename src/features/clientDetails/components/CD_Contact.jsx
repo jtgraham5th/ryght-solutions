@@ -1,22 +1,14 @@
-import { useEffect, useState } from "react";
 import { Row, Col, ListGroup } from "react-bootstrap";
 import styles from "../ClientDetails.module.scss";
 import { useClient } from "../../../context/ClientContext";
 
 export function CDContact() {
-  const { getClientContact, activeClient } = useClient();
-  const [contactInfo, setContactInfo] = useState([]);
-
-  useEffect(() => {
-    if (contactInfo.length < 1) {
-      setContactInfo(getClientContact(activeClient[20].patientid));
-    }
-  }, []);
+  const { activeContacts } = useClient();
 
   return (
     <ListGroup className={styles.dataGroup}>
-      {contactInfo &&
-        contactInfo.map((contact, index) => (
+      {activeContacts &&
+        activeContacts["patient"].map((contact, index) => (
           <ListGroup.Item as={Row} className="d-flex w-100" key={index}>
             <Col md={6}>
               <Row>

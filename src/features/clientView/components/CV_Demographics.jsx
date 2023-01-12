@@ -1,76 +1,55 @@
 import { Row, Col, Card, ListGroup } from "react-bootstrap";
-import {ClientIssues} from "./ClientIssues";
+import { ClientIssues } from "./ClientIssues";
 import { useClient } from "../../../context/ClientContext";
 import "./ClientDemographics.css";
+import { dataColumn1, dataColumn2, dataColumn3 } from "../data/clientDetails";
+import { renderDetail } from "../../clientDetails/utils/formatData";
 
 export function CVDemographics() {
   const { activeClient, formData } = useClient();
 
-  const getFormValue = (groupName, activeListId) => {
-    const formDataArray = formData[groupName];
-    const data = formDataArray.find((item) => {
-      return item.grouplistid === activeListId;
-    });
-    if (data) {
-      return data.groupvalue;
-    } else {
-      return "";
-    }
-  };
+  const data01 = dataColumn1(formData, activeClient);
+  const data02 = dataColumn2(formData, activeClient);
+  const data03 = dataColumn3(formData, activeClient);
+
   return (
     <Card className="mb-4">
-      <Card.Body className="pt-0 pb-0 pe-3">
-        <Row className="demoInfo">
-          <Col className="p-0 h-100" md={2}>
+      <Card.Body as={Row} className="demoInfo">
+        <Col className="p-0 h-100 d-flex align-items-center flex-column" md={2}>
+          <div className="clientImg">
             <img
-              className="clientImg"
+              className="w-100"
               alt="client"
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
             />
-          </Col>
-          <Col md={6}>
-            <Row>
-              <Col md={6} className="data-item">
-                DOB: <strong className="ps-2">{activeClient[20].dob}</strong>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6} className="data-item">
-                Sex at Birth: <strong className="ps-2">{getFormValue("Sex At Birth", parseInt(activeClient[20].sexatbirthid))}</strong>
-              </Col>
-              <Col md={6} className="data-item">
-                Gender:
-                <strong className="ps-2">{getFormValue("Gender Identity",parseInt(activeClient[20].genderid) )}</strong>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6} className="data-item">
-                Marital Status:
-                  <strong className="ps-2">{getFormValue("Marital Status", parseInt(activeClient[20].maritalstatusid))}</strong>
-              </Col>
-              <Col md={6} className="data-item">
-                Pronouns:
-                  <strong className="ps-2">{getFormValue("Preferred Pronouns", parseInt(activeClient[20].preferredpronounid))}</strong>
-              </Col>
-            </Row>
-            <Row>
-            <Col md={6} className="data-item">
-                Religion:
-                  <strong className="ps-2">{getFormValue("Religion", parseInt(activeClient[20].religionid) )}</strong>
-              </Col>
-              <Col md={6} className="data-item">
-                Ethnicity:
-                <strong className="ps-2">{getFormValue("Ethnicity", parseInt(activeClient[20].ethnicityid))}</strong>
-              </Col>
-            </Row>
-          </Col>
-          <Col md={4}>
-            <Row>
-              <ClientIssues />
-            </Row>
-          </Col>
-        </Row>
+          </div>
+        </Col>
+        <Col md={3} className="">
+          <ListGroup className="align-items-center" variant="flush">
+            {data01.map((data, i) =>
+              renderDetail(data.field, data.value, 4,7)
+            )}
+          </ListGroup>
+        </Col>
+        <Col md={3} className="">
+          <ListGroup variant="flush">
+            {data02.map((data, i) =>
+              renderDetail(data.field, data.value, 8,4)
+            )}
+          </ListGroup>
+        </Col>
+        <Col md={4} className="">
+          <ListGroup variant="flush">
+            {data03.map((data, i) =>
+              renderDetail(data.field, data.value, 5,7)
+            )}
+          </ListGroup>
+        </Col>
       </Card.Body>
+      <hr/>
+      <Row className="pe-2 ps-2 pb-2">
+        <ClientIssues />
+      </Row>
     </Card>
   );
 }

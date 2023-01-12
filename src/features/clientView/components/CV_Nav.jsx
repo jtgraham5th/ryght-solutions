@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import "../ClientView.css"
 
 export function CVNav() {
+  // const {id} = useParams(  )
   const setTab = (e) => {
     setActiveTab(e);
   };
@@ -27,7 +28,7 @@ export function CVNav() {
           as={Link}
           href="#overview"
           className="nav-link"
-          to="overview"
+          to=""
           eventkey="overview"
         >
           <PersonLinesFill /> Personal Information
@@ -58,10 +59,10 @@ export function CVNav() {
       <Nav.Item>
         <Nav.Link
           as={Link}
-          href="#prog_info"
+          href="#program_info"
           className="nav-link"
-          to="#prog_info"
-          eventkey="#prog_info"
+          to="program-info"
+          eventkey="program-info"
         >
           <FileText />
           Program Information
