@@ -4,15 +4,16 @@ import "../settings.css";
 import { useClient } from "../../../context/ClientContext";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { getGroupNameValues } from "../../../services/api";
 
 export function SEListBoxes(props) {
-  const { formData, getGroupNames, addGroupItem, deleteGroupItem} = useClient();
+  const { formData, addGroupItem, deleteGroupItem} = useClient();
   const [groupNames, setGroupNames] = useState([]);
   const [activeGroup, setActiveGroup] = useState("");
   const { register, handleSubmit, reset } = useForm({});
 
   const getNames = async () => {
-    const response = await getGroupNames();
+    const response = await getGroupNameValues()
     console.log(response);
     setGroupNames(response);
   };

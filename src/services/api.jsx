@@ -1,14 +1,3 @@
-export const getGroupNames = async () => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
-    .then((response) => response.json())
-    .then(async (data) => {
-      return data;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-};
-
 export const getPharmacyList = async () => {
   await fetch(
     `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=contacttypeid=23&orderby=name`
@@ -27,6 +16,43 @@ export const getPhysicianList = async () => {
   )
     .then((response) => response.json())
     .then(async (data) => {
+      return data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+export const getGroupNameValues = async () => {
+  return fetch(
+    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/25?listing=isactive=1&orderby=groupnameid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const getGroupList = async (grouplistid) => {
+  return fetch(
+    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/24?listing=groupid=${grouplistid}&orderby=groupid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const getGroupListValues = async () => {
+  return fetch(
+    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/24?listing=isactive=1&orderby=groupid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
       return data;
     })
     .catch((e) => {

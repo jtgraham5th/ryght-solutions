@@ -23,7 +23,12 @@ import {
   updateClient,
   updateContact,
 } from "../features/enrollment/services/api";
-import { getPharmacyList, getPhysicianList } from "../services/api";
+import {
+  getGroupListValues,
+  getGroupNameValues,
+  getPharmacyList,
+  getPhysicianList,
+} from "../services/api";
 import {
   addNewRequirement,
   getAllPatientRequirements,
@@ -92,36 +97,18 @@ export function ClientProvider(props) {
         console.log(e);
       });
   };
-  const getGroupNames = async () => {
-    return await fetch(`http://www.ivronlogs.icu:8080/rs/api/groupname`)
-      .then((response) => response.json())
-      .then(async (data) => {
-        return data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
   const getFormFields = async () => {
     let groupObject = {};
-    await fetch(
-      `http://www.ivronlogs.icu:8080/rs1/generic_api/list/25?listing=isactive=1&orderby=groupnameid`
-    )
-      .then((response) => response.json())
-      .then(async (data) => {
-        for (const group of data) {
-          await getGroupList(group.groupnameid).then((res) => {
-            let groupArray = [];
-            res.forEach((item) => {
-              groupArray.push(item);
-            });
-            groupObject[`${group.groupname}`] = groupArray;
-          });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    const groupNameValues = await getGroupNameValues();
+    const groupListValues = await getGroupListValues();
+
+    for (const group of groupNameValues) {
+      const groupList = groupListValues.filter(
+        (listItem) => group.groupnameid === listItem.groupid
+      );
+      groupObject[`${group.groupname}`] = groupList;
+    }
+    console.log(groupObject);
     setFormData(groupObject);
     getPharmacyList().then((data) =>
       setFormData((prevState) => ({ ...prevState, Pharmacy: data }))
@@ -130,18 +117,7 @@ export function ClientProvider(props) {
       setFormData((prevState) => ({ ...prevState, Physician: data }))
     );
   };
-  const getGroupList = async (grouplistid) => {
-    return fetch(
-      `http://www.ivronlogs.icu:8080/rs1/generic_api/list/24?listing=groupid=${grouplistid}&orderby=groupid`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+
   const sortClients = (length, emptyObject) => {
     for (let i = length - 100; i < length; i++) {
       if (clientList[i]) {
@@ -201,7 +177,7 @@ export function ClientProvider(props) {
       });
   };
   const updateActiveClient = async (client, patientid, tid) => {
-    console.log(client)
+    console.log(client);
     setLoading(true);
     await updateClient(client, tid, patientid)
       .then((data) => {
@@ -419,9 +395,7 @@ export function ClientProvider(props) {
     <ClientContext.Provider
       value={{
         formData,
-        getGroupList,
         deleteGroupItem,
-        getGroupNames,
         addGroupItem,
         activeClient,
         clientList,
