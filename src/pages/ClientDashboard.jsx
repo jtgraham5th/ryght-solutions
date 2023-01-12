@@ -7,7 +7,7 @@ import { CVHeader } from "../features/clientView";
 
 function ClientDashboard(props) {
   const { activeClient, resetClient } = useClient();
-  const match = useMatch("/patient/:patientid");
+  const match = useMatch("/ryght-solutions/patient/:patientid");
 
   useEffect(() => {
     if (match) {

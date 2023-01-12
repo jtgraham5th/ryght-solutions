@@ -1,9 +1,10 @@
 export const getPharmacyList = async () => {
-  await fetch(
+  return fetch(
     `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=contacttypeid=23&orderby=name`
   )
     .then((response) => response.json())
     .then(async (data) => {
+      console.log(data)
       return data;
     })
     .catch((e) => {
@@ -11,7 +12,7 @@ export const getPharmacyList = async () => {
     });
 };
 export const getPhysicianList = async () => {
-  await fetch(
+  return fetch(
     `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=contacttypeid=24&orderby=name`
   )
     .then((response) => response.json())

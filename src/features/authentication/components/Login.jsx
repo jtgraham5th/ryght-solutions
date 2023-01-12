@@ -17,7 +17,7 @@ export function Login({ setStatus }) {
     console.log(data);
     setUser({ userName: "Mrs. Graham" });
     setStatus(true);
-    navigate("/");
+    navigate();
   };
 
   return (

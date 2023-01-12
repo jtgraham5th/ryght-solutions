@@ -26,7 +26,7 @@ function ClientSelectDropdown(props) {
     const searchTerm = e.currentTarget.value;
     setSearchValue(searchTerm);
     if (searchTerm.length === 1) {
-      setAlphaSelector(searchTerm);
+      setAlphaSelector(searchTerm.toLowerCase());
       setSearchResults(sortedClients[searchTerm].sort());
     }
   };
@@ -84,7 +84,7 @@ function ClientSelectDropdown(props) {
               eventKey={index}
               onClick={() => {
                 handleClientSelect(result.patientid).then(() =>
-                  navigate(`/patient/${result.patientid}`)
+                  navigate(`/ryght-solutions/patient/${result.patientid}`)
                 );
               }}
             >

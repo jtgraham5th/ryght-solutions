@@ -101,6 +101,10 @@ export function ClientProvider(props) {
     let groupObject = {};
     const groupNameValues = await getGroupNameValues();
     const groupListValues = await getGroupListValues();
+    const pharmacyList = await getPharmacyList();
+    const physicianList = await getPhysicianList();
+    groupObject.Pharmacy = pharmacyList;
+    groupObject.Physician = physicianList;
 
     for (const group of groupNameValues) {
       const groupList = groupListValues.filter(
@@ -110,12 +114,6 @@ export function ClientProvider(props) {
     }
     console.log(groupObject);
     setFormData(groupObject);
-    getPharmacyList().then((data) =>
-      setFormData((prevState) => ({ ...prevState, Pharmacy: data }))
-    );
-    getPhysicianList().then((data) =>
-      setFormData((prevState) => ({ ...prevState, Physician: data }))
-    );
   };
 
   const sortClients = (length, emptyObject) => {

@@ -23,7 +23,7 @@ function App() {
             <div className="App">
               <Routes>
                 <Route
-                  path="/*"
+                  path="ryght-solutions/*"
                   element={
                     loginStatus ? (
                       <UserDashboard />
@@ -33,10 +33,10 @@ function App() {
                   }
                 />
                 <Route
-                  path="patient/:patientid/*"
+                  path="ryght-solutions/patient/:patientid/*"
                   element={<ClientDashboard />}
                 ></Route>
-                <Route path="settings/" element={<Settings />} />
+                <Route path="ryght-solutions/settings/" element={<Settings />} />
               </Routes>
             </div>
           </ClientProvider>
