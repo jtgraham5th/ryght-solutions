@@ -33,19 +33,21 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
   }, [watchTime]);
 
   useEffect(() => {
-    const services =data.f11;
-    const diagnosis = data.f12;
-    let serviceArray = [];
-    let dxArray = [];
-    console.log(services, diagnosis)
-    if (services && services.length > 0) {
-      parseServices(services.split(","), serviceCodes, serviceArray);
+    if (data) {
+      const services = data.f11;
+      const diagnosis = data.f12;
+      let serviceArray = [];
+      let dxArray = [];
+      console.log(services, diagnosis);
+      if (services && services.length > 0) {
+        parseServices(services.split(","), serviceCodes, serviceArray);
+      }
+      if (diagnosis && diagnosis.length > 0) {
+        parseDX(diagnosis.split(","), dxCodes, dxArray);
+      }
+      setSelectedDX(dxArray);
+      setSelectedServices(serviceArray);
     }
-    if (diagnosis && diagnosis.length > 0) {
-      parseDX(diagnosis.split(","), dxCodes, dxArray);
-    }
-    setSelectedDX(dxArray);
-    setSelectedServices(serviceArray);
   }, []);
 
   return (
