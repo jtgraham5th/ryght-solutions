@@ -43,6 +43,7 @@ import {
   getAllPatientProgNotes,
   updateProgNote,
 } from "../features/progressNotes/services/api";
+import { capitalize } from "../data/helpers";
 
 const ClientContext = createContext();
 
@@ -158,13 +159,14 @@ export function ClientProvider(props) {
     await getAllClients(tid)
       .then((data) => {
         let clientArray = [];
-        data.forEach((client) =>
-          clientArray.push({
-            name: client.plastname + ", " + client.pfirstname,
+        data.forEach((client) => {
+          return clientArray.push({
+            name: capitalize(client.plastname) + ", " + capitalize(client.pfirstname),
             statusid: client.statusid,
             patientid: client.patientid,
-          })
+          })}
         );
+        
         console.log("retrieved client list succesfully!");
         setClientlist(clientArray);
         setLoading(false);

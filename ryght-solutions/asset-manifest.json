@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/ryght-solutions/static/css/main.3692d87b.css",
+    "main.js": "/ryght-solutions/static/js/main.f986f81c.js",
+    "static/js/787.8beac383.chunk.js": "/ryght-solutions/static/js/787.8beac383.chunk.js",
+    "static/media/familytherapy.jpeg": "/ryght-solutions/static/media/familytherapy.1e71c58fbba352025926.jpeg",
+    "index.html": "/ryght-solutions/index.html",
+    "main.3692d87b.css.map": "/ryght-solutions/static/css/main.3692d87b.css.map",
+    "main.f986f81c.js.map": "/ryght-solutions/static/js/main.f986f81c.js.map",
+    "787.8beac383.chunk.js.map": "/ryght-solutions/static/js/787.8beac383.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3692d87b.css",
+    "static/js/main.f986f81c.js"
+  ]
+}

@@ -3,6 +3,7 @@ import { Form, Dropdown, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../pages/UserDashboard.css";
 import { useClient } from "../context/ClientContext";
+import { useEffect } from "react";
 
 function ClientSelectDropdown(props) {
   let navigate = useNavigate();
@@ -27,9 +28,16 @@ function ClientSelectDropdown(props) {
     setSearchValue(searchTerm);
     if (searchTerm.length === 1) {
       setAlphaSelector(searchTerm.toLowerCase());
-      setSearchResults(sortedClients[searchTerm].sort());
+      setSearchResults(sortedClients[searchTerm.toLowerCase()].sort());
+    } else if (searchTerm.length < 1){
+      setAlphaSelector("");
+      setSearchResults(sortedClients["a"].sort());
     }
   };
+  useEffect(() => {
+    console.log(searchValue)
+  },[searchValue])
+
   const CustomToggle = forwardRef(({ children, onClick }, ref) => (
     <Dropdown.Toggle
       id="dropdown-custom-components"
