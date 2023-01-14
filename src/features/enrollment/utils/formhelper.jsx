@@ -1,3 +1,4 @@
+import { OrderOfService } from "../../services/components/OrderOfServices";
 import { CE1 } from "../components/CE_1";
 import { CE2 } from "../components/CE_2";
 import { CE3 } from "../components/CE_3";
@@ -46,6 +47,15 @@ export const renderPage = (
     case 2:
       return (
         <CE3
+          register={register}
+          control={control}
+          formState={formState}
+          setValue={setValue}
+        />
+      );
+    case 3:
+      return (
+        <OrderOfService
           register={register}
           control={control}
           formState={formState}

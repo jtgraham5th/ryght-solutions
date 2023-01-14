@@ -40,7 +40,17 @@ export function CEManager({ show, setShow, containerName, edit }) {
     resetClient,
     loading,
   } = useClient();
-  const { isDirty, isValid, dirtyFields } = formState;
+  const { isDirty, isValid, dirtyFields, errors } = formState;
+  
+  // useEffect(() => {
+  //   console.log(errors)
+  // },[errors])
+  
+  // useEffect(() => {
+  //   console.log(formState)
+  // },[formState])
+
+
 
   const handleClose = () => {
     setActivePage(0);
@@ -227,6 +237,25 @@ export function CEManager({ show, setShow, containerName, edit }) {
               show: true,
             });
             resetClient(activeClient[22].patientid);
+            nextPage();
+          } catch (error) {
+            setToggleUpdate({
+              status: "Error",
+              message:
+                "There was an error saving the contact data. Please try again.",
+              show: true,
+            });
+          }
+          break;
+        case 3:
+          try {
+            // await updateActiveClient(t22, activeClient[20].patientid, 22);
+            // setToggleUpdate({
+            //   status: "Success",
+            //   message: "Client data has been successfully updated.",
+            //   show: true,
+            // });
+            // resetClient(activeClient[22].patientid);
             handleClose();
           } catch (error) {
             setToggleUpdate({
@@ -240,7 +269,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
         default:
           break;
       }
-    } else if (activePage === 2) {
+    } else if (activePage === 3) {
       handleClose();
     } else {
       nextPage();
@@ -309,9 +338,9 @@ export function CEManager({ show, setShow, containerName, edit }) {
           />
           <Button
             className="PNM-nav-button p-1"
-            variant={activePage >= 2 ? "outline-success" : "outline-primary"}
+            variant={activePage >= 3 ? "outline-success" : "outline-primary"}
             type="submit"
-            disabled={!isValid}
+            // disabled={!isValid}
           >
             {loading ? <Spinner animation="border" size="sm" /> : ""}
 
