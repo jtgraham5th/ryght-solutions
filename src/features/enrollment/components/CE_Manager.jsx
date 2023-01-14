@@ -281,7 +281,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
   }, [activeClient, activeContacts]);
 
   return (
-    <Modal show={show} dialogClassName="PNM-width" onHide={handleClose}>
+    <Modal show={show} dialogClassName="CE-width" onHide={handleClose}>
       <Modal.Header className="PNM-header" closeButton>
         <Modal.Title>{containerName}</Modal.Title>
       </Modal.Header>

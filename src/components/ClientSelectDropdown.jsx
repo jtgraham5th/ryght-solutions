@@ -3,7 +3,6 @@ import { Form, Dropdown, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../pages/UserDashboard.css";
 import { useClient } from "../context/ClientContext";
-import { useEffect } from "react";
 
 function ClientSelectDropdown(props) {
   let navigate = useNavigate();
@@ -34,9 +33,6 @@ function ClientSelectDropdown(props) {
       setSearchResults(sortedClients["a"].sort());
     }
   };
-  useEffect(() => {
-    console.log(searchValue)
-  },[searchValue])
 
   const CustomToggle = forwardRef(({ children, onClick }, ref) => (
     <Dropdown.Toggle

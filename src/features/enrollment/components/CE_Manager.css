@@ -37,8 +37,8 @@
   justify-content: flex-end;
 }
 /* ================================ */
-.PNM-width {
-  max-width: 95% !important;
+.CE-width {
+  max-width: 75% !important;
   max-height: 90% !important;
 }
 form > .modal-body {
