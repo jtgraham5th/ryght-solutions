@@ -7,6 +7,7 @@ import { useClient } from "../../../context/ClientContext";
 import formatDateToday from "../../../utils/formatDateToday";
 import { Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
+
 export function OrderOfService({ register, control, setValue, formState }) {
   const noteRef = useRef();
   const handlePrint = useReactToPrint({
@@ -75,7 +76,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
         </Col>
       </Row>
       <style>{getPageMargins()}</style>
-      <Row className="justify-content-evenly mb-2 pb-3">
+      <Form.Group as={Row} className="justify-content-evenly mb-2 pb-3">
         <Col
           md={4}
           className="pn_note-view-item border border-light p-2 rounded"
@@ -84,13 +85,16 @@ export function OrderOfService({ register, control, setValue, formState }) {
           <Controller
             control={control}
             name="f2"
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker rounded"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
-              />
-            )}
+            render={({ field }) => {
+              console.log(field);
+              return (
+                <DatePicker
+                  className="datePicker rounded"
+                  onChange={(date) => field.onChange(date)}
+                  selected={field.value}
+                />
+              );
+            }}
           />
         </Col>
         <Col
@@ -110,7 +114,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
             )}
           />
         </Col>
-      </Row>
+      </Form.Group>
       <Row className="ps-3 p-2 mb-3">
         <Col md={6} className="pn_note-view-item  fs-5">
           <h5>Name:</h5>{" "}

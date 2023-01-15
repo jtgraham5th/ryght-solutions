@@ -40,7 +40,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
   const {
     activeClient,
     activeContacts,
-    addClient,
+    addActiveClient,
     updateActiveClient,
     addClientContact,
     updateClientContact,
@@ -52,13 +52,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
   } = useClient();
   const { isDirty, isValid, dirtyFields, errors } = formState;
 
-  // useEffect(() => {
-  //   console.log(errors)
-  // },[errors])
-
-  // useEffect(() => {
-  //   console.log(formState)
-  // },[formState])
   const closeUpdate = () => {
     setToggleUpdate((prevState) => ({ ...prevState, show: false }));
   };
@@ -153,7 +146,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 show: true,
               });
             } else {
-              const result = await addClient(t20);
+              const result = await addActiveClient(t20);
               newPatientId = result;
               if (result instanceof Error) {
                 console.log("error adding client");
@@ -218,7 +211,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 1:
           try {
-            console.log("t21", t21)
             await updateActiveClient(t21, activeClient[20].patientid, 21);
             setToggleUpdate({
               status: "Success",
@@ -322,6 +314,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
         defaultValues = { ...defaultValues, ...emergencyContact };
       }
       if (clientHasDoctype(10, activeBillingTx)) {
+        console.log("has order of service")
         async function getDocument() {
           try {
             if (clientHasDoctype(10, activeBillingTx)) {
@@ -330,7 +323,9 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 activeClient[20].patientid
               );
               document = parseDefaultOrderOfService(document[0]);
+              console.log(document)
               defaultValues = { ...defaultValues, ...document[0] };
+              console.log(defaultValues)
             }
             reset({ ...defaultValues });
           } catch (error) {
@@ -338,6 +333,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           }
         }
         getDocument();
+        console.log(defaultValues)
       }
     }
     // eslint-disable-next-line

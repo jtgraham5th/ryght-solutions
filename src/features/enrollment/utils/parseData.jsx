@@ -74,7 +74,6 @@ export const parseFormData21 = (data, edit, tempID, activeClient) => {
   ];
 };
 export const parseFormData22 = (data, edit, tempID, activeClient) => {
-  console.log(edit, activeClient[20], activeClient[23]);
   return [
     {
       patientid:

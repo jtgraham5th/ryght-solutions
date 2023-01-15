@@ -43,6 +43,7 @@ export const updateClient = async (client, tid, patientid) => {
     });
 };
 export const addNewClient = async (client) => {
+  console.log(client)
   return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/20`, {
     method: "PUT",
     headers: {

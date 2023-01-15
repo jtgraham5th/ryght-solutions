@@ -198,11 +198,11 @@ export function ClientProvider(props) {
       });
   };
   const addActiveClient = async (client) => {
-    await addNewClient
+    return await addNewClient(client)
       .then((data) => {
         console.log(data);
         getClientList(20);
-        return data[0].patientid;
+        return data.patientid;
       })
       .catch((error) => {
         console.log(error);
@@ -241,9 +241,9 @@ export function ClientProvider(props) {
       .then();
   };
   const addClientContact = async (contact) => {
-    await addNewContact
+    await addNewContact(contact)
       .then((data) => {
-        return data[0].contactid;
+        return data.contactid;
       })
       .catch((e) => {
         console.log(e);
@@ -251,7 +251,7 @@ export function ClientProvider(props) {
       });
   };
   const updateClientContact = async (contact, contactid) => {
-    await updateContact
+    await updateContact(contact, contactid)
       .then((data) => {
         return data[0].contactid;
       })
@@ -348,7 +348,10 @@ export function ClientProvider(props) {
     setServiceGroups(data);
   };
   const getActiveServiceCodes = () => {
-    if (activeClient[22].servicecodes && activeClient[22].servicecodes.length > 0) {
+    if (
+      activeClient[22].servicecodes &&
+      activeClient[22].servicecodes.length > 0
+    ) {
       const clientCodes = activeClient[22].servicecodes.split(",");
       const filteredArray = serviceCodes.filter((service) =>
         clientCodes.includes(service.code)
@@ -448,8 +451,8 @@ export function ClientProvider(props) {
         updateClientProgNote,
         loading,
         setLoading,
-        toggleUpdate, 
-        setToggleUpdate
+        toggleUpdate,
+        setToggleUpdate,
       }}
     >
       {props.children}
