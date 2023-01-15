@@ -3,6 +3,17 @@ import { CE1 } from "../components/CE_1";
 import { CE2 } from "../components/CE_2";
 import { CE3 } from "../components/CE_3";
 
+export const formatHeight = (height) => {
+  if (typeof height === "number") {
+    const newheight = height.toString().split("");
+    return `${newheight[0]}'${newheight[1] ? newheight[1] : ""}${
+      newheight[2] ? newheight[2] : ""
+    }`;
+  } else if (typeof height === "string") {
+    const newheight = height.split("");
+    return parseInt(newheight[0] + newheight[2] + newheight[3]);
+  }
+};
 export const renderSectionTitle = (sectionTitle) => {
   return sectionTitle ? sectionTitle.split(/(?=[A-Z])/).join(" ") : "";
 };
@@ -17,7 +28,9 @@ export const hasECFieldsChanged = (dirtyFields, defaultEC) => {
     Object.keys(defaultEC).includes(value)
   );
 };
-
+export const clientHasDoctype = (docType, activeBillingTx) => {
+  return activeBillingTx.some((tx) => tx.doctypeid === docType);
+};
 export const renderPage = (
   activePage,
   register,

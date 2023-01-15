@@ -16,16 +16,23 @@ import {
   hasECFieldsChanged,
   hasPCFieldsChanged,
   renderPage,
+  clientHasDoctype,
 } from "../utils/formhelper";
+import {
+  addNewBillingTx,
+  addNewDocument,
+  getDocumentbyType,
+  updateDocument,
+} from "../../requirements/services/api";
+import { parseBillingTx } from "../../services/utils/parseData";
+import {
+  parseDefaultOrderOfService,
+  parseOrderOfService,
+} from "../../requirements/services/parseData";
 
 export function CEManager({ show, setShow, containerName, edit }) {
   const [activePage, setActivePage] = useState(0);
   const [tempID, setTempID] = useState();
-  const [toggleUpdate, setToggleUpdate] = useState({
-    status: "",
-    message: "",
-    show: false,
-  });
   const [editing, setEditing] = useState(edit);
 
   const { control, register, handleSubmit, reset, setValue, formState, watch } =
@@ -39,18 +46,22 @@ export function CEManager({ show, setShow, containerName, edit }) {
     updateClientContact,
     resetClient,
     loading,
+    activeBillingTx,
+    toggleUpdate,
+    setToggleUpdate
   } = useClient();
   const { isDirty, isValid, dirtyFields, errors } = formState;
-  
+
   // useEffect(() => {
   //   console.log(errors)
   // },[errors])
-  
+
   // useEffect(() => {
   //   console.log(formState)
   // },[formState])
-
-
+  const closeUpdate = () => {
+    setToggleUpdate((prevState) => ({ ...prevState, show: false }));
+  };
 
   const handleClose = () => {
     setActivePage(0);
@@ -117,12 +128,8 @@ export function CEManager({ show, setShow, containerName, edit }) {
     }
   };
 
-  useEffect(() => {
-    console.log("Editing is :", editing);
-  }, [editing]);
 
   const onSubmit = async (data) => {
-    console.log("Editing is :", editing);
     console.log(data);
     if (isDirty) {
       const { t20, t21, t22, patientContact, emergencyContact } = parseFormData(
@@ -211,6 +218,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 1:
           try {
+            console.log("t21", t21)
             await updateActiveClient(t21, activeClient[20].patientid, 21);
             setToggleUpdate({
               status: "Success",
@@ -249,13 +257,25 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 3:
           try {
-            // await updateActiveClient(t22, activeClient[20].patientid, 22);
-            // setToggleUpdate({
-            //   status: "Success",
-            //   message: "Client data has been successfully updated.",
-            //   show: true,
-            // });
-            // resetClient(activeClient[22].patientid);
+            if (!clientHasDoctype(10, activeBillingTx)) {
+              console.log("starting new order of service");
+              let billingTx = parseBillingTx(activeClient, 10);
+              console.log(billingTx);
+              await addNewBillingTx(billingTx).then(async (tx) => {
+                await addNewDocument(
+                  parseOrderOfService(data, activeClient, tx.billingid)
+                );
+              });
+            } else {
+              console.log("order of service already exists");
+              await updateDocument(parseOrderOfService(data, activeClient));
+            }
+            setToggleUpdate({
+              status: "Success",
+              message: "Order of Service form has been created",
+              show: true,
+            });
+            resetClient(activeClient[22].patientid);
             handleClose();
           } catch (error) {
             setToggleUpdate({
@@ -274,9 +294,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
     } else {
       nextPage();
     }
-  };
-  const closeUpdate = () => {
-    setToggleUpdate((prevState) => ({ ...prevState, show: false }));
   };
 
   useEffect(() => {
@@ -304,7 +321,24 @@ export function CEManager({ show, setShow, containerName, edit }) {
         );
         defaultValues = { ...defaultValues, ...emergencyContact };
       }
-      reset({ ...defaultValues });
+      if (clientHasDoctype(10, activeBillingTx)) {
+        async function getDocument() {
+          try {
+            if (clientHasDoctype(10, activeBillingTx)) {
+              let document = await getDocumentbyType(
+                10,
+                activeClient[20].patientid
+              );
+              document = parseDefaultOrderOfService(document[0]);
+              defaultValues = { ...defaultValues, ...document[0] };
+            }
+            reset({ ...defaultValues });
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        getDocument();
+      }
     }
     // eslint-disable-next-line
   }, [activeClient, activeContacts]);
@@ -313,6 +347,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
     <Modal show={show} dialogClassName="CE-width" onHide={handleClose}>
       <Modal.Header className="PNM-header" closeButton>
         <Modal.Title>{containerName}</Modal.Title>
+
       </Modal.Header>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Body>
@@ -336,6 +371,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
             show={toggleUpdate.show}
             toggleShow={closeUpdate}
           />
+
           <Button
             className="PNM-nav-button p-1"
             variant={activePage >= 3 ? "outline-success" : "outline-primary"}
@@ -344,7 +380,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           >
             {loading ? <Spinner animation="border" size="sm" /> : ""}
 
-            {activePage >= 2 ? " Save & Exit" : " Save and Continue"}
+            {activePage >= 3 ? " Save & Exit" : " Save and Continue"}
           </Button>
         </Modal.Footer>
       </Form>

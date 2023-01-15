@@ -17,7 +17,7 @@ export function DateField(props) {
         render={({ field }) => (
           <DatePicker
             {...other}
-            className={`datePicker ${fieldStyle}`}
+            className={`datePicker ${fieldStyle} border-1 rounded`}
             selected={field.value}
             onChange={(date) => {
               field.onChange(date);

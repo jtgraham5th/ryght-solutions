@@ -33,7 +33,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
     });
   };
   const setServiceValue = (e, grouplistid) => {
-    e.target.value = e.target.value.toUpperCase()
+    e.target.value = e.target.value.toUpperCase();
     if (e.target.value.length === 2) {
       setServiceids((prevState) => [...prevState, grouplistid]);
     } else if (e.target.value.length < 1) {
@@ -43,13 +43,17 @@ export function OrderOfService({ register, control, setValue, formState }) {
       }
     }
   };
-  const checkidexists =(grouplistid) => {
-    return serviceids.includes(grouplistid)
-  }
+  const checkidexists = (grouplistid) => {
+    return serviceids.includes(grouplistid);
+  };
   useEffect(() => {
-    console.log(serviceids.toString());
     setValue("f7", serviceids.toString());
   }, [serviceids]);
+
+  useEffect(() => {
+    setValue("f5", convertedValues[activeClient[21].ins1_fundingsource]);
+    setValue("f6", convertedValues[activeClient[20].sexatbirthid]);
+  }, [convertedValues]);
 
   return (
     <div>
@@ -72,28 +76,34 @@ export function OrderOfService({ register, control, setValue, formState }) {
       </Row>
       <style>{getPageMargins()}</style>
       <Row className="justify-content-evenly mb-2 pb-3">
-        <Col md={4} className="pn_note-view-item border border-light p-2 rounded">
+        <Col
+          md={4}
+          className="pn_note-view-item border border-light p-2 rounded"
+        >
           <h6>Start Date: </h6>
           <Controller
             control={control}
             name="f2"
             render={({ field }) => (
               <DatePicker
-                className="datePicker"
+                className="datePicker rounded"
                 onChange={(date) => field.onChange(date)}
                 selected={field.value}
               />
             )}
           />
         </Col>
-        <Col md={4} className="pn_note-view-item border border-light p-2 rounded">
+        <Col
+          md={4}
+          className="pn_note-view-item border border-light p-2 rounded"
+        >
           <h6>End Date: </h6>
           <Controller
             control={control}
             name="f3"
             render={({ field }) => (
               <DatePicker
-                className="datePicker"
+                className="datePicker rounded"
                 onChange={(date) => field.onChange(date)}
                 selected={field.value}
               />
@@ -131,7 +141,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
           <Row>
             {formData["Services"].map((item, i) => {
               return (
-                <Col md={6}>
+                <Col md={6} key={item.grouplistid + i}>
                   <Row className="mb-2">
                     <Col md={2}>
                       <Form.Control
@@ -141,8 +151,26 @@ export function OrderOfService({ register, control, setValue, formState }) {
                         onChange={(e) => setServiceValue(e, item.grouplistid)}
                       />
                     </Col>
-                    <Col md={3} className={`border d-flex justify-content-center align-items-center ${checkidexists(item.grouplistid) ? "fw-bold text-primary" : ""}`}>{formatDateToday()}</Col>
-                    <Col md={7} className={checkidexists(item.grouplistid) ? "fw-bold text-primary" : ""}>{item.groupvalue}</Col>
+                    <Col
+                      md={3}
+                      className={`border d-flex justify-content-center align-items-center ${
+                        checkidexists(item.grouplistid)
+                          ? "fw-bold text-primary"
+                          : ""
+                      }`}
+                    >
+                      {formatDateToday()}
+                    </Col>
+                    <Col
+                      md={7}
+                      className={
+                        checkidexists(item.grouplistid)
+                          ? "fw-bold text-primary"
+                          : ""
+                      }
+                    >
+                      {item.groupvalue}
+                    </Col>
                   </Row>
                 </Col>
               );

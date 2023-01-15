@@ -108,7 +108,7 @@ export function CE1({ register, control, formState }) {
             name="dob"
             render={({ field }) => (
               <DatePicker
-                className="datePicker"
+                className="datePicker rounded"
                 onChange={(date) => field.onChange(date)}
                 selected={field.value}
               />

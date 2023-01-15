@@ -20,7 +20,7 @@ export function DateField({
           name={fieldName}
           render={({ field }) => (
             <DatePicker
-              className="datePicker"
+              className="datePicker rounded"
               selected={field.value}
               onChange={(date) => {
                 field.onChange(date);

@@ -1,4 +1,5 @@
 import formatDate from "../../../utils/formatDate";
+import { formatHeight } from "./formhelper";
 
 export const parseFormData20 = (data, edit, tempID, activeClient) => {
   return [
@@ -36,7 +37,7 @@ export const parseFormData21 = (data, edit, tempID, activeClient) => {
           : 0,
       employer: data.employer ? data.employer : "",
       employerphone: data.employerphone ? data.employerphone : "",
-      height: data.height ? parseInt(data.height) : 0,
+      height: data.height ? formatHeight(data.height) : 0,
       weight: data.weight ? parseInt(data.weight) : 0,
       allergies: data.allergies ? data.allergies : "",
       physicianid: data.physicianid ? parseInt(data.physicianid) : 0,
@@ -73,7 +74,7 @@ export const parseFormData21 = (data, edit, tempID, activeClient) => {
   ];
 };
 export const parseFormData22 = (data, edit, tempID, activeClient) => {
-  console.log(edit, activeClient[20], activeClient[23])
+  console.log(edit, activeClient[20], activeClient[23]);
   return [
     {
       patientid:
@@ -183,7 +184,7 @@ export const parseDefaultValues = (edit, activeClient) => {
       : 0,
     religionid: edit ? parseInt(activeClient[20].religionid) : 0,
     weight: edit ? activeClient[21].weight : "",
-    height: edit ? activeClient[21].height : "",
+    height: edit ? formatHeight(parseInt(activeClient[21].height)) : "",
     email: edit ? activeClient[20].email : "",
     employer: edit ? activeClient[21].employer : "",
     employerphone: edit ? activeClient[21].employerphone : "",
@@ -297,22 +298,28 @@ export const parseFormData = (
   const emergencyContact = parseEmergencyContact(data, editing, activeContacts);
   return { t20, t21, t22, patientContact, emergencyContact };
 };
-export const parsePhoneNumber = (value, setValue,fieldName ) => {
+export const parsePhoneNumber = (value, setValue, fieldName) => {
   // Get the current value of the phone number field
-  
+
   // Use regular expressions or string manipulation techniques
   // to add the desired formatting to the phone number
-  const formattedValue = value.replace(/\D/g, '').substring(0, 10);
+  const formattedValue = value.replace(/\D/g, "").substring(0, 10);
   let formattedValueWithDashes;
   if (formattedValue.length >= 7) {
-    formattedValueWithDashes = formattedValue.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    formattedValueWithDashes = formattedValue.replace(
+      /(\d{3})(\d{3})(\d{4})/,
+      "($1) $2-$3"
+    );
   } else if (formattedValue.length >= 4) {
-    formattedValueWithDashes = formattedValue.replace(/(\d{3})(\d{3})/, '($1) $2');
+    formattedValueWithDashes = formattedValue.replace(
+      /(\d{3})(\d{3})/,
+      "($1) $2"
+    );
   } else {
     formattedValueWithDashes = formattedValue;
   }
-    
-    console.log(formattedValue)
+
+  console.log(formattedValue);
   // Update the value of the phone number field in the form data object
   setValue(fieldName, formattedValueWithDashes);
 };

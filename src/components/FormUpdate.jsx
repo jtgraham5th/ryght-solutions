@@ -2,7 +2,7 @@ import { Toast } from "react-bootstrap";
 
 function FormUpdate({ data, client, show, toggleShow }) {
   return (
-    <Toast show={show} onClose={toggleShow} delay={3000} autohide bg={data.status === "Error" ? "danger" : "success"}>
+    <Toast show={show} onClose={toggleShow} delay={3000} postition="top-start" autohide bg={data.status === "Error" ? "danger" : "success"}>
       <Toast.Header>
         <div className="d-flex flex-column">
           <strong className="text-center">

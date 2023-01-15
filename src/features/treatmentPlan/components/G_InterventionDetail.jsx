@@ -166,7 +166,7 @@ export function InterventionDetail({
                 defaultValue=""
                 render={({ field }) => (
                   <DatePicker
-                    className="datePicker"
+                    className="datePicker rounded"
                     selected={field.value}
                     onChange={(date) => {
                       field.onChange(date);

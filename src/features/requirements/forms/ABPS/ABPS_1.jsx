@@ -34,7 +34,7 @@ function ABPS1({ register, control }) {
             
             render={({ field }) => (
               <DatePicker
-                className="datePicker"
+                className="datePicker rounded"
                 onChange={(date) => field.onChange(date)}
                 selected={field.value}
               />

@@ -27,7 +27,7 @@ export function RQManager({ show, setShow, containerName }) {
   const [fullscreen, toggleFullScreen] = useState(false);
 
   const { control, register, handleSubmit, reset } = useForm();
-  const { activeClient, addClientRequirements, clientRequirements } =
+  const { activeClient, addClientBillingTx, activeBillingTx } =
     useClient();
 
   const prevPage = () => {
@@ -66,7 +66,7 @@ export function RQManager({ show, setShow, containerName }) {
 
   const addRequirement = (form) => {
     if (
-      !clientRequirements.some(
+      !activeBillingTx.some(
         (value) => parseInt(value.doctypeid) === parseInt(form.doctypeid)
       )
     ) {
@@ -87,7 +87,7 @@ export function RQManager({ show, setShow, containerName }) {
 
   const createRequirements = () => {
     console.log(newRequirements);
-    addClientRequirements(newRequirements);
+    addClientBillingTx(newRequirements);
     handleClose();
   };
 
@@ -119,7 +119,7 @@ export function RQManager({ show, setShow, containerName }) {
                 {requirements.map((form, index) => (
                   <ListGroup.Item
                     variant={
-                      clientRequirements.some(
+                      activeBillingTx.some(
                         (value) =>
                           parseInt(value.doctypeid) === parseInt(form.doctypeid)
                       )
@@ -141,7 +141,7 @@ export function RQManager({ show, setShow, containerName }) {
                         type="checkbox"
                         name={form.doctypeid}
                         value={form.doctypeid}
-                        checked={clientRequirements.some(
+                        checked={activeBillingTx.some(
                           (value) =>
                             parseInt(value.doctypeid) ===
                             parseInt(form.doctypeid)
@@ -162,7 +162,7 @@ export function RQManager({ show, setShow, containerName }) {
                         
                         render={({ field }) => (
                           <DatePicker
-                            className="datePicker"
+                            className="datePicker rounded"
                             onChange={(date) => field.onChange(date)}
                             selected={field.value}
                           />
@@ -193,7 +193,7 @@ export function RQManager({ show, setShow, containerName }) {
               <div>
                 <h3 className="RQ-section-header">Selected Requirements</h3>
                 <ListGroup className="RQ-list-active">
-                  {clientRequirements.map((requirement, index) => {
+                  {activeBillingTx.map((requirement, index) => {
                     // console.log(requirement);
                     return (
                       <ListGroup.Item variant="secondary" key={index}>

@@ -1,4 +1,5 @@
 import { getFormValue } from "../../clientDetails/utils/formatData";
+import { formatHeight } from "../../enrollment/utils/formhelper";
 
 export const personalDataOptions = [
   "Client is under 18 years of age",
@@ -18,7 +19,7 @@ export const personalDataOptions = [
 export const dataColumn1 = (formData, activeClient) => {
   return [
     { field: "DOB", value: activeClient[20].dob },
-    { field: "Height", value: activeClient[21].height },
+    { field: "Height", value: formatHeight(parseInt(activeClient[21].height))},
     { field: "Weight", value: activeClient[21].weight },
   ];
 };

@@ -152,7 +152,7 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
                 name="targetdate"
                 render={({ field }) => (
                   <DatePicker
-                    className="datePicker"
+                    className="datePicker rounded"
                     selected={field.value}
                     onChange={(date) => {
                       field.onChange(date);
@@ -173,7 +173,7 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
                 defaultValue=""
                 render={({ field }) => (
                   <DatePicker
-                    className="datePicker"
+                    className="datePicker rounded"
                     selected={field.value}
                     onChange={(date) => {
                       field.onChange(date);

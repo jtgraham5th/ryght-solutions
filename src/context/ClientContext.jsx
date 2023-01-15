@@ -30,19 +30,17 @@ import {
   getPhysicianList,
 } from "../services/api";
 import {
-  addNewRequirement,
-  getAllPatientRequirements,
+  addNewBillingTx,
+  getAllPatientBillingTx,
+  addNewDocument,
+  updateDocument,
 } from "../features/requirements/services/api";
 import { getAllDXCodes } from "../features/diagnosis/services/api";
 import {
   getAllServiceCodes,
   getAllServiceGroups,
 } from "../features/services/services/api";
-import {
-  addNewProgNote,
-  getAllPatientProgNotes,
-  updateProgNote,
-} from "../features/progressNotes/services/api";
+import { getAllPatientProgNotes } from "../features/progressNotes/services/api";
 import { capitalize } from "../data/helpers";
 
 const ClientContext = createContext();
@@ -58,13 +56,19 @@ export function ClientProvider(props) {
   const [activeContacts, setActiveContacts] = useState({});
   const [activeTreatmentPlan, setActiveTreatmentPlan] = useState({});
   const [activeProgNotes, setActiveProgNotes] = useState([]);
-  const [clientRequirements, setClientRequirements] = useState([]);
+  const [activeBillingTx, setActiveBillingTx] = useState([]);
   const [formData, setFormData] = useState({});
   const [sortedClients, setSortedClients] = useState({ ...abcObject });
   const [loading, setLoading] = useState(false);
   const [dxCodes, setDxCodes] = useState([]);
   const [serviceGroups, setServiceGroups] = useState([]);
   const [serviceCodes, setServiceCodes] = useState([]);
+  const [toggleUpdate, setToggleUpdate] = useState({
+    status: "",
+    message: "",
+    show: false,
+  });
+
   /// MOVE TO SERVICES API ///
   const addGroupItem = async (groupItemObject) => {
     return await fetch("http://www.ivronlogs.icu:8080/rs/api/grouplist", {
@@ -161,12 +165,15 @@ export function ClientProvider(props) {
         let clientArray = [];
         data.forEach((client) => {
           return clientArray.push({
-            name: capitalize(client.plastname) + ", " + capitalize(client.pfirstname),
+            name:
+              capitalize(client.plastname) +
+              ", " +
+              capitalize(client.pfirstname),
             statusid: client.statusid,
             patientid: client.patientid,
-          })}
-        );
-        
+          });
+        });
+
         console.log("retrieved client list succesfully!");
         setClientlist(clientArray);
         setLoading(false);
@@ -255,11 +262,11 @@ export function ClientProvider(props) {
   };
 
   /// REQUIREMENTS FUNCTIONS ///
-  const addClientRequirements = async (data) => {
-    let newRequirements = [];
+  const addClientBillingTx = async (data) => {
+    let newBillingTxs = [];
     await data
       .forEach((requirement, index) => {
-        let newRequirement = [
+        let newBillingTx = [
           {
             billingid: 0,
             patientid: activeClient[20].patientid,
@@ -267,20 +274,22 @@ export function ClientProvider(props) {
             lastuserid: 101,
           },
         ];
-        console.log(newRequirement);
-        addNewRequirement(newRequirement).then((data) => {
+
+        console.log(newBillingTx);
+        addNewBillingTx(newBillingTx).then((data) => {
           console.log(data);
-          newRequirements.push(data[0]);
+          newBillingTxs.push(data[0]);
         });
       })
       .then(() => {
-        console.log(newRequirements);
-        getClientRequirements();
+        console.log(newBillingTxs);
+        getClientBillingTx();
       });
   };
-  const getClientRequirements = async () => {
-    await getAllPatientRequirements(activeClient[20].patientid).then((data) => {
-      setClientRequirements(data);
+  const getClientBillingTx = async () => {
+    await getAllPatientBillingTx(activeClient[20].patientid).then((data) => {
+      console.log(data);
+      setActiveBillingTx(data);
     });
   };
 
@@ -339,22 +348,30 @@ export function ClientProvider(props) {
     setServiceGroups(data);
   };
   const getActiveServiceCodes = () => {
-    const clientCodes = activeClient[22].servicecodes.split(",");
-    const filteredArray = serviceCodes.filter((service) =>
-      clientCodes.includes(service.code)
-    );
-    return filteredArray;
+    if (activeClient[22].servicecodes && activeClient[22].servicecodes.length > 0) {
+      const clientCodes = activeClient[22].servicecodes.split(",");
+      const filteredArray = serviceCodes.filter((service) =>
+        clientCodes.includes(service.code)
+      );
+      return filteredArray;
+    }
+    return [];
   };
   const getActiveDXCodes = () => {
-    const clientCodes = activeClient[22].dxcodes.split(",");
-    const filteredArray = dxCodes.filter((dx) => clientCodes.includes(dx.code));
-    return filteredArray;
+    if (activeClient[22].dxcodes && activeClient[22].dxcodes.length > 0) {
+      const clientCodes = activeClient[22].dxcodes.split(",");
+      const filteredArray = dxCodes.filter((dx) =>
+        clientCodes.includes(dx.code)
+      );
+      return filteredArray;
+    }
+    return [];
   };
   const addClientProgNote = async (progNote) => {
-    await addNewProgNote(progNote).then(() => getClientProgNotes());
+    await addNewDocument(progNote).then(() => getClientProgNotes());
   };
   const updateClientProgNote = async (updatedProgNote) => {
-    await updateProgNote(updatedProgNote).then(() => getClientProgNotes());
+    await updateDocument(updatedProgNote).then(() => getClientProgNotes());
   };
   const getClientProgNotes = async () => {
     let data = await getAllPatientProgNotes(activeClient[20].patientid);
@@ -384,7 +401,7 @@ export function ClientProvider(props) {
   useEffect(() => {
     // get document ids
     if (activeClient[20].patientid) {
-      getClientRequirements();
+      getClientBillingTx();
       getClientTreatmentPlan();
       getClientProgNotes();
     }
@@ -411,8 +428,8 @@ export function ClientProvider(props) {
         getContactList,
         addClientContact,
         updateClientContact,
-        clientRequirements,
-        addClientRequirements,
+        activeBillingTx,
+        addClientBillingTx,
         activeTreatmentPlan,
         updateClientTreatmentPlan,
         addClientGoal,
@@ -431,6 +448,8 @@ export function ClientProvider(props) {
         updateClientProgNote,
         loading,
         setLoading,
+        toggleUpdate, 
+        setToggleUpdate
       }}
     >
       {props.children}

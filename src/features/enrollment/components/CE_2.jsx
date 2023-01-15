@@ -94,8 +94,8 @@ export function CE2({ register, control, setValue, formState }) {
           <Form.Control
             className="goal-detail-input"
             {...register("height", {
-              pattern: /^\d{1,2}'\d{1,2}$/,
-              maxLength: 5,
+              pattern: /^\d{1}'\d{1,2}$/,
+              maxLength: 4,
             })}
             type="text"
             name="height"
@@ -329,7 +329,7 @@ export function CE2({ register, control, setValue, formState }) {
             name="ins1_dateexpires"
             render={({ field }) => (
               <DatePicker
-                className="datePicker"
+                className="datePicker rounded"
                 onChange={(date) => field.onChange(date)}
                 selected={field.value}
               />
@@ -464,7 +464,7 @@ export function CE2({ register, control, setValue, formState }) {
                   name="ins2_dateexpires"
                   render={({ field }) => (
                     <DatePicker
-                      className="datePicker"
+                      className="datePicker rounded"
                       onChange={(date) => field.onChange(date)}
                       selected={field.value}
                     />

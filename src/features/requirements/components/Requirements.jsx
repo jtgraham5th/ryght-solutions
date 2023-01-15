@@ -12,7 +12,7 @@ export function Requirements() {
   const [showViewer, setShowViewer] = useState(false);
   const [showManager, setShowManager] = useState(false);
   const [activeForm, setActiveForm] = useState({});
-  const { clientRequirements } = useClient();
+  const { activeBillingTx } = useClient();
   // const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
   //   <td className={styles.noWrap} onClick={onClick} ref={ref}>
   //     <span>
@@ -32,7 +32,7 @@ export function Requirements() {
       </Row>
       <Row className={styles.dataTableRow}>
         <Col className={styles.dataTableCol}>
-          {clientRequirements.map((value, i) => {
+          {activeBillingTx.map((value, i) => {
             return (
               <RQAssessmentItem
                 key={i}
