@@ -140,18 +140,20 @@ export function GoalsManager({ data }) {
           <Card.Body className="p-0">
             <ListGroup numbered className="list-container">
               {activeTreatmentPlan &&
-                activeTreatmentPlan.goals.map((goal, index) => (
-                  <ListGroupItem
-                    className="list-container-item"
-                    key={`goal-${index}`}
-                    onClick={() => goalSelect(goal)}
-                    active={activeGoal === goal ? true : false}
-                    variant={"flush"}
-                    disabled={cardFocus.editing ? true : false}
-                  >
-                    {goal.goalname}
-                  </ListGroupItem>
-                ))}
+                activeTreatmentPlan.goals.map((goal, index) => {
+                  return (
+                    <ListGroupItem
+                      className="list-container-item"
+                      key={`goal-${index}`}
+                      onClick={() => goalSelect(goal)}
+                      active={activeGoal.goalid === goal.goalid ? true : false}
+                      variant={"flush"}
+                      disabled={cardFocus.editing ? true : false}
+                    >
+                      {goal.goalname}
+                    </ListGroupItem>
+                  );
+                })}
             </ListGroup>
           </Card.Body>
         </Card>
@@ -180,7 +182,7 @@ export function GoalsManager({ data }) {
                       key={`objective-${index}`}
                       className="list-container-item"
                       onClick={() => objectiveSelect(objective)}
-                      active={activeObjective === objective ? true : false}
+                      active={activeObjective.objectiveid === objective.objectiveid ? true : false}
                       disabled={cardFocus.editing ? true : false}
                     >
                       {objective.description}
@@ -216,7 +218,7 @@ export function GoalsManager({ data }) {
                       className="list-container-item"
                       onClick={() => interventionSelect(intervention)}
                       active={
-                        activeIntervention === intervention ? true : false
+                        activeIntervention.interventionid === intervention.interventionid ? true : false
                       }
                       disabled={cardFocus.editing ? true : false}
                     >

@@ -11,6 +11,7 @@ export function GoalList() {
   const [show, setShow] = useState(false);
   const { activeTreatmentPlan } = useClient();
   console.log(activeTreatmentPlan);
+
   return (
     <Card className="h-100 mb-3 border-0" >
       <Card.Body>
@@ -44,7 +45,7 @@ export function GoalList() {
           </Col>
         </Row>
         <Row className="p-3 mt-2">
-          {activeTreatmentPlan.goals && activeTreatmentPlan.goals.length > 1 ? (
+          {activeTreatmentPlan.goals && activeTreatmentPlan.goals.length > 0 ? (
             activeTreatmentPlan.goals.map((goal, index) => (
               <Card key={index} className="shadow mb-2" border="dark">
                 <Card.Body as={Row}>

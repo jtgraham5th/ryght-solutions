@@ -187,7 +187,6 @@ export const parseGoal = (goal, patientid) => {
       lastupdateid: goal.lastupdateid ? goal.lastupdateid : 680,
       companyid: goal.companyid ? goal.companyid : 26,
       comment: goal.comment ? goal.comment : "",
-      phonetypeid: goal.phonetypeid ? parseInt(goal.phonetypeid) : 0,
     },
   ];
 };
@@ -209,7 +208,6 @@ export const parseDefaultGoal = (edit, patientid, goal) => {
     lastupdateid: edit ? goal.lastupdateid : 680,
     companyid: edit ? goal.companyid : 26,
     comment: edit ? goal.comment : "",
-    phonetypeid: edit ? goal.phonetypeid : 0,
   };
 };
 export const parseObjective = (patientid, goalid, objective) => {

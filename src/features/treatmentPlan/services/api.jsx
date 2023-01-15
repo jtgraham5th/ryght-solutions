@@ -98,6 +98,7 @@ export const getGoalwithGoalid = async (goalid) => {
     });
 };
 export const addNewGoal = async (newGoal) => {
+  console.log(newGoal)
   return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/18`, {
     method: "PUT",
     headers: {
