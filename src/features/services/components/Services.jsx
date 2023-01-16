@@ -4,6 +4,7 @@ import { SVaddByGroup } from "./SVaddByGroup";
 import { useClient } from "../../../context/ClientContext";
 import { useState, useEffect } from "react";
 import { X } from "react-bootstrap-icons";
+import { filterActiveServices } from "../utils/formHelper";
 
 export function Services({
   selectedServices,
@@ -12,14 +13,17 @@ export function Services({
   fieldName,
   disablePreview,
   showActiveServices,
+  showServiceCodes,
 }) {
-  const { serviceCodes, getActiveServiceCodes } = useClient();
+  const { serviceCodes, serviceGroups, getActiveServices } = useClient();
 
   const setServices = () => {
-    if (showActiveServices) return getActiveServiceCodes();
-    else return serviceCodes;
+    const activeServices = getActiveServices();
+    if (showActiveServices) return activeServices
+    if (showServiceCodes) return filterActiveServices(activeServices,serviceCodes);
+    else return serviceGroups;
   };
-
+  
   const [results, setResults] = useState(setServices());
   const [selectedGroup, setSelectedGroup] = useState(0);
 
@@ -38,7 +42,11 @@ export function Services({
   const selectService = (code) => {
     if (
       selectedServices &&
-      selectedServices.some((service) => service.code === code.code)
+      selectedServices.some(
+        (service) =>
+          service[`${showServiceCodes ? "code" : "recid"}`] ===
+          code[`${showServiceCodes ? "code" : "recid"}`]
+      )
     ) {
       removeService(code);
     } else {
@@ -48,14 +56,18 @@ export function Services({
 
   const removeService = (code) => {
     setSelectedServices((prevState) =>
-      prevState.filter((item) => item.code !== code.code)
+      prevState.filter(
+        (item) =>
+          item[`${showServiceCodes ? "code" : "recid"}`] !==
+          code[`${showServiceCodes ? "code" : "recid"}`]
+      )
     );
   };
   const updateValue = () => {
     let servicesArray = [];
     if (selectedServices) {
-      selectedServices.forEach((dx) => {
-        servicesArray.push(dx.code);
+      selectedServices.forEach((service) => {
+        servicesArray.push(service[`${showServiceCodes ? "code" : "recid"}`]);
       });
       setValue(fieldName, servicesArray.toString());
     }
@@ -76,7 +88,7 @@ export function Services({
 
   useEffect(() => {
     updateValue();
-  },[selectedServices])
+  }, [selectedServices]);
 
   return (
     <>
@@ -107,59 +119,20 @@ export function Services({
                 />
               </Col>
             </Row>
-            <Row>
-              {!disablePreview &&
-              selectedServices &&
-              selectedServices.length > 0 ? (
-                <Row className="ps-4  align-items-center border-bottom-3">
-                  <Col md={3} className="small pe-2 text-end">
-                    Selected Services:
-                  </Col>
-                  <Col md={9} className="d-flex overflow-auto">
-                    {selectedServices.map((service) => {
-                      return (
-                        <Alert
-                          key={service.code}
-                          className="border-primary"
-                          variant="primary"
-                          style={{
-                            width: "6rem",
-                            padding: "0.3rem",
-                            display: "flex",
-                            alignItems: "center",
-                            margin: 0,
-                            marginRight: "1rem",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          {service.code}
-                          <Button
-                            size="sm"
-                            className="border-0"
-                            variant="link"
-                            onClick={() => removeService(service)}
-                          >
-                            <X />
-                          </Button>
-                        </Alert>
-                      );
-                    })}
-                  </Col>
-                </Row>
-              ) : null}
-            </Row>
           </ListGroup.Item>
         </ListGroup>
         <ListGroup style={{ height: "10rem" }} className="overflow-auto">
           {results.map((result, index) => {
             return (
               <ListGroup.Item
-                key={index}
+                key={result[`${showServiceCodes ? "code" : "recid"}`] + index}
                 action
                 active={
                   selectedServices &&
                   selectedServices.some(
-                    (service) => service.code === result.code
+                    (service) =>
+                      service[`${showServiceCodes ? "code" : "recid"}`] ===
+                      result[`${showServiceCodes ? "code" : "recid"}`]
                   )
                 }
                 type="button"
@@ -167,8 +140,16 @@ export function Services({
               >
                 <Row>
                   <Col md="auto" className="d-flex">
-                    <div className="fw-bold pe-2">{result.code}</div>
-                    <div className="ps-0">{result.description}</div>
+                    {showServiceCodes ? (
+                      <div className="fw-bold pe-2">{result.code}</div>
+                    ) : null}
+                    <div className="ps-0">
+                      {
+                        result[
+                          `${showServiceCodes ? "description" : "servicename"}`
+                        ]
+                      }
+                    </div>
                   </Col>
                 </Row>
               </ListGroup.Item>

@@ -88,9 +88,8 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
 
   useEffect(() => {
     if (edit && data) {
-      console.log(edit);
       const updatedProgNote = parseDefaultProgressNote(data);
-      console.log(updatedProgNote)
+      console.log("updatedProgNote",updatedProgNote)
       reset({ ...updatedProgNote });
     }
     // eslint-disable-next-line

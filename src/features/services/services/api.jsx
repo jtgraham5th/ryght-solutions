@@ -24,7 +24,7 @@ export const getServiceCodesWithId = async (serviceid) => {
 };
 export const getAllServiceGroups = async () => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/28?listing=recid&orderby=recid`
+    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/28?listing=recid,isactive=1&orderby=recid`
   )
     .then((response) => response.json())
     .then((data) => {

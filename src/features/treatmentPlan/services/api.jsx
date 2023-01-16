@@ -30,7 +30,7 @@ export const updateTreatmentPlan = async (tPlan) => {
       console.log(e);
     });
 };
-export const addNewTreatementPlan = async (newTPlan) => {
+export const addNewTreatmentPlan = async (newTPlan) => {
   return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/16`, {
     method: "PUT",
     headers: {

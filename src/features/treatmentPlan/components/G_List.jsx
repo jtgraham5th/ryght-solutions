@@ -10,7 +10,6 @@ import { parseObjectives, parseInterventions } from "../utils/parseData";
 export function GoalList() {
   const [show, setShow] = useState(false);
   const { activeTreatmentPlan } = useClient();
-  console.log(activeTreatmentPlan);
 
   return (
     <Card className="h-100 mb-3 border-0" >

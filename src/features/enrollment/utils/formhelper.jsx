@@ -2,7 +2,17 @@ import { OrderOfService } from "../../services/components/OrderOfServices";
 import { CE1 } from "../components/CE_1";
 import { CE2 } from "../components/CE_2";
 import { CE3 } from "../components/CE_3";
+import { parseDefaultValues } from "./parseData";
 
+export const hasSCDXFieldsChanged = (getValues, editing, activeClient) => {
+  const serviceCodesValue = getValues("servicecodes");
+  const dxCodesValue = getValues("dxcodes");
+  const defaultValues = parseDefaultValues(editing, activeClient);
+  return (
+    serviceCodesValue !== defaultValues.servicecodes ||
+    dxCodesValue !== defaultValues.dxcodes
+  );
+};
 export const formatHeight = (height) => {
   if (typeof height === "number") {
     const newheight = height.toString().split("");

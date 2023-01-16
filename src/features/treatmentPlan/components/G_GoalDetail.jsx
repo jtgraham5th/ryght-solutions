@@ -24,7 +24,6 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
   const { control, register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
-    console.log(goal);
     reset({ ...goal });
     // eslint-disable-next-line
   }, [goal]);

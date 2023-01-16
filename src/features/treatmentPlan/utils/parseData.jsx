@@ -1,13 +1,13 @@
 import formatDate from "../../../utils/formatDate";
 
-export const parseTreatmentPlan = (tPlan, patientid) => {
+export const parseTreatmentPlan = (tPlan, patientid, activeClient, billingid, ) => {
   return [
     {
       recid: tPlan.recid ? tPlan.recid : 0,
       pageid: tPlan.pageid ? tPlan.pageid : 1,
       docid: tPlan.docid ? tPlan.docid : 1,
       patientid: tPlan.patientid ? tPlan.patientid : patientid,
-      billingid: tPlan.billingid ? tPlan.billingid : 1000,
+      billingid: tPlan.billingid ? tPlan.billingid : billingid,
       f1: tPlan.f1 ? formatDate(tPlan.f1) : formatDate(Date.now()),
       f2: tPlan.f2 ? formatDate(tPlan.f2) : formatDate(Date.now()),
       f3: tPlan.f3 ? formatDate(tPlan.f3) : formatDate(Date.now()),
@@ -18,7 +18,7 @@ export const parseTreatmentPlan = (tPlan, patientid) => {
       f8: tPlan.f8 ? tPlan.f8 : "",
       f9: tPlan.f9 ? formatDate(tPlan.f9) : formatDate(Date.now()),
       f10: tPlan.f10 ? tPlan.f10 : "",
-      f11: tPlan.f11 ? tPlan.f11 : "",
+      f11: activeClient[22].servicecodes ? activeClient[22].servicecodes : "",
       f12: tPlan.f12 ? tPlan.f12 : "",
       f13: tPlan.f13 ? tPlan.f13 : "",
       f14: tPlan.f14 ? tPlan.f14 : "",
@@ -211,7 +211,6 @@ export const parseDefaultGoal = (edit, patientid, goal) => {
   };
 };
 export const parseObjective = (patientid, goalid, objective) => {
-  console.log(patientid, goalid, objective);
   return [
     {
       objectiveid: objective.objectiveid ? objective.objectiveid : 0,

@@ -29,9 +29,6 @@ export function PN4({ register, control, setValue, getValues }) {
     }
     setGOIValues();
   }, []);
-  useEffect(() => {
-    console.log(selectedGoal);
-  }, [selectedGoal]);
 
   useEffect(() => {
     if (selectedGoal.goal) setValue("f13", selectedGoal.goal.description);

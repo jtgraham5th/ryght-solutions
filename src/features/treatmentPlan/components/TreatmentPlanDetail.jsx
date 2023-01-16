@@ -18,12 +18,12 @@ import {
   parseDefaultTreatmentPlan,
   parseTreatmentPlan,
 } from "../utils/parseData";
-import { addNewTreatementPlan } from "../services/api";
+// import { addNewTreatementPlan } from "../services/api";
 
 export function TreatmentPlanDetail() {
-  const [editTreatmentPlan, setEditTreatmentPlan] = useState(false);
-
+  
   const {
+    getActiveServices,
     activeTreatmentPlan,
     formData,
     updateClientTreatmentPlan,
@@ -31,14 +31,19 @@ export function TreatmentPlanDetail() {
   } = useClient();
   const { tPlan } = activeTreatmentPlan;
   const { patientid } = activeClient[20];
+
+  const [editTreatmentPlan, setEditTreatmentPlan] = useState(false);
   const [otherValue, setOtherValue] = useState("");
-  const { control, register, handleSubmit, reset } = useForm();
+  const [selectedServices, setSelectedServices] = useState(getActiveServices());
+
+  const { control, register, handleSubmit, reset, getValues } = useForm();
 
   const treatmentPlanRef = useRef();
 
   useEffect(() => {
     if (tPlan && tPlan.length > 0) {
       const updatedTPlan = parseDefaultTreatmentPlan(tPlan[0]);
+      console.log("updatedTPlan",updatedTPlan)
       reset({ ...updatedTPlan });
     }
     // eslint-disable-next-line
@@ -49,15 +54,16 @@ export function TreatmentPlanDetail() {
   };
 
   const onSubmit = (data) => {
-    const updatedTPlan = parseTreatmentPlan(data, patientid);
+    console.log("tplan formdata",data)
+    const updatedTPlan = parseTreatmentPlan(data, patientid, activeClient);
     console.log(updatedTPlan);
-    if (!tPlan || tPlan.length === 0) {
-      console.log("new treatment plan");
-      addNewTreatementPlan(updatedTPlan);
-    } else if (editTreatmentPlan) {
+    // if (!tPlan || tPlan.length === 0) {
+    //   console.log("new treatment plan");
+    //   addNewTreatementPlan(updatedTPlan);
+    // } else if (editTreatmentPlan) {
       console.log("updated treatment plan");
       updateClientTreatmentPlan(updatedTPlan);
-    }
+    // }
     setEditTreatmentPlan(false);
   };
 
@@ -104,25 +110,6 @@ export function TreatmentPlanDetail() {
                 readOnly={!editTreatmentPlan}
               />
             </Col>
-            {/* <Col md={6}>
-              <ListGroup>
-                <SelectField
-                  register={register}
-                  labelName="Place of Service"
-                  fieldName="f4"
-                />
-                <SelectField
-                  register={register}
-                  labelName="Service Code"
-                  fieldName="f5"
-                />
-                <SelectField
-                  register={register}
-                  labelName="Service Units Used"
-                  fieldName="f6"
-                />
-              </ListGroup>
-            </Col> */}
           </Row>
           <hr />
           <Row>
@@ -189,39 +176,23 @@ export function TreatmentPlanDetail() {
                   <Form.Label className="fs-5">
                     Anticipated Step Down Service
                   </Form.Label>
+                  {/* Add a warning that is dependent on Order of Services being completed */}
+                  <Form.Text className="ms-2 text-danger fst-italic">*** These services are pending approval by the Doctor ***</Form.Text>
                   <Form.Group as={Row} className="p-2">
-                    {formData["Services"].map((item, i) => {
+                    {selectedServices.map((item, i) => {
                       return (
                         <Form.Check
-                          key={i}
+                          key={"item.servicename" + i}
                           {...register("f11")}
                           type="checkbox"
-                          className="w-25"
+                          className="w-50"
                           name="f11"
-                          value={item.grouplistid}
-                          label={item.groupvalue}
+                          value={item.recid}
+                          label={item.servicename}
                           disabled={!editTreatmentPlan}
                         />
                       );
                     })}
-
-                    <Form.Check
-                      {...register("f11")}
-                      name="f11"
-                      className="w-25 d-flex"
-                      type="checkbox"
-                      value={0}
-                      label={
-                        <Form.Control
-                          {...register("f12")}
-                          className="ms-2 w-100"
-                          type="text"
-                          placeholder="Enter value"
-                          readOnly={!editTreatmentPlan}
-                        />
-                      }
-                      disabled={!editTreatmentPlan}
-                    />
                   </Form.Group>
                 </ListGroup.Item>
               </ListGroup>

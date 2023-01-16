@@ -16,36 +16,43 @@ export function OrderOfService({ register, control, setValue, formState }) {
   const getPageMargins = () => {
     return `@page { margin: 20px 20px 20px 20px !important; }`;
   };
-  const { activeClient, formData } = useClient();
+  const { getActiveServices, activeClient, formData } = useClient();
+
+  const [selectedServices, setSelectedServices] = useState(getActiveServices());
   const [convertedValues, setConvertedValues] = useState({});
   const [serviceids, setServiceids] = useState([]);
+  
   useEffect(() => {
     getListItemName(activeClient[21].ins1_fundingsource);
     getListItemName(activeClient[20].sexatbirthid);
   }, []);
 
-  const getListItemName = async (grouplistid) => {
-    const listItem = await getListItem(grouplistid).then((item) => {
+  useEffect(() => {
+    setSelectedServices(getActiveServices());
+  },[activeClient])
+
+  const getListItemName = async (recid) => {
+    const listItem = await getListItem(recid).then((item) => {
       if (item)
         setConvertedValues((prevState) => ({
           ...prevState,
-          [grouplistid]: item.groupvalue,
+          [recid]: item.servicename,
         }));
     });
   };
-  const setServiceValue = (e, grouplistid) => {
+  const setServiceValue = (e, recid) => {
     e.target.value = e.target.value.toUpperCase();
     if (e.target.value.length === 2) {
-      setServiceids((prevState) => [...prevState, grouplistid]);
+      setServiceids((prevState) => [...prevState, recid]);
     } else if (e.target.value.length < 1) {
-      const filteredids = serviceids.filter((id) => id !== grouplistid);
+      const filteredids = serviceids.filter((id) => id !== recid);
       if (filteredids.length !== serviceids.length) {
         setServiceids([...filteredids]);
       }
     }
   };
-  const checkidexists = (grouplistid) => {
-    return serviceids.includes(grouplistid);
+  const checkidexists = (recid) => {
+    return serviceids.includes(recid);
   };
   useEffect(() => {
     setValue("f7", serviceids.toString());
@@ -86,7 +93,6 @@ export function OrderOfService({ register, control, setValue, formState }) {
             control={control}
             name="f2"
             render={({ field }) => {
-              console.log(field);
               return (
                 <DatePicker
                   className="datePicker rounded"
@@ -143,24 +149,22 @@ export function OrderOfService({ register, control, setValue, formState }) {
             consumer
           </Card.Title>
           <Row>
-            {formData["Services"].map((item, i) => {
+            {selectedServices.map((item, i) => {
               return (
-                <Col md={6} key={item.grouplistid + i}>
+                <Col md={6} key={item.recid + i}>
                   <Row className="mb-2">
                     <Col md={2}>
                       <Form.Control
                         className="text-center"
                         type="text"
                         name="f7"
-                        onChange={(e) => setServiceValue(e, item.grouplistid)}
+                        onChange={(e) => setServiceValue(e, item.recid)}
                       />
                     </Col>
                     <Col
                       md={3}
                       className={`border d-flex justify-content-center align-items-center ${
-                        checkidexists(item.grouplistid)
-                          ? "fw-bold text-primary"
-                          : ""
+                        checkidexists(item.recid) ? "fw-bold text-primary" : ""
                       }`}
                     >
                       {formatDateToday()}
@@ -168,12 +172,10 @@ export function OrderOfService({ register, control, setValue, formState }) {
                     <Col
                       md={7}
                       className={
-                        checkidexists(item.grouplistid)
-                          ? "fw-bold text-primary"
-                          : ""
+                        checkidexists(item.recid) ? "fw-bold text-primary" : ""
                       }
                     >
-                      {item.groupvalue}
+                      {item.servicename}
                     </Col>
                   </Row>
                 </Col>

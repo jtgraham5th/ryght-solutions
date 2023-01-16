@@ -225,6 +225,7 @@ export const parseDefaultValues = (edit, activeClient) => {
     statusid: edit ? parseInt(activeClient[20].statusid) : 0,
     outcomeid: edit ? parseInt(activeClient[22].outcomeid) : 0,
     dxcodes: edit ? activeClient[22].dxcodes : "",
+    servicecodes: edit ? activeClient[22].servicecodes : "",
     dateoutsourced: edit
       ? Date.parse(activeClient[22].dateoutsourced)
       : Date.now(),

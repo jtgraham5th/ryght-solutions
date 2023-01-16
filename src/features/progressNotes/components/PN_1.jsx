@@ -38,7 +38,6 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
       const diagnosis = data.f12;
       let serviceArray = [];
       let dxArray = [];
-      console.log(services, diagnosis);
       if (services && services.length > 0) {
         parseServices(services.split(","), serviceCodes, serviceArray);
       }
@@ -214,8 +213,7 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
             setSelectedServices={setSelectedServices}
             setValue={setValue}
             fieldName="f11"
-            disablePreview
-            showActiveServices
+            showServiceCodes
           />
         </Col>
         <Col md={4}>

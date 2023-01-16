@@ -17,6 +17,7 @@ import {
   hasPCFieldsChanged,
   renderPage,
   clientHasDoctype,
+  hasSCDXFieldsChanged,
 } from "../utils/formhelper";
 import {
   addNewBillingTx,
@@ -29,14 +30,22 @@ import {
   parseDefaultOrderOfService,
   parseOrderOfService,
 } from "../../requirements/services/parseData";
-
+import { parseTreatmentPlan } from "../../treatmentPlan/utils/parseData";
 export function CEManager({ show, setShow, containerName, edit }) {
   const [activePage, setActivePage] = useState(0);
   const [tempID, setTempID] = useState();
   const [editing, setEditing] = useState(edit);
 
-  const { control, register, handleSubmit, reset, setValue, formState, watch } =
-    useForm({ mode: "onBlur" });
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState,
+    watch,
+    getValues,
+  } = useForm({ mode: "onBlur" });
   const {
     activeClient,
     activeContacts,
@@ -48,7 +57,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
     loading,
     activeBillingTx,
     toggleUpdate,
-    setToggleUpdate
+    setToggleUpdate,
   } = useClient();
   const { isDirty, isValid, dirtyFields, errors } = formState;
 
@@ -121,10 +130,9 @@ export function CEManager({ show, setShow, containerName, edit }) {
     }
   };
 
-
   const onSubmit = async (data) => {
     console.log(data);
-    if (isDirty) {
+    if (isDirty || hasSCDXFieldsChanged(getValues, editing, activeClient)) {
       const { t20, t21, t22, patientContact, emergencyContact } = parseFormData(
         data,
         editing,
@@ -251,11 +259,21 @@ export function CEManager({ show, setShow, containerName, edit }) {
           try {
             if (!clientHasDoctype(10, activeBillingTx)) {
               console.log("starting new order of service");
-              let billingTx = parseBillingTx(activeClient, 10);
-              console.log(billingTx);
-              await addNewBillingTx(billingTx).then(async (tx) => {
+              let osBillingId = parseBillingTx(activeClient, 10);
+
+              await addNewBillingTx(osBillingId).then(async (tx) => {
                 await addNewDocument(
                   parseOrderOfService(data, activeClient, tx.billingid)
+                );
+              });
+
+              let tPlanBillingId = parseBillingTx(activeClient, 1);
+              let newTPlan = {};
+              newTPlan.f11 = data.f7;
+              console.log(newTPlan);
+              await addNewBillingTx(tPlanBillingId).then(async (tx) => {
+                await addNewDocument(
+                  parseTreatmentPlan(newTPlan, activeClient, tx.billingid)
                 );
               });
             } else {
@@ -314,7 +332,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
         defaultValues = { ...defaultValues, ...emergencyContact };
       }
       if (clientHasDoctype(10, activeBillingTx)) {
-        console.log("has order of service")
+        console.log("has order of service");
         async function getDocument() {
           try {
             if (clientHasDoctype(10, activeBillingTx)) {
@@ -323,9 +341,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 activeClient[20].patientid
               );
               document = parseDefaultOrderOfService(document[0]);
-              console.log(document)
               defaultValues = { ...defaultValues, ...document[0] };
-              console.log(defaultValues)
             }
             reset({ ...defaultValues });
           } catch (error) {
@@ -333,7 +349,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
           }
         }
         getDocument();
-        console.log(defaultValues)
       }
     }
     // eslint-disable-next-line
@@ -343,7 +358,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
     <Modal show={show} dialogClassName="CE-width" onHide={handleClose}>
       <Modal.Header className="PNM-header" closeButton>
         <Modal.Title>{containerName}</Modal.Title>
-
       </Modal.Header>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Body>

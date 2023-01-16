@@ -1,8 +1,10 @@
 import { Form, Row, Col } from "react-bootstrap";
 import { useClient } from "../../../context/ClientContext";
+import { useState } from "react";
 
 export function SVaddByGroup({ selectedGroup, setSelectedGroup }) {
-  const { serviceGroups } = useClient();
+  const { getActiveServices } = useClient();
+  const [services, setServices] = useState(getActiveServices());
 
   return (
     <Row className="align-items-center">
@@ -15,7 +17,7 @@ export function SVaddByGroup({ selectedGroup, setSelectedGroup }) {
           onChange={(e) => setSelectedGroup(e.target.value)}
         >
           <option value={0}>All Services</option>
-          {serviceGroups.map((item, i) => {
+          {services.map((item, i) => {
             return (
               <option key={i} value={item.recid}>
                 {item.servicename}

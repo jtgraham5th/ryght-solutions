@@ -24,10 +24,10 @@ export function CE3({ register, control, formState, setValue }) {
     referralOutsource: false,
     activeForm: () => {},
   });
-  const { getActiveServiceCodes, getActiveDXCodes } = useClient();
+  const { getActiveServices, getActiveDXCodes } = useClient();
   const [selectedDX, setSelectedDX] = useState(getActiveDXCodes());
   const [selectedServices, setSelectedServices] = useState(
-    getActiveServiceCodes()
+    getActiveServices()
   );
   const { touchedFields, errors } = formState;
 
@@ -182,6 +182,7 @@ export function CE3({ register, control, formState, setValue }) {
             state={selectedServices}
             setState={setSelectedServices}
             title="Current Patient Services"
+            showServices
           />
         </Col>
       </Form.Group>

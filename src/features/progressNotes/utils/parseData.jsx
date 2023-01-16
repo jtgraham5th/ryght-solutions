@@ -205,15 +205,15 @@ export const parseGOI = (
   const findGoal = activeTreatmentPlan.goals.find(
     (goal) => goal.description === pnGoal
   );
-  const objectives = activeTreatmentPlan.objectives.filter(
+  const objectives = findGoal ? activeTreatmentPlan.objectives.filter(
     (obj, i) => obj.goalid === findGoal.goalid
-  );
+  ) : [];
   const findObjective = objectives.find(
     (objective) => objective.description === pnObjective
   );
-  const interventions = activeTreatmentPlan.interventions.filter(
+  const interventions = findObjective ? activeTreatmentPlan.interventions.filter(
     (int, i) => int.objectiveid === findObjective.objectiveid
-  );
+  ) : [];
   const findIntervention = interventions.find(
     (intervention) => intervention.description === pnIntervention
   );

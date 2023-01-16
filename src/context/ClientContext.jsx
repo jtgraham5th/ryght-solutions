@@ -202,7 +202,7 @@ export function ClientProvider(props) {
       .then((data) => {
         console.log(data);
         getClientList(20);
-        return data.patientid;
+        return data;
       })
       .catch((error) => {
         console.log(error);
@@ -347,15 +347,15 @@ export function ClientProvider(props) {
     let data = await getAllServiceGroups();
     setServiceGroups(data);
   };
-  const getActiveServiceCodes = () => {
+  const getActiveServices = () => {
     if (
       activeClient[22].servicecodes &&
       activeClient[22].servicecodes.length > 0
     ) {
       const clientCodes = activeClient[22].servicecodes.split(",");
-      const filteredArray = serviceCodes.filter((service) =>
-        clientCodes.includes(service.code)
-      );
+      const filteredArray = serviceGroups.filter((service) => {
+        return clientCodes.includes(service.recid.toString());
+      });
       return filteredArray;
     }
     return [];
@@ -444,7 +444,7 @@ export function ClientProvider(props) {
         dxCodes,
         getActiveDXCodes,
         serviceCodes,
-        getActiveServiceCodes,
+        getActiveServices,
         serviceGroups,
         activeProgNotes,
         addClientProgNote,
