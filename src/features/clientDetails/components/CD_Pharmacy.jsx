@@ -9,7 +9,6 @@ export function CDPharmacy() {
   const [contact, setContact] = useState();
 
   useEffect(() => {
-    console.log(activeClient[21].pharmacyproviderid);
     if (activeClient[21].pharmacyproviderid) {
       getContact(activeClient[21].pharmacyproviderid).then((data) =>
         setContact(data[0])

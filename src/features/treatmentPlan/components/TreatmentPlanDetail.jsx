@@ -9,8 +9,8 @@ import {
 } from "react-bootstrap";
 import "../TreatmentPlan.css";
 import { useClient } from "../../../context/ClientContext";
-import { useForm, Controller } from "react-hook-form";
-import { DateField, SelectField, TextAreaField } from "../utils/fieldCreator";
+import { useForm } from "react-hook-form";
+import { DateField, TextAreaField } from "../utils/fieldCreator";
 import { Pencil } from "react-bootstrap-icons";
 import { useState, useRef, useEffect } from "react";
 import { TreatmentPlanHeader } from "./TreatmentPlanHeader";
@@ -25,7 +25,6 @@ export function TreatmentPlanDetail() {
   const {
     getActiveServices,
     activeTreatmentPlan,
-    formData,
     updateClientTreatmentPlan,
     activeClient,
   } = useClient();
@@ -33,10 +32,9 @@ export function TreatmentPlanDetail() {
   const { patientid } = activeClient[20];
 
   const [editTreatmentPlan, setEditTreatmentPlan] = useState(false);
-  const [otherValue, setOtherValue] = useState("");
-  const [selectedServices, setSelectedServices] = useState(getActiveServices());
+  const [selectedServices] = useState(getActiveServices());
 
-  const { control, register, handleSubmit, reset, getValues } = useForm();
+  const { control, register, handleSubmit, reset } = useForm();
 
   const treatmentPlanRef = useRef();
 
@@ -56,14 +54,8 @@ export function TreatmentPlanDetail() {
   const onSubmit = (data) => {
     console.log("tplan formdata",data)
     const updatedTPlan = parseTreatmentPlan(data, patientid, activeClient);
-    console.log(updatedTPlan);
-    // if (!tPlan || tPlan.length === 0) {
-    //   console.log("new treatment plan");
-    //   addNewTreatementPlan(updatedTPlan);
-    // } else if (editTreatmentPlan) {
       console.log("updated treatment plan");
       updateClientTreatmentPlan(updatedTPlan);
-    // }
     setEditTreatmentPlan(false);
   };
 

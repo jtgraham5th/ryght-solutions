@@ -12,7 +12,6 @@ function ClientView({ sidebar }) {
   const [activeTab, setActiveTab] = useState("#overview");
 
   const renderTab = () => {
-    console.log("redner CV TABS");
     switch (activeTab) {
       case "#overview":
         return <CVProfile />;

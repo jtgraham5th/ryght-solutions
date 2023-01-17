@@ -1,10 +1,6 @@
 import convertToDate from "../../../utils/convertToDate";
 import formatDate from "../../../utils/formatDate";
 import formatTime from "../../../utils/formatTime";
-import {
-  parseInterventions,
-  parseObjectives,
-} from "../../treatmentPlan/utils/parseData";
 
 export function calculateHours(startTime, endTime) {
   const diffInMilliseconds = Math.abs(startTime.getTime() - endTime.getTime());
@@ -189,7 +185,6 @@ export const parseServices = (services, serviceCodes, serviceArray) => {
 export const parseDX = (diagnosis, dxCodes, dxArray) => {
   diagnosis.forEach((dx) => {
     const foundDX = dxCodes.find((item) => item.code === dx);
-    console.log(foundDX);
     if (foundDX) {
       dxArray.push(foundDX);
     }

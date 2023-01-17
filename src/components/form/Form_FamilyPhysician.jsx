@@ -1,14 +1,20 @@
 import { Row, Col, Form } from "react-bootstrap";
 import "./formComponents.css";
 
-export function FormFamilyPhysician({ register }) {
+export function FormFamilyPhysician({ state, setState }) {
+
+const handleChange =(e) => {
+  const name = e.target.name
+  const value = e.target.value
+  setState((prevState) => ({...prevState, [name]: value}))
+}
   return (
 <>      <Form.Group as={Row}>
         <Col md={4}>
           <Form.Label className="CE-form-label">Physician Name</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("name")}
+            onChange={(e) => handleChange(e)}
             type="text"
             name="name"
           />
@@ -19,7 +25,7 @@ export function FormFamilyPhysician({ register }) {
           <Form.Label className="CE-form-label">Office Phone Number</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("phone1")}
+            onChange={(e) => handleChange(e)}
             type="number"
             name="phone1"
           />
@@ -29,7 +35,7 @@ export function FormFamilyPhysician({ register }) {
           <Form.Label className="CE-form-label">Fax Phone Number</Form.Label>
           <Form.Control
             className="goal-detail-input"
-            {...register("phone2")}
+            onChange={(e) => handleChange(e)}
             type="number"
             name="phone2"
           />

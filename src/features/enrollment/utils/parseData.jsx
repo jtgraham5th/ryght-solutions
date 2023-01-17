@@ -107,7 +107,6 @@ export const parseFormData22 = (data, edit, tempID, activeClient) => {
   ];
 };
 export const parsePatientContact = (data, edit, activeContacts) => {
-  console.log("contacts:", activeContacts);
   return [
     {
       contactid:
@@ -120,8 +119,6 @@ export const parsePatientContact = (data, edit, activeContacts) => {
       city: data.pcity,
       state: data.pstate,
       zip: data.pZip,
-      // udfid1: 0,
-      // udfid2: 0,
       contacttypeid: 21,
       patientid: parseInt(data.patientid),
       relationshipid: 0,
@@ -149,8 +146,6 @@ export const parseEmergencyContact = (data, edit, activeContacts) => {
       city: data.ecCity,
       state: data.ecState,
       zip: data.ecZip,
-      // udfid1: 0,
-      // udfid2: 0,
       contacttypeid: 22,
       patientid: parseInt(data.patientid),
       relationshipid: parseInt(data.ecRelationship),
@@ -165,6 +160,31 @@ export const parseEmergencyContact = (data, edit, activeContacts) => {
     },
   ];
 };
+export const parseNewContact = (data, contactType) => {
+  return [
+    {
+      contactid: 0,
+      name: data.name ? data.name : "",
+      address1: data.address1 ? data.address1 : "",
+      address2: data.address2 ? data.address2 : "",
+      city: data.city ? data.city : "",
+      state: data.state ? data.state : "",
+      zip: data.zip ? data.zip : 0,
+      contacttypeid: contactType ? contactType : 0,
+      patientid:0,
+      relationshipid: 0,
+      phone1: data.phone1 ? parseInt(data.phone1) : 0,
+      phone1typeid: data.phone1type ? parseInt(data.phone1type) : 0,
+      phone2: data.phone2 ? parseInt(data.phone2) : 0,
+      phone2typeid: data.phone2type ? parseInt(data.phone2type) : 0,
+      phone3: data.phone3 ? parseInt(data.phone3) : 0,
+      phone3typeid: data.phone3type ? parseInt(data.phone3type) : 0,
+      countyid: 0,
+      isactive: 1,
+    },
+  ];
+};
+
 export const parseDefaultValues = (edit, activeClient) => {
   return {
     patientid: edit ? parseInt(activeClient[20].patientid) : 0,
@@ -319,7 +339,6 @@ export const parsePhoneNumber = (value, setValue, fieldName) => {
     formattedValueWithDashes = formattedValue;
   }
 
-  console.log(formattedValue);
   // Update the value of the phone number field in the form data object
   setValue(fieldName, formattedValueWithDashes);
 };

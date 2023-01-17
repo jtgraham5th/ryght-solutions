@@ -1,7 +1,8 @@
 import { Row, Button, Collapse, Card } from "react-bootstrap";
 import "./formComponents.css";
-import { useForm } from "react-hook-form";
 import { useClient } from "../../context/ClientContext";
+import { useState } from "react";
+import { parseNewContact } from "../../features/enrollment/utils/parseData";
 
 export function FormAddContainer({
   sectionTitle,
@@ -10,54 +11,39 @@ export function FormAddContainer({
   newForm: NewForm,
   setValue,
 }) {
-  const { activeClient, addClientContact } = useClient();
-
-  const { register, getValues,reset } = useForm({
-    patientid:
-      activeClient.length > 0 ? activeClient[20].patientid : 0,
-  });
-
-  const onSubmit = (e) => {
-    const data = getValues();
-    const newContact = {
-      name: data.name,
-      address1: "",
-      address2: "",
-      city: "",
-      state: "",
-      zip: "",
-      udfid1: 0,
-      udfid2: 0,
-      contacttypeid: 0,
-      patientid: data.patientid,
-      relationshipid: 0,
-      phone1: data.phone1,
-      phone1typeid: 0,
-      phone2: data.phone2,
-      phone2typeid: 0,
-      phone3: "",
-      phone3typeid: 0,
-      countyid: 0,
-      isactive: 1,
-    };
+  const { activeClient, addClientContact, getFormFields } = useClient();
+  const [state, setState] = useState({});
+  const getContactType = () => {
     switch (sectionTitle) {
       case "familyPhysician":
-        newContact.contacttypeid = 24;
+        return 24;
       case "pharmacy":
-        newContact.contacttypeid = 23;
+        return 23;
+      default:
+        return 0;
     }
-
-    addClientContact(newContact).then((data) => {
+  };
+  const onSubmit = async (e) => {
+    const data = parseNewContact(
+      state,
+      getContactType(),
+      activeClient[20].patientid
+    );
+    await addClientContact(data).then((newcontactid) => {
+      getFormFields();
       switch (sectionTitle) {
         case "familyPhysician":
-          setValue("physicianid", data);
+          setValue("physicianid", newcontactid);
+          break;
         case "pharmacy":
-          setValue("pharmacyproviderid", data);
+          setValue("pharmacyproviderid", newcontactid);
+          break;
+        default:
+          break;
       }
     });
-    reset()
+    setState({})
     close(e);
-    // console.log(data)
   };
 
   return (
@@ -87,7 +73,7 @@ export function FormAddContainer({
                 </Button>
               </div>
             </Card.Title>
-            <NewForm register={register} />
+            <NewForm state={state} setState={setState} />
           </Card.Body>
         </Card>
       </Row>

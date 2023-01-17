@@ -11,7 +11,6 @@ import { useState } from "react";
 import "./RQ_Manager.css";
 import AlertContainer from "../../../components/AlertContainer";
 import { useForm, Controller } from "react-hook-form";
-import formatDate from "../../../utils/formatDate";
 import DatePicker from "react-datepicker";
 import { requirements } from "../data/requirements";
 import { useClient } from "../../../context/ClientContext";
@@ -23,7 +22,6 @@ export function RQManager({ show, setShow, containerName }) {
   const [activePage, setActivePage] = useState(0);
   const [activeItem, setActiveItem] = useState({});
   const [newRequirements, setNewRequirements] = useState([]);
-  const activeForms = ["Adolescent BPS", "Adult BPS", "Legal Document"];
   const [fullscreen, toggleFullScreen] = useState(false);
 
   const { control, register, handleSubmit, reset } = useForm();
@@ -40,7 +38,6 @@ export function RQManager({ show, setShow, containerName }) {
   const handleCancel = (data) => {};
 
   const nextPage = () => {
-    console.log(activeItem);
     if (activeItem && activePage < activeItem.pages) {
       setActivePage((page) => page + 1);
     }
@@ -86,7 +83,6 @@ export function RQManager({ show, setShow, containerName }) {
   };
 
   const createRequirements = () => {
-    console.log(newRequirements);
     addClientBillingTx(newRequirements);
     handleClose();
   };
@@ -95,7 +91,6 @@ export function RQManager({ show, setShow, containerName }) {
     const assessmentInfo = requirements.filter(
       (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
     );
-    // console.log(assessmentInfo);
     if (assessmentInfo.length > 0) {
       return assessmentInfo[0].name;
     } else return "NULL";
@@ -194,7 +189,6 @@ export function RQManager({ show, setShow, containerName }) {
                 <h3 className="RQ-section-header">Selected Requirements</h3>
                 <ListGroup className="RQ-list-active">
                   {activeBillingTx.map((requirement, index) => {
-                    // console.log(requirement);
                     return (
                       <ListGroup.Item variant="secondary" key={index}>
                         <div>{getAssessmentInfo(requirement)}</div>

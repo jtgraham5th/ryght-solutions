@@ -40,7 +40,6 @@ export const addNewTreatmentPlan = async (newTPlan) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data[0];
     })
     .catch((e) => {
@@ -98,7 +97,6 @@ export const getGoalwithGoalid = async (goalid) => {
     });
 };
 export const addNewGoal = async (newGoal) => {
-  console.log(newGoal)
   return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/18`, {
     method: "PUT",
     headers: {
@@ -108,7 +106,6 @@ export const addNewGoal = async (newGoal) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data[0];
     })
     .catch((e) => {
@@ -128,7 +125,6 @@ export const updateGoal = async (updatedGoal) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data[0]);
       return data[0];
     })
     .catch((e) => {
@@ -197,7 +193,6 @@ export const addNewObjective = async (newObjective) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data[0]);
       return data[0];
     })
     .catch((e) => {
@@ -205,7 +200,6 @@ export const addNewObjective = async (newObjective) => {
     });
 };
 export const updateObjective = async (updatedObjective) => {
-  console.log(updatedObjective);
   return await fetch(
     `http://www.ivronlogs.icu:8080/rs1/generic_api/${updatedObjective[0].objectiveid}?tid=26`,
     {
@@ -218,7 +212,6 @@ export const updateObjective = async (updatedObjective) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data[0]);
       return data[0];
     })
     .catch((e) => {

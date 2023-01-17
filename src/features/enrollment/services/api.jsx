@@ -23,7 +23,6 @@ export const getClient = async (patientid, tid) => {
     });
 };
 export const updateClient = async (client, tid, patientid) => {
-  console.log(client)
   return await fetch(
     `http://www.ivronlogs.icu:8080/rs1/generic_api/${patientid}?tid=${tid}`,
     {
@@ -43,7 +42,6 @@ export const updateClient = async (client, tid, patientid) => {
     });
 };
 export const addNewClient = async (client) => {
-  console.log(client)
   return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/20`, {
     method: "PUT",
     headers: {
@@ -89,7 +87,6 @@ export const addNewContact = async (contact) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data[0];
     })
     .catch((e) => {

@@ -51,7 +51,7 @@ export function useClient() {
 
 export function ClientProvider(props) {
   const [clientList, setClientlist] = useState([]);
-  const [contactList, setContactList] = useState([]);
+  const [contactList] = useState([]);
   const [activeClient, setActiveClient] = useState({ 20: {}, 21: {}, 22: {} });
   const [activeContacts, setActiveContacts] = useState({});
   const [activeTreatmentPlan, setActiveTreatmentPlan] = useState({});
@@ -241,7 +241,7 @@ export function ClientProvider(props) {
       .then();
   };
   const addClientContact = async (contact) => {
-    await addNewContact(contact)
+    return await addNewContact(contact)
       .then((data) => {
         return data.contactid;
       })
@@ -251,7 +251,7 @@ export function ClientProvider(props) {
       });
   };
   const updateClientContact = async (contact, contactid) => {
-    await updateContact(contact, contactid)
+    return await updateContact(contact, contactid)
       .then((data) => {
         return data[0].contactid;
       })
@@ -415,6 +415,7 @@ export function ClientProvider(props) {
     <ClientContext.Provider
       value={{
         formData,
+        getFormFields,
         deleteGroupItem,
         addGroupItem,
         activeClient,

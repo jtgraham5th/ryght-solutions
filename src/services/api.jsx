@@ -4,7 +4,6 @@ export const getPharmacyList = async () => {
   )
     .then((response) => response.json())
     .then(async (data) => {
-      console.log(data)
       return data;
     })
     .catch((e) => {

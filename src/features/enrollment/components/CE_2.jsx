@@ -9,7 +9,6 @@ import { FormAddContainer } from "../../../components/form/Form_AddContainer";
 import { FormFamilyPhysician } from "../../../components/form/Form_FamilyPhysician";
 import { FormInsuranceProvider } from "../../../components/form/Form_InsuranceProvider";
 import { FormPharmacy } from "../../../components/form/Form_Pharmacy";
-import { renderSectionTitle } from "../utils/formhelper";
 
 export function CE2({ register, control, setValue, formState }) {
   const [addNew, setAddNew] = useState({
@@ -34,12 +33,12 @@ export function CE2({ register, control, setValue, formState }) {
   };
   const closeItem = (e) => {
     e.preventDefault();
-    let sectionName = e.target.name;
     setAddNew((prevState) => ({
       ...prevState,
       sectionTitle: "",
+      pharmacy: false,
+      familyPhysician: false,  
       activeForm: () => {},
-      [sectionName]: false,
     }));
   };
   const renderSectionForm = (name) => {
@@ -240,7 +239,7 @@ export function CE2({ register, control, setValue, formState }) {
         </Col>
       </Form.Group>
       <FormAddContainer
-        sectionTitle={renderSectionTitle(addNew.sectionTitle)}
+        sectionTitle={addNew.sectionTitle}
         open={
           addNew.sectionTitle === "familyPhysician" ||
           addNew.sectionTitle === "pharmacy"

@@ -56,7 +56,6 @@ export const addNewDocument = async (newDoc) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data[0];
     })
     .catch((e) => {
@@ -76,7 +75,6 @@ export const updateDocument = async (document) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((e) => {

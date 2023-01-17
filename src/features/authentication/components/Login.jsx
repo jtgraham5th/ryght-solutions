@@ -14,7 +14,6 @@ export function Login({ setStatus }) {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
     setUser({ userName: "Mrs. Graham" });
     setStatus(true);
     navigate();
