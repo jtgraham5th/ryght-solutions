@@ -28,7 +28,7 @@ function ClientSelectDropdown(props) {
     if (searchTerm.length === 1) {
       setAlphaSelector(searchTerm.toLowerCase());
       setSearchResults(sortedClients[searchTerm.toLowerCase()].sort());
-    } else if (searchTerm.length < 1){
+    } else if (searchTerm.length < 1) {
       setAlphaSelector("");
       setSearchResults(sortedClients["a"].sort());
     }
@@ -64,11 +64,9 @@ function ClientSelectDropdown(props) {
           />
 
           <ul className="list-unstyled">
-            {React.Children.toArray(children).filter(
-              (child) =>
-                !searchValue ||
-                child.props.children.includes(searchValue)
-            )}
+            {React.Children.toArray(children).filter((child) => {
+              return !searchValue || child.props.children.toLowerCase().includes(searchValue.toLowerCase());
+            })}
           </ul>
         </div>
       );

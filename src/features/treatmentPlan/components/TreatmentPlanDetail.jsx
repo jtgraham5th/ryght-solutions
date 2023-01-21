@@ -21,12 +21,12 @@ import {
 // import { addNewTreatementPlan } from "../services/api";
 
 export function TreatmentPlanDetail() {
-  
   const {
     getActiveServices,
     activeTreatmentPlan,
     updateClientTreatmentPlan,
     activeClient,
+    formData,
   } = useClient();
   const { tPlan } = activeTreatmentPlan;
   const { patientid } = activeClient[20];
@@ -41,7 +41,7 @@ export function TreatmentPlanDetail() {
   useEffect(() => {
     if (tPlan && tPlan.length > 0) {
       const updatedTPlan = parseDefaultTreatmentPlan(tPlan[0]);
-      console.log("updatedTPlan",updatedTPlan)
+      console.log("updatedTPlan", updatedTPlan);
       reset({ ...updatedTPlan });
     }
     // eslint-disable-next-line
@@ -52,10 +52,10 @@ export function TreatmentPlanDetail() {
   };
 
   const onSubmit = (data) => {
-    console.log("tplan formdata",data)
+    console.log("tplan formdata", data);
     const updatedTPlan = parseTreatmentPlan(data, patientid, activeClient);
-      console.log("updated treatment plan");
-      updateClientTreatmentPlan(updatedTPlan);
+    console.log("updated treatment plan", updatedTPlan);
+    updateClientTreatmentPlan(updatedTPlan);
     setEditTreatmentPlan(false);
   };
 
@@ -169,22 +169,33 @@ export function TreatmentPlanDetail() {
                     Anticipated Step Down Service
                   </Form.Label>
                   {/* Add a warning that is dependent on Order of Services being completed */}
-                  <Form.Text className="ms-2 text-danger fst-italic">*** These services are pending approval by the Doctor ***</Form.Text>
-                  <Form.Group as={Row} className="p-2">
-                    {selectedServices.map((item, i) => {
+                  <Form.Text className="ms-2 text-danger fst-italic">
+                    *** These services are pending approval by the Doctor ***
+                  </Form.Text>
+                  <Form.Group as={Row} className="p-2 align-items-center">
+                    {formData["Services"].map((item, i) => {
+                      item.grouplistid = item.grouplistid.toString();
                       return (
                         <Form.Check
-                          key={"item.servicename" + i}
-                          {...register("f11")}
+                          key={i}
                           type="checkbox"
-                          className="w-50"
+                          className="w-25"
                           name="f11"
-                          value={item.recid}
-                          label={item.servicename}
-                          disabled={!editTreatmentPlan}
+                          {...register("f11")}
+                          value={item.grouplistid}
+                          label={item.groupvalue}
                         />
                       );
                     })}
+
+                    <Form.Control
+                      {...register("f12")}
+                      className="w-25 h-50"
+                      type="text"
+                      placeholder="Enter value"
+                      readOnly={!editTreatmentPlan}
+                      disabled={!editTreatmentPlan}
+                    />
                   </Form.Group>
                 </ListGroup.Item>
               </ListGroup>

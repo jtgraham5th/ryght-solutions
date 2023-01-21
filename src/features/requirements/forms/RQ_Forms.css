@@ -62,6 +62,7 @@ form > .modal-body {
   white-space: nowrap;
 }
 .datePicker {
+  border-color: silver !important;
   border-width: 1px !important;
   border-style: solid !important;
   width: 100% !important;

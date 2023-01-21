@@ -22,7 +22,6 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
   const [numOfUnits, setNumOfUnits] = useState(0);
   const watchTime = watch(["f2", "f3"]);
   const { serviceCodes, dxCodes } = useClient();
-
   useEffect(() => {
     if (watchTime[0] && watchTime[1]) {
       setNumOfHours(calculateHours(watchTime[0], watchTime[1]));

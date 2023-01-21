@@ -42,15 +42,6 @@ export function CVProfile({ sidebar }) {
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-
-          <Accordion defaultActiveKey="0" alwaysOpen className="mb-3">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Services</Accordion.Header>
-              <Accordion.Body className="p-0">
-                <Services />
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
         </Col>
         <Col md={6}>
           <Accordion defaultActiveKey="0" className="mb-3">
@@ -72,16 +63,6 @@ export function CVProfile({ sidebar }) {
         </Col>
       </Row>
       <Row>
-        <Col md={6}>
-          <Accordion defaultActiveKey="0" alwaysOpen className="mb-3">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Diagnosis & Problems</Accordion.Header>
-              <Accordion.Body className="p-0">
-                {/* <Diagnosis /> */}
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        </Col>
         <Col md={6}>
           <Accordion defaultActiveKey="0" className="mb-3">
             <Accordion.Item eventKey="0">

@@ -74,7 +74,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
           <h3>Order of Service</h3>
         </Col>
         <Col className="text-end" md={3}>
-          SHN RCM CMOs
+          RCM CMOs
           <br /> 1518 Airport Road
           <br /> Hinesville, GA
           <br /> 31313-9439
