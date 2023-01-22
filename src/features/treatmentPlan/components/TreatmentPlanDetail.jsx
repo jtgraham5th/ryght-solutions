@@ -169,9 +169,6 @@ export function TreatmentPlanDetail() {
                     Anticipated Step Down Service
                   </Form.Label>
                   {/* Add a warning that is dependent on Order of Services being completed */}
-                  <Form.Text className="ms-2 text-danger fst-italic">
-                    *** These services are pending approval by the Doctor ***
-                  </Form.Text>
                   <Form.Group as={Row} className="p-2 align-items-center">
                     {formData["Services"].map((item, i) => {
                       item.grouplistid = item.grouplistid.toString();

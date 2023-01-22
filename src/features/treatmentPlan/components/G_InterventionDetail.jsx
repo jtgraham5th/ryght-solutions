@@ -14,6 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import "./G_Manager.css";
 import { useClient } from "../../../context/ClientContext";
 import { parseIntervention } from "../utils/parseData";
+import { SelectField } from "../../../components/form/fieldCreator";
 
 export function InterventionDetail({
   intervention,
@@ -22,9 +23,15 @@ export function InterventionDetail({
   setAlert,
   objectiveid,
 }) {
+  const {
+    activeClient,
+    updateClientIntervention,
+    addClientIntervention,
+    getActiveServices,
+  } = useClient();
   const [editIntervention, setEditIntervention] = useState(false);
-  const { activeClient, updateClientIntervention, addClientIntervention } =
-    useClient();
+  const [selectedServices, setSelectedServices] = useState(getActiveServices());
+
   const { patientid } = activeClient[20];
   const { control, register, handleSubmit, reset } = useForm();
 
@@ -45,6 +52,10 @@ export function InterventionDetail({
       setEditIntervention(true);
     }
   }, [focus.editing]);
+
+  useEffect(() => {
+    setSelectedServices(getActiveServices());
+  }, [activeClient]);
 
   const onSubmit = (data) => {
     const newIntervention = parseIntervention(data, patientid, objectiveid);
@@ -143,38 +154,34 @@ export function InterventionDetail({
             </Collapse>
 
             <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">
-                Assigned Staff
-              </Form.Label>
-              <Form.Control
-                className="goal-detail-input"
-                {...register("stafftitleid")}
-                name="stafftitleid"
-                type="text"
-                readOnly={editIntervention ? false : true}
-                disabled={true}
-                // disabled={!intervention ? true : false}
+              <SelectField
+                register={register}
+                labelName="Assigned Staff"
+                groupName="Staff Title"
+                fieldName="stafftitleid"
+                labelStyle="w-50 m-0 pe-1 small"
+                disabled={!intervention ? true : false}
               />
             </ListGroupItem>
             <ListGroupItem className="d-flex justify-content-center align-items-center small p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">
-                Target Date
-              </Form.Label>
-              <Controller
-                control={control}
-                name="targetdate"
-                defaultValue=""
-                render={({ field }) => (
-                  <DatePicker
-                    className="datePicker rounded"
-                    selected={field.value}
-                    onChange={(date) => {
-                      field.onChange(date);
-                    }}
-                    readOnly={editIntervention ? false : true}
-                    disabled={!intervention ? true : false}
-                  />
-                )}
+              <SelectField
+                register={register}
+                labelName="Frequency"
+                groupName="Frequency"
+                fieldName="frequency"
+                labelStyle="w-50 m-0 pe-1 small"
+                disabled={!intervention ? true : false}
+              />
+            </ListGroupItem>
+            <ListGroupItem className="d-flex justify-content-center align-items-center small p-1 ps-3 pe-3">
+              <SelectField
+                register={register}
+                labelName="Services"
+                fieldName="services"
+                listData={selectedServices}
+                itemDetail={["recid", "servicename"]}
+                labelStyle="w-50 m-0 pe-1 small"
+                disabled={!intervention ? true : false}
               />
             </ListGroupItem>
           </ListGroup>

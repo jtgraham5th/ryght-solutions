@@ -142,9 +142,7 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
               />
             </ListGroupItem>
             <ListGroupItem className="d-flex justify-content-center align-items-center small p-1 ps-3 pe-3">
-              <Form.Label className="w-50 m-0 pe-1 small">
-                Target Date
-              </Form.Label>
+              <Form.Label className="w-50 m-0 pe-1 small">Open Date</Form.Label>
 
               <Controller
                 control={control}

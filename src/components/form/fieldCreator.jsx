@@ -2,6 +2,7 @@ import { Form, ListGroup, Card } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useClient } from "../../context/ClientContext";
+import { useState } from "react";
 
 export function DateField(props) {
   const { control, labelName, fieldName, labelStyle, fieldStyle, ...other } =
@@ -29,9 +30,25 @@ export function DateField(props) {
   );
 }
 export function SelectField(props) {
-  const { register, labelName, fieldName, groupName, listData, labelStyle, fieldStyle, ...other } =
-    props;
+  const {
+    register,
+    labelName,
+    fieldName,
+    groupName,
+    listData,
+    labelStyle,
+    fieldStyle,
+    itemDetail,
+    ...other
+  } = props;
   const { formData } = useClient();
+
+  const [detail, setDetail] = useState(
+    itemDetail && Array.isArray(itemDetail)
+      ? itemDetail
+      : ["grouplistid", "groupvalue"]
+  );
+
   const renderOptions = () => {
     if (listData) return listData;
     else if (groupName) return formData[groupName];
@@ -42,11 +59,16 @@ export function SelectField(props) {
       {labelName ? (
         <Form.Label className={`fs-6 ${labelStyle}`}>{labelName}</Form.Label>
       ) : null}
-      <Form.Select {...register(fieldName)} name={fieldName} className={`${fieldStyle}`} {...other}>
+      <Form.Select
+        {...register(fieldName)}
+        name={fieldName}
+        className={`${fieldStyle}`}
+        {...other}
+      >
         {renderOptions().map((item, i) => {
           return (
-            <option key={i} value={item.grouplistid}>
-              {item.groupvalue}
+            <option key={i} value={item[detail[0]]}>
+              {item[detail[1]]}
             </option>
           );
         })}
