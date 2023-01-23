@@ -3,6 +3,8 @@ import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useClient } from "../../context/ClientContext";
 import { useState } from "react";
+import isStringNumber from "../../utils/isStringNumber";
+import { getFormValue } from "../../features/clientDetails/utils/formatData";
 
 export function DateField(props) {
   const { control, labelName, fieldName, labelStyle, fieldStyle, ...other } =
@@ -48,10 +50,15 @@ export function SelectField(props) {
       ? itemDetail
       : ["grouplistid", "groupvalue"]
   );
-
   const renderOptions = () => {
-    if (listData) return listData;
-    else if (groupName) return formData[groupName];
+    if (listData) {
+      const filterOptions = listData.filter((listItem) => {
+        return formData[groupName].some((formItem) => {
+          return formItem.groupvalue === listItem.servicename;
+        });
+      });
+      return filterOptions;
+    } else if (groupName) return formData[groupName];
     return [];
   };
   return (
@@ -66,6 +73,10 @@ export function SelectField(props) {
         {...other}
       >
         {renderOptions().map((item, i) => {
+          item[detail[0]] = isStringNumber(item[detail[0]]);
+          if (listData) console.log(item[detail[0]]);
+          if (listData) console.log([detail[0]]);
+          if (listData) console.log(item);
           return (
             <option key={i} value={item[detail[0]]}>
               {item[detail[1]]}

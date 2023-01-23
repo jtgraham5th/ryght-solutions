@@ -313,6 +313,9 @@ export function ClientProvider(props) {
   const updateClientTreatmentPlan = async (tPlan) => {
     await updateTreatmentPlan(tPlan).then(() => getClientTreatmentPlan());
   };
+  const addClientTreatmentPlan = async (tPlan) => {
+    await addNewDocument(tPlan).then(() => getClientTreatmentPlan());
+  };
   const addClientGoal = async (newGoal) => {
     await addNewGoal(newGoal).then(() => getClientTreatmentPlan());
   };
@@ -435,6 +438,7 @@ export function ClientProvider(props) {
         activeBillingTx,
         addClientBillingTx,
         activeTreatmentPlan,
+        addClientTreatmentPlan,
         updateClientTreatmentPlan,
         addClientGoal,
         updateClientGoal,

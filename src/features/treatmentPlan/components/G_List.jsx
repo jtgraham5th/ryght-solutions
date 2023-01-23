@@ -6,13 +6,15 @@ import { GoalsManager } from "../../treatmentPlan";
 import { client01 } from "../../../data/formData";
 import { useClient } from "../../../context/ClientContext";
 import { parseObjectives, parseInterventions } from "../utils/parseData";
+import { getFormValue } from "../../clientDetails/utils/formatData";
 
 export function GoalList() {
   const [show, setShow] = useState(false);
-  const { activeTreatmentPlan } = useClient();
+  const { activeTreatmentPlan, formData } = useClient();
 
+  console.log(activeTreatmentPlan);
   return (
-    <Card className="h-100 mb-3 border-0" >
+    <Card className="h-100 mb-3 border-0">
       <Card.Body>
         <Row className="justify-content-between">
           <Col md={3}>
@@ -21,10 +23,7 @@ export function GoalList() {
           <Col md={6}>
             <Row className="justify-content-end">
               <Col md={3} className="p-0 text-end">
-                <Button
-                  variant="primary"
-                  onClick={() => setShow(true)}
-                >
+                <Button variant="primary" onClick={() => setShow(true)}>
                   Manage Goals
                 </Button>
               </Col>
@@ -82,7 +81,11 @@ export function GoalList() {
                     {parseObjectives(activeTreatmentPlan, goal).length > 0 ? (
                       parseObjectives(activeTreatmentPlan, goal).map(
                         (objective, i) => (
-                          <Card key={i} className="mb-3 shadow" border="primary">
+                          <Card
+                            key={i}
+                            className="mb-3 shadow"
+                            border="primary"
+                          >
                             <Card.Body>
                               <Row className="mb-3">
                                 <Col md={8}>
@@ -102,39 +105,50 @@ export function GoalList() {
                               {parseInterventions(
                                 activeTreatmentPlan,
                                 objective
-                              ).map((intervention, x) => (
-                                <Card key={x} className="mb-3">
-                                  <Card.Body>
-                                    <Card.Subtitle>
-                                      {intervention.description}
-                                    </Card.Subtitle>
-                                    </Card.Body>
-                                    <Card.Footer className="bg-light">
-                                      <Row>
+                              ).map((intervention, x) => {
+                                console.log(objective.description);
+                                return (
+                                  <Card key={x} className="mb-3 bg-light">
+                                    <Card.Body as={Row} className="p-3">
                                       <Col md={6}>
-                                        <h6 className="fw-lighter">Services</h6>
-                                        <Card.Text>
-                                          Service Development Plan
+                                        <Card.Subtitle className="mb-1">
+                                          {intervention.description}
+                                        </Card.Subtitle>
+                                        <h6 className="fw-lighter fst-italic">
                                           {intervention.services}
-                                        </Card.Text>
+                                          {getFormValue(
+                                            "Services",
+                                            intervention,
+                                            formData
+                                          )}
+                                        </h6>
                                       </Col>
                                       <Col md={3}>
-                                        <h6 className="fw-lighter">Frequency</h6>
+                                        <h6 className="fw-lighter">
+                                          Frequency
+                                        </h6>
                                         <Card.Text>
-                                          Semi-Annually
-                                          {intervention.frequency}
+                                          {getFormValue(
+                                            "Frequency",
+                                            intervention,
+                                            formData
+                                          )}
                                         </Card.Text>
                                       </Col>
                                       <Col md={3}>
                                         <h6 className="fw-lighter">Staff</h6>
                                         <Card.Text>
-                                          Doctor
-                                          {intervention.staffType}
+                                          {getFormValue(
+                                            "Staff Title",
+                                            intervention.stafftitleid,
+                                            formData
+                                          )}
                                         </Card.Text>
-                                      </Col></Row>
-                                  </Card.Footer>
-                                </Card>
-                              ))}
+                                      </Col>
+                                    </Card.Body>
+                                  </Card>
+                                );
+                              })}
                             </Card.Body>
                           </Card>
                         )

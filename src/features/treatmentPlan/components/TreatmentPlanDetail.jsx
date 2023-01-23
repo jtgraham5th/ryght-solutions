@@ -18,12 +18,11 @@ import {
   parseDefaultTreatmentPlan,
   parseTreatmentPlan,
 } from "../utils/parseData";
-// import { addNewTreatementPlan } from "../services/api";
 
 export function TreatmentPlanDetail() {
   const {
-    getActiveServices,
     activeTreatmentPlan,
+    addClientTreatmentPlan,
     updateClientTreatmentPlan,
     activeClient,
     formData,
@@ -32,7 +31,6 @@ export function TreatmentPlanDetail() {
   const { patientid } = activeClient[20];
 
   const [editTreatmentPlan, setEditTreatmentPlan] = useState(false);
-  const [selectedServices] = useState(getActiveServices());
 
   const { control, register, handleSubmit, reset } = useForm();
 
@@ -55,7 +53,13 @@ export function TreatmentPlanDetail() {
     console.log("tplan formdata", data);
     const updatedTPlan = parseTreatmentPlan(data, patientid, activeClient);
     console.log("updated treatment plan", updatedTPlan);
-    updateClientTreatmentPlan(updatedTPlan);
+    if (!tPlan || tPlan.length === 0) {
+      console.log("new treatment plan");
+      addClientTreatmentPlan(updatedTPlan);
+    } else if (editTreatmentPlan) {
+      console.log("updated treatment plan");
+      updateClientTreatmentPlan(updatedTPlan);
+    }
     setEditTreatmentPlan(false);
   };
 

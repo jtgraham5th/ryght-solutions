@@ -154,6 +154,7 @@ export function InterventionDetail({
             </Collapse>
 
             <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
+              
               <SelectField
                 register={register}
                 labelName="Assigned Staff"
@@ -177,9 +178,10 @@ export function InterventionDetail({
               <SelectField
                 register={register}
                 labelName="Services"
+                groupName="Services"
                 fieldName="services"
                 listData={selectedServices}
-                itemDetail={["recid", "servicename"]}
+                itemDetail={["servicename", "servicename"]}
                 labelStyle="w-50 m-0 pe-1 small"
                 disabled={!intervention ? true : false}
               />

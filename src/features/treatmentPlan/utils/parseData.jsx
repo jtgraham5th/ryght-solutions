@@ -260,9 +260,10 @@ export const parseIntervention = (intervention, patientid, objectiveid) => {
       objectiveid: intervention.objectiveid
         ? intervention.objectiveid
         : objectiveid,
+      services: intervention.services ? intervention.services : "",
       description: intervention.description ? intervention.description : "",
-      frequencyid: intervention.frequencyid ? intervention.frequencyid : 0,
-      stafftitleid: intervention.stafftitleid ? intervention.stafftitleid : 0,
+      frequency: intervention.frequency ? parseInt(intervention.frequency) : 0,
+      stafftitleid: intervention.stafftitleid ? parseInt(intervention.stafftitleid) : 0,
       lastupdateid: intervention.lastupdateid ? intervention.lastupdateid : 680,
     },
   ];
@@ -280,7 +281,7 @@ export const parseDefaultIntervention = (
     targetdate: edit ? Date.parse(intervention.targetdate) : null,
     objectiveid: edit ? intervention.objectiveid : objectiveid,
     description: edit ? intervention.description : "",
-    frequencyid: edit ? intervention.frequencyid : 0,
+    frequency: edit ? intervention.frequency : 0,
     stafftitleid: edit ? intervention.stafftitleid : 0,
     lastupdateid: edit ? intervention.lastupdateid : 680,
   };
