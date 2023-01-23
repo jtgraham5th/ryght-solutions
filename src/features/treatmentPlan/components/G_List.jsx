@@ -12,7 +12,6 @@ export function GoalList() {
   const [show, setShow] = useState(false);
   const { activeTreatmentPlan, formData } = useClient();
 
-  console.log(activeTreatmentPlan);
   return (
     <Card className="h-100 mb-3 border-0">
       <Card.Body>
@@ -53,15 +52,11 @@ export function GoalList() {
                     <Row className="mb-3">
                       <Col md={4}>
                         <h6 className="fw-lighter">Open Date</h6>
-                        <Card.Text>{goal.opendate}</Card.Text>
-                      </Col>
-                      <Col md={4}>
-                        <h6 className="fw-lighter">Target Date</h6>
                         <Card.Text>{goal.targetdate}</Card.Text>
                       </Col>
                       <Col md={4}>
                         <h6 className="fw-lighter">Closed Date</h6>
-                        <Card.Text>{goal.opendate}</Card.Text>
+                        <Card.Text>{goal.dateclosed}</Card.Text>
                       </Col>
                     </Row>
                     {/* <Row className="mb-3">
@@ -106,7 +101,6 @@ export function GoalList() {
                                 activeTreatmentPlan,
                                 objective
                               ).map((intervention, x) => {
-                                console.log(objective.description);
                                 return (
                                   <Card key={x} className="mb-3 bg-light">
                                     <Card.Body as={Row} className="p-3">

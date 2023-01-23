@@ -74,9 +74,6 @@ export function SelectField(props) {
       >
         {renderOptions().map((item, i) => {
           item[detail[0]] = isStringNumber(item[detail[0]]);
-          if (listData) console.log(item[detail[0]]);
-          if (listData) console.log([detail[0]]);
-          if (listData) console.log(item);
           return (
             <option key={i} value={item[detail[0]]}>
               {item[detail[1]]}
