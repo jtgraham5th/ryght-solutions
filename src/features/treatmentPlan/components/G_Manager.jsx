@@ -33,9 +33,9 @@ export function GoalsManager({ data }) {
     goals: false,
     objectives: false,
     interventions: false,
-    editing: "",
+    editing: false,
   });
-  useEffect(() => {});
+
   const goalSelect = (goal) => {
     setCardFocus({
       ...cardFocus,
@@ -95,7 +95,7 @@ export function GoalsManager({ data }) {
       objectives: false,
       goals: false,
       interventions: true,
-      editing: "new-intervention",
+      editing: "",
     });
   };
 
@@ -164,9 +164,11 @@ export function GoalsManager({ data }) {
               <Button
                 size="sm"
                 onClick={newObjective}
-                disabled={cardFocus.editing ? true : false}
+                disabled={cardFocus.editing || !cardFocus.goals ? true : false}
                 variant={
-                  cardFocus.editing ? "outline-secondary" : "outline-success"
+                  cardFocus.editing || !cardFocus.goals
+                    ? "outline-secondary"
+                    : "outline-success"
                 }
               >
                 + New Objective
@@ -182,7 +184,11 @@ export function GoalsManager({ data }) {
                       key={`objective-${index}`}
                       className="list-container-item"
                       onClick={() => objectiveSelect(objective)}
-                      active={activeObjective.objectiveid === objective.objectiveid ? true : false}
+                      active={
+                        activeObjective.objectiveid === objective.objectiveid
+                          ? true
+                          : false
+                      }
                       disabled={cardFocus.editing ? true : false}
                     >
                       {objective.description}
@@ -199,9 +205,17 @@ export function GoalsManager({ data }) {
               <Button
                 size="sm"
                 onClick={newIntervention}
-                disabled={cardFocus.editing ? true : false}
+                disabled={
+                  cardFocus.editing ||
+                  !cardFocus.objectives &&
+                  !cardFocus.interventions
+                }
                 variant={
-                  cardFocus.editing ? "outline-secondary" : "outline-success"
+                  cardFocus.editing ||
+                  !cardFocus.objectives &&
+                  !cardFocus.interventions
+                    ? "outline-secondary"
+                    : "outline-success"
                 }
               >
                 + New Intervention
@@ -218,7 +232,10 @@ export function GoalsManager({ data }) {
                       className="list-container-item"
                       onClick={() => interventionSelect(intervention)}
                       active={
-                        activeIntervention.interventionid === intervention.interventionid ? true : false
+                        activeIntervention.interventionid ===
+                        intervention.interventionid
+                          ? true
+                          : false
                       }
                       disabled={cardFocus.editing ? true : false}
                     >

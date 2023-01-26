@@ -14,23 +14,29 @@ export const renderDetail = (field, data, x, y) => {
 };
 
 export const getFormValue = (groupName, activeListId, formData) => {
-  if (typeof activeListId === "object") {
-    const formDataArray = formData[groupName];
-    const data = formDataArray.find((item) => {
-      if (groupName.toLowerCase() === "services") {
-        return item.groupid === parseInt(activeListId[groupName.toLowerCase()]);
+  const formDataArray = formData[groupName];
+
+  if (activeListId && typeof activeListId === "object") {
+    console.log(activeListId, groupName);
+    let idValues = [];
+    activeListId.forEach((activeId) => {
+      const data = formDataArray.find((item) => {
+        // if (groupName.toLowerCase() === "services") {
+        //   return (
+        //     item.groupid === parseInt(activeId)
+        //   );
+        // }
+        // console.log(item)
+        return parseInt(item.grouplistid) === parseInt(activeId);
+      });
+      if (data) {
+        console.log(data.groupvalue);
+        idValues.push(data.groupvalue);
       }
-      return (
-        item.grouplistid === parseInt(activeListId[groupName.toLowerCase()])
-      );
     });
-    if (data) {
-      return data.groupvalue;
-    } else {
-      return "";
-    }
+    console.log(idValues.join(", "));
+    return idValues.join(", ");
   } else if (Object.keys(formData).length > 0 && activeListId) {
-    const formDataArray = formData[groupName];
     const data = formDataArray.find((item) => {
       return item.grouplistid === activeListId;
     });

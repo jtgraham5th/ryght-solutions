@@ -15,15 +15,15 @@ export function Services({
   showActiveServices,
   showServiceCodes,
 }) {
-  const { serviceCodes, serviceGroups, getActiveServices } = useClient();
+  const { serviceCodes, getActiveServices, formData } = useClient();
 
   const setServices = () => {
     const activeServices = getActiveServices();
-    if (showActiveServices) return activeServices
-    if (showServiceCodes) return filterActiveServices(activeServices,serviceCodes);
-    else return serviceGroups;
+    if (showActiveServices) return activeServices;
+    if (showServiceCodes) return filterActiveServices(activeServices, serviceCodes);
+     else return formData["Services"];
   };
-  
+
   const [results, setResults] = useState(setServices());
   const [selectedGroup, setSelectedGroup] = useState(0);
 
@@ -44,8 +44,8 @@ export function Services({
       selectedServices &&
       selectedServices.some(
         (service) =>
-          service[`${showServiceCodes ? "code" : "recid"}`] ===
-          code[`${showServiceCodes ? "code" : "recid"}`]
+          service[`${showServiceCodes ? "code" : "grouplistid"}`] ===
+          code[`${showServiceCodes ? "code" : "grouplistid"}`]
       )
     ) {
       removeService(code);
@@ -58,8 +58,8 @@ export function Services({
     setSelectedServices((prevState) =>
       prevState.filter(
         (item) =>
-          item[`${showServiceCodes ? "code" : "recid"}`] !==
-          code[`${showServiceCodes ? "code" : "recid"}`]
+          item[`${showServiceCodes ? "code" : "grouplistid"}`] !==
+          code[`${showServiceCodes ? "code" : "grouplistid"}`]
       )
     );
   };
@@ -67,7 +67,9 @@ export function Services({
     let servicesArray = [];
     if (selectedServices) {
       selectedServices.forEach((service) => {
-        servicesArray.push(service[`${showServiceCodes ? "code" : "recid"}`]);
+        servicesArray.push(
+          service[`${showServiceCodes ? "code" : "grouplistid"}`]
+        );
       });
       setValue(fieldName, servicesArray.toString());
     }
@@ -112,12 +114,12 @@ export function Services({
                   onChange={searchServices}
                 />
               </Col>
-              <Col md={6}>
+              {/* <Col md={6}>
                 <SVaddByGroup
                   selectedGroup={selectedGroup}
                   setSelectedGroup={setSelectedGroup}
                 />
-              </Col>
+              </Col> */}
             </Row>
           </ListGroup.Item>
         </ListGroup>
@@ -125,14 +127,18 @@ export function Services({
           {results.map((result, index) => {
             return (
               <ListGroup.Item
-                key={result[`${showServiceCodes ? "code" : "recid"}`] + index}
+                key={
+                  result[`${showServiceCodes ? "code" : "grouplistid"}`] + index
+                }
                 action
                 active={
                   selectedServices &&
                   selectedServices.some(
                     (service) =>
-                      service[`${showServiceCodes ? "code" : "recid"}`] ===
-                      result[`${showServiceCodes ? "code" : "recid"}`]
+                      service[
+                        `${showServiceCodes ? "code" : "grouplistid"}`
+                      ] ===
+                      result[`${showServiceCodes ? "code" : "grouplistid"}`]
                   )
                 }
                 type="button"
@@ -146,7 +152,7 @@ export function Services({
                     <div className="ps-0">
                       {
                         result[
-                          `${showServiceCodes ? "description" : "servicename"}`
+                          `${showServiceCodes ? "description" : "groupvalue"}`
                         ]
                       }
                     </div>

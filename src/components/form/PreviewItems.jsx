@@ -5,8 +5,8 @@ export function PreviewItems({ setState, state, title, header, showServices }) {
     setState((prevState) =>
       prevState.filter((item) => {
         return (
-          item[`${showServices ? "recid" : "code"}`] !==
-          code[`${showServices ? "recid" : "code"}`]
+          item[`${showServices ? "grouplistid" : "code"}`] !==
+          code[`${showServices ? "grouplistid" : "code"}`]
         );
       })
     );
@@ -33,7 +33,7 @@ export function PreviewItems({ setState, state, title, header, showServices }) {
                   <ListGroup.Item
                     key={
                       showServices
-                        ? result.servicename + result.recid + index
+                        ? result.groupvalue + result.grouplistid + index
                         : result.description + result.code + index
                     }
                     action
@@ -49,7 +49,7 @@ export function PreviewItems({ setState, state, title, header, showServices }) {
                         <div className="ps-0">
                           {
                             result[
-                              `${showServices ? "servicename" : "description"}`
+                              `${showServices ? "groupvalue" : "description"}`
                             ]
                           }
                         </div>{" "}

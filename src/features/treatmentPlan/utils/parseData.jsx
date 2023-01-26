@@ -260,10 +260,10 @@ export const parseIntervention = (intervention, patientid, objectiveid) => {
       objectiveid: intervention.objectiveid
         ? intervention.objectiveid
         : objectiveid,
-      services: intervention.services ? intervention.services : "",
+      services: intervention.services ? parseArray(intervention.services) : "",
       description: intervention.description ? intervention.description : "",
       frequency: intervention.frequency ? parseInt(intervention.frequency) : 0,
-      stafftitleid: intervention.stafftitleid ? parseInt(intervention.stafftitleid) : 0,
+      stafftitleid: intervention.stafftitleid ? parseArray(intervention.stafftitleid) : 0,
       lastupdateid: intervention.lastupdateid ? intervention.lastupdateid : 680,
     },
   ];
@@ -280,9 +280,10 @@ export const parseDefaultIntervention = (
     patientid: edit ? intervention.patientid : patientid,
     targetdate: edit ? Date.parse(intervention.targetdate) : null,
     objectiveid: edit ? intervention.objectiveid : objectiveid,
+    services: edit ? intervention.services.split(",") : [],
     description: edit ? intervention.description : "",
     frequency: edit ? intervention.frequency : 0,
-    stafftitleid: edit ? intervention.stafftitleid : 0,
+    stafftitleid: edit ? intervention.stafftitleid.split(",") : [],
     lastupdateid: edit ? intervention.lastupdateid : 680,
   };
 };
@@ -295,3 +296,6 @@ export const parseInterventions = (activeTreatmentPlan, activeObjective) =>
   activeTreatmentPlan.interventions.filter(
     (int, i) => int.objectiveid === activeObjective.objectiveid
   );
+const parseArray = (services) => {
+  return services.map((element) => element.value).toString();
+}

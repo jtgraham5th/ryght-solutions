@@ -1,10 +1,10 @@
-import { Form, ListGroup, Card } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useClient } from "../../context/ClientContext";
 import { useState } from "react";
 import isStringNumber from "../../utils/isStringNumber";
-import { getFormValue } from "../../features/clientDetails/utils/formatData";
+import Select from "react-select";
 
 export function DateField(props) {
   const { control, labelName, fieldName, labelStyle, fieldStyle, ...other } =
@@ -45,7 +45,7 @@ export function SelectField(props) {
   } = props;
   const { formData } = useClient();
 
-  const [detail, setDetail] = useState(
+  const [detail] = useState(
     itemDetail && Array.isArray(itemDetail)
       ? itemDetail
       : ["grouplistid", "groupvalue"]
@@ -54,7 +54,7 @@ export function SelectField(props) {
     if (listData) {
       const filterOptions = listData.filter((listItem) => {
         return formData[groupName].some((formItem) => {
-          return formItem.groupvalue === listItem.servicename;
+          return formItem.groupvalue === listItem.groupvalue;
         });
       });
       return filterOptions;
@@ -81,6 +81,84 @@ export function SelectField(props) {
           );
         })}
       </Form.Select>
+    </>
+  );
+}
+export function MultiSelectField(props) {
+  const {
+    control,
+    labelName,
+    fieldName,
+    groupName,
+    listData,
+    listDataProps,
+    labelStyle,
+    fieldStyle,
+    ...other
+  } = props;
+  const { formData } = useClient();
+
+  const renderOptions = () => {
+    if (listData && listDataProps) {
+      return listData.map((item) => {
+        return {
+          label: item[listDataProps[0]],
+          value: item[listDataProps[1]],
+        };
+      });
+    } else if (groupName)
+      return formData[groupName].map((item) => {
+        return {
+          label: item.groupvalue,
+          value: item.grouplistid,
+        };
+      });
+    return [];
+  };
+
+  const convertValues = (options, values) => {
+    if (options && values && values.length > 0) {
+      if (
+        typeof values[0] === "object" &&
+        !Array.isArray(values[0]) &&
+        values[0] !== null
+      )
+        return values;
+      return options.filter((option) => {
+        return values.some((item) => Number(option.value) === Number(item));
+      });
+    }
+    return [];
+  };
+  return (
+    <>
+      {labelName ? (
+        <Form.Label className={`fs-6 ${labelStyle}`}>{labelName}</Form.Label>
+      ) : null}
+      <Controller
+        control={control}
+        name={fieldName}
+        // defaultValue={}
+        render={({ field: { onChange, onBlur, value, name, ref } }) => {
+          value = convertValues(renderOptions(), value);
+          return (
+            <Select
+              defaultValue={convertValues(renderOptions(), value)}
+              isMulti
+              options={renderOptions()}
+              className={`${fieldStyle}`}
+              classNamePrefix="select"
+              closeMenuOnSelect={false}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              name={name}
+              ref={ref}
+              {...other}
+            />
+          );
+        }}
+      />
     </>
   );
 }

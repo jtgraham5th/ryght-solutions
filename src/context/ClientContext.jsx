@@ -356,8 +356,8 @@ export function ClientProvider(props) {
       activeClient[22].servicecodes.length > 0
     ) {
       const clientCodes = activeClient[22].servicecodes.split(",");
-      const filteredArray = serviceGroups.filter((service) => {
-        return clientCodes.includes(service.recid.toString());
+      const filteredArray = formData["Services"].filter((service) => {
+        return clientCodes.includes(service.grouplistid.toString());
       });
       return filteredArray;
     }

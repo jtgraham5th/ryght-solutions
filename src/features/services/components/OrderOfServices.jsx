@@ -36,23 +36,23 @@ export function OrderOfService({ register, control, setValue, formState }) {
       if (item)
         setConvertedValues((prevState) => ({
           ...prevState,
-          [recid]: item.servicename,
+          [recid]: item.groupvalue,
         }));
     });
   };
-  const setServiceValue = (e, recid) => {
+  const setServiceValue = (e, grouplistid) => {
     e.target.value = e.target.value.toUpperCase();
     if (e.target.value.length === 2) {
-      setServiceids((prevState) => [...prevState, recid]);
+      setServiceids((prevState) => [...prevState, grouplistid]);
     } else if (e.target.value.length < 1) {
-      const filteredids = serviceids.filter((id) => id !== recid);
+      const filteredids = serviceids.filter((id) => id !== grouplistid);
       if (filteredids.length !== serviceids.length) {
         setServiceids([...filteredids]);
       }
     }
   };
-  const checkidexists = (recid) => {
-    return serviceids.includes(recid);
+  const checkidexists = (grouplistid) => {
+    return serviceids.includes(grouplistid);
   };
   useEffect(() => {
     setValue("f7", serviceids.toString());
@@ -151,20 +151,20 @@ export function OrderOfService({ register, control, setValue, formState }) {
           <Row>
             {selectedServices.map((item, i) => {
               return (
-                <Col md={6} key={item.recid + i}>
+                <Col md={6} key={item.grouplistid + i}>
                   <Row className="mb-2">
                     <Col md={2}>
                       <Form.Control
                         className="text-center"
                         type="text"
                         name="f7"
-                        onChange={(e) => setServiceValue(e, item.recid)}
+                        onChange={(e) => setServiceValue(e, item.grouplistid)}
                       />
                     </Col>
                     <Col
                       md={3}
                       className={`border d-flex justify-content-center align-items-center ${
-                        checkidexists(item.recid) ? "fw-bold text-primary" : ""
+                        checkidexists(item.grouplistid) ? "fw-bold text-primary" : ""
                       }`}
                     >
                       {formatDateToday()}
@@ -172,10 +172,10 @@ export function OrderOfService({ register, control, setValue, formState }) {
                     <Col
                       md={7}
                       className={
-                        checkidexists(item.recid) ? "fw-bold text-primary" : ""
+                        checkidexists(item.grouplistid) ? "fw-bold text-primary" : ""
                       }
                     >
-                      {item.servicename}
+                      {item.groupvalue}
                     </Col>
                   </Row>
                 </Col>

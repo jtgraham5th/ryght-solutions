@@ -176,7 +176,10 @@ export const parseDefaultProgressNote = (pNote) => {
 };
 export const parseServices = (services, serviceCodes, serviceArray) => {
   services.forEach((service) => {
-    const foundService = serviceCodes.find((item) => item.code === service);
+    const foundService = serviceCodes.find((item) => {
+      console.log(item.code, service);
+      return item.code === service;
+    });
     if (foundService) {
       serviceArray.push(foundService);
     }
@@ -200,15 +203,19 @@ export const parseGOI = (
   const findGoal = activeTreatmentPlan.goals.find(
     (goal) => goal.description === pnGoal
   );
-  const objectives = findGoal ? activeTreatmentPlan.objectives.filter(
-    (obj, i) => obj.goalid === findGoal.goalid
-  ) : [];
+  const objectives = findGoal
+    ? activeTreatmentPlan.objectives.filter(
+        (obj, i) => obj.goalid === findGoal.goalid
+      )
+    : [];
   const findObjective = objectives.find(
     (objective) => objective.description === pnObjective
   );
-  const interventions = findObjective ? activeTreatmentPlan.interventions.filter(
-    (int, i) => int.objectiveid === findObjective.objectiveid
-  ) : [];
+  const interventions = findObjective
+    ? activeTreatmentPlan.interventions.filter(
+        (int, i) => int.objectiveid === findObjective.objectiveid
+      )
+    : [];
   const findIntervention = interventions.find(
     (intervention) => intervention.description === pnIntervention
   );

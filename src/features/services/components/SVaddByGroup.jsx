@@ -19,8 +19,8 @@ export function SVaddByGroup({ selectedGroup, setSelectedGroup }) {
           <option value={0}>All Services</option>
           {services.map((item, i) => {
             return (
-              <option key={i} value={item.recid}>
-                {item.servicename}
+              <option key={i} value={item.grouplistid}>
+                {item.groupvalue}
               </option>
             );
           })}

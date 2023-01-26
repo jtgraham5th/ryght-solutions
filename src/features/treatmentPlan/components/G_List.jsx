@@ -11,6 +11,7 @@ import { getFormValue } from "../../clientDetails/utils/formatData";
 export function GoalList() {
   const [show, setShow] = useState(false);
   const { activeTreatmentPlan, formData } = useClient();
+  // const [formValue, setFormValue] = useState({frequency: "", services: "", staff: ""});
 
   return (
     <Card className="h-100 mb-3 border-0">
@@ -59,18 +60,6 @@ export function GoalList() {
                         <Card.Text>{goal.dateclosed}</Card.Text>
                       </Col>
                     </Row>
-                    {/* <Row className="mb-3">
-                      <Col md={6}>
-                        <h6 className="fw-lighter">Goal Frequency</h6>
-                        <Card.Text>{goal.goalFrequency}</Card.Text>
-                      </Col>
-                      <Col md={6}>
-                        <h6 className="fw-lighter">Measurement Number</h6>
-                        <Card.Text>
-                          {goal.measurement.number} {goal.measurement.unit}
-                        </Card.Text>
-                      </Col>
-                    </Row> */}
                   </Col>
                   <Col md={8}>
                     {parseObjectives(activeTreatmentPlan, goal).length > 0 ? (
@@ -109,10 +98,9 @@ export function GoalList() {
                                           {intervention.description}
                                         </Card.Subtitle>
                                         <h6 className="fw-lighter fst-italic">
-                                          {intervention.services}
                                           {getFormValue(
                                             "Services",
-                                            intervention,
+                                            intervention.services.split(","),
                                             formData
                                           )}
                                         </h6>
@@ -124,7 +112,7 @@ export function GoalList() {
                                         <Card.Text>
                                           {getFormValue(
                                             "Frequency",
-                                            intervention,
+                                            [intervention.frequency],
                                             formData
                                           )}
                                         </Card.Text>
@@ -134,7 +122,9 @@ export function GoalList() {
                                         <Card.Text>
                                           {getFormValue(
                                             "Staff Title",
-                                            intervention.stafftitleid,
+                                            intervention.stafftitleid.split(
+                                              ","
+                                            ),
                                             formData
                                           )}
                                         </Card.Text>

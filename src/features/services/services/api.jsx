@@ -10,9 +10,9 @@ export const getAllServiceCodes = async () => {
       console.log(e);
     });
 };
-export const getServiceCodesWithId = async (serviceid) => {
+export const getServiceCodesWithId = async (grouplistid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/29?listing=serviceid=${serviceid}&orderby=description`
+    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/29?listing=grouplistid=${grouplistid}&orderby=description`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -29,6 +29,18 @@ export const getAllServiceGroups = async () => {
     .then((response) => response.json())
     .then((data) => {
       return data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const getServiceGroup = async (recid) => {
+  return await fetch(
+    `http://www.ivronlogs.icu:8080/rs1/generic_api/${recid}?tid=28`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0];
     })
     .catch((e) => {
       console.log(e);

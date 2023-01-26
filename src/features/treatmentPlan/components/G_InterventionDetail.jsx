@@ -9,18 +9,16 @@ import {
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Pencil } from "react-bootstrap-icons";
-import DatePicker from "react-datepicker";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import "./G_Manager.css";
 import { useClient } from "../../../context/ClientContext";
 import { parseIntervention } from "../utils/parseData";
-import { SelectField } from "../../../components/form/fieldCreator";
+import { MultiSelectField, SelectField } from "../../../components/form/fieldCreator";
 
 export function InterventionDetail({
   intervention,
   focus,
   setFocus,
-  setAlert,
   objectiveid,
 }) {
   const {
@@ -153,16 +151,15 @@ export function InterventionDetail({
               </ListGroup.Item>
             </Collapse>
 
-            <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
-              
-              <SelectField
-                register={register}
+            <ListGroupItem className="d-flex flex-column justify-content-between small p-1 ps-3 pe-3">
+              <MultiSelectField
+                control={control}
                 labelName="Assigned Staff"
                 groupName="Staff Title"
                 fieldName="stafftitleid"
-                labelStyle="w-50 m-0 pe-1 small"
-                disabled={!intervention ? true : false}
-              />
+                labelStyle="pe-1 small"
+                isDisabled={!intervention || !editIntervention ? true : false}
+              /> 
             </ListGroupItem>
             <ListGroupItem className="d-flex justify-content-center align-items-center small p-1 ps-3 pe-3">
               <SelectField
@@ -171,20 +168,19 @@ export function InterventionDetail({
                 groupName="Frequency"
                 fieldName="frequency"
                 labelStyle="w-50 m-0 pe-1 small"
-                disabled={!intervention ? true : false}
+                disabled={!intervention || !editIntervention ? true : false}
               />
             </ListGroupItem>
-            <ListGroupItem className="d-flex justify-content-center align-items-center small p-1 ps-3 pe-3">
-              <SelectField
-                register={register}
+            <ListGroupItem className="d-flex flex-column justify-content-center small p-1 ps-3 pe-3">
+              <MultiSelectField
+                control={control}
                 labelName="Services"
-                groupName="Services"
                 fieldName="services"
                 listData={selectedServices}
-                itemDetail={["servicename", "servicename"]}
-                labelStyle="w-50 m-0 pe-1 small"
-                disabled={!intervention ? true : false}
-              />
+                listDataProps={["groupvalue", "grouplistid"]}
+                labelStyle="pe-1 small"
+                isDisabled={!intervention || !editIntervention ? true : false}
+              /> 
             </ListGroupItem>
           </ListGroup>
         </Form.Group>
