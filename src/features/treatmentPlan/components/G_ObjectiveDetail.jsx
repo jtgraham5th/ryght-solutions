@@ -19,7 +19,6 @@ export function ObjectiveDetail({
   objective,
   focus,
   setFocus,
-  setAlert,
   goalid,
 }) {
   const [editObjective, setEditObjective] = useState(false);

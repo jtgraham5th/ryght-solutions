@@ -17,7 +17,6 @@ export const getFormValue = (groupName, activeListId, formData) => {
   const formDataArray = formData[groupName];
 
   if (activeListId && typeof activeListId === "object") {
-    console.log(activeListId, groupName);
     let idValues = [];
     activeListId.forEach((activeId) => {
       const data = formDataArray.find((item) => {
@@ -30,11 +29,9 @@ export const getFormValue = (groupName, activeListId, formData) => {
         return parseInt(item.grouplistid) === parseInt(activeId);
       });
       if (data) {
-        console.log(data.groupvalue);
         idValues.push(data.groupvalue);
       }
     });
-    console.log(idValues.join(", "));
     return idValues.join(", ");
   } else if (Object.keys(formData).length > 0 && activeListId) {
     const data = formDataArray.find((item) => {

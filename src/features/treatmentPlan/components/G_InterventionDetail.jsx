@@ -36,9 +36,9 @@ export function InterventionDetail({
   useEffect(() => {
     if (!intervention) {
       const blankIntervention = parseIntervention(
+        intervention,
         patientid,
         objectiveid,
-        intervention
       );
       reset({ ...blankIntervention[0] });
       // eslint-disable-next-line
@@ -47,6 +47,13 @@ export function InterventionDetail({
 
   useEffect(() => {
     if (focus.editing === "new-intervention") {
+      const blankIntervention = parseIntervention(
+        intervention,
+        patientid,
+        objectiveid,
+      );
+      console.log(blankIntervention)
+      reset({ ...blankIntervention[0] });
       setEditIntervention(true);
     }
   }, [focus.editing]);

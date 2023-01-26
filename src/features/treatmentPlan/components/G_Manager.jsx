@@ -95,7 +95,7 @@ export function GoalsManager({ data }) {
       objectives: false,
       goals: false,
       interventions: true,
-      editing: "",
+      editing: "new-intervention",
     });
   };
 
@@ -164,9 +164,9 @@ export function GoalsManager({ data }) {
               <Button
                 size="sm"
                 onClick={newObjective}
-                disabled={cardFocus.editing || !cardFocus.goals ? true : false}
+                disabled={cardFocus.editing || (!cardFocus.goals && !cardFocus.objectives) ? true : false}
                 variant={
-                  cardFocus.editing || !cardFocus.goals
+                  cardFocus.editing || (!cardFocus.goals && !cardFocus.objectives)
                     ? "outline-secondary"
                     : "outline-success"
                 }
@@ -207,13 +207,13 @@ export function GoalsManager({ data }) {
                 onClick={newIntervention}
                 disabled={
                   cardFocus.editing ||
-                  !cardFocus.objectives &&
-                  !cardFocus.interventions
+                  (!cardFocus.objectives &&
+                  !cardFocus.interventions)
                 }
                 variant={
                   cardFocus.editing ||
-                  !cardFocus.objectives &&
-                  !cardFocus.interventions
+                  (!cardFocus.objectives &&
+                  !cardFocus.interventions)
                     ? "outline-secondary"
                     : "outline-success"
                 }
