@@ -13,10 +13,11 @@ import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
 import "./G_Manager.css";
 import { useClient } from "../../../context/ClientContext";
-import { parseObjective } from "../utils/parseData";
+import { parseObjective, parseDefaultObjective } from "../utils/parseData";
 
 export function ObjectiveDetail({
   objective,
+  setObjective,
   focus,
   setFocus,
   goalid,
@@ -49,11 +50,17 @@ export function ObjectiveDetail({
     console.log(newObjective);
     if (focus.editing === "new-objective") {
       console.log("new objective");
-      addClientObjective(newObjective);
+      addClientObjective(newObjective).then((data) => {
+        setObjective(parseDefaultObjective(true, patientid, goalid, data));
+      });
     } else if (editObjective) {
       console.log("updated objective");
       updateClientObjective(newObjective);
     }
+    setFocus({
+      ...focus,
+      objectives: false,
+    });
     exitEdit();
   };
 

@@ -51,7 +51,6 @@ export function PNViewNote({ data }) {
           <h3>Progress Note</h3>
         </Col>
         <Col className="text-end" md={3}>
-          RCM CMOs
           <br /> 1518 Airport Road
           <br /> Hinesville, GA
           <br /> 31313-9439

@@ -36,6 +36,10 @@ export function GoalsManager({ data }) {
     editing: false,
   });
 
+  useEffect(() => {
+
+  }, [activeTreatmentPlan])
+
   const goalSelect = (goal) => {
     setCardFocus({
       ...cardFocus,
@@ -262,12 +266,14 @@ export function GoalsManager({ data }) {
       <Row className="d-flex justify-content-evenly align-items-start ">
         <GoalDetail
           goal={activeGoal}
+          setGoal={setActiveGoal}
           focus={cardFocus}
           setFocus={setCardFocus}
           setAlert={setAlert}
         />
         <ObjectiveDetail
           objective={activeObjective}
+          setObjective={setActiveObjective}
           focus={cardFocus}
           setFocus={setCardFocus}
           setAlert={setAlert}
@@ -275,6 +281,7 @@ export function GoalsManager({ data }) {
         />
         <InterventionDetail
           intervention={activeIntervention}
+          setIntervention={setActiveIntervention}
           focus={cardFocus}
           setFocus={setCardFocus}
           setAlert={setAlert}

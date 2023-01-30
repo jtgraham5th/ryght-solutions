@@ -350,6 +350,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
         }
         getDocument();
       }
+      reset({ ...defaultValues });
     }
     // eslint-disable-next-line
   }, [activeClient, activeContacts]);

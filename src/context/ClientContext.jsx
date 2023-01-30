@@ -317,26 +317,40 @@ export function ClientProvider(props) {
     await addNewDocument(tPlan).then(() => getClientTreatmentPlan());
   };
   const addClientGoal = async (newGoal) => {
-    await addNewGoal(newGoal).then(() => getClientTreatmentPlan());
+    return await addNewGoal(newGoal).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
   };
   const updateClientGoal = async (updatedGoal) => {
-    await updateGoal(updatedGoal).then(() => getClientTreatmentPlan());
+    return await updateGoal(updatedGoal).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
   };
   const addClientObjective = async (newGoal) => {
-    await addNewObjective(newGoal).then(() => getClientTreatmentPlan());
+    return await addNewObjective(newGoal).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
   };
   const updateClientObjective = async (updatedGoal) => {
-    await updateObjective(updatedGoal).then(() => getClientTreatmentPlan());
+    return await updateObjective(updatedGoal).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
   };
   const addClientIntervention = async (newIntervention) => {
-    await addNewIntervention(newIntervention).then(() =>
-      getClientTreatmentPlan()
-    );
+    return await addNewIntervention(newIntervention).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
   };
   const updateClientIntervention = async (updatedIntervention) => {
-    await updateIntervention(updatedIntervention).then(() =>
-      getClientTreatmentPlan()
-    );
+    return await updateIntervention(updatedIntervention).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
   };
   const getDXCodes = async () => {
     let data = await getAllDXCodes();

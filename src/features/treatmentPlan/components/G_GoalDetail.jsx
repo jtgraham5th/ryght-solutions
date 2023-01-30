@@ -14,9 +14,9 @@ import DatePicker from "react-datepicker";
 import { useForm, Controller } from "react-hook-form";
 import { useClient } from "../../../context/ClientContext";
 import "./G_Manager.css";
-import { parseGoal } from "../utils/parseData";
+import { parseDefaultGoal, parseGoal } from "../utils/parseData";
 
-export function GoalDetail({ goal, focus, setFocus, setAlert }) {
+export function GoalDetail({ goal, setGoal, focus, setFocus, setAlert }) {
   const [editGoal, setEditGoal] = useState(false);
   const { activeClient, updateClientGoal, addClientGoal } = useClient();
   const { patientid } = activeClient[20];
@@ -39,7 +39,9 @@ export function GoalDetail({ goal, focus, setFocus, setAlert }) {
     console.log(newGoal);
     if (focus.editing === "new-goal") {
       console.log("new goal");
-      addClientGoal(newGoal);
+      addClientGoal(newGoal).then((data) => {
+        setGoal(parseDefaultGoal(true, patientid, data));
+      });
     } else if (editGoal) {
       console.log("updated goal");
       updateClientGoal(newGoal);

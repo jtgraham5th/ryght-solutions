@@ -12,11 +12,12 @@ import { Pencil } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
 import "./G_Manager.css";
 import { useClient } from "../../../context/ClientContext";
-import { parseIntervention } from "../utils/parseData";
+import { parseDefaultIntervention, parseIntervention } from "../utils/parseData";
 import { MultiSelectField, SelectField } from "../../../components/form/fieldCreator";
 
 export function InterventionDetail({
   intervention,
+  setIntervention,
   focus,
   setFocus,
   objectiveid,
@@ -67,7 +68,9 @@ export function InterventionDetail({
     console.log(newIntervention);
     if (focus.editing === "new-intervention") {
       console.log("new intervention");
-      addClientIntervention(newIntervention);
+      addClientIntervention(newIntervention).then((data) => {
+        setIntervention(parseDefaultIntervention(true, patientid, objectiveid, data));
+      });
     } else if (editIntervention) {
       console.log("updated intervention");
       updateClientIntervention(newIntervention);
