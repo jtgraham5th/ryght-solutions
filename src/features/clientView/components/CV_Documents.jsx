@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Form, Row, Col, Card, Button } from "react-bootstrap";
-import { ViewerFooter } from "../../../components/ViewerFooter";
 import { ViewerHeader } from "../../../components/ViewerHeader";
-import { PNList, PNManager, PNNewNote, PNViewNote } from "../../progressNotes";
-export function CVProgressNotes() {
+import { RQList, RQManager, RQNewDoc, RQViewer } from "../../requirements";
+import { ViewerFooter } from "../../../components/ViewerFooter";
+
+export function CVDocuments() {
   const [show, setShow] = useState(false);
   const [activeNote, setActiveNote] = useState(false);
   const [activePage, setActivePage] = useState(0);
@@ -11,15 +12,17 @@ export function CVProgressNotes() {
 
   return (
     <>
-      <Row className="mb-3">
-        <Col md={3}>
-          <PNList activeNote={activeNote} setActiveNote={setActiveNote} />
+      <Row className="mb-3" >
+        <Col md={3} className="pe-0">
+          <RQList activeForm={activeNote} setActiveForm={setActiveNote} />
         </Col>
-        <Col md={9}>
-          <Card className="h-100">
-            <ViewerHeader edit={handleShow} disabled={!activeNote} />
-            <Card.Body className="overflow-auto" style={{ height: "28rem" }}>
-              {activeNote ? <PNViewNote data={activeNote} /> : null}
+        <Col md={9} >
+          <Card style={{ height: "40rem" }}>
+            <ViewerHeader/>
+            <Card.Body className="overflow-auto">
+              {activeNote ? (
+                <RQViewer data={activeNote} activePage={activePage} />
+              ) : null}
             </Card.Body>
             {activeNote ? (
               <ViewerFooter
@@ -29,13 +32,13 @@ export function CVProgressNotes() {
             ) : null}
           </Card>
         </Col>
-        <PNManager
+        {/* <PNManager
           show={show}
           setShow={setShow}
           containerName="B.I.R.P. Progress Note Form"
           data={activeNote}
           edit
-        />
+        /> */}
       </Row>
     </>
   );

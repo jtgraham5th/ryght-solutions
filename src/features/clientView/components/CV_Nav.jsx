@@ -59,24 +59,24 @@ export function CVNav() {
       <Nav.Item>
         <Nav.Link
           as={Link}
-          href="#program_info"
+          href="#documents"
           className="nav-link"
-          to="program-info"
-          eventkey="program-info"
+          to="documents"
+          eventkey="documents"
         >
           <FileText />
-          Program Information
+          Documents
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
           as={Link}
-          href="#pharmacy"
+          href="#authorizations"
           className="nav-link"
-          to="pharmacy"
-          eventkey="pharmacy"
+          to="authorizations"
+          eventkey="authorizations"
         >
-          Pharmacy
+          Authorizations
         </Nav.Link>
       </Nav.Item>
     </Nav>

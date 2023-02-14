@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { Row, Col, Form, Button, Accordion } from "react-bootstrap";
+import { Row, Col, Form, Accordion } from "react-bootstrap";
 import "./CE_Manager.css";
-import DatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
 import { ClipboardHeartFill } from "react-bootstrap-icons";
 import { useClient } from "../../../context/ClientContext";
 import { FormAddContainer } from "../../../components/form/Form_AddContainer";
 import { FormFamilyPhysician } from "../../../components/form/Form_FamilyPhysician";
 import { FormInsuranceProvider } from "../../../components/form/Form_InsuranceProvider";
 import { FormPharmacy } from "../../../components/form/Form_Pharmacy";
+import {
+  DateField,
+  FormLabelButtons,
+  SelectField,
+  TextField,
+} from "../../../components/form/fieldCreator";
 
 export function CE2({ register, control, setValue, formState }) {
   const [addNew, setAddNew] = useState({
@@ -37,7 +41,7 @@ export function CE2({ register, control, setValue, formState }) {
       ...prevState,
       sectionTitle: "",
       pharmacy: false,
-      familyPhysician: false,  
+      familyPhysician: false,
       activeForm: () => {},
     }));
   };
@@ -64,23 +68,24 @@ export function CE2({ register, control, setValue, formState }) {
       <Form.Group as={Row} className="mb-4">
         <h5>Employement Details</h5>
         <Col md={6}>
-          <Form.Label className="CE-form-label">Employer</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("employer", { maxLength: 40 })}
-            type="text"
-            name="employer"
+          <TextField
+            register={register}
+            labelName="Employer"
+            fieldName="employer"
+            fieldOptions={{ maxLength: 40 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.employer && !errors.employer}
             isInvalid={errors.employer}
           />
         </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label">Phone Number</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("employerphone", { maxLength: 15 })}
-            type="number"
-            name="employerphone"
+          <TextField
+            register={register}
+            labelName="Phone Number"
+            fieldName="employerphone"
+            fieldType="number"
+            fieldOptions={{ maxLength: 15 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.employerphone && !errors.employerphone}
             isInvalid={errors.employerphone}
           />
@@ -89,37 +94,38 @@ export function CE2({ register, control, setValue, formState }) {
       <Form.Group as={Row} className="mb-3">
         <h5>Medical Information</h5>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Height</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("height", {
+          <TextField
+            register={register}
+            labelName="Height"
+            fieldName="height"
+            fieldOptions={{
               pattern: /^\d{1}'\d{1,2}$/,
               maxLength: 4,
-            })}
-            type="text"
-            name="height"
+            }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.height && !errors.height}
             isInvalid={errors.height}
           />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Weight</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("weight", { maxLength: 3 })}
-            type="number"
-            name="weight"
+          <TextField
+            register={register}
+            labelName="Weight"
+            fieldName="weight"
+            fieldType="number"
+            fieldOptions={{ maxLength: 3 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.weight && !errors.weight}
             isInvalid={errors.weight}
           />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Allergies</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("allergies", { maxLength: 40 })}
-            type="text"
-            name="allergies"
+          <TextField
+            register={register}
+            labelName="Allergies"
+            fieldName="allergies"
+            fieldOptions={{ maxLength: 40 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.allergies && !errors.allergies}
             isInvalid={errors.allergies}
           />
@@ -129,113 +135,43 @@ export function CE2({ register, control, setValue, formState }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">
             Family Physician
-            <div className="CE-form-label-button-container">
-              {addNew.familyPhysician ? (
-                <>
-                  <Button
-                    className="CE-form-label-button me-2"
-                    name="familyPhysician"
-                    variant="outline-success"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    className="CE-form-label-button"
-                    name="familyPhysician"
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={closeItem}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  size="sm"
-                  variant="outline-primary"
-                  name="familyPhysician"
-                  className="CE-form-label-button"
-                  onClick={addItem}
-                >
-                  new
-                </Button>
-              )}
-            </div>
+            <FormLabelButtons
+              toggle={addNew.familyPhysician}
+              name="familyPhysician"
+              closeItem={closeItem}
+              addItem={addItem}
+              // disabled
+            />
           </Form.Label>
-          <Form.Select
-            {...register("physicianid")}
-            name="physicianid"
-            aria-label="Select Family Physician"
+          <SelectField
+            register={register}
+            fieldName="physicianid"
+            groupName="Physician"
+            labelStyle="CE-form-label"
             isValid={touchedFields.physicianid && !errors.physicianid}
             isInvalid={errors.physicianid}
-          >
-            {formData["Physician"] &&
-              formData["Physician"].map((item, i) => {
-                return (
-                  <option key={i} value={item.contactid}>
-                    {item.name}
-                  </option>
-                );
-              })}
-          </Form.Select>
+          />
         </Col>
-
         <Col md={4}>
           <Form.Label className="CE-form-label">
             Pharmacy
-            <div className="CE-form-label-button-container">
-              {addNew.pharmacy ? (
-                <>
-                  <Button
-                    className="CE-form-label-button me-2"
-                    name="pharmacy"
-                    variant="outline-success"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    className="CE-form-label-button"
-                    name="pharmacy"
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={closeItem}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  size="sm"
-                  variant="outline-primary"
-                  name="pharmacy"
-                  className="CE-form-label-button"
-                  onClick={addItem}
-                >
-                  new
-                </Button>
-              )}
-            </div>
+            <FormLabelButtons
+              toggle={addNew.pharmacy}
+              name="pharmacy"
+              closeItem={closeItem}
+              addItem={addItem}
+            />
           </Form.Label>
-          <Form.Select
-            {...register("pharmacyproviderid")}
-            name="pharmacyproviderid"
-            aria-label="Select Pharmacy Provider"
+          <SelectField
+            register={register}
+            fieldName="pharmacyproviderid"
+            groupName="Pharmacy"
+            labelStyle="CE-form-label"
             isValid={
               touchedFields.pharmacyproviderid && !errors.pharmacyproviderid
             }
             isInvalid={errors.pharmacyproviderid}
-          >
-            {formData["Pharmacy"] &&
-              formData["Pharmacy"].map((item, i) => {
-                return (
-                  <option key={i} value={item.contactid}>
-                    {item.name}
-                  </option>
-                );
-              })}
-          </Form.Select>
+          />
         </Col>
       </Form.Group>
       <FormAddContainer
@@ -254,67 +190,31 @@ export function CE2({ register, control, setValue, formState }) {
         <Col md={5}>
           <Form.Label className="CE-form-label">
             Funding Source
-            <div className="CE-form-label-button-container">
-              {addNew.insuranceProvider ? (
-                <>
-                  <Button
-                    className="CE-form-label-button me-2"
-                    name="insuranceProvider"
-                    type="submit"
-                    variant="outline-success"
-                    size="sm"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    className="CE-form-label-button"
-                    name="insuranceProvider"
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={closeItem}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  disabled
-                  size="sm"
-                  variant="outline-primary"
-                  name="insuranceProvider"
-                  className="CE-form-label-button"
-                  onClick={addItem}
-                >
-                  new
-                </Button>
-              )}
-            </div>
+            <FormLabelButtons
+              toggle={addNew.insuranceProvider}
+              name="insuranceProvider"
+              closeItem={closeItem}
+              addItem={addItem}
+            />
           </Form.Label>
-          <Form.Select
-            {...register("ins1_fundingsource")}
-            name="ins1_fundingsource"
-            aria-label="Select Funding Source"
+          <SelectField
+            register={register}
+            fieldName="ins1_fundingsource"
+            groupName="Funding Source "
+            labelStyle="CE-form-label"
             isValid={
               touchedFields.ins1_fundingsource && !errors.ins1_fundingsource
             }
             isInvalid={errors.ins1_fundingsource}
-          >
-            {formData["Funding Source "].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
         <Col md={5}>
-          <Form.Label className="CE-form-label">Policy Number</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("ins1_policynumber")}
-            type="text"
-            name="ins1_policynumber"
+          <TextField
+            register={register}
+            labelName="Policy Number"
+            fieldName="ins1_policynumber"
+            fieldOptions={{ maxLength: 9 }}
+            labelStyle="CE-form-label"
             isValid={
               touchedFields.ins1_policynumber && !errors.ins1_policynumber
             }
@@ -322,17 +222,12 @@ export function CE2({ register, control, setValue, formState }) {
           />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Date Expires</Form.Label>
-          <Controller
+          <DateField
             control={control}
-            name="ins1_dateexpires"
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker rounded"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
-              />
-            )}
+            labelName="Date Expires"
+            fieldName="ins1_dateexpires"
+            labelStyle="CE-form-label"
+            fieldStyle="rounded"
           />
         </Col>
       </Form.Group>
@@ -347,22 +242,6 @@ export function CE2({ register, control, setValue, formState }) {
         newForm={addNew.activeForm}
       />
       <Form.Group as={Row} className="mb-4">
-        {/* <Col md={4}>
-          <Form.Label className="CE-form-label">Relationship</Form.Label>
-          <Form.Select
-            {...register("ins1_relationshipid")}
-            name="ins1_relationshipid"
-            aria-label="Select Funding Source"
-          >
-            {formData["Relationship"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
-        </Col> */}
         <Col md={4} className="mt-4">
           <Form.Check
             {...register("ins1_cardavailableid")}
@@ -388,68 +267,32 @@ export function CE2({ register, control, setValue, formState }) {
               <Col md={5}>
                 <Form.Label className="CE-form-label">
                   Funding Source
-                  <div className="CE-form-label-button-container">
-                    {addNew.insuranceProvider ? (
-                      <>
-                        <Button
-                          className="CE-form-label-button me-2"
-                          name="insuranceProvider"
-                          type="submit"
-                          variant="outline-success"
-                          size="sm"
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          className="CE-form-label-button"
-                          name="insuranceProvider"
-                          variant="outline-secondary"
-                          size="sm"
-                          onClick={closeItem}
-                        >
-                          Cancel
-                        </Button>
-                      </>
-                    ) : (
-                      <Button
-                        disabled
-                        size="sm"
-                        variant="outline-primary"
-                        name="insuranceProvider"
-                        className="CE-form-label-button"
-                        onClick={addItem}
-                      >
-                        new
-                      </Button>
-                    )}
-                  </div>
+                  <FormLabelButtons
+                    toggle={addNew.insuranceProvider}
+                    name="insuranceProvider"
+                    closeItem={closeItem}
+                    addItem={addItem}
+                  />
                 </Form.Label>
-                <Form.Select
-                  {...register("ins2_fundingsource")}
-                  name="ins2_fundingsource"
-                  aria-label="Select Funding Source"
+                <SelectField
+                  register={register}
+                  fieldName="ins2_fundingsource"
+                  groupName="Funding Source "
+                  labelStyle="CE-form-label"
                   isValid={
                     touchedFields.ins2_fundingsource &&
                     !errors.ins2_fundingsource
                   }
                   isInvalid={errors.ins2_fundingsource}
-                >
-                  {formData["Funding Source "].map((item, i) => {
-                    return (
-                      <option key={i} value={item.grouplistid}>
-                        {item.groupvalue}
-                      </option>
-                    );
-                  })}
-                </Form.Select>
+                />
               </Col>
               <Col md={5}>
-                <Form.Label className="CE-form-label">Policy Number</Form.Label>
-                <Form.Control
-                  className="goal-detail-input"
-                  {...register("ins2_policynumber", { maxLength: 15 })}
-                  type="text"
-                  name="ins2_policynumber"
+                <TextField
+                  register={register}
+                  labelName="Policy Number"
+                  fieldName="ins2_policynumber"
+                  fieldOptions={{ maxLength: 15 }}
+                  labelStyle="CE-form-label"
                   isValid={
                     touchedFields.ins2_policynumber && !errors.ins2_policynumber
                   }
@@ -457,17 +300,12 @@ export function CE2({ register, control, setValue, formState }) {
                 />
               </Col>
               <Col md={2}>
-                <Form.Label className="CE-form-label">Date Expires</Form.Label>
-                <Controller
+                <DateField
                   control={control}
-                  name="ins2_dateexpires"
-                  render={({ field }) => (
-                    <DatePicker
-                      className="datePicker rounded"
-                      onChange={(date) => field.onChange(date)}
-                      selected={field.value}
-                    />
-                  )}
+                  labelName="Date Expires"
+                  fieldName="ins2_dateexpires"
+                  labelStyle="CE-form-label"
+                  fieldStyle="rounded"
                 />
               </Col>
             </Form.Group>
@@ -483,25 +321,18 @@ export function CE2({ register, control, setValue, formState }) {
             />
             <Form.Group as={Row} className="mb-4">
               <Col md={4}>
-                <Form.Label className="CE-form-label">Relationship</Form.Label>
-                <Form.Select
-                  {...register("ins2_relationshipid")}
-                  name="ins2_relationshipid"
-                  aria-label="Select Funding Source"
+                <SelectField
+                  register={register}
+                  labelName="Relationship"
+                  fieldName="ins2_relationshipid"
+                  groupName="Relationship"
+                  labelStyle="CE-form-label"
                   isValid={
                     touchedFields.ins2_relationshipid &&
                     !errors.ins2_relationshipid
                   }
                   isInvalid={errors.ins2_relationshipid}
-                >
-                  {formData["Relationship"].map((item, i) => {
-                    return (
-                      <option key={i} value={item.grouplistid}>
-                        {item.groupvalue}
-                      </option>
-                    );
-                  })}
-                </Form.Select>
+                />
               </Col>
               <Col md={4} className="mt-4">
                 <Form.Check

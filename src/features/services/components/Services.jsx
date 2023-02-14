@@ -11,22 +11,30 @@ export function Services({
   setSelectedServices,
   setValue,
   fieldName,
-  disablePreview,
   showActiveServices,
   showServiceCodes,
+  addServiceCodes,
+  filterBy,
+  minimal,
 }) {
   const { serviceCodes, getActiveServices, formData } = useClient();
 
   const setServices = () => {
     const activeServices = getActiveServices();
     if (showActiveServices) return activeServices;
-    if (showServiceCodes) return filterActiveServices(activeServices, serviceCodes);
-     else return formData["Services"];
+    if (filterBy && showServiceCodes)
+      return filterActiveServices(filterBy, serviceCodes);
+    if (showServiceCodes)
+      return filterActiveServices(activeServices, serviceCodes);
+    else return formData["Services"];
   };
 
   const [results, setResults] = useState(setServices());
   const [selectedGroup, setSelectedGroup] = useState(0);
 
+  useEffect(() => {
+    setResults(setServices());
+  }, [filterBy]);
   const searchServices = (e) => {
     e.preventDefault();
     let filterCodes = [];
@@ -44,13 +52,38 @@ export function Services({
       selectedServices &&
       selectedServices.some(
         (service) =>
-          service[`${showServiceCodes ? "code" : "grouplistid"}`] ===
-          code[`${showServiceCodes ? "code" : "grouplistid"}`]
+          service[
+            `${
+              showServiceCodes && filterBy
+                ? "recid"
+                : showServiceCodes
+                ? "code"
+                : "grouplistid"
+            }`
+          ] ===
+          code[
+            `${
+              showServiceCodes && filterBy
+                ? "recid"
+                : showServiceCodes
+                ? "code"
+                : "grouplistid"
+            }`
+          ]
       )
     ) {
       removeService(code);
+      if (addServiceCodes) {
+        removeServiceCodes(code);
+      }
     } else {
       setSelectedServices((prevState) => [...prevState, code]);
+      if (addServiceCodes) {
+        addServiceCodes((prevState) => ({
+          ...prevState,
+          [code.grouplistid]: filterActiveServices([code], serviceCodes, true),
+        }));
+      }
     }
   };
 
@@ -58,17 +91,51 @@ export function Services({
     setSelectedServices((prevState) =>
       prevState.filter(
         (item) =>
-          item[`${showServiceCodes ? "code" : "grouplistid"}`] !==
-          code[`${showServiceCodes ? "code" : "grouplistid"}`]
+          item[
+            `${
+              showServiceCodes && filterBy
+                ? "recid"
+                : showServiceCodes
+                ? "code"
+                : "grouplistid"
+            }`
+          ] !==
+          code[
+            `${
+              showServiceCodes && filterBy
+                ? "recid"
+                : showServiceCodes
+                ? "code"
+                : "grouplistid"
+            }`
+          ]
       )
     );
+  };
+
+  const removeServiceCodes = (code) => {
+    addServiceCodes((prevState) => {
+      if (prevState.hasOwnProperty(code.grouplistid)) {
+        const newState = { ...prevState };
+        delete newState[code.grouplistid];
+        return newState;
+      }
+    });
   };
   const updateValue = () => {
     let servicesArray = [];
     if (selectedServices) {
       selectedServices.forEach((service) => {
         servicesArray.push(
-          service[`${showServiceCodes ? "code" : "grouplistid"}`]
+          service[
+            `${
+              showServiceCodes && filterBy
+                ? "recid"
+                : showServiceCodes
+                ? "code"
+                : "grouplistid"
+            }`
+          ]
         );
       });
       setValue(fieldName, servicesArray.toString());
@@ -98,28 +165,30 @@ export function Services({
         <ListGroup>
           <ListGroup.Item
             variant="secondary"
-            className="align-items-center p-2 border-secondary"
+            className={`align-items-center p-2 border-secondary ${
+              minimal ? "d-flex" : ""
+            }`}
           >
-            <h4 className="d-flex px-2 m-0">Services</h4>
-            <Form.Text className="d-flex px-2 mb-2">
-              Select the services the client may recieve. Only those selected
-              services will be available for this client when submitting Notes,
-              Assessments and Authorizations.
-            </Form.Text>
+            <h4 className="d-flex px-2 m-0">
+              {showServiceCodes ? "Service Codes" : "Services"}
+            </h4>
+            {!minimal ? (
+              <Form.Text className="d-flex px-2 mb-2">
+                Select the services the client may recieve. Only those selected
+                services will be available for this client when submitting
+                Notes, Assessments and Authorizations.
+              </Form.Text>
+            ) : (
+              ""
+            )}
             <Row className="d-flex align-items-center">
-              <Col md={6}>
+              <Col md={!minimal ? 6 : "auto"}>
                 <Form.Control
                   className="m-1"
                   placeholder="Type to filter..."
                   onChange={searchServices}
                 />
               </Col>
-              {/* <Col md={6}>
-                <SVaddByGroup
-                  selectedGroup={selectedGroup}
-                  setSelectedGroup={setSelectedGroup}
-                />
-              </Col> */}
             </Row>
           </ListGroup.Item>
         </ListGroup>
@@ -136,9 +205,23 @@ export function Services({
                   selectedServices.some(
                     (service) =>
                       service[
-                        `${showServiceCodes ? "code" : "grouplistid"}`
+                        `${
+                          showServiceCodes && filterBy
+                            ? "recid"
+                            : showServiceCodes
+                            ? "code"
+                            : "grouplistid"
+                        }`
                       ] ===
-                      result[`${showServiceCodes ? "code" : "grouplistid"}`]
+                      result[
+                        `${
+                          showServiceCodes && filterBy
+                            ? "recid"
+                            : showServiceCodes
+                            ? "code"
+                            : "grouplistid"
+                        }`
+                      ]
                   )
                 }
                 type="button"

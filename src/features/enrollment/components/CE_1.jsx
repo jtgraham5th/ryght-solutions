@@ -5,6 +5,11 @@ import { Controller } from "react-hook-form";
 import { PersonLinesFill } from "react-bootstrap-icons";
 import { useClient } from "../../../context/ClientContext";
 import { statesList } from "../../../data/formData";
+import {
+  DateField,
+  SelectField,
+  TextField,
+} from "../../../components/form/fieldCreator";
 
 export function CE1({ register, control, formState }) {
   const { formData } = useClient();
@@ -20,47 +25,45 @@ export function CE1({ register, control, formState }) {
       <Form.Group as={Row} className="mb-2">
         <h5>Personal Information</h5>
         <Col md={3}>
-          <Form.Label className="CE-form-label">First Name *</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pfirstname", { required: true, maxLength: 40 })}
-            type="text"
-            name="pfirstname"
+          <TextField
+            register={register}
+            labelName="First Name"
+            fieldName="pfirstname"
+            fieldOptions={{ required: true, maxLength: 40 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.pfirstname && !errors.pfirstname}
             isInvalid={errors.pfirstname}
           />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Inital</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pinitial", { required: false, maxLength: 1 })}
-            type="text"
-            name="pinitial"
+          <TextField
+            register={register}
+            labelName="Initial"
+            fieldName="pinitial"
+            fieldOptions={{ required: false, maxLength: 1 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.pinitial && !errors.pinitial}
             isInvalid={errors.pinitial}
           />
         </Col>
         <Col md={3}>
-          <Form.Label className="CE-form-label">Last Name *</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("plastname", { required: true, maxLength: 40 })}
-            type="text"
-            name="plastname"
+          <TextField
+            register={register}
+            labelName="Last Name"
+            fieldName="plastname"
+            fieldOptions={{ required: true, maxLength: 40 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.plastname && !errors.plastname}
             isInvalid={errors.plastname}
           />
         </Col>
         <Col md={3}>
-          <Form.Label className="CE-form-label">
-            Preferred Name <small>(optional)</small>
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("preferredname", { maxLength: 40 })}
-            type="text"
-            name="preferredname"
+          <TextField
+            register={register}
+            labelName="Preferred Name"
+            fieldName="preferredname"
+            fieldOptions={{ maxLength: 40 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.preferredname && !errors.preferredname}
             isInvalid={errors.preferredname}
           />
@@ -102,28 +105,22 @@ export function CE1({ register, control, formState }) {
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
         <Col md={6}>
-          <Form.Label className="CE-form-label">Date of Birth</Form.Label>
-          <Controller
+          <DateField
             control={control}
-            name="dob"
-            render={({ field }) => (
-              <DatePicker
-                className="datePicker rounded"
-                onChange={(date) => field.onChange(date)}
-                selected={field.value}
-              />
-            )}
+            labelName="Date of Birth"
+            fieldName="dob"
+            labelStyle="CE-form-label"
+            fieldStyle="rounded"
           />
         </Col>
         <Col md={6}>
-          <Form.Label className="CE-form-label">
-            Social Security # *<small>(optional)</small>
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("socsec", { maxLength: 9 })}
-            type="password"
-            name="socsec"
+          <TextField
+            register={register}
+            labelName="Social Security #"
+            fieldName="socsec"
+            fieldType="password"
+            fieldOptions={{ maxLength: 9 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.socsec && !errors.socsec}
             isInvalid={errors.socsec}
           />
@@ -131,173 +128,115 @@ export function CE1({ register, control, formState }) {
       </Form.Group>
       <Form.Group as={Row}>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Sex at birth *</Form.Label>
-          <Form.Select
-            {...register("sexatbirthid", {
-              required: true,
-              valueAsNumber: true,
-              maxLength: 2,
-            })}
-            name="sexatbirthid"
-            aria-label="Select Sex"
+          <SelectField
+            register={register}
+            labelName="Sex at birth"
+            fieldName="sexatbirthid"
+            groupName="Sex At Birth"
+            labelStyle="CE-form-label"
+            fieldOptions={{ required: true, valueAsNumber: true, maxLength: 2 }}
             isValid={touchedFields.sexatbirthid && !errors.sexatbirthid}
             isInvalid={errors.sexatbirthid}
-          >
-            {formData["Sex At Birth"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Gender *</Form.Label>
-          <Form.Select
-            {...register("genderid", {
-              required: true,
-              valueAsNumber: true,
-              maxLength: 2,
-            })}
-            name="genderid"
-            aria-label="Select Gender"
+          <SelectField
+            register={register}
+            labelName="Gender"
+            fieldName="genderid"
+            fieldOptions={{ required: true, valueAsNumber: true, maxLength: 2 }}
+            groupName="Gender Identity"
+            labelStyle="CE-form-label"
             isValid={touchedFields.genderid && !errors.genderid}
             isInvalid={errors.genderid}
-          >
-            <option>Select Gender</option>
-            {formData["Gender Identity"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">
-            Preferred Pronouns *
-          </Form.Label>
-          <Form.Select
-            {...register("preferredpronounid", {
-              required: true,
-              valueAsNumber: true,
-              maxLength: 2,
-            })}
-            name="preferredpronounid"
-            aria-label="Select Pronouns"
+          <SelectField
+            register={register}
+            labelName="Preferred Pronouns"
+            fieldName="preferredpronounid"
+            fieldOptions={{ required: true, valueAsNumber: true, maxLength: 2 }}
+            groupName="Preferred Pronouns"
+            labelStyle="CE-form-label"
             isValid={
               touchedFields.preferredpronounid && !errors.preferredpronounid
             }
             isInvalid={errors.preferredpronounid}
-          >
-            {formData["Preferred Pronouns"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-5">
         <Col md={4}>
-          <Form.Label className="CE-form-label">Race *</Form.Label>
-          <Form.Select
-            {...register("ethnicityid", {
-              required: true,
-              valueAsNumber: true,
-              maxLength: 2,
-            })}
-            name="ethnicityid"
-            aria-label="Select Race"
+          <SelectField
+            register={register}
+            labelName="Race"
+            fieldName="ethnicityid"
+            fieldOptions={{ required: true, valueAsNumber: true, maxLength: 2 }}
+            groupName="Ethnicity"
+            labelStyle="CE-form-label"
             isValid={touchedFields.ethnicityid && !errors.ethnicityid}
             isInvalid={errors.ethnicityid}
-          >
-            <option>Select Race</option>
-            {formData["Ethnicity"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
 
         <Col md={4}>
-          <Form.Label className="CE-form-label">Religion *</Form.Label>
-          <Form.Select
-            {...register("religionid", {
-              required: true,
-              valueAsNumber: true,
-              maxLength: 2,
-            })}
-            name="religionid"
-            aria-label="Select Religion"
+          <SelectField
+            register={register}
+            labelName="Religion"
+            fieldName="religionid"
+            fieldOptions={{ required: true, valueAsNumber: true, maxLength: 2 }}
+            groupName="Religion"
+            labelStyle="CE-form-label"
             isValid={touchedFields.religionid && !errors.religionid}
             isInvalid={errors.religionid}
-          >
-            <option>Select Religion</option>
-            {formData["Religion"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
         <h5>Home Address</h5>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Street Address</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("paddress", { maxLength: 100 })}
-            type="text"
-            name="paddress"
+          <TextField
+            register={register}
+            labelName="Street Address"
+            fieldName="paddress"
+            fieldOptions={{ maxLength: 100 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.paddress && !errors.paddress}
             isInvalid={errors.paddress}
           />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">City</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pcity", { maxLength: 100 })}
-            type="text"
-            name="pcity"
+          <TextField
+            register={register}
+            labelName="City"
+            fieldName="pcity"
+            fieldOptions={{ maxLength: 100 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.pcity && !errors.pcity}
             isInvalid={errors.pcity}
           />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">State</Form.Label>
-          <Form.Select
-            {...register("pstate", { maxLength: 2 })}
-            name="pstate"
-            aria-label="Select State"
+          <SelectField
+            register={register}
+            labelName="State"
+            fieldName="pstate"
+            fieldOptions={{ maxLength: 2 }}
+            listData={statesList}
+            labelStyle="CE-form-label"
             isValid={touchedFields.pstate && !errors.pstate}
             isInvalid={errors.pstate}
-          >
-            {statesList.map((state, index) => (
-              <option key={index} value={state}>
-                {state}
-              </option>
-            ))}
-          </Form.Select>
+          />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Zip Code</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pZip", { valueAsNumber: true, maxLength: 15 })}
-            type="number"
-            name="pZip"
+          <TextField
+            register={register}
+            labelName="Zip Code"
+            fieldName="pZip"
+            fieldType="number"
+            fieldOptions={{ valueAsNumber: true, maxLength: 15 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.pZip && !errors.pZip}
             isInvalid={errors.pZip}
           />
@@ -305,72 +244,63 @@ export function CE1({ register, control, formState }) {
       </Form.Group>
       <Form.Group as={Row}>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Phone 1</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pphone1", { maxLength: 15 })}
-            type="number"
-            name="pphone1"
+          <TextField
+            register={register}
+            labelName="Phone 1"
+            fieldName="pphone1"
+            fieldType="number"
+            fieldOptions={{ maxLength: 15 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.pphone1 && !errors.pphone1}
             isInvalid={errors.pphone1}
           />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Phone Type</Form.Label>
-          <Form.Select
-            {...register("pphone1type", { valueAsNumber: true, maxLength: 2 })}
-            name="pphone1type"
-            aria-label="Select State"
+          <SelectField
+            register={register}
+            labelName="Phone Type"
+            fieldName="pphone1type"
+            fieldOptions={{ valueAsNumber: true, maxLength: 2 }}
+            groupName="PhoneType"
+            labelStyle="CE-form-label"
             isValid={touchedFields.pphone1type && !errors.pphone1type}
             isInvalid={errors.pphone1type}
-          >
-            {formData["PhoneType"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Phone 2</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("pphone2", { valueAsNumber: true, maxLength: 15 })}
-            type="number"
-            name="pphone2"
+          <TextField
+            register={register}
+            labelName="Phone 2"
+            fieldName="pphone2"
+            fieldType="number"
+            fieldOptions={{ maxLength: 15 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.pphone2 && !errors.pphone2}
             isInvalid={errors.pphone2}
           />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Phone Type</Form.Label>
-          <Form.Select
-            {...register("pphone2type", { valueAsNumber: true, maxLength: 2 })}
-            name="pphone2type"
-            aria-label="Select State"
+          <SelectField
+            register={register}
+            labelName="Phone Type"
+            fieldName="pphone2type"
+            fieldOptions={{ valueAsNumber: true, maxLength: 2 }}
+            groupName="PhoneType"
+            labelStyle="CE-form-label"
             isValid={touchedFields.pphone2type && !errors.pphone2type}
             isInvalid={errors.pphone2type}
-          >
-            {formData["PhoneType"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-5">
         <Col md={4}>
-          <Form.Label className="CE-form-label">Email Address</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("email", { maxLength: 100 })}
-            type="email"
-            name="email"
+          <TextField
+            register={register}
+            labelName="Email Address"
+            fieldName="email"
+            fieldType="email"
+            fieldOptions={{ maxLength: 100 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.email && !errors.email}
             isInvalid={errors.email}
           />
@@ -379,88 +309,72 @@ export function CE1({ register, control, formState }) {
       <Form.Group as={Row} className="mb-2">
         <h5>Emergency Contact</h5>
         <Col md={4}>
-          <Form.Label className="CE-form-label">
-            Name <small>(optional)</small>
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("ecName", { maxLength: 100 })}
-            type="text"
-            name="ecName"
+          <TextField
+            register={register}
+            labelName="Name"
+            fieldName="ecName"
+            fieldOptions={{ maxLength: 100 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecName && !errors.ecName}
             isInvalid={errors.ecName}
           />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Relationship</Form.Label>
-          <Form.Select
-            {...register("ecRelationship", {
-              valueAsNumber: true,
-              maxLength: 2,
-            })}
-            name="ecRelationship"
-            aria-label="Select Relationship"
+          <SelectField
+            register={register}
+            labelName="Relationship"
+            fieldName="ecRelationship"
+            fieldOptions={{ valueAsNumber: true, maxLength: 2 }}
+            groupName="Relationship"
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecRelationship && !errors.ecRelationship}
             isInvalid={errors.ecRelationship}
-          >
-            {formData["Relationship"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Street Address</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("ecAddress", { maxLength: 100 })}
-            type="text"
-            name="ecAddress"
+          <TextField
+            register={register}
+            labelName="Address"
+            fieldName="ecAddress"
+            fieldOptions={{ maxLength: 100 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecAddress && !errors.ecAddress}
             isInvalid={errors.ecAddress}
           />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">City</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("ecCity", { maxLength: 100 })}
-            type="text"
-            name="ecCity"
+          <TextField
+            register={register}
+            labelName="City"
+            fieldName="ecCity"
+            fieldOptions={{ maxLength: 100 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecCity && !errors.ecCity}
             isInvalid={errors.ecCity}
           />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">State</Form.Label>
-          <Form.Select
-            {...register("ecState", { maxLength: 2 })}
-            name="ecState"
-            aria-label="Select State"
+          <SelectField
+            register={register}
+            labelName="State"
+            fieldName="ecState"
+            fieldOptions={{ maxLength: 2 }}
+            listData={statesList}
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecState && !errors.ecState}
             isInvalid={errors.ecState}
-          >
-            {statesList.map((state, index) => {
-              return (
-                <option key={index} value={state}>
-                  {state}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
         <Col md={2}>
-          <Form.Label className="CE-form-label">Zip Code</Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("ecZip", { valueAsNumber: true, maxLength: 15 })}
-            type="number"
-            name="ecZip"
+          <TextField
+            register={register}
+            labelName="Zip Code"
+            fieldName="ecZip"
+            fieldType="number"
+            fieldOptions={{ valueAsNumber: true, maxLength: 15 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecZip && !errors.ecZip}
             isInvalid={errors.ecZip}
           />
@@ -468,35 +382,28 @@ export function CE1({ register, control, formState }) {
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
         <Col md={4}>
-          <Form.Label className="CE-form-label">
-            Phone <small>(optional)</small>
-          </Form.Label>
-          <Form.Control
-            className="goal-detail-input"
-            {...register("ecPhone", { maxLength: 15 })}
-            type="number"
-            name="ecPhone"
+          <TextField
+            register={register}
+            labelName="Phone 1"
+            fieldName="ecPhone"
+            fieldType="number"
+            fieldOptions={{ maxLength: 15 }}
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecPhone && !errors.ecPhone}
             isInvalid={errors.ecPhone}
           />
         </Col>
         <Col md={4}>
-          <Form.Label className="CE-form-label">Phone Type</Form.Label>
-          <Form.Select
-            {...register("ecPhoneType", { valueAsNumber: true, maxLength: 2 })}
-            name="ecPhoneType"
-            aria-label="Select State"
+          <SelectField
+            register={register}
+            labelName="Phone Type"
+            fieldName="ecPhoneType"
+            fieldOptions={{ valueAsNumber: true, maxLength: 2 }}
+            groupName="PhoneType"
+            labelStyle="CE-form-label"
             isValid={touchedFields.ecPhoneType && !errors.ecPhoneType}
             isInvalid={errors.ecPhoneType}
-          >
-            {formData["PhoneType"].map((item, i) => {
-              return (
-                <option key={i} value={item.grouplistid}>
-                  {item.groupvalue}
-                </option>
-              );
-            })}
-          </Form.Select>
+          />
         </Col>
       </Form.Group>
     </>

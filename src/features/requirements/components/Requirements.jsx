@@ -39,7 +39,7 @@ export function Requirements() {
                 index={i}
                 data={value}
                 setShow={setShowViewer}
-                setActiveForm={setActiveForm}
+                selectDoc={setActiveForm}
               />
             );
           })}

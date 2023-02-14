@@ -2,17 +2,24 @@ import { Card, Button } from "react-bootstrap";
 import "../TreatmentPlan.css";
 import { Printer } from "react-bootstrap-icons";
 import { useReactToPrint } from "react-to-print";
+import ModalContainer from "../../../components/ModalContainer";
+import { useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 
 export function TreatmentPlanHeader({
   editTreatmentPlan,
   setEditTreatmentPlan,
   treatmentPlanRef,
 }) {
+  const [show, setShow] = useState(false);
+  pdfjs.GlobalWorkerOptions.workerSrc =
+    "//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js";
+    
   const handlePrint = () => {
     var iHeight = 800;
     var iWidth = 800;
     var sPath =
-      "http://www.ivronlogs.icu:8080/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/apilist/APList.pdf";
+      "http://www.ivronlogs.icu:8080/projects/PDFViewer/web/viewer.html?file=/projects/ryght-solutions/docs/apilist/APIList.pdf";
     window.open(
       sPath,
       "popUpWindow",
@@ -59,7 +66,7 @@ export function TreatmentPlanHeader({
           </Button>
           <Button
             className="me-2"
-            onClick={handlePrint}
+            onClick={() => setShow(true)}
             variant={"dark"}
             type="button"
           >
@@ -67,6 +74,16 @@ export function TreatmentPlanHeader({
           </Button>
         </div>
       )}
+      <ModalContainer
+        show={show}
+        setShow={setShow}
+        containerName="Print Page"
+        component={
+          <Document file="http://www.ivronlogs.icu:8080/projects/PDFViewer/web/viewer.html?file=/projects/ryght-solutions/docs/apilist/APIList.pdf">
+            <Page pageNumber={1} />
+          </Document>
+        }
+      />
     </div>
   );
 }

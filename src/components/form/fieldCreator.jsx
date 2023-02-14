@@ -1,4 +1,4 @@
-import { Form } from "react-bootstrap";
+import { Form, Button, NavItem } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { Controller } from "react-hook-form";
 import { useClient } from "../../context/ClientContext";
@@ -41,6 +41,7 @@ export function SelectField(props) {
     labelStyle,
     fieldStyle,
     itemDetail,
+    fieldOptions,
     ...other
   } = props;
   const { formData } = useClient();
@@ -51,14 +52,15 @@ export function SelectField(props) {
       : ["grouplistid", "groupvalue"]
   );
   const renderOptions = () => {
-    if (listData) {
+    if (listData && groupName) {
       const filterOptions = listData.filter((listItem) => {
         return formData[groupName].some((formItem) => {
           return formItem.groupvalue === listItem.groupvalue;
         });
       });
       return filterOptions;
-    } else if (groupName) return formData[groupName];
+    } else if (listData) return listData;
+    else if (groupName) return formData[groupName];
     return [];
   };
   return (
@@ -67,16 +69,20 @@ export function SelectField(props) {
         <Form.Label className={`fs-6 ${labelStyle}`}>{labelName}</Form.Label>
       ) : null}
       <Form.Select
-        {...register(fieldName)}
+        {...register(fieldName, fieldOptions)}
         name={fieldName}
         className={`${fieldStyle}`}
         {...other}
       >
         {renderOptions().map((item, i) => {
-          item[detail[0]] = isStringNumber(item[detail[0]]);
+          if (groupName || itemDetail)
+            item[detail[0]] = isStringNumber(item[detail[0]]);
           return (
-            <option key={i} value={item[detail[0]]}>
-              {item[detail[1]]}
+            <option
+              key={i}
+              value={groupName || itemDetail ? item[detail[0]] : item}
+            >
+              {groupName || itemDetail ? item[detail[1]] : item}
             </option>
           );
         })}
@@ -186,17 +192,125 @@ export function TextField({
   fieldName,
   readOnly,
   disabled,
+  labelStyle,
+  fieldStyle,
+  fieldType,
+  fieldOptions,
+  ...other
 }) {
   return (
     <>
-      <Form.Label className="fs-5 ">{labelName}</Form.Label>
+      {labelName ? (
+        <Form.Label className={labelStyle ? labelStyle : "fs-6"}>
+          {labelName}
+        </Form.Label>
+      ) : null}
       <Form.Control
-        {...register(fieldName)}
-        type="text"
-        rows={3}
+        {...register(fieldName, fieldOptions)}
+        type={fieldType ? fieldType : "text"}
+        className={fieldStyle}
         readOnly={readOnly}
         disabled={disabled}
+        {...other}
       />
     </>
+  );
+}
+export function CheckboxField(props) {
+  const {
+    register,
+    labelName,
+    fieldName,
+    groupName,
+    listData,
+    labelStyle,
+    fieldStyle,
+    itemDetail,
+    ...other
+  } = props;
+  const { formData } = useClient();
+
+  const [detail] = useState(
+    itemDetail && Array.isArray(itemDetail)
+      ? itemDetail
+      : ["grouplistid", "groupvalue"]
+  );
+  const renderOptions = () => {
+    if (listData) {
+      const filterOptions = listData.filter((listItem) => {
+        return formData[groupName].some((formItem) => {
+          return formItem.groupvalue === listItem.groupvalue;
+        });
+      });
+      return filterOptions;
+    } else if (groupName) return formData[groupName];
+    return [];
+  };
+  return (
+    <>
+      {labelName ? (
+        <Form.Label className={`fs-6 ${labelStyle}`}>{labelName}</Form.Label>
+      ) : null}
+      <Form.Select
+        {...register(fieldName)}
+        name={fieldName}
+        className={`${fieldStyle}`}
+        {...other}
+      >
+        {renderOptions().map((item, i) => {
+          item[detail[0]] = isStringNumber(item[detail[0]]);
+          return (
+            <option key={i} value={item[detail[0]]}>
+              {item[detail[1]]}
+            </option>
+          );
+        })}
+      </Form.Select>
+    </>
+  );
+}
+export function FormLabelButtons({
+  toggle,
+  name,
+  closeItem,
+  addItem,
+  disabled,
+}) {
+  return (
+    <div className="CE-form-label-button-container">
+      {toggle ? (
+        <>
+          <Button
+            className="CE-form-label-button me-2"
+            name={name}
+            type="submit"
+            variant="outline-success"
+            size="sm"
+          >
+            Save
+          </Button>
+          <Button
+            className="CE-form-label-button"
+            name={name}
+            variant="outline-secondary"
+            size="sm"
+            onClick={closeItem}
+          >
+            Cancel
+          </Button>
+        </>
+      ) : (
+        <Button
+          disabled={disabled}
+          size="sm"
+          variant="outline-primary"
+          name="insuranceProvider"
+          className="CE-form-label-button"
+          onClick={addItem}
+        >
+          new
+        </Button>
+      )}
+    </div>
   );
 }

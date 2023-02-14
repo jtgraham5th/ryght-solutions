@@ -23,9 +23,9 @@ export function CVProfile({ sidebar }) {
             className="mb-3 card-shadow"
           >
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Client Requirements</Accordion.Header>
+              <Accordion.Header>Insurance Information</Accordion.Header>
               <Accordion.Body className="p-0">
-                <Requirements />
+              <InsuranceInfo />
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
@@ -48,7 +48,6 @@ export function CVProfile({ sidebar }) {
             <Accordion.Item eventKey="0">
               <Accordion.Header>Insurance Information</Accordion.Header>
               <Accordion.Body className="p-0">
-                <InsuranceInfo />
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>

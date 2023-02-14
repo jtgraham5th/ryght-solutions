@@ -42,6 +42,11 @@ import {
 } from "../features/services/services/api";
 import { getAllPatientProgNotes } from "../features/progressNotes/services/api";
 import { capitalize } from "../data/helpers";
+import {
+  addNewAuthorization,
+  getAuthorizations,
+  updateAuthorization,
+} from "../features/authorizations/services/api";
 
 const ClientContext = createContext();
 
@@ -57,6 +62,7 @@ export function ClientProvider(props) {
   const [activeTreatmentPlan, setActiveTreatmentPlan] = useState({});
   const [activeProgNotes, setActiveProgNotes] = useState([]);
   const [activeBillingTx, setActiveBillingTx] = useState([]);
+  const [activeAuthorizations, setActiveAuthorizations] = useState([]);
   const [formData, setFormData] = useState({});
   const [sortedClients, setSortedClients] = useState({ ...abcObject });
   const [loading, setLoading] = useState(false);
@@ -397,6 +403,27 @@ export function ClientProvider(props) {
     let data = await getAllPatientProgNotes(activeClient[20].patientid);
     setActiveProgNotes(data);
   };
+  const addClientAuthorization = async (authorization) => {
+    console.log(authorization);
+    return await addNewAuthorization(authorization).then((authrecid) => {
+      getClientAuthorizations();
+      return authrecid;
+    });
+  };
+  const updateClientAuthorization = async (authrecid, updatedAuthorization) => {
+    return await updateAuthorization(authrecid, updatedAuthorization).then(
+      (updatedData) => {
+        getClientAuthorizations();
+        return updatedData;
+      }
+    );
+  };
+  const getClientAuthorizations = async () => {
+    let data = await getAuthorizations(activeClient[20].patientid);
+    console.log("Client Authorizations from Context", data);
+    setActiveAuthorizations(data);
+  };
+
   useEffect(() => {
     if (!clientList.length > 0) getClientList(20);
     if (!formData.length > 0) getFormFields();
@@ -424,6 +451,7 @@ export function ClientProvider(props) {
       getClientBillingTx();
       getClientTreatmentPlan();
       getClientProgNotes();
+      getClientAuthorizations();
     }
     // eslint-disable-next-line
   }, [activeClient]);
@@ -460,6 +488,9 @@ export function ClientProvider(props) {
         updateClientObjective,
         addClientIntervention,
         updateClientIntervention,
+        activeAuthorizations,
+        addClientAuthorization,
+        updateClientAuthorization,
         dxCodes,
         getActiveDXCodes,
         serviceCodes,
