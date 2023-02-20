@@ -24,10 +24,12 @@ import {
   updateContact,
 } from "../features/enrollment/services/api";
 import {
+  addNewListItem,
   getGroupListValues,
   getGroupNameValues,
   getPharmacyList,
   getPhysicianList,
+  updateListItem,
 } from "../services/api";
 import {
   addNewBillingTx,
@@ -77,36 +79,16 @@ export function ClientProvider(props) {
 
   /// MOVE TO SERVICES API ///
   const addGroupItem = async (groupItemObject) => {
-    return await fetch("http://www.ivronlogs.icu:8080/rs/api/grouplist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(groupItemObject),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        getFormFields();
-        return data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    return await addNewListItem(groupItemObject).then((data) => {
+      getFormFields();
+      return data;
+    });
   };
-  const deleteGroupItem = async (grouplistid) => {
-    return fetch(
-      `http://www.ivronlogs.icu:8080/rs/api/grouplist/${grouplistid}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => {
-        getFormFields();
-        return response;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  const updateGroupItem = async (group) => {
+    return await updateListItem(group).then((data) => {
+      getFormFields();
+      return data;
+    });
   };
   const getFormFields = async () => {
     let groupObject = {};
@@ -249,6 +231,7 @@ export function ClientProvider(props) {
   const addClientContact = async (contact) => {
     return await addNewContact(contact)
       .then((data) => {
+        getFormFields();
         return data.contactid;
       })
       .catch((e) => {
@@ -259,6 +242,7 @@ export function ClientProvider(props) {
   const updateClientContact = async (contact, contactid) => {
     return await updateContact(contact, contactid)
       .then((data) => {
+        getFormFields();
         return data[0].contactid;
       })
       .catch((e) => {
@@ -461,7 +445,7 @@ export function ClientProvider(props) {
       value={{
         formData,
         getFormFields,
-        deleteGroupItem,
+        updateGroupItem,
         addGroupItem,
         activeClient,
         clientList,

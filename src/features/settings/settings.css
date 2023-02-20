@@ -39,13 +39,13 @@
 }
 .settings-activate-overflow {
   overflow: auto !important;
-  height: 94%;
+  height: 100%;
 }
 .settings-activate {
   height: 94%;
 }
 .settings-listgroup {
-  height: 20rem;
+  height: 15rem;
   overflow: auto;
   border: 1px solid silver;
 }

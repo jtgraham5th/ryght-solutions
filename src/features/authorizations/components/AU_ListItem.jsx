@@ -59,10 +59,10 @@ export function AUListItem({ data, setShow }) {
     <>
       <ListGroup.Item className="p-0" variant="">
         <Row>
-          <Col md={1} className="fs-6 border text-center">
+          <Col md={1} className="small border text-center">
             <h6 className="mt-2 mb-0">{data.authorizationID}</h6>
             <Button
-              className="d-flex fs-6"
+              className="d-flex small"
               variant="link"
               type="button"
               onClick={() => setShow(data)}
@@ -81,13 +81,13 @@ export function AUListItem({ data, setShow }) {
           <Col md={1} className="pt-3 small text-center border">
             {formattedDate(data.submitdate)}
           </Col>
-          <Col md={4} className="fs-6 border">
+          <Col md={4} className="small border">
             <div>
               {authServices.length > 0 &&
                 authServices.map((service, i) => (
                   <Row className="align-items-center border-bottom">
                     <Col md={6}>
-                      <Button onClick={() => toggleCollapse(i)} variant="link">
+                      <Button onClick={() => toggleCollapse(i)} variant="link" size="sm">
                         {getFormValue("Services", service.serviceid, formData)}
                       </Button>
                     </Col>

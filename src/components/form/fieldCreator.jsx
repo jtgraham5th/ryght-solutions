@@ -5,6 +5,7 @@ import { useClient } from "../../context/ClientContext";
 import { useState } from "react";
 import isStringNumber from "../../utils/isStringNumber";
 import Select from "react-select";
+import { useEffect } from "react";
 
 export function DateField(props) {
   const { control, labelName, fieldName, labelStyle, fieldStyle, ...other } =
@@ -46,11 +47,25 @@ export function SelectField(props) {
   } = props;
   const { formData } = useClient();
 
-  const [detail] = useState(
+  const [detail, setDetail] = useState(
     itemDetail && Array.isArray(itemDetail)
       ? itemDetail
       : ["grouplistid", "groupvalue"]
   );
+  useEffect(() => {
+    function hasContactAndNameKeysInArray(arr) {
+      for (let i = 0; i < arr.length; i++) {
+        const obj = arr[i];
+        if (!obj.hasOwnProperty("contactid") || !obj.hasOwnProperty("name")) {
+          return false;
+        }
+      }
+      return true;
+    }
+    if (formData[groupName] && hasContactAndNameKeysInArray(formData[groupName])){
+      setDetail(["contactid", "name"])
+    }
+  },[formData[groupName]]);
   const renderOptions = () => {
     if (listData && groupName) {
       const filterOptions = listData.filter((listItem) => {
@@ -69,7 +84,7 @@ export function SelectField(props) {
         <Form.Label className={`fs-6 ${labelStyle}`}>{labelName}</Form.Label>
       ) : null}
       <Form.Select
-        {...register(fieldName, fieldOptions)}
+        {...(register ? { ...register(fieldName, fieldOptions) } : null)}
         name={fieldName}
         className={`${fieldStyle}`}
         {...other}

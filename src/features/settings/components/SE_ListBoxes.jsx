@@ -4,31 +4,156 @@ import "../settings.css";
 import { useClient } from "../../../context/ClientContext";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { getGroupNameValues } from "../../../services/api";
+import {
+  getGroupNameValues,
+  getGroupInactiveListValues,
+} from "../../../services/api";
+import { SelectField } from "../../../components/form/fieldCreator";
+import { FormFamilyPhysician } from "../../../components/form/Form_FamilyPhysician";
+import { UpdateContact } from "./UpdateContact";
+import { defaultContact, defaultListItem } from "../utils/parseData";
+import { XLg, CheckLg } from "react-bootstrap-icons";
 
 export function SEListBoxes(props) {
-  const { formData, addGroupItem, deleteGroupItem} = useClient();
-  const [groupNames, setGroupNames] = useState([]);
-  const [activeGroup, setActiveGroup] = useState("");
-  const { register, handleSubmit, reset } = useForm({});
+  const {
+    formData,
+    addGroupItem,
+    updateGroupItem,
+    addClientContact,
+    updateClientContact,
+  } = useClient();
+  const [activeGroup, setActiveGroup] = useState(null);
+  const [showInactive, setShowInactive] = useState(false);
+  const [newItem, setNewItem] = useState(false);
+  const { register, handleSubmit, reset, setValue, getValues, watch } = useForm(
+    {
+      defaultValues: {
+        groupvalue: "",
+      },
+    }
+  );
 
-  const getNames = async () => {
-    const response = await getGroupNameValues()
-    console.log(response);
-    setGroupNames(response);
+  const alternateGroupType = (group) => {
+    if (group.hasOwnProperty("contactid") || group.hasOwnProperty("name")) {
+      return true;
+    }
+    return false;
   };
-  useEffect(() => {
-    getNames();
-    // eslint-disable-next-line
-  }, []);
+  const selectGroup = (group) => {
+    let selectedGroup = group;
+    if (group[0].hasOwnProperty("contactid")) {
+      selectedGroup = group.filter((item) => parseInt(item.isactive) === 1);
+    }
+    setShowInactive(false);
+    setActiveGroup(selectedGroup);
+  };
+  const activateItem = async (item) => {
+    if (activeGroup[0].hasOwnProperty("contactid")) {
+      const activeContact = activeGroup.find(
+        (group) => group.contactid === item.contactid
+      );
+      activeContact.isactive = parseInt(activeContact.isactive) === 0 ? 1 : 0;
+      await updateClientContact([activeContact], activeContact.contactid);
+    } else {
+      item.isactive = parseInt(item.isactive) === 0 ? 1 : 0;
+      await updateGroupItem([item]);
+    }
+  };
 
   const addItem = async (data) => {
-    let newItem = {
-      groupvalue: data.itemName,
-      isactive: 1,
-      groupid: activeGroup.groupnameid,
-    };
-    await addGroupItem(newItem).then((response) => reset());
+    console.log(activeGroup);
+
+    if (activeGroup[0].hasOwnProperty("contactid")) {
+      const activeContact = activeGroup.find(
+        (group) => group.contactid === data.contactid
+      );
+
+      if (activeContact) {
+        activeContact.name = data.name;
+        activeContact.phone1 = data.phone1;
+        activeContact.phone2 = data.phone2;
+        console.log("activeContact", activeContact);
+        await updateClientContact([activeContact], activeContact.contactid);
+      } else {
+        const newContact = defaultContact;
+        newContact.name = data.name;
+        newContact.phone1 = data.phone1;
+        newContact.phone2 = data.phone2;
+        newContact.contacttypeid = activeGroup[0].contacttypeid;
+        console.log("newContact", [newContact]);
+        await addClientContact([newContact]);
+      }
+    } else {
+      const activeItem = activeGroup.find(
+        (group) => group.grouplistid === data.grouplistid
+      );
+      if (activeItem) {
+        activeItem.groupvalue = parseInt(data.groupvalue);
+        console.log("active", activeItem);
+        await updateGroupItem([activeItem]);
+      } else {
+        const newItem = defaultListItem;
+        newItem.groupvalue = data.groupvalue;
+        newItem.groupid = activeGroup[0].groupid;
+        console.log("new item", newItem);
+        await addGroupItem([newItem]);
+      }
+      reset();
+    }
+  };
+  const toggleInactive = async () => {
+    if (showInactive) {
+      setShowInactive(false);
+      if (activeGroup[0].hasOwnProperty("contactid")) {
+        let filteredGroup = activeGroup.filter(
+          (group) => parseInt(group.isactive) === 1
+        );
+        setActiveGroup(filteredGroup);
+      } else {
+        const [matchingGroupKey, matchingGroup] =
+          Object.entries(formData).find(
+            ([key, groupArray]) =>
+              Array.isArray(groupArray) &&
+              groupArray.some(
+                (group) => group.groupid === activeGroup[0].groupid
+              )
+          ) || [];
+        setActiveGroup(matchingGroup);
+      }
+    } else {
+      setShowInactive(true);
+      let filteredGroup;
+      if (activeGroup[0].hasOwnProperty("contactid")) {
+        const [matchingGroupKey, matchingGroup] =
+          Object.entries(formData).find(
+            ([key, groupArray]) =>
+              Array.isArray(groupArray) &&
+              groupArray.some(
+                (group) => group.contacttypeid === activeGroup[0].contacttypeid
+              )
+          ) || [];
+        setActiveGroup(matchingGroup);
+      } else {
+        filteredGroup = await getGroupInactiveListValues(
+          activeGroup[0].groupid
+        );
+        setActiveGroup(filteredGroup);
+      }
+    }
+  };
+  const toggleNewItem = () => {
+    reset();
+    setNewItem(!newItem);
+  };
+  const setContactValues = (index) => {
+    setValue("contactid", activeGroup[index].contactid);
+    setValue("name", activeGroup[index].name);
+    setValue("phone1", activeGroup[index].phone1);
+    setValue("phone2", activeGroup[index].phone2);
+  };
+  const setGroupValue = (index) => {
+    setValue("groupvalue", activeGroup[index].groupvalue);
+    setValue("grouplistid", activeGroup[index].grouplistid);
   };
   return (
     <Col md={10} className="settings-main">
@@ -39,53 +164,109 @@ export function SEListBoxes(props) {
           <Form.Select
             name="groupName"
             aria-label="Select Group"
-            className="mb-5"
+            className="mb-2"
             onChange={(e) => {
-              const index = e.currentTarget.value;
-              setActiveGroup(groupNames[index]);
+              selectGroup(formData[e.currentTarget.value]);
             }}
           >
             <option>Select Group</option>
-            {groupNames.length > 0 &&
-              groupNames.map((group, i) => {
+            {Object.keys(formData).length > 0 &&
+              Object.keys(formData).map((group, i) => {
                 return (
-                  <option key={i} value={i}>
-                    {group.groupname}
+                  <option key={i} value={group}>
+                    {group}
                   </option>
                 );
               })}
           </Form.Select>
           <div>
-            <ListGroup >
-              <ListGroup.Item>
+            <ListGroup>
+              <ListGroup.Item
+                variant="dark"
+                className="d-flex justify-content-between"
+              >
                 <Form.Switch
-                  // onChange={onSwitchAction}
+                  onChange={toggleInactive}
                   id="custom-switch"
-                  label={`${activeGroup.groupname} is active`}
-                  // checked={activeGroup.isactive === 1}
+                  label={`Show inactive items`}
+                  checked={showInactive}
                   disabled={!activeGroup}
                 />
+                <Button
+                  size="sm"
+                  variant={newItem ? "outline-secondary" : "outline-success"}
+                  onClick={toggleNewItem}
+                  disabled={!activeGroup}
+                >
+                  {newItem ? "Cancel" : "New Item"}
+                </Button>
               </ListGroup.Item>
               <div className="settings-listgroup">
-              {activeGroup &&
-                formData[activeGroup.groupname].map((item, i) => {
-                  return (
-                    <ListGroup.Item key={i} value={item.grouplistid} className="d-flex justify-content-between align-items-start">
-                      {item.groupvalue}
-                      <Button size="sm" variant="light" onClick={()=> deleteGroupItem(item.grouplistid)}>X</Button>
-                    </ListGroup.Item>
-                  );
-                })}</div>
+                {activeGroup &&
+                  activeGroup.map((item, i) => {
+                    const groupvalue = watch("groupvalue");
+                    const isActive = groupvalue === item.groupvalue;
+                    return (
+                      <ListGroup.Item
+                        key={i}
+                        active={isActive}
+                        action
+                        onClick={
+                          activeGroup[0].hasOwnProperty("contactid")
+                            ? () => setContactValues(i)
+                            : () => setGroupValue(i)
+                        }
+                        variant={
+                          parseInt(item.isactive) === 0 ? "secondary" : ""
+                        }
+                        value={
+                          alternateGroupType(item)
+                            ? item.contactid
+                            : item.grouplistid
+                        }
+                        disabled={newItem}
+                        className="d-flex justify-content-between align-items-start"
+                      >
+                        {alternateGroupType(item) ? item.name : item.groupvalue}
+                        <Button
+                          size="sm"
+                          variant={
+                            parseInt(item.isactive) === 0
+                              ? "outline-primary"
+                              : "outline-secondary"
+                          }
+                          onClick={() => activateItem(item)}
+                        >
+                          {parseInt(item.isactive) === 0 ? (
+                            <CheckLg />
+                          ) : (
+                            <XLg />
+                          )}
+                        </Button>
+                      </ListGroup.Item>
+                    );
+                  })}
+              </div>
               <Form onSubmit={handleSubmit(addItem)}>
-                <ListGroup.Item variant="secondary" className="d-flex flex-row">
-                  <Form.Control
-                    {...register("itemName")}
-                    type="text"
-                    name="itemName"
-                    className="w-75 me-3"
-                  />
-                  <Button size="sm" className="text-nowrap" type="submit">
-                    Add List Item
+                <ListGroup.Item variant="dark" className="d-flex flex-column">
+                  {activeGroup &&
+                  Object.keys(activeGroup).length > 0 &&
+                  (activeGroup[0].hasOwnProperty("contactid") ||
+                    activeGroup[0].hasOwnProperty("name")) ? (
+                    <UpdateContact register={register} />
+                  ) : (
+                    <Form.Control
+                      {...register("groupvalue")}
+                      type="text"
+                      name="groupvalue"
+                    />
+                  )}
+                  <Button
+                    className="text-nowrap mt-3"
+                    type="submit"
+                    variant={newItem ? "success" : "primary"}
+                  >
+                    {newItem ? "Add List Item" : "Update List Item"}
                   </Button>
                 </ListGroup.Item>
               </Form>
@@ -95,24 +276,11 @@ export function SEListBoxes(props) {
         <Col md={6} className="border settings-activate-overflow">
           {Object.keys(formData).map((group, i) => {
             return (
-              <>
-                <Form.Label className="CE-form-label fs-6 fw-bold">
-                  {group}
-                </Form.Label>
-                <Form.Select
-                  name={group}
-                  aria-label="Select Group"
-                  className="mb-3"
-                >
-                  {formData[group].map((item, i) => {
-                    return (
-                      <option key={i} value={item.grouplistid}>
-                        {item.groupvalue}
-                      </option>
-                    );
-                  })}
-                </Form.Select>
-              </>
+              <SelectField
+                labelName={group}
+                groupName={group}
+                labelStyle="CE-form-label"
+              />
             );
           })}
         </Col>
