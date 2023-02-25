@@ -1,10 +1,11 @@
-import { Button, Row, Modal, Form } from "react-bootstrap";
+import { Button, Row, Modal, Form, Popover, OverlayTrigger } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "./PN_Manager.css";
 import AlertContainer from "../../../components/AlertContainer";
 import { PN1 } from "./PN_1";
 import { PN4 } from "./PN_4";
 import { useForm } from "react-hook-form";
+
 import {
   parseDefaultProgressNote,
   parseProgressNote,
@@ -94,7 +95,6 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
     }
     // eslint-disable-next-line
   }, [data]);
-
   const handleCancel = (data) => {};
   return (
     <Modal show={show} dialogClassName="PNM-width" onHide={handleClose}>
@@ -127,6 +127,7 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
           </Button>
         </Modal.Footer>
       </Form>
+
       <AlertContainer
         show={alert.message && alert.data}
         alert={alert}

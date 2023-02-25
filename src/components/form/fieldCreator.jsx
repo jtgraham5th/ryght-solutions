@@ -62,10 +62,13 @@ export function SelectField(props) {
       }
       return true;
     }
-    if (formData[groupName] && hasContactAndNameKeysInArray(formData[groupName])){
-      setDetail(["contactid", "name"])
+    if (
+      formData[groupName] &&
+      hasContactAndNameKeysInArray(formData[groupName])
+    ) {
+      setDetail(["contactid", "name"]);
     }
-  },[formData[groupName]]);
+  }, [formData[groupName]]);
   const renderOptions = () => {
     if (listData && groupName) {
       const filterOptions = listData.filter((listItem) => {
@@ -216,7 +219,9 @@ export function TextField({
   return (
     <>
       {labelName ? (
-        <Form.Label className={labelStyle ? labelStyle : "fs-6"}>
+        <Form.Label
+          className={labelStyle ? labelStyle : disabled ? "text-muted" : "fs-6"}
+        >
           {labelName}
         </Form.Label>
       ) : null}

@@ -5,16 +5,21 @@ import { useReactToPrint } from "react-to-print";
 import ModalContainer from "../../../components/ModalContainer";
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { PDFViewer } from "@react-pdf/renderer";
+import { TPPdf } from "./TP_Pdf";
+import { useClient } from "../../../context/ClientContext";
 
 export function TreatmentPlanHeader({
   editTreatmentPlan,
   setEditTreatmentPlan,
   treatmentPlanRef,
 }) {
+  const { activeClient, activeTreatmentPlan, formData } = useClient();
+  const { tPlan } = activeTreatmentPlan;
   const [show, setShow] = useState(false);
   pdfjs.GlobalWorkerOptions.workerSrc =
     "//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js";
-    
+
   const handlePrint = () => {
     var iHeight = 800;
     var iWidth = 800;
@@ -79,9 +84,17 @@ export function TreatmentPlanHeader({
         setShow={setShow}
         containerName="Print Page"
         component={
-          <Document file="http://www.ivronlogs.icu:8080/projects/PDFViewer/web/viewer.html?file=/projects/ryght-solutions/docs/apilist/APIList.pdf">
-            <Page pageNumber={1} />
-          </Document>
+          <PDFViewer width="100%" height="100%" showToolbar={false}>
+            <TPPdf
+              formData={formData}
+              data={tPlan[0]}
+              activeTreatmentPlan={activeTreatmentPlan}
+              activeClient={activeClient}
+            />
+          </PDFViewer>
+          // <Document file="http://www.ivronlogs.icu:8080/projects/PDFViewer/web/viewer.html?file=/projects/ryght-solutions/docs/apilist/APIList.pdf">
+          //   <Page pageNumber={1} />
+          // </Document>
         }
       />
     </div>

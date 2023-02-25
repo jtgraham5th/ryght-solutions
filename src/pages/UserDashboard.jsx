@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import { Card, Row, Col, Form } from "react-bootstrap";
+import { Card, Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./UserDashboard.css";
 import DatePicker from "react-datepicker";
 import ClientSelectDropdown from "../components/ClientSelectDropdown";
+import { Pen } from "react-bootstrap-icons";
+import { SignatureManger } from "../features/settings/components/SignatureManager";
 
 function UserDashboard(props) {
   let navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
+  const [sigManager, setSigManager] = useState(false);
 
   return (
     <>
       <Card className="mt-3 card-shadow">
-            <Card.Header>
-              <h3>Welcome back, Mrs. Graham</h3>
-              <Card.Title>No Notifcations</Card.Title>
-            </Card.Header>
+        <Card.Header>
+          <h3>Welcome back, Mrs. Graham</h3>
+          <Card.Title>No Notifcations</Card.Title>
+        </Card.Header>
         <Card.Body>
           <Row>
             <Col md={6}>
@@ -30,6 +33,13 @@ function UserDashboard(props) {
                   />
                 </Card.Body>
               </Card>
+              <Button
+                className="w-100 mt-4"
+                onClick={() => setSigManager(!sigManager)}
+              >
+                <Pen /> Manage Digital Signature
+              </Button>
+              <SignatureManger show={sigManager} setShow={setSigManager} />
             </Col>
             <Col md={6}>
               <Card className="mb-4 card-shadow">
