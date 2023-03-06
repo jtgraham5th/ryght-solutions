@@ -6,12 +6,13 @@ import {
   renderAdolescentBPS,
   renderANSA,
   renderCANS,
+  renderOrderOfService,
 } from "../data/requirements";
 import { useForm } from "react-hook-form";
 import { EyeSlash } from "react-bootstrap-icons";
 
 export function RQPreview({ data, activePage, fullscreen, toggleFullScreen }) {
-  const { control, register } = useForm();
+  const { control, register, setValue } = useForm();
 
   const renderPreview = () => {
     switch (data.doctypeid) {
@@ -28,7 +29,7 @@ export function RQPreview({ data, activePage, fullscreen, toggleFullScreen }) {
       case "9":
         return renderAdultBPS(activePage, register, control);
       case "10":
-        return renderAdultBPS(activePage, register, control);
+        return renderOrderOfService(activePage, register, control, setValue);
       default:
         return renderAdultBPS(activePage, register, control);
     }

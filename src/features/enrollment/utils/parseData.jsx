@@ -171,7 +171,7 @@ export const parseNewContact = (data, contactType) => {
       state: data.state ? data.state : "",
       zip: data.zip ? data.zip : 0,
       contacttypeid: contactType ? contactType : 0,
-      patientid:0,
+      patientid: 0,
       relationshipid: 0,
       phone1: data.phone1 ? parseInt(data.phone1) : 0,
       phone1typeid: data.phone1type ? parseInt(data.phone1type) : 0,
@@ -184,7 +184,14 @@ export const parseNewContact = (data, contactType) => {
     },
   ];
 };
-
+export const parseNewProvider = (data) => {
+  return {
+    grouplistid: 0,
+    groupvalue: data.carrierName,
+    isactive: 1,
+    groupid: 14,
+  };
+};
 export const parseDefaultValues = (edit, activeClient) => {
   return {
     patientid: edit ? parseInt(activeClient[20].patientid) : 0,

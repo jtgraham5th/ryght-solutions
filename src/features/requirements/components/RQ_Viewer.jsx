@@ -8,11 +8,12 @@ import {
   renderCANS,
   renderANSA,
   requirements,
+  renderOrderOfService,
 } from "../data/requirements";
 import { useForm } from "react-hook-form";
 
 export function RQViewer({ data, activePage }) {
-  const { control, register } = useForm();
+  const { control, register, setValue } = useForm();
 
   const renderRequirement = () => {
     switch (data.doctypeid) {
@@ -29,7 +30,7 @@ export function RQViewer({ data, activePage }) {
       case 9:
         return renderAdultBPS(activePage, register, control);
       case 10:
-        return renderAdultBPS(activePage, register, control);
+        return renderOrderOfService(activePage, register, control, setValue);
       default:
         return renderAdultBPS(activePage, register, control);
     }

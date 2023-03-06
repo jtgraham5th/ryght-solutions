@@ -2,7 +2,11 @@ import { Row, Button, Collapse, Card } from "react-bootstrap";
 import "./formComponents.css";
 import { useClient } from "../../context/ClientContext";
 import { useState } from "react";
-import { parseNewContact } from "../../features/enrollment/utils/parseData";
+import {
+  parseNewContact,
+  parseNewProvider,
+} from "../../features/enrollment/utils/parseData";
+import FormUpdate from "../FormUpdate";
 
 export function FormAddContainer({
   sectionTitle,
@@ -11,7 +15,14 @@ export function FormAddContainer({
   newForm: NewForm,
   setValue,
 }) {
-  const { activeClient, addClientContact, getFormFields } = useClient();
+  const {
+    activeClient,
+    addClientContact,
+    getFormFields,
+    addGroupItem,
+    toggleUpdate,
+    setToggleUpdate,
+  } = useClient();
   const [state, setState] = useState({});
   const getContactType = () => {
     switch (sectionTitle) {
@@ -24,25 +35,41 @@ export function FormAddContainer({
     }
   };
   const onSubmit = async (e) => {
-    const data = parseNewContact(
-      state,
-      getContactType(),
-      activeClient[20].patientid
-    );
-    await addClientContact(data).then((newcontactid) => {
-      getFormFields();
-      switch (sectionTitle) {
-        case "familyPhysician":
-          setValue("physicianid", newcontactid);
-          break;
-        case "pharmacy":
-          setValue("pharmacyproviderid", newcontactid);
-          break;
-        default:
-          break;
+    console.log(sectionTitle)
+    if (sectionTitle === "insurance Provider") {
+      const data = parseNewProvider(state);
+      if (!state.carrierName || state.carrierName.length < 1) {
+        setToggleUpdate({
+          status: "Error",
+          message:
+            "There was an error creating this Insurance Provider. Please try again.",
+          show: true,
+        });
+        setState({});
+        return;
       }
-    });
-    setState({})
+      await addGroupItem([data]);
+    } else {
+      const data = parseNewContact(
+        state,
+        getContactType(),
+        activeClient[20].patientid
+      );
+      await addClientContact(data).then((newcontactid) => {
+        getFormFields();
+        switch (sectionTitle) {
+          case "familyPhysician":
+            setValue("physicianid", newcontactid);
+            break;
+          case "pharmacy":
+            setValue("pharmacyproviderid", newcontactid);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+    setState({});
     close(e);
   };
 

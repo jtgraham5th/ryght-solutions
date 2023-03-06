@@ -105,7 +105,6 @@ export function ClientProvider(props) {
       );
       groupObject[`${group.groupname}`] = groupList;
     }
-    console.log(groupObject);
     setFormData(groupObject);
   };
 
@@ -404,7 +403,6 @@ export function ClientProvider(props) {
   };
   const getClientAuthorizations = async () => {
     let data = await getAuthorizations(activeClient[20].patientid);
-    console.log("Client Authorizations from Context", data);
     setActiveAuthorizations(data);
   };
 

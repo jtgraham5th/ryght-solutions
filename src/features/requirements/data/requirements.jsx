@@ -1,3 +1,4 @@
+import { OrderOfService } from "../../services/components/OrderOfServices";
 import ABPS1 from "../forms/ABPS/ABPS_1";
 import ABSP10 from "../forms/ABPS/ABPS_10";
 import ABSP11 from "../forms/ABPS/ABPS_11";
@@ -150,6 +151,12 @@ export const renderANSA = (activePage, register, control) => {
       return <ANSA3 register={register} control={control} />;
     default:
       return <ANSA1 register={register} control={control} />;
+  }
+};
+export const renderOrderOfService= (activePage, register, control, setValue) => {
+  switch (activePage) {
+    case 0:
+      return <OrderOfService register={register} control={control} setValue={setValue} />;
   }
 };
 export const requirements = [

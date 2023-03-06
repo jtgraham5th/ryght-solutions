@@ -17,7 +17,7 @@ export function CVProgressNotes() {
         </Col>
         <Col md={9}>
           <Card className="h-100">
-            <ViewerHeader edit={handleShow} disabled={!activeNote} />
+            <ViewerHeader edit={handleShow} disabled={!activeNote} activeNote={activeNote}/>
             <Card.Body className="overflow-auto" style={{ height: "28rem" }}>
               {activeNote ? <PNViewNote data={activeNote} /> : null}
             </Card.Body>

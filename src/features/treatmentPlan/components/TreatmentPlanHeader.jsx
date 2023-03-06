@@ -5,7 +5,7 @@ import { useReactToPrint } from "react-to-print";
 import ModalContainer from "../../../components/ModalContainer";
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import { TPPdf } from "./TP_Pdf";
 import { useClient } from "../../../context/ClientContext";
 
@@ -20,31 +20,31 @@ export function TreatmentPlanHeader({
   pdfjs.GlobalWorkerOptions.workerSrc =
     "//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js";
 
-  const handlePrint = () => {
-    var iHeight = 800;
-    var iWidth = 800;
-    var sPath =
-      "http://www.ivronlogs.icu:8080/projects/PDFViewer/web/viewer.html?file=/projects/ryght-solutions/docs/apilist/APIList.pdf";
-    window.open(
-      sPath,
-      "popUpWindow",
-      "height=" +
-        iHeight +
-        ",width=" +
-        iWidth +
-        ",left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes"
-    );
-  };
-  // useReactToPrint({
-  //   content: () => treatmentPlanRef.current,
-  // });
-
   const handleEdit = (e) => {
     e.preventDefault();
     setEditTreatmentPlan(true);
   };
   const exitEdit = () => {
     setEditTreatmentPlan(false);
+  };
+  const handlePrint = (e) => {
+    setShow(true);
+  };
+  const downloadBtn = () => {
+    <>
+      <PDFDownloadLink
+        document={
+          <TPPdf
+            formData={formData}
+            data={tPlan[0]}
+            activeTreatmentPlan={activeTreatmentPlan}
+            activeClient={activeClient}
+          />
+        }
+        fileName={"TP-PrintJob"}
+      />
+      <button> Download </button>{" "}
+    </>;
   };
 
   return (
@@ -71,9 +71,10 @@ export function TreatmentPlanHeader({
           </Button>
           <Button
             className="me-2"
-            onClick={() => setShow(true)}
+            onClick={handlePrint}
             variant={"dark"}
             type="button"
+            disabled={!tPlan[0]}
           >
             <Printer className="me-1" /> Print
           </Button>

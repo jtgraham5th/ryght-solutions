@@ -155,7 +155,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
               });
             } else {
               const result = await addActiveClient(t20);
-              newPatientId = result;
+              newPatientId = result.patientid;
               if (result instanceof Error) {
                 console.log("error adding client");
                 setToggleUpdate({

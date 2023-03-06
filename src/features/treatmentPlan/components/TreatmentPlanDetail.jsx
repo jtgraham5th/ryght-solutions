@@ -10,7 +10,10 @@ import {
 import "../TreatmentPlan.css";
 import { useClient } from "../../../context/ClientContext";
 import { useForm } from "react-hook-form";
-import { DateField, TextAreaField } from "../utils/fieldCreator";
+import {
+  DateField,
+  TextAreaField,
+} from "../../../components/form/fieldCreator";
 import { Pencil } from "react-bootstrap-icons";
 import { useState, useRef, useEffect } from "react";
 import { TreatmentPlanHeader } from "./TreatmentPlanHeader";
@@ -83,28 +86,40 @@ export function TreatmentPlanDetail() {
           </Alert>
           <Row>
             <Col md={4}>
-              <DateField
-                control={control}
-                labelName="Program Start Date"
-                fieldName="f1"
-                readOnly={!editTreatmentPlan}
-              />
+              <Card bg="light">
+                <Card.Body className="d-flex ">
+                  <DateField
+                    control={control}
+                    labelName="Program Start Date"
+                    fieldName="f1"
+                    readOnly={!editTreatmentPlan}
+                  />
+                </Card.Body>
+              </Card>
             </Col>
             <Col md={4}>
-              <DateField
-                control={control}
-                labelName="Diagnosis Date"
-                fieldName="f2"
-                readOnly={!editTreatmentPlan}
-              />
+              <Card bg="light">
+                <Card.Body className="d-flex ">
+                  <DateField
+                    control={control}
+                    labelName="Diagnosis Date"
+                    fieldName="f2"
+                    readOnly={!editTreatmentPlan}
+                  />
+                </Card.Body>
+              </Card>
             </Col>
             <Col md={4}>
-              <DateField
-                control={control}
-                labelName="Initial Plan Date"
-                fieldName="f3"
-                readOnly={!editTreatmentPlan}
-              />
+              <Card bg="light">
+                <Card.Body className="d-flex ">
+                  <DateField
+                    control={control}
+                    labelName="Initial Plan Date"
+                    fieldName="f3"
+                    readOnly={!editTreatmentPlan}
+                  />
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
           <hr />
@@ -150,12 +165,15 @@ export function TreatmentPlanDetail() {
             <h3>Transition / Discharge Plan</h3>
             <Col md={4}>
               <ListGroup>
-                <DateField
-                  control={control}
-                  labelName="Projected Discharge/Transition Date"
-                  fieldName="f9"
-                  readOnly={!editTreatmentPlan}
-                />
+                <ListGroup.Item variant="secondary">
+                  <DateField
+                    control={control}
+                    labelName="Projected Discharge/Transition Date"
+                    fieldName="f9"
+                    readOnly={!editTreatmentPlan}
+                  />{" "}
+                </ListGroup.Item>
+                <ListGroup.Item variant="light"></ListGroup.Item>
                 <ListGroup.Item>
                   <TextAreaField
                     register={register}
@@ -168,12 +186,21 @@ export function TreatmentPlanDetail() {
             </Col>
             <Col md={8}>
               <ListGroup>
-                <ListGroup.Item>
-                  <Form.Label className="fs-5">
-                    Anticipated Step Down Service
+                <ListGroup.Item className="p-0">
+                  <Form.Label className="align-items-center border-bottom pb-2 bg-light form-label w-100 d-flex flex-wrap p-2">
+                    <Col md={8} className="fs-4">Anticipated Step Down Service</Col>
+                    <Col md={4}>
+                      <DateField
+                        control={control}
+                        labelName="Anticipated Step Down Date"
+                        fieldName="f13"
+                        readOnly={!editTreatmentPlan}
+                      />
+                    </Col>
                   </Form.Label>
+
                   {/* Add a warning that is dependent on Order of Services being completed */}
-                  <Form.Group as={Row} className="p-2 align-items-center">
+                  <Form.Group as={Row} className="ps-4 pe-4 pb-3 align-items-center">
                     {formData["Services"].map((item, i) => {
                       item.grouplistid = item.grouplistid.toString();
                       return (

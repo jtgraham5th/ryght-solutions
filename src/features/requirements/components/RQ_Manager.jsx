@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { requirements } from "../data/requirements";
 import { useClient } from "../../../context/ClientContext";
-import {RQPreview} from "./RQ_Preview";
+import { RQPreview } from "./RQ_Preview";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 
 export function RQManager({ show, setShow, containerName }) {
@@ -25,8 +25,7 @@ export function RQManager({ show, setShow, containerName }) {
   const [fullscreen, toggleFullScreen] = useState(false);
 
   const { control, register, handleSubmit, reset } = useForm();
-  const { activeClient, addClientBillingTx, activeBillingTx } =
-    useClient();
+  const { activeClient, addClientBillingTx, activeBillingTx } = useClient();
 
   const prevPage = () => {
     setActivePage((page) => page - 1);
@@ -108,83 +107,93 @@ export function RQManager({ show, setShow, containerName }) {
               fullscreen ? "RQ-list-container-fs" : "RQ-list-container"
             } mb-2`}
           >
-            <Col md={8}>
+            <Col>
               <h3 className="RQ-section-header mb-2">Requirements</h3>
-              <ListGroup className="RQ-list ">
-                {requirements.map((form, index) => (
-                  <ListGroup.Item
-                    variant={
-                      activeBillingTx.some(
-                        (value) =>
-                          parseInt(value.doctypeid) === parseInt(form.doctypeid)
-                      )
-                        ? "primary"
-                        : ""
-                    }
-                    className="d-flex"
-                    key={form.doctypeid + index}
-                  >
-                    <Col
-                      md={1}
-                      className="d-flex justify-content-center align-items-center"
-                    >
-                      <Form.Check
-                        style={{ fontSize: "1.5rem" }}
-                        onClick={() => addRequirement(form)}
-                        inline
-                        {...register(form.doctypeid)}
-                        type="checkbox"
-                        name={form.doctypeid}
-                        value={form.doctypeid}
-                        checked={activeBillingTx.some(
+              <ListGroup className="RQ-list mb-3">
+                {requirements.map((form, index) => {
+                  return (
+                    <ListGroup.Item
+                      variant={
+                        activeBillingTx.some(
                           (value) =>
                             parseInt(value.doctypeid) ===
                             parseInt(form.doctypeid)
-                        )}
-                      />
-                    </Col>
-                    <Col md={8}>
-                      <div>{form.name}</div>
-                      <Badge>{form.type}</Badge>
-                    </Col>
-                    <Col md={2}>
-                      <Form.Label className="CE-form-label">
-                        Set Due Date
-                      </Form.Label>
-                      <Controller
-                        control={control}
-                        name={`f${index + 1}`}
-                        
-                        render={({ field }) => (
-                          <DatePicker
-                            className="datePicker rounded"
-                            onChange={(date) => field.onChange(date)}
-                            selected={field.value}
-                          />
-                        )}
-                      />
-                    </Col>
-                    <Col
-                      md={1}
-                      className="d-flex justify-content-center align-items-center"
+                        )
+                          ? "primary"
+                          : ""
+                      }
+                      className="d-flex"
+                      key={form.doctypeid + index}
                     >
-                      <Button
-                        variant="outline-primary"
-                        size="sm"
-                        onClick={() => previewForm(form)}
+                      <Col
+                        md={1}
+                        className="d-flex justify-content-center align-items-center"
                       >
-                        {fullscreen ? (
-                          <EyeSlash size={20} />
-                        ) : (
-                          <Eye size={20} />
-                        )}
-                      </Button>
-                    </Col>
-                  </ListGroup.Item>
-                ))}
+                        <Form.Check
+                          style={{ fontSize: "1.5rem" }}
+                          onClick={() => addRequirement(form)}
+                          inline
+                          {...register(form.doctypeid)}
+                          type="checkbox"
+                          name={form.doctypeid}
+                          value={form.doctypeid}
+                          checked={activeBillingTx.some(
+                            (value) =>
+                              parseInt(value.doctypeid) ===
+                              parseInt(form.doctypeid)
+                          )}
+                        />
+                      </Col>
+                      <Col md={8}>
+                        <div>{form.name}</div>
+                        <Badge>{form.type}</Badge>
+                      </Col>
+                      <Col md={2}>
+                        <Form.Label className="CE-form-label">
+                          Set Due Date
+                        </Form.Label>
+                        <Controller
+                          control={control}
+                          name={`f${index + 1}`}
+                          render={({ field }) => (
+                            <DatePicker
+                              className="datePicker rounded"
+                              onChange={(date) => field.onChange(date)}
+                              selected={field.value}
+                            />
+                          )}
+                        />
+                      </Col>
+                      <Col
+                        md={1}
+                        className="d-flex justify-content-center align-items-center"
+                      >
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          onClick={() => previewForm(form)}
+                        >
+                          {fullscreen ? (
+                            <EyeSlash size={20} />
+                          ) : (
+                            <Eye size={20} />
+                          )}
+                        </Button>
+                      </Col>
+                    </ListGroup.Item>
+                  );
+                })}
               </ListGroup>
+              <Button
+                className="mb-3 w-100"
+                disabled={newRequirements.length < 1}
+                onClick={createRequirements}
+              >
+                Save {newRequirements.length} Client Requirements for{" "}
+                {activeClient[20].pfirstname + " " + activeClient[20].plastname}{" "}
+              </Button>
             </Col>
-            <Col md={4} className="d-flex flex-column justify-content-between">
+            {/* <Col md={4} className="d-flex flex-column justify-content-between">
               <div>
                 <h3 className="RQ-section-header">Selected Requirements</h3>
                 <ListGroup className="RQ-list-active">
@@ -206,15 +215,7 @@ export function RQManager({ show, setShow, containerName }) {
                   })}
                 </ListGroup>
               </div>
-              <Button
-                className="mb-3"
-                disabled={newRequirements.length < 1}
-                onClick={createRequirements}
-              >
-                Save {newRequirements.length} Client Requirements for{" "}
-                {activeClient[20].pfirstname + " " + activeClient[20].plastname}{" "}
-              </Button>
-            </Col>
+            </Col> */}
           </Row>
           <RQPreview
             data={activeItem}

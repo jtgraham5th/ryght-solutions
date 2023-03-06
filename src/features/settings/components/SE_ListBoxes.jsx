@@ -2,14 +2,11 @@ import { useState } from "react";
 import { Row, Col, Form, ListGroup, Button } from "react-bootstrap";
 import "../settings.css";
 import { useClient } from "../../../context/ClientContext";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
-  getGroupNameValues,
   getGroupInactiveListValues,
 } from "../../../services/api";
 import { SelectField } from "../../../components/form/fieldCreator";
-import { FormFamilyPhysician } from "../../../components/form/Form_FamilyPhysician";
 import { UpdateContact } from "./UpdateContact";
 import { defaultContact, defaultListItem } from "../utils/parseData";
 import { XLg, CheckLg } from "react-bootstrap-icons";

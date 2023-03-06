@@ -303,7 +303,7 @@ export function FormLabelButtons({
           <Button
             className="CE-form-label-button me-2"
             name={name}
-            type="submit"
+            onClick={closeItem}
             variant="outline-success"
             size="sm"
           >

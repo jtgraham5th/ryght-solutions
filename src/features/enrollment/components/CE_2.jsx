@@ -42,6 +42,7 @@ export function CE2({ register, control, setValue, formState }) {
       sectionTitle: "",
       pharmacy: false,
       familyPhysician: false,
+      insuranceProvider: false,
       activeForm: () => {},
     }));
   };
@@ -240,6 +241,7 @@ export function CE2({ register, control, setValue, formState }) {
         open={addNew.sectionTitle === "insuranceProvider"}
         close={closeItem}
         newForm={addNew.activeForm}
+        setValue={setValue}
       />
       <Form.Group as={Row} className="mb-4">
         <Col md={4} className="mt-4">

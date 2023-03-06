@@ -14,7 +14,7 @@ export function DateField({
   return (
     <Card bg="light">
       <Card.Body className="d-flex ">
-        <Form.Label className="fs-6 me-3  text-nowrap">{labelName}</Form.Label>
+        <Form.Label className="fs-6 me-3 text-nowrap">{labelName}</Form.Label>
         <Controller
           control={control}
           name={fieldName}

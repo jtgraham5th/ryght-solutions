@@ -53,16 +53,20 @@ export function ViewerFooter({ activePage, setActivePage }) {
   const popover = (
     <Popover
       id="popover-basic"
-      className="shadow overflow-auto"
+      className="shadow"
       style={{
         width: "50rem",
         maxWidth: "50rem",
-        maxHeight: "30rem",
       }}
       onHide={() => setAcceptedTerms(false)}
     >
       <Popover.Header as="h3">Signature</Popover.Header>
-      <Popover.Body>
+      <Popover.Body
+        style={{
+          maxHeight: "30rem",
+        }}
+        className="h-100 w-100 overflow-auto"
+      >
         <Card
           bg="light"
           className="ps-4 pe-4 mb-3 border-bottom"
