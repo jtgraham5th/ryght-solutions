@@ -1,4 +1,4 @@
-import { Button, Row, Modal, Form, Popover, OverlayTrigger } from "react-bootstrap";
+import { Button, Row, Modal, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import "./PN_Manager.css";
 import AlertContainer from "../../../components/AlertContainer";

@@ -6,7 +6,6 @@ import {
   parseNewContact,
   parseNewProvider,
 } from "../../features/enrollment/utils/parseData";
-import FormUpdate from "../FormUpdate";
 
 export function FormAddContainer({
   sectionTitle,
@@ -26,7 +25,7 @@ export function FormAddContainer({
   const [state, setState] = useState({});
   const getContactType = () => {
     switch (sectionTitle) {
-      case "familyPhysician":
+      case "physician":
         return 24;
       case "pharmacy":
         return 23;
@@ -36,7 +35,7 @@ export function FormAddContainer({
   };
   const onSubmit = async (e) => {
     console.log(sectionTitle)
-    if (sectionTitle === "insurance Provider") {
+    if (sectionTitle === "provider") {
       const data = parseNewProvider(state);
       if (!state.carrierName || state.carrierName.length < 1) {
         setToggleUpdate({
@@ -58,7 +57,7 @@ export function FormAddContainer({
       await addClientContact(data).then((newcontactid) => {
         getFormFields();
         switch (sectionTitle) {
-          case "familyPhysician":
+          case "physician":
             setValue("physicianid", newcontactid);
             break;
           case "pharmacy":
@@ -79,7 +78,7 @@ export function FormAddContainer({
         <Card bg="light" className="p-0 mt-3 mb-3">
           <Card.Body>
             <Card.Title className="d-flex justify-content-between">
-              Add {sectionTitle}
+              Add {sectionTitle.charAt(0).toUpperCase() + sectionTitle.slice(1)}
               <div className="CE-form-label-button-container">
                 <Button
                   size="sm"

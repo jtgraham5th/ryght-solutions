@@ -324,7 +324,7 @@ export function FormLabelButtons({
           disabled={disabled}
           size="sm"
           variant="outline-primary"
-          name="insuranceProvider"
+          name={name}
           className="CE-form-label-button"
           onClick={addItem}
         >

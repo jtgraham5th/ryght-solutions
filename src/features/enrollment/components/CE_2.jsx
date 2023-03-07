@@ -18,8 +18,8 @@ export function CE2({ register, control, setValue, formState }) {
   const [addNew, setAddNew] = useState({
     sectionTitle: "",
     pharmacy: false,
-    familyPhysician: false,
-    insuranceProvider: false,
+    physician: false,
+    provider: false,
     activeForm: () => {},
   });
   const { formData } = useClient();
@@ -41,18 +41,18 @@ export function CE2({ register, control, setValue, formState }) {
       ...prevState,
       sectionTitle: "",
       pharmacy: false,
-      familyPhysician: false,
-      insuranceProvider: false,
+      physician: false,
+      provider: false,
       activeForm: () => {},
     }));
   };
   const renderSectionForm = (name) => {
     switch (name) {
-      case "familyPhysician":
+      case "physician":
         return FormFamilyPhysician;
       case "pharmacy":
         return FormPharmacy;
-      case "insuranceProvider":
+      case "provider":
         return FormInsuranceProvider;
       default:
         return FormFamilyPhysician;
@@ -135,10 +135,10 @@ export function CE2({ register, control, setValue, formState }) {
       <Form.Group as={Row} className="mb-4">
         <Col md={4}>
           <Form.Label className="CE-form-label">
-            Family Physician
+            Physician
             <FormLabelButtons
-              toggle={addNew.familyPhysician}
-              name="familyPhysician"
+              toggle={addNew.physician}
+              name="physician"
               closeItem={closeItem}
               addItem={addItem}
               // disabled
@@ -178,7 +178,7 @@ export function CE2({ register, control, setValue, formState }) {
       <FormAddContainer
         sectionTitle={addNew.sectionTitle}
         open={
-          addNew.sectionTitle === "familyPhysician" ||
+          addNew.sectionTitle === "physician" ||
           addNew.sectionTitle === "pharmacy"
         }
         close={closeItem}
@@ -192,8 +192,8 @@ export function CE2({ register, control, setValue, formState }) {
           <Form.Label className="CE-form-label">
             Funding Source
             <FormLabelButtons
-              toggle={addNew.insuranceProvider}
-              name="insuranceProvider"
+              toggle={addNew.provider}
+              name="provider"
               closeItem={closeItem}
               addItem={addItem}
             />
@@ -238,7 +238,7 @@ export function CE2({ register, control, setValue, formState }) {
             ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
             : ""
         }
-        open={addNew.sectionTitle === "insuranceProvider"}
+        open={addNew.sectionTitle === "provider"}
         close={closeItem}
         newForm={addNew.activeForm}
         setValue={setValue}
@@ -270,8 +270,8 @@ export function CE2({ register, control, setValue, formState }) {
                 <Form.Label className="CE-form-label">
                   Funding Source
                   <FormLabelButtons
-                    toggle={addNew.insuranceProvider}
-                    name="insuranceProvider"
+                    toggle={addNew.provider}
+                    name="provider"
                     closeItem={closeItem}
                     addItem={addItem}
                   />
@@ -317,7 +317,7 @@ export function CE2({ register, control, setValue, formState }) {
                   ? addNew.sectionTitle.split(/(?=[A-Z])/).join(" ")
                   : ""
               }
-              open={addNew.sectionTitle === "insuranceProvider"}
+              open={addNew.sectionTitle === "provider"}
               close={closeItem}
               newForm={addNew.activeForm}
             />
