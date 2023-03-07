@@ -54,7 +54,7 @@ export function TreatmentPlanDetail() {
 
   const onSubmit = (data) => {
     console.log("tplan formdata", data);
-    const updatedTPlan = parseTreatmentPlan(data, patientid, activeClient);
+    const updatedTPlan = parseTreatmentPlan(data, patientid);
     console.log("updated treatment plan", updatedTPlan);
     if (!tPlan || tPlan.length === 0) {
       console.log("new treatment plan");

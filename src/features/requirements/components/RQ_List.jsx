@@ -11,23 +11,27 @@ export function RQList({ activeForm, setActiveForm }) {
   return (
     <Card className="h-100">
       <Card.Body className="p-0">
-        <Card.Title className="p-3 w-100 border mb-0">Client Documents</Card.Title>
+        <Card.Title className="p-3 w-100 border mb-0">
+          Client Documents
+        </Card.Title>
         <RQNewDoc />
         <ListGroup style={{ height: "32rem" }} variant="flush">
           <div
             style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}
           >
-            {activeBillingTx.map((value, i) => {
-              return (
-                <RQAssessmentItem
-                  key={i}
-                  index={i}
-                  data={value}
-                  selectDoc={setActiveForm}
-                  active={activeForm === value}
-                />
-              );
-            })}
+            {activeBillingTx
+              .filter((item) => item.doctypeid !== 1)
+              .map((value, i) => {
+                return (
+                  <RQAssessmentItem
+                    key={i}
+                    index={i}
+                    data={value}
+                    selectDoc={setActiveForm}
+                    active={activeForm === value}
+                  />
+                );
+              })}
           </div>
         </ListGroup>
       </Card.Body>

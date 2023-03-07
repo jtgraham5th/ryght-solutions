@@ -12,27 +12,27 @@ import {
 } from "../data/requirements";
 import { useForm } from "react-hook-form";
 
-export function RQViewer({ data, activePage }) {
+export function RQViewer({ data, activePage, edit }) {
   const { control, register, setValue } = useForm();
 
   const renderRequirement = () => {
     switch (data.doctypeid) {
       case 4:
-        return renderAdolescentBPS(activePage, register, control);
+        return renderAdolescentBPS(activePage, register, control, edit);
       case 5:
-        return renderAdultBPS(activePage, register, control);
+        return renderAdultBPS(activePage, register, control, edit);
       case 6:
-        return renderCANS(activePage, register, control);
+        return renderCANS(activePage, register, control, edit);
       case 7:
-        return renderANSA(activePage, register, control);
+        return renderANSA(activePage, register, control, edit);
       case 8:
-        return renderAdultBPS(activePage, register, control);
+        return renderAdultBPS(activePage, register, control, edit);
       case 9:
-        return renderAdultBPS(activePage, register, control);
+        return renderAdultBPS(activePage, register, control), edit;
       case 10:
-        return renderOrderOfService(activePage, register, control, setValue);
+        return renderOrderOfService(activePage, register, control, setValue, edit);
       default:
-        return renderAdultBPS(activePage, register, control);
+        return renderAdultBPS(activePage, register, control, edit);
     }
   };
   const getAssessmentInfo = () => {

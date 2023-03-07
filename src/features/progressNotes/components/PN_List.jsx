@@ -19,7 +19,7 @@ export function PNList({ activeNote, setActiveNote }) {
           <div
             style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}
           >
-            {activeTreatmentPlan.tPlan.length > 0 && activeTreatmentPlan.goals.length > 0 ? (
+            {activeTreatmentPlan && activeTreatmentPlan.goals.length > 0 ? (
               activeProgNotes.map((note, index) => (
                 <PNListItem
                   type={index}

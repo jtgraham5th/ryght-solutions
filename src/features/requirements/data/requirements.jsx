@@ -153,10 +153,10 @@ export const renderANSA = (activePage, register, control) => {
       return <ANSA1 register={register} control={control} />;
   }
 };
-export const renderOrderOfService= (activePage, register, control, setValue) => {
+export const renderOrderOfService= (activePage, register, control, setValue, edit) => {
   switch (activePage) {
     case 0:
-      return <OrderOfService register={register} control={control} setValue={setValue} />;
+      return <OrderOfService register={register} control={control} setValue={setValue} edit={edit} />;
   }
 };
 export const requirements = [

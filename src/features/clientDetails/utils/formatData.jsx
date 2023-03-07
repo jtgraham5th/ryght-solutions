@@ -35,7 +35,7 @@ export const getFormValue = (groupName, activeListId, formData) => {
     return idValues.join(", ");
   } else if (Object.keys(formData).length > 0 && activeListId) {
     const data = formDataArray.find((item) => {
-      return item.grouplistid === activeListId;
+      return item.grouplistid === parseInt(activeListId);
     });
     if (data) {
       return data.groupvalue;

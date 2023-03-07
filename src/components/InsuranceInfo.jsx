@@ -1,13 +1,16 @@
-import { Row } from "react-bootstrap";
+import { Row, Card } from "react-bootstrap";
 import InsCard from "./InsCard";
 import styles from "./InsuranceInfo.module.scss";
 
 function InsuranceInfo() {
   return (
-    <Row className={styles.insuranceInfo}>
-      <InsCard source="Primary"/>
-      <InsCard source="Secondary"/>
-    </Row>
+    <Card as={Row} className={styles.insuranceInfo}>
+      <Card.Header className="text-primary">Insurance Information</Card.Header>
+      <Card.Body>
+        <InsCard source="Primary" />
+        <InsCard source="Secondary" />
+      </Card.Body>
+    </Card>
   );
 }
 

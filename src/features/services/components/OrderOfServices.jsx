@@ -8,7 +8,7 @@ import formatDateToday from "../../../utils/formatDateToday";
 import { Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 
-export function OrderOfService({ register, control, setValue, formState }) {
+export function OrderOfService({ register, control, setValue, formState, edit }) {
   const noteRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => noteRef.current,
@@ -97,6 +97,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
                   className="datePicker rounded"
                   onChange={(date) => field.onChange(date)}
                   selected={field.value}
+                  readOnly={!edit}
                 />
               );
             }}
@@ -115,6 +116,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
                 className="datePicker rounded"
                 onChange={(date) => field.onChange(date)}
                 selected={field.value}
+                readOnly={!edit}
               />
             )}
           />
@@ -158,6 +160,7 @@ export function OrderOfService({ register, control, setValue, formState }) {
                         type="text"
                         name="f7"
                         onChange={(e) => setServiceValue(e, item.grouplistid)}
+                        readOnly={!edit}
                       />
                     </Col>
                     <Col

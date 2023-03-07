@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
+import { useClient } from "../../../context/ClientContext";
+
 import {
   PersonLinesFill,
   Telephone,
@@ -7,14 +9,18 @@ import {
   FileText,
 } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
-import "../ClientView.css"
+import "../ClientView.css";
 
 export function CVNav() {
   // const {id} = useParams(  )
   const setTab = (e) => {
     setActiveTab(e);
   };
+  const { activeClient } = useClient();
   const [activeTab, setActiveTab] = useState("#overview");
+  useEffect(() => {
+    setActiveTab("#overview");
+  }, [activeClient]);
   return (
     <Nav
       className="CV-nav-tabs"

@@ -1,12 +1,13 @@
 import { Row, Col, ListGroup, Accordion } from "react-bootstrap";
-import {CVDemographics} from "./CV_Demographics";
+import { CVDemographics } from "./CV_Demographics";
 import { ContactLog } from "../../contacts";
 import { Services } from "../../services";
 import { Requirements } from "../../requirements";
-import InsuranceInfo  from "../../../components/InsuranceInfo";
+import InsuranceInfo from "../../../components/InsuranceInfo";
 import { Diagnosis } from "../../diagnosis";
 import { CDTabs } from "../../clientDetails";
 import { FileManager } from "../../fileManager";
+import InsCard from "../../../components/InsCard";
 
 export function CVProfile({ sidebar }) {
   return (
@@ -17,18 +18,7 @@ export function CVProfile({ sidebar }) {
           <CDTabs />
         </Col>
         <Col md={6}>
-          <Accordion
-            defaultActiveKey="0"
-            alwaysOpen
-            className="mb-3 card-shadow"
-          >
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Insurance Information</Accordion.Header>
-              <Accordion.Body className="p-0">
-              <InsuranceInfo />
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+          <InsuranceInfo />
         </Col>
       </Row>
 
@@ -47,8 +37,7 @@ export function CVProfile({ sidebar }) {
           <Accordion defaultActiveKey="0" className="mb-3">
             <Accordion.Item eventKey="0">
               <Accordion.Header>Insurance Information</Accordion.Header>
-              <Accordion.Body className="p-0">
-              </Accordion.Body>
+              <Accordion.Body className="p-0"></Accordion.Body>
             </Accordion.Item>
           </Accordion>
           <Accordion defaultActiveKey="0" className="mb-3">

@@ -1,32 +1,32 @@
 import { Row, Col, Card } from "react-bootstrap";
 import styles from "./InsuranceInfo.module.scss";
+import { useClient } from "../context/ClientContext";
+import { getFormValue } from "../features/clientDetails/utils/formatData";
 
 function InsCard({ source }) {
+  const { activeClient, formData } = useClient();
+  const { ins1_fundingsource, ins1_policynumber, ins1_dateexpires } =
+    activeClient[21];
+
   return (
     <Card className={styles.insuranceCard}>
-      <Card.Header>{source} Source</Card.Header>
-      <Card.Body>
-      <Row>
-        <Col md={9}>
-          <Card.Title>Funding Source</Card.Title>
-          <Card.Subtitle>Policy Number</Card.Subtitle>
-        </Col>
-        <Col className={styles.icCoPay}>
-          <div>Co-Pay Amount:</div> $20
-        </Col>
-      </Row>
-      <Row className={styles.icRow}>
-        <div>Case Manager:</div>
-        <div>John Doe</div>{" "}
-      </Row>
-      <Row className={styles.icRow}>
-        <div>Case Manager Supervisor:</div>
-        <div>John Doe</div>{" "}
-      </Row>
-      <Row className={styles.icComment}>
-        <Col md={3}>Client Notes:</Col>
-        <Col md={9}>Notes...</Col>{" "}
-      </Row>
+      <Card.Header className="bg-light">{source} Source</Card.Header>
+      <Card.Body className="pt-1">
+        <Row>
+          <Col md={9}>
+            <Card.Title>
+              {getFormValue("Funding Source ", ins1_fundingsource, formData)}
+            </Card.Title>
+            <Card.Subtitle>{ins1_policynumber}</Card.Subtitle>
+            <Card.Text className="d-flex small mt-1 mb-2">
+              <div>Expiration Date:</div>
+              <div>{ins1_dateexpires}</div>{" "}
+            </Card.Text>
+          </Col>
+          <Col className={styles.icCoPay}>
+            <div>Co-Pay Amount:</div> $20
+          </Col>
+        </Row>
       </Card.Body>
     </Card>
   );

@@ -46,10 +46,10 @@ export function CVDemographics() {
           </ListGroup>
         </Col>
       </Card.Body>
-      <hr/>
+      {/* <hr/>
       <Row className="pe-2 ps-2 pb-2">
         <ClientIssues />
-      </Row>
+      </Row> */}
     </Card>
   );
 }

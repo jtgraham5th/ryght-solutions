@@ -1,6 +1,6 @@
 import formatDate from "../../../utils/formatDate";
 
-export const parseTreatmentPlan = (tPlan, patientid, activeClient, billingid, ) => {
+export const parseTreatmentPlan = (tPlan, patientid, billingid) => {
   return [
     {
       recid: tPlan.recid ? tPlan.recid : 0,
@@ -263,7 +263,9 @@ export const parseIntervention = (intervention, patientid, objectiveid) => {
       services: intervention.services ? parseArray(intervention.services) : "",
       description: intervention.description ? intervention.description : "",
       frequency: intervention.frequency ? parseInt(intervention.frequency) : 0,
-      stafftitleid: intervention.stafftitleid ? parseArray(intervention.stafftitleid) : 0,
+      stafftitleid: intervention.stafftitleid
+        ? parseArray(intervention.stafftitleid)
+        : 0,
       lastupdateid: intervention.lastupdateid ? intervention.lastupdateid : 680,
     },
   ];
@@ -298,4 +300,4 @@ export const parseInterventions = (activeTreatmentPlan, activeObjective) =>
   );
 const parseArray = (services) => {
   return services.map((element) => element.value).toString();
-}
+};
