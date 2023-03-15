@@ -2,19 +2,43 @@ import React from "react";
 import { Document, Page, View, Text } from "@react-pdf/renderer";
 import { parseObjectives, parseInterventions } from "../utils/parseData";
 import { getFormValue } from "../../clientDetails/utils/formatData";
+import { PrintHeader } from "../../../components/PrintHeader";
+import { PrintFooter } from "../../../components/PrintFooter";
+import { PrintSignatureHeader } from "../../../components/PrintSignatureHeader";
 
 export function TPPdf({ formData, data, activeClient, activeTreatmentPlan }) {
-  console.log(formData, data);
-  //   const { tPlan } = activeTreatmentPlan;
-  //   const formData = {};
-  //   console.log(formData);
-
+  // const handleRender = ({ pageNumber, totalPages }) => {
+  //   let style = {};
+  //   if (pageNumber === totalPages) {
+  //     style = {
+  //       position: 'absolute',
+  //       fontSize: 12,
+  //       bottom: 30,
+  //       left: 0,
+  //       right: 0,
+  //       textAlign: 'center',
+  //       color: 'grey'
+  //     };
+  //   } else {
+  //     style = {
+  //       marginTop: 10,
+  //       marginHorizontal: 10,
+  //       padding: '5px'
+  //     };
+  //   }
+  //   return (
+  //     <View style={style}>
+  //       <Text>Page {pageNumber} / {totalPages}</Text>
+  //     </View>
+  //   );
+  // };
   return (
     <Document>
       <Page size="A4">
-        <View style={{ margin: 20 }}>
+        <PrintHeader />
+        <View style={{ marginTop: 10, marginHorizontal: 20 }}>
           <Text style={{ fontSize: 20, marginBottom: 5 }}>Treatment Plan</Text>
-          <Text style={{ fontSize: 15, marginBottom: 20 }}>
+          <Text style={{ fontSize: 15, marginBottom: 10 }}>
             {activeClient[20].pfirstname + " " + activeClient[20].plastname}
           </Text>
           <View style={{ flexDirection: "row", marginBottom: 10 }}>
@@ -322,7 +346,7 @@ export function TPPdf({ formData, data, activeClient, activeTreatmentPlan }) {
                                             style={{
                                               marginBottom: 5,
                                               fontSize: "10",
-                                              fontStyle: "italic"
+                                              fontStyle: "italic",
                                             }}
                                           >
                                             {getFormValue(
@@ -372,6 +396,11 @@ export function TPPdf({ formData, data, activeClient, activeTreatmentPlan }) {
               : null}
           </View>
         </View>
+        <PrintFooter />
+      </Page>
+      <Page>
+        <PrintSignatureHeader />
+      <PrintFooter />
       </Page>
     </Document>
   );

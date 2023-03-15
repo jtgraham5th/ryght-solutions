@@ -36,12 +36,6 @@ export function CVProfile({ sidebar }) {
         <Col md={6}>
           <Accordion defaultActiveKey="0" className="mb-3">
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Insurance Information</Accordion.Header>
-              <Accordion.Body className="p-0"></Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <Accordion defaultActiveKey="0" className="mb-3">
-            <Accordion.Item eventKey="0">
               <Accordion.Header>File Manager</Accordion.Header>
               <Accordion.Body className="p-0">
                 <FileManager />
