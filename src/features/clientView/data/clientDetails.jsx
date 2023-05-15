@@ -20,7 +20,7 @@ export const dataColumn1 = (formData, activeClient) => {
   return [
     { field: "DOB", value: activeClient[20].dob },
     { field: "Height", value: formatHeight(parseInt(activeClient[21].height))},
-    { field: "Weight", value: activeClient[21].weight },
+    { field: "Weight", value: activeClient[21].weight + " lbs" },
   ];
 };
 export const dataColumn3 = (formData, activeClient) => {

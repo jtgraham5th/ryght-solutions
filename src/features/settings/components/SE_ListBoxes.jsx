@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Row, Col, Form, ListGroup, Button } from "react-bootstrap";
+import { Row, Col, Form, ListGroup, Button, Card } from "react-bootstrap";
 import "../settings.css";
 import { useClient } from "../../../context/ClientContext";
 import { useForm } from "react-hook-form";
-import {
-  getGroupInactiveListValues,
-} from "../../../services/api";
+import { getGroupInactiveListValues } from "../../../services/api";
 import { SelectField } from "../../../components/form/fieldCreator";
 import { UpdateContact } from "./UpdateContact";
 import { defaultContact, defaultListItem } from "../utils/parseData";
@@ -22,7 +20,7 @@ export function SEListBoxes(props) {
   const [activeGroup, setActiveGroup] = useState(null);
   const [showInactive, setShowInactive] = useState(false);
   const [newItem, setNewItem] = useState(false);
-  const { register, handleSubmit, reset, setValue, getValues, watch } = useForm(
+  const { register, handleSubmit, reset, setValue, watch } = useForm(
     {
       defaultValues: {
         groupvalue: "",
@@ -154,134 +152,140 @@ export function SEListBoxes(props) {
   };
   return (
     <Col md={10} className="settings-main">
-      <div className="text-start fs-2 mb-2">Setup Patient List Boxes</div>
-      <Row className="justify-content-between h-100">
-        <Col md={6} className="border settings-activate">
-          <Form.Label className="CE-form-label">Group Name</Form.Label>
-          <Form.Select
-            name="groupName"
-            aria-label="Select Group"
-            className="mb-2"
-            onChange={(e) => {
-              selectGroup(formData[e.currentTarget.value]);
-            }}
-          >
-            <option>Select Group</option>
-            {Object.keys(formData).length > 0 &&
-              Object.keys(formData).map((group, i) => {
-                return (
-                  <option key={i} value={group}>
-                    {group}
-                  </option>
-                );
-              })}
-          </Form.Select>
-          <div>
-            <ListGroup>
-              <ListGroup.Item
-                variant="dark"
-                className="d-flex justify-content-between"
-              >
-                <Form.Switch
-                  onChange={toggleInactive}
-                  id="custom-switch"
-                  label={`Show inactive items`}
-                  checked={showInactive}
-                  disabled={!activeGroup}
-                />
-                <Button
-                  size="sm"
-                  variant={newItem ? "outline-secondary" : "outline-success"}
-                  onClick={toggleNewItem}
-                  disabled={!activeGroup}
+      <Card className="p-0 h-100">
+        <Card.Header className="d-flex flex-row justify-content-between align-items-center p-2">
+          <h4 className="mb-0">Setup List Boxes</h4>
+        </Card.Header>
+        <Card.Body as={Row} className="justify-content-between overflow-auto">
+          <Col md={6} className="border settings-activate">
+            <Form.Label className="CE-form-label">Group Name</Form.Label>
+            <Form.Select
+              name="groupName"
+              aria-label="Select Group"
+              className="mb-2"
+              onChange={(e) => {
+                selectGroup(formData[e.currentTarget.value]);
+              }}
+            >
+              <option>Select Group</option>
+              {Object.keys(formData).length > 0 &&
+                Object.keys(formData).map((group, i) => {
+                  return (
+                    <option key={i} value={group}>
+                      {group}
+                    </option>
+                  );
+                })}
+            </Form.Select>
+            <div>
+              <ListGroup>
+                <ListGroup.Item
+                  variant="dark"
+                  className="d-flex justify-content-between"
                 >
-                  {newItem ? "Cancel" : "New Item"}
-                </Button>
-              </ListGroup.Item>
-              <div className="settings-listgroup">
-                {activeGroup &&
-                  activeGroup.map((item, i) => {
-                    const groupvalue = watch("groupvalue");
-                    const isActive = groupvalue === item.groupvalue;
-                    return (
-                      <ListGroup.Item
-                        key={i}
-                        active={isActive}
-                        action
-                        onClick={
-                          activeGroup[0].hasOwnProperty("contactid")
-                            ? () => setContactValues(i)
-                            : () => setGroupValue(i)
-                        }
-                        variant={
-                          parseInt(item.isactive) === 0 ? "secondary" : ""
-                        }
-                        value={
-                          alternateGroupType(item)
-                            ? item.contactid
-                            : item.grouplistid
-                        }
-                        disabled={newItem}
-                        className="d-flex justify-content-between align-items-start"
-                      >
-                        {alternateGroupType(item) ? item.name : item.groupvalue}
-                        <Button
-                          size="sm"
-                          variant={
-                            parseInt(item.isactive) === 0
-                              ? "outline-primary"
-                              : "outline-secondary"
-                          }
-                          onClick={() => activateItem(item)}
-                        >
-                          {parseInt(item.isactive) === 0 ? (
-                            <CheckLg />
-                          ) : (
-                            <XLg />
-                          )}
-                        </Button>
-                      </ListGroup.Item>
-                    );
-                  })}
-              </div>
-              <Form onSubmit={handleSubmit(addItem)}>
-                <ListGroup.Item variant="dark" className="d-flex flex-column">
-                  {activeGroup &&
-                  Object.keys(activeGroup).length > 0 &&
-                  (activeGroup[0].hasOwnProperty("contactid") ||
-                    activeGroup[0].hasOwnProperty("name")) ? (
-                    <UpdateContact register={register} />
-                  ) : (
-                    <Form.Control
-                      {...register("groupvalue")}
-                      type="text"
-                      name="groupvalue"
-                    />
-                  )}
+                  <Form.Switch
+                    onChange={toggleInactive}
+                    id="custom-switch"
+                    label={`Show inactive items`}
+                    checked={showInactive}
+                    disabled={!activeGroup}
+                  />
                   <Button
-                    className="text-nowrap mt-3"
-                    type="submit"
-                    variant={newItem ? "success" : "primary"}
+                    size="sm"
+                    variant={newItem ? "outline-secondary" : "outline-success"}
+                    onClick={toggleNewItem}
+                    disabled={!activeGroup}
                   >
-                    {newItem ? "Add List Item" : "Update List Item"}
+                    {newItem ? "Cancel" : "New Item"}
                   </Button>
                 </ListGroup.Item>
-              </Form>
-            </ListGroup>
-          </div>
-        </Col>
-        <Col md={6} className="border settings-activate-overflow">
-          {Object.keys(formData).map((group, i) => {
-            return (
-              <SelectField
-                labelName={group}
-                groupName={group}
-                labelStyle="CE-form-label"
-              />
-            );
-          })}
-        </Col>
-      </Row>
+                <div className="settings-listgroup">
+                  {activeGroup &&
+                    activeGroup.map((item, i) => {
+                      const groupvalue = watch("groupvalue");
+                      const isActive = groupvalue === item.groupvalue;
+                      return (
+                        <ListGroup.Item
+                          key={i}
+                          active={isActive}
+                          action
+                          onClick={
+                            activeGroup[0].hasOwnProperty("contactid")
+                              ? () => setContactValues(i)
+                              : () => setGroupValue(i)
+                          }
+                          variant={
+                            parseInt(item.isactive) === 0 ? "secondary" : ""
+                          }
+                          value={
+                            alternateGroupType(item)
+                              ? item.contactid
+                              : item.grouplistid
+                          }
+                          disabled={newItem}
+                          className="d-flex justify-content-between align-items-start"
+                        >
+                          {alternateGroupType(item)
+                            ? item.name
+                            : item.groupvalue}
+                          <Button
+                            size="sm"
+                            variant={
+                              parseInt(item.isactive) === 0
+                                ? "outline-primary"
+                                : "outline-secondary"
+                            }
+                            onClick={() => activateItem(item)}
+                          >
+                            {parseInt(item.isactive) === 0 ? (
+                              <CheckLg />
+                            ) : (
+                              <XLg />
+                            )}
+                          </Button>
+                        </ListGroup.Item>
+                      );
+                    })}
+                </div>
+                <Form onSubmit={handleSubmit(addItem)}>
+                  <ListGroup.Item variant="dark" className="d-flex flex-column">
+                    {activeGroup &&
+                    Object.keys(activeGroup).length > 0 &&
+                    (activeGroup[0].hasOwnProperty("contactid") ||
+                      activeGroup[0].hasOwnProperty("name")) ? (
+                      <UpdateContact register={register} />
+                    ) : (
+                      <Form.Control
+                        {...register("groupvalue")}
+                        type="text"
+                        name="groupvalue"
+                      />
+                    )}
+                    <Button
+                      className="text-nowrap mt-3"
+                      type="submit"
+                      variant={newItem ? "success" : "primary"}
+                    >
+                      {newItem ? "Add List Item" : "Update List Item"}
+                    </Button>
+                  </ListGroup.Item>
+                </Form>
+              </ListGroup>
+            </div>
+          </Col>
+          <Col md={6} className="border settings-activate-overflow">
+            {Object.keys(formData).map((group, i) => {
+              return (
+                <SelectField
+                  labelName={group}
+                  groupName={group}
+                  labelStyle="CE-form-label"
+                />
+              );
+            })}
+          </Col>
+        </Card.Body>
+      </Card>
     </Col>
   );
 }

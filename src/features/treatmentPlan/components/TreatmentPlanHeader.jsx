@@ -1,11 +1,10 @@
-import { Card, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "../TreatmentPlan.css";
 import { Printer } from "react-bootstrap-icons";
-import { useReactToPrint } from "react-to-print";
 import ModalContainer from "../../../components/ModalContainer";
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFViewer, PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { TPPdf } from "./TP_Pdf";
 import { useClient } from "../../../context/ClientContext";
 
@@ -27,8 +26,42 @@ export function TreatmentPlanHeader({
   const exitEdit = () => {
     setEditTreatmentPlan(false);
   };
-  const handlePrint = (e) => {
-    setShow(true);
+  const handlePrint = async (e) => {
+    const url =
+      "https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/198468/test.pdf";
+    window.open(url, "_blank");
+    // const TP = (
+    //   <TPPdf
+    //     formData={formData}
+    //     data={tPlan[0]}
+    //     activeTreatmentPlan={activeTreatmentPlan}
+    //     activeClient={activeClient}
+    //   />
+    // );
+    // const pdfBlob = await pdf(
+    //   <TPPdf
+    //     formData={formData}
+    //     data={tPlan[0]}
+    //     activeTreatmentPlan={activeTreatmentPlan}
+    //     activeClient={activeClient}
+    //   />
+    // ).toBlob();
+    // var file = new File([pdfBlob], "exampleTPlan", {
+    //   lastModified: new Date().getTime(),
+    // });
+    // const pdfFormData = new FormData();
+    // pdfFormData.append("file", file);
+    // console.log(TP)
+    // fetch("/print/tPlan", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/pdf",
+    //   },
+    //   body: TP,
+    // });
+    // fetch("/print", {
+    //   method: "GET",
+    // });
   };
   const downloadBtn = () => {
     <>

@@ -32,9 +32,8 @@ export function CDTabs() {
 
   return (
     <>
-      <Card>
+      <Card className="mb-3">
         <Card.Header>
-          Client Details
           <CDNav setActiveTab={setActiveTab} activeTab={activeTab} />
         </Card.Header>
         {generatePI()}

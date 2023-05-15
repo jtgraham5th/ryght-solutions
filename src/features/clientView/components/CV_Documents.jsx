@@ -5,12 +5,10 @@ import { RQList, RQViewer } from "../../requirements";
 import { ViewerFooter } from "../../../components/ViewerFooter";
 
 export function CVDocuments() {
-  const [show, setShow] = useState(false);
   const [activeNote, setActiveNote] = useState(false);
   const [activePage, setActivePage] = useState(0);
   const [edit, setEdit] = useState(false);
-
-  const handleShow = () => setShow(true);
+  
   const onSubmit = () => {
     console.log("submit")
     setEdit(false);
@@ -18,6 +16,7 @@ export function CVDocuments() {
   useEffect(() => {
     setEdit(false);
   },[activeNote])
+
   return (
     <>
       <Row className="mb-3">

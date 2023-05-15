@@ -5,7 +5,8 @@ import AlertContainer from "../../../components/AlertContainer";
 import { PN1 } from "./PN_1";
 import { PN4 } from "./PN_4";
 import { useForm } from "react-hook-form";
-
+import { addNewBillingTx } from "../../requirements/services/api";
+import { parseBillingTx } from "../../services/utils/parseData";
 import {
   parseDefaultProgressNote,
   parseProgressNote,
@@ -79,8 +80,14 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
       });
     }
   };
-  const handleConfirm = (data) => {
+  const handleConfirm = async (data) => {
     console.log(data);
+    if (!data.billingid || data.billingid === 0) {
+      await addNewBillingTx(parseBillingTx(activeClient, 2)).then((tx) => {
+        console.log("New billing id created: " + tx.billingid);
+        data.billingid = tx.billingid;
+      });
+    }
     if (edit) updateClientProgNote(data, activeClient[20].patientid);
     else addClientProgNote(data, activeClient[20].patientid);
     handleClose();
@@ -90,7 +97,7 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
   useEffect(() => {
     if (edit && data) {
       const updatedProgNote = parseDefaultProgressNote(data);
-      console.log("updatedProgNote",updatedProgNote)
+      console.log("updatedProgNote", updatedProgNote);
       reset({ ...updatedProgNote });
     }
     // eslint-disable-next-line

@@ -214,7 +214,7 @@ export function CE2({ register, control, setValue, formState }) {
             register={register}
             labelName="Policy Number"
             fieldName="ins1_policynumber"
-            fieldOptions={{ maxLength: 9 }}
+            fieldOptions={{ maxLength: 11 }}
             labelStyle="CE-form-label"
             isValid={
               touchedFields.ins1_policynumber && !errors.ins1_policynumber

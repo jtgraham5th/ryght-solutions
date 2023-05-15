@@ -2,6 +2,7 @@
   width: 100%;
   justify-content: center;
   margin-left: 0 !important;
+  border: 0px !important
   // padding: 1rem;
 }
 .insuranceCard {
@@ -11,6 +12,8 @@
   text-align: start;
   width: 100%;
   margin-bottom: 0.5rem;
+  margin-right: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 
   div:nth-child(2){
     padding-bottom: 0 !important;

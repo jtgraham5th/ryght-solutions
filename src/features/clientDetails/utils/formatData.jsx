@@ -2,7 +2,7 @@ import { Row, Col, ListGroup } from "react-bootstrap";
 
 export const renderDetail = (field, data, x, y) => {
   return (
-    <ListGroup.Item key={field} className="d-flex w-100" as={Row}>
+    <ListGroup.Item key={field} className="d-flex w-100 p-1 align-items-center" as={Row}>
       <Col md={x} className={`text-primary`}>
         {field}:
       </Col>

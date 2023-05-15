@@ -411,7 +411,7 @@ export function ClientProvider(props) {
     if (!formData.length > 0) getFormFields();
     if (!dxCodes.length > 0) getDXCodes();
     if (!serviceCodes.length > 0) getServiceCodes();
-    if (!serviceGroups.length > 0) getServiceGroups();
+    // if (!serviceGroups.length > 0) getServiceGroups();
 
     // eslint-disable-next-line
   }, []);
@@ -430,10 +430,10 @@ export function ClientProvider(props) {
   useEffect(() => {
     // get document ids
     if (activeClient[20].patientid) {
-      getClientBillingTx();
+      // getClientBillingTx();
       getClientTreatmentPlan();
       getClientProgNotes();
-      getClientAuthorizations();
+      // getClientAuthorizations();
     }
     // eslint-disable-next-line
   }, [activeClient]);

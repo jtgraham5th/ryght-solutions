@@ -1,1 +1,1 @@
-export { Login } from './components/Login.jsx';
+export { Landing } from './components/Landing.jsx';

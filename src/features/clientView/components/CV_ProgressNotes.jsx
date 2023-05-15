@@ -4,10 +4,9 @@ import { ViewerFooter } from "../../../components/ViewerFooter";
 import { ViewerHeader } from "../../../components/ViewerHeader";
 import { PNList, PNManager, PNNewNote, PNViewNote } from "../../progressNotes";
 export function CVProgressNotes() {
-  const [show, setShow] = useState(false);
   const [activeNote, setActiveNote] = useState(false);
   const [activePage, setActivePage] = useState(0);
-  const handleShow = () => setShow(true);
+  const [edit, setEdit] = useState(false);
 
   return (
     <>
@@ -17,7 +16,12 @@ export function CVProgressNotes() {
         </Col>
         <Col md={9}>
           <Card className="h-100">
-            <ViewerHeader edit={handleShow} disabled={!activeNote} activeNote={activeNote}/>
+            <ViewerHeader
+              edit={edit}
+              setEdit={setEdit}
+              activeNote={activeNote}
+              disabled={!activeNote}
+            />
             <Card.Body className="overflow-auto" style={{ height: "28rem" }}>
               {activeNote ? <PNViewNote data={activeNote} /> : null}
             </Card.Body>
@@ -30,8 +34,8 @@ export function CVProgressNotes() {
           </Card>
         </Col>
         <PNManager
-          show={show}
-          setShow={setShow}
+          show={edit}
+          setShow={setEdit}
           containerName="B.I.R.P. Progress Note Form"
           data={activeNote}
           edit

@@ -7,6 +7,7 @@ import { client01 } from "../../../data/formData";
 import { useClient } from "../../../context/ClientContext";
 import { parseObjectives, parseInterventions } from "../utils/parseData";
 import { getFormValue } from "../../clientDetails/utils/formatData";
+import { ViewerHeader } from "../../../components/ViewerHeader";
 
 export function GoalList() {
   const [show, setShow] = useState(false);
@@ -14,34 +15,13 @@ export function GoalList() {
   // const [formValue, setFormValue] = useState({frequency: "", services: "", staff: ""});
 
   return (
-    <Card className="h-100 mb-3 border-0">
+    <Card className="h-100 p-0">
+        <ViewerHeader
+          edit={show}
+          setEdit={setShow}
+          title="Client Goals"
+        />
       <Card.Body>
-        <Row className="justify-content-between">
-          <Col md={3}>
-            <h3 className="p-1 m-0">Client Goals</h3>
-          </Col>
-          <Col md={6}>
-            <Row className="justify-content-end">
-              <Col md={3} className="p-0 text-end">
-                <Button variant="primary" onClick={() => setShow(true)}>
-                  Manage Goals
-                </Button>
-              </Col>
-              <Col md={5}>
-                <Form.Group className="d-flex flex-row">
-                  <Form.Label className="m-0">
-                    <Search className="m-2" />
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="search goals"
-                    className="pt-0 pb-0 small"
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
         <Row className="p-3 mt-2">
           {activeTreatmentPlan.goals && activeTreatmentPlan.goals.length > 0 ? (
             activeTreatmentPlan.goals.map((goal, index) => (

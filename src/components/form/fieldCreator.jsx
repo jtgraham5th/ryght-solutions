@@ -214,10 +214,11 @@ export function TextField({
   fieldStyle,
   fieldType,
   fieldOptions,
+  isInvalid,
   ...other
 }) {
   return (
-    <>
+    <div className={fieldStyle}>
       {labelName ? (
         <Form.Label
           className={labelStyle ? labelStyle : disabled ? "text-muted" : "fs-6"}
@@ -228,12 +229,15 @@ export function TextField({
       <Form.Control
         {...register(fieldName, fieldOptions)}
         type={fieldType ? fieldType : "text"}
-        className={fieldStyle}
         readOnly={readOnly}
         disabled={disabled}
+        isInvalid={isInvalid}
         {...other}
       />
-    </>
+      <Form.Control.Feedback type="invalid">
+            {isInvalid && isInvalid.message}
+      </Form.Control.Feedback>
+    </div>
   );
 }
 export function CheckboxField(props) {

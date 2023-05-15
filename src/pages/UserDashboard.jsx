@@ -6,17 +6,22 @@ import DatePicker from "react-datepicker";
 import ClientSelectDropdown from "../components/ClientSelectDropdown";
 import { Pen } from "react-bootstrap-icons";
 import { SignatureManger } from "../features/settings/components/SignatureManager";
+import { useUser } from "../context/UserContext";
+import NewClientBtn from "../components/NewClientBtn";
 
 function UserDashboard(props) {
   let navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const [sigManager, setSigManager] = useState(false);
+  const { user } = useUser();
+
+  console.log(user);
 
   return (
     <>
       <Card className="mt-3 card-shadow">
         <Card.Header>
-          <h3>Welcome back, Mrs. Graham</h3>
+          <h3>Welcome back, {user.FirstName}</h3>
           <Card.Title>No Notifcations</Card.Title>
         </Card.Header>
         <Card.Body>
@@ -71,8 +76,11 @@ function UserDashboard(props) {
                     <Col>Recent Clients</Col>
                     <Col md={6}>
                       <Form.Group as={Row} className="justify-content-end">
-                        <Col md={8} className="dropdown-container">
+                        <Col md={8} className="dropdown-container p-0">
                           <ClientSelectDropdown />
+                        </Col>
+                        <Col md={3} className="text-center p-0">
+                          <NewClientBtn />
                         </Col>
                       </Form.Group>
                     </Col>

@@ -16,7 +16,7 @@ export const addNewAuthorization = async (authorization) => {
 };
 export const getAuthorizations = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/35?listing=patientid=${patientid}&orderby=authrecid`
+    `https://www.ivronlogs.icu:8080/rsv1/generic_api/list/35?listing=patientid=${patientid}&orderby=authrecid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -64,7 +64,7 @@ export const addNewAuthService = async (authService) => {
 };
 export const getAuthServices = async (authrecid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/36?listing=authrecid=${authrecid}&orderby=authrecid`
+    `https://www.ivronlogs.icu:8080/rsv1/generic_api/list/36?listing=authrecid=${authrecid}&orderby=authrecid`
   )
     .then((response) => response.json())
     .then((data) => {

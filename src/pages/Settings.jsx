@@ -3,6 +3,7 @@ import { Card, Row, Col, ListGroup } from "react-bootstrap";
 import "../features/settings/settings.css";
 import { SEActivateClients } from "../features/settings";
 import { SEListBoxes } from "../features/settings";
+import { SEEditUser } from "../features/settings/components/SE_EditUser";
 
 function Settings(props) {
   // let navigate = useNavigate();
@@ -15,6 +16,8 @@ function Settings(props) {
         return <SEActivateClients />;
       case 1:
         return <SEListBoxes />;
+      case 2:
+        return <SEEditUser />
       default:
         return <SEActivateClients />;
     }
@@ -32,6 +35,9 @@ function Settings(props) {
                 </ListGroup.Item>
                 <ListGroup.Item action onClick={() => setActiveSetting(1)}>
                   Setup List Boxes
+                </ListGroup.Item>
+                <ListGroup.Item action onClick={() => setActiveSetting(2)}>
+                  Edit User Information
                 </ListGroup.Item>
               </ListGroup>
             </Card>

@@ -2,19 +2,14 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { CEManager } from "../features/enrollment";
 import "../App.css";
-
+import { PersonPlusFill } from "react-bootstrap-icons";
 function NewClientBtn() {
   const [show, setShow] = useState(false);
 
   return (
     <>
-      <Button
-        className="form-label-button"
-        variant="outline-light"
-        size="sm"
-        onClick={() => setShow(true)}
-      >
-        + New Client
+      <Button variant="success" onClick={() => setShow(true)}>
+       <PersonPlusFill size="20" />
       </Button>
       <CEManager
         show={show}

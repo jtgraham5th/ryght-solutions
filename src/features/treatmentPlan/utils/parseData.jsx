@@ -1,13 +1,13 @@
 import formatDate from "../../../utils/formatDate";
 
-export const parseTreatmentPlan = (tPlan, patientid, billingid) => {
+export const parseTreatmentPlan = (tPlan, patientid) => {
   return [
     {
       recid: tPlan.recid ? tPlan.recid : 0,
       pageid: tPlan.pageid ? tPlan.pageid : 1,
       docid: tPlan.docid ? tPlan.docid : 1,
       patientid: tPlan.patientid ? tPlan.patientid : patientid,
-      billingid: tPlan.billingid ? tPlan.billingid : billingid,
+      billingid: tPlan.billingid ? tPlan.billingid : 0,
       f1: tPlan.f1 ? formatDate(tPlan.f1) : formatDate(Date.now()),
       f2: tPlan.f2 ? formatDate(tPlan.f2) : formatDate(Date.now()),
       f3: tPlan.f3 ? formatDate(tPlan.f3) : formatDate(Date.now()),
@@ -164,7 +164,7 @@ export const parseGoal = (goal, patientid) => {
   return [
     {
       goalid: goal.goalid ? goal.goalid : 0,
-      billingid: goal.billingid ? goal.billingid : 4329,
+      billingid: goal.billingid ? goal.billingid : 0,
       patientid: goal.patientid ? goal.patientid : patientid,
       targetdate: goal.targetdate
         ? formatDate(goal.targetdate)
@@ -193,7 +193,7 @@ export const parseGoal = (goal, patientid) => {
 export const parseDefaultGoal = (edit, patientid, goal) => {
   return {
     goalid: edit ? goal.goalid : 0,
-    billingid: edit ? goal.billingid : 4329,
+    billingid: edit ? goal.billingid : 0,
     patientid: edit ? goal.patientid : patientid,
     targetdate: edit ? Date.now() : null,
     description: edit ? goal.description : "",
@@ -214,7 +214,7 @@ export const parseObjective = (patientid, goalid, objective) => {
   return [
     {
       objectiveid: objective.objectiveid ? objective.objectiveid : 0,
-      billingid: objective.billingid ? objective.billingid : 4329,
+      billingid: objective.billingid ? objective.billingid : 0,
       patientid: objective.patientid ? objective.patientid : patientid,
       targetdate: objective.targetdate
         ? formatDate(objective.targetdate)
@@ -234,7 +234,7 @@ export const parseObjective = (patientid, goalid, objective) => {
 export const parseDefaultObjective = (edit, patientid, goalid, objective) => {
   return {
     objectiveid: edit ? objective.objectiveid : 0,
-    billingid: edit ? objective.billingid : 4329,
+    billingid: edit ? objective.billingid : 0,
     patientid: edit ? objective.patientid : patientid,
     targetdate: edit ? Date.parse(objective.targetdate) : null,
     description: edit ? objective.description : "",
@@ -252,7 +252,7 @@ export const parseIntervention = (intervention, patientid, objectiveid) => {
       interventionid: intervention.interventionid
         ? intervention.interventionid
         : 0,
-      billingid: intervention.billingid ? intervention.billingid : 4312,
+      billingid: intervention.billingid ? intervention.billingid : 0,
       patientid: intervention.patientid ? intervention.patientid : patientid,
       targetdate: intervention.targetdate
         ? formatDate(intervention.targetdate)
@@ -278,7 +278,7 @@ export const parseDefaultIntervention = (
 ) => {
   return {
     interventionid: edit ? intervention.interventionid : 0,
-    billingid: edit ? intervention.billingid : 4312,
+    billingid: edit ? intervention.billingid : 0,
     patientid: edit ? intervention.patientid : patientid,
     targetdate: edit ? Date.parse(intervention.targetdate) : null,
     objectiveid: edit ? intervention.objectiveid : objectiveid,

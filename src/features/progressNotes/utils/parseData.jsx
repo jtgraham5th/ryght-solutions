@@ -21,7 +21,7 @@ export const parseProgressNote = (pNote, patientid) => {
       pageid: pNote.pageid ? pNote.pageid : 1,
       docid: pNote.docid ? pNote.docid : 2,
       patientid: pNote.patientid ? pNote.patientid : patientid,
-      billingid: pNote.billingid ? pNote.billingid : 1000,
+      billingid: pNote.billingid ? pNote.billingid : 0,
       f1: pNote.f1 ? formatDate(pNote.f1) : formatDate(Date.now()),
       f2: pNote.f2 ? formatTime(pNote.f2) : formatTime(Date.now()),
       f3: pNote.f3 ? formatTime(pNote.f3) : formatTime(Date.now()),

@@ -9,8 +9,8 @@ function InsCard({ source }) {
     activeClient[21];
 
   return (
-    <Card className={styles.insuranceCard}>
-      <Card.Header className="bg-light">{source} Source</Card.Header>
+    <Card className={styles.insuranceCard} border="primary fc-white">
+      <Card.Header className="bg-primary text-white">{source} Source</Card.Header>
       <Card.Body className="pt-1">
         <Row>
           <Col md={9}>
@@ -20,7 +20,7 @@ function InsCard({ source }) {
             <Card.Subtitle>{ins1_policynumber}</Card.Subtitle>
             <Card.Text className="d-flex small mt-1 mb-2">
               <div>Expiration Date:</div>
-              <div>{ins1_dateexpires}</div>{" "}
+              <div>{ins1_dateexpires}</div>
             </Card.Text>
           </Col>
           <Col className={styles.icCoPay}>

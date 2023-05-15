@@ -1,67 +1,60 @@
-import { Row, Col, Form, Card, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import "./Login.css";
 import { useForm } from "react-hook-form";
-import { ArrowRightSquare } from "react-bootstrap-icons";
-import familyPhoto from "../../../assets/familytherapy.jpeg";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../context/UserContext";
+import { TextField } from "../../../components/form/fieldCreator";
+import { useState } from "react";
 
-export function Login({ setStatus }) {
-  const { register, handleSubmit } = useForm();
+export function Login() {
+  const { register, handleSubmit, formState } = useForm({ mode: "onBlur" });
+  const [loginStatus, setloginStatus] = useState(true);
+  const { touchedFields, errors } = formState;
 
-  const { setUser } = useUser();
+  const { login } = useUser();
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    setUser({ userName: "Mrs. Graham" });
-    setStatus(true);
-    navigate();
+  const onSubmit = async (data) => {
+    setloginStatus(true);
+    const loggedIn = await login(data);
+    console.log(loggedIn)
+    if (loggedIn) {
+      navigate("/ryght-solutions/home");
+    } else {
+      setloginStatus(false);
+    }
   };
 
   return (
-    <div className="login-container">
-      <Card className="w-75">
-        <Row className="pe-3">
-          <Col md={6}>
-            <img
-              src={familyPhoto}
-              alt="family in therapy"
-              className="login-photo"
-            />
-          </Col>
-          <Col
-            md={6}
-            className="pb-3 pt-3 d-flex flex-column align-items-center"
-          >
-            <div className="login-brand-header">
-              <ArrowRightSquare size="25" className="me-2" color="#4a235a" />
-              <h2 style={{ color: "#4a235a" }}>Ryght Solutions</h2>
-            </div>
-            <Form onSubmit={handleSubmit(onSubmit)} className="w-75">
-              <Form.Group>
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  {...register("username")}
-                  type="text"
-                  name="username"
-                  className="mb-4"
-                />
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  {...register("password")}
-                  type="password"
-                  name="password"
-                  className="mb-4"
-                />
-              </Form.Group>
-              <Button className="w-100 mb-4" type="submit">
-                Login
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-      </Card>
-    </div>
+    <Form onSubmit={handleSubmit(onSubmit)} className="w-75">
+      {!loginStatus ? (
+        <Alert variant="danger">Login Failed, Please try again.</Alert>
+      ) : null}
+      <Form.Group>
+        <TextField
+          register={register}
+          labelName="Username"
+          fieldName="username"
+          fieldOptions={{ required: "Username required" }}
+          fieldStyle="mb-4"
+          isValid={touchedFields.username && !errors.username}
+          isInvalid={errors.username}
+        />
+        <TextField
+          register={register}
+          labelName="Password"
+          fieldName="password"
+          type="password"
+          fieldOptions={{ required: "Password required" }}
+          fieldStyle="mb-4"
+          isValid={touchedFields.password && !errors.password}
+          isInvalid={errors.password}
+        />
+      </Form.Group>
+      <Button className="w-100 mb-2" type="submit">
+        Login
+      </Button>
+    </Form>
   );
 }

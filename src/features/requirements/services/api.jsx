@@ -1,11 +1,15 @@
-export const addNewBillingTx = async (newDoc) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/17`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newDoc),
-  })
+export const addNewBillingTx = async () => {
+  // console.log(newDoc);
+  return await fetch(
+    `http://www.ivronlogs.icu:8080/rsv1/generic_api/17?fields=billingid,patientid,doctypeid,lastuserid,lastupdate`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify(newDoc),
+    }
+  )
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -15,19 +19,25 @@ export const addNewBillingTx = async (newDoc) => {
       console.log(e);
     });
 };
-export const updateBillingTx = async (document) => {
+export const updateBillingTx = async (billingTx) => {
+  console.log(billingTx);
+  const requestBody = [{ ...billingTx }];
+  delete requestBody[0].billingid;
+  console.log(requestBody);
+
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${document[0].recid}?tid=17`,
+    `http://www.ivronlogs.icu:8080/rsv1/generic_api/${billingTx.billingid}?tid=17&fields=patientid,doctypeid,lastuserid,lastupdate`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(document),
+      body: JSON.stringify(requestBody),
     }
   )
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((e) => {

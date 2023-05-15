@@ -271,9 +271,11 @@ export function CEManager({ show, setShow, containerName, edit }) {
               let newTPlan = {};
               newTPlan.f11 = data.f7;
               console.log(newTPlan);
+
               await addNewBillingTx(tPlanBillingId).then(async (tx) => {
+                newTPlan.billingid = tx.billingid;
                 await addNewDocument(
-                  parseTreatmentPlan(newTPlan, activeClient[20].patientid, tx.billingid)
+                  parseTreatmentPlan(newTPlan, activeClient[20].patientid)
                 );
               });
             } else {
