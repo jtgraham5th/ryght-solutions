@@ -2,11 +2,11 @@ import { Row, Col, Form } from "react-bootstrap";
 import { TextField } from "../../../components/form/fieldCreator";
 
 export function UpdateContact({ register, setState }) {
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setState((prevState) => ({ ...prevState, [name]: value }));
-  };
+  // const handleChange = (e) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   setState((prevState) => ({ ...prevState, [name]: value }));
+  // };
 
   return (
     <>

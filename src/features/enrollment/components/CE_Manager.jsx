@@ -24,12 +24,12 @@ import {
   addNewDocument,
   getDocumentbyType,
   updateDocument,
-} from "../../requirements/services/api";
+} from "../../documents/services/api";
 import { parseBillingTx } from "../../services/utils/parseData";
 import {
   parseDefaultOrderOfService,
   parseOrderOfService,
-} from "../../requirements/services/parseData";
+} from "../../documents/services/parseData";
 import { parseTreatmentPlan } from "../../treatmentPlan/utils/parseData";
 export function CEManager({ show, setShow, containerName, edit }) {
   const [activePage, setActivePage] = useState(0);

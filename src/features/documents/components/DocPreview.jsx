@@ -1,5 +1,5 @@
 import { Button, Row, Col } from "react-bootstrap";
-import "./RQ_Manager.css";
+import "./DocManager.css";
 import {
   renderAdultBPS,
   renderShortAssessment,
@@ -7,11 +7,11 @@ import {
   renderANSA,
   renderCANS,
   renderOrderOfService,
-} from "../data/requirements";
+} from "../data/documents";
 import { useForm } from "react-hook-form";
 import { EyeSlash } from "react-bootstrap-icons";
 
-export function RQPreview({ data, activePage, fullscreen, toggleFullScreen }) {
+export function DocPreview({ data, activePage, fullscreen, toggleFullScreen }) {
   const { control, register, setValue } = useForm();
 
   const renderPreview = () => {

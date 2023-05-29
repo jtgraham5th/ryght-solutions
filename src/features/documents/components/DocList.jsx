@@ -1,20 +1,20 @@
 import { Card, ListGroup } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
-import "./RQ_Manager.css";
-import { RQAssessmentItem } from "./RQAssessmentItem";
+import "./DocManager.css";
+import { DocItem } from "./DocItem";
 import { useClient } from "../../../context/ClientContext";
-import { RQNewDoc } from "./RQ_NewDoc";
+import { DocNew } from "./DocNew";
 
-export function RQList({ activeForm, setActiveForm }) {
+export function DocList({ activeDocument, setActiveDocument, resetDocument }) {
   const { activeBillingTx } = useClient();
-
+  console.log(activeDocument);
   return (
     <Card className="h-100">
       <Card.Body className="p-0">
         <Card.Title className="p-3 w-100 border mb-0">
           Client Documents
         </Card.Title>
-        <RQNewDoc />
+        <DocNew />
         <ListGroup style={{ height: "32rem" }} variant="flush">
           <div
             style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}
@@ -23,12 +23,13 @@ export function RQList({ activeForm, setActiveForm }) {
               .filter((item) => item.doctypeid !== 1)
               .map((value, i) => {
                 return (
-                  <RQAssessmentItem
+                  <DocItem
                     key={i}
                     index={i}
                     data={value}
-                    selectDoc={setActiveForm}
-                    active={activeForm === value}
+                    selectDoc={setActiveDocument}
+                    active={activeDocument === value}
+                    resetDocument={resetDocument}
                   />
                 );
               })}

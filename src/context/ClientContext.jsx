@@ -36,7 +36,7 @@ import {
   getAllPatientBillingTx,
   addNewDocument,
   updateDocument,
-} from "../features/requirements/services/api";
+} from "../features/documents/services/api";
 import { getAllDXCodes } from "../features/diagnosis/services/api";
 import {
   getAllServiceCodes,
@@ -77,6 +77,43 @@ export function ClientProvider(props) {
     show: false,
   });
 
+  /// Print TESTING
+  const blobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
+  const sendPDFtoAPI = async (recid, pdfBlob, user) => {
+    const apiUrl = `https://www.ivronlogs.icu/rsv1/generic_api/doc/${recid}`;
+    const blobToBase64String = await blobToBase64(pdfBlob);
+
+    const data = {
+      b64: blobToBase64String,
+      signdoc: "false",
+      userid: user.UseriD,
+    };
+    const formData = new FormData();
+    formData.append("PDFBlob", pdfBlob);
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      body: JSON.stringify([data]),
+    });
+
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    } else {
+      console.log("PDF Blob sent successfully");
+      return response.json();
+    }
+  };
   /// MOVE TO SERVICES API ///
   const addGroupItem = async (groupItemObject) => {
     return await addNewListItem(groupItemObject).then((data) => {
@@ -430,7 +467,7 @@ export function ClientProvider(props) {
   useEffect(() => {
     // get document ids
     if (activeClient[20].patientid) {
-      // getClientBillingTx();
+      getClientBillingTx();
       getClientTreatmentPlan();
       getClientProgNotes();
       // getClientAuthorizations();
@@ -485,6 +522,7 @@ export function ClientProvider(props) {
         setLoading,
         toggleUpdate,
         setToggleUpdate,
+        sendPDFtoAPI,
       }}
     >
       {props.children}

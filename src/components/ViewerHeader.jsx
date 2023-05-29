@@ -18,14 +18,13 @@ export function ViewerHeader({
   setEdit,
   edit,
   disabled,
-  activeNote,
+  activeDocument,
   onSubmit,
   handlePrint,
   title,
 }) {
   const { activeClient, formData } = useClient();
   const [show, setShow] = useState(false);
-
   return (
     <Card.Header className="d-flex flex-row justify-content-between align-items-center p-2">
       <h4 className="mb-0">{title}</h4>
@@ -38,7 +37,7 @@ export function ViewerHeader({
                 onClick={handlePrint}
                 variant={"dark"}
                 type="button"
-                disabled={disabled || !activeNote}
+                disabled={disabled || !activeDocument}
               >
                 <Printer className="me-1" /> Print
               </Button>
@@ -82,7 +81,7 @@ export function ViewerHeader({
           <PDFViewer width="100%" height="100%" showToolbar={false}>
             <PNPdf
               formData={formData}
-              data={activeNote}
+              data={activeDocument}
               activeClient={activeClient}
             />
           </PDFViewer>

@@ -4,22 +4,28 @@ import "../features/settings/settings.css";
 import { SEActivateClients } from "../features/settings";
 import { SEListBoxes } from "../features/settings";
 import { SEEditUser } from "../features/settings/components/SE_EditUser";
+import { useUser } from "../context/UserContext";
+import { SEAdminManagement } from "../features/settings/components/SE_AdminManagement";
 
 function Settings(props) {
   // let navigate = useNavigate();
   // const [startDate, setStartDate] = useState(new Date());
-
+  const { user } = useUser();
+  // console.log(user);
+  
   const [activeSetting, setActiveSetting] = useState(0);
   const renderSetting = () => {
     switch (activeSetting) {
       case 0:
-        return <SEActivateClients />;
+        return <SEEditUser />;
       case 1:
-        return <SEListBoxes />;
-      case 2:
-        return <SEEditUser />
-      default:
         return <SEActivateClients />;
+      case 2:
+        return <SEListBoxes />;
+      case 3:
+        return <SEAdminManagement />;
+      default:
+        return <SEEditUser />;
     }
   };
   return (
@@ -31,14 +37,23 @@ function Settings(props) {
               <Card.Header>Settings Menu</Card.Header>
               <ListGroup>
                 <ListGroup.Item action onClick={() => setActiveSetting(0)}>
-                  Active Patients
+                  Edit Personal Information
                 </ListGroup.Item>
-                <ListGroup.Item action onClick={() => setActiveSetting(1)}>
-                  Setup List Boxes
-                </ListGroup.Item>
-                <ListGroup.Item action onClick={() => setActiveSetting(2)}>
-                  Edit User Information
-                </ListGroup.Item>
+                {user.AccessLevel === 20 ? (
+                  <ListGroup.Item action onClick={() => setActiveSetting(1)}>
+                    Active Patients 
+                  </ListGroup.Item>
+                ) : null}
+                {user.AccessLevel === 20 ? (
+                  <ListGroup.Item action onClick={() => setActiveSetting(2)}>
+                    Setup List Boxes
+                  </ListGroup.Item>
+                ) : null}
+                {user.AccessLevel === 20 ? (
+                  <ListGroup.Item action onClick={() => setActiveSetting(3)}>
+                    Admin Management
+                  </ListGroup.Item>
+                ) : null}
               </ListGroup>
             </Card>
           </Col>

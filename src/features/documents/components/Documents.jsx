@@ -3,12 +3,12 @@ import { Row, Col, Alert, Button } from "react-bootstrap";
 import styles from "../Requirements.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
-import {RQAssessmentItem} from "./RQAssessmentItem";
-import {RQManager} from "./RQ_Manager";
-import {RQViewer} from "./RQ_Viewer";
+import { DocItem } from "./DocItem";
+import { DocManager } from "./DocManager";
+import { DocViewer } from "./DocViewer";
 import { useClient } from "../../../context/ClientContext";
 
-export function Requirements() {
+export function Documents() {
   const [showViewer, setShowViewer] = useState(false);
   const [showManager, setShowManager] = useState(false);
   const [activeForm, setActiveForm] = useState({});
@@ -34,7 +34,7 @@ export function Requirements() {
         <Col className={styles.dataTableCol}>
           {activeBillingTx.map((value, i) => {
             return (
-              <RQAssessmentItem
+              <DocItem
                 key={i}
                 index={i}
                 data={value}
@@ -45,13 +45,13 @@ export function Requirements() {
           })}
         </Col>
       </Row>
-      <RQViewer
+      <DocViewer
         show={showViewer}
         setShow={setShowViewer}
         containerName="test"
         data={activeForm}
       />
-      <RQManager
+      <DocManager
         show={showManager}
         setShow={setShowManager}
         containerName="Requirements Manager"

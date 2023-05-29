@@ -6,7 +6,7 @@ import { PrintHeader } from "../../../components/PrintHeader";
 import { PrintFooter } from "../../../components/PrintFooter";
 import { PrintSignatureHeader } from "../../../components/PrintSignatureHeader";
 
-export function TPPdf({ formData, data, activeClient, activeTreatmentPlan }) {
+export function TPPdf({ formData, data, activeClient, activeData }) {
   // const handleRender = ({ pageNumber, totalPages }) => {
   //   let style = {};
   //   if (pageNumber === totalPages) {
@@ -238,8 +238,8 @@ export function TPPdf({ formData, data, activeClient, activeTreatmentPlan }) {
           </View>
           <View break style={{ margin: "5px" }}>
             <Text style={{ fontSize: 20, marginBottom: 5 }}>Client Goals</Text>
-            {activeTreatmentPlan.goals && activeTreatmentPlan.goals.length > 0
-              ? activeTreatmentPlan.goals.map((goal, index) => (
+            {activeData.goals && activeData.goals.length > 0
+              ? activeData.goals.map((goal, index) => (
                   <View
                     style={{
                       flexDirection: "row",
@@ -275,8 +275,8 @@ export function TPPdf({ formData, data, activeClient, activeTreatmentPlan }) {
                         margin: 5,
                       }}
                     >
-                      {parseObjectives(activeTreatmentPlan, goal).length > 0
-                        ? parseObjectives(activeTreatmentPlan, goal).map(
+                      {parseObjectives(activeData, goal).length > 0
+                        ? parseObjectives(activeData, goal).map(
                             (objective, i) => (
                               <>
                                 <View
@@ -320,7 +320,7 @@ export function TPPdf({ formData, data, activeClient, activeTreatmentPlan }) {
                                   }}
                                 >
                                   {parseInterventions(
-                                    activeTreatmentPlan,
+                                    activeData,
                                     objective
                                   ).map((intervention, x) => {
                                     return (

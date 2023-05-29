@@ -41,7 +41,7 @@ export function SEEditUser(props) {
             edit={edit}
             setEdit={setEdit}
             onSubmit={handleSubmit(onSubmit)}
-            title="Edit User Information"
+            title="Edit Personal Information"
           />
 
           <Card.Body>

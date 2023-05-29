@@ -1,6 +1,5 @@
-import { Row, Col, Button, Card, ListGroup, Form } from "react-bootstrap";
-import { useReactToPrint } from "react-to-print";
-import { useRef, useState } from "react";
+import { Row, Col, Card, Form } from "react-bootstrap";
+import { useState } from "react";
 import { getListItem } from "../../../services/api";
 import { useEffect } from "react";
 import { useClient } from "../../../context/ClientContext";
@@ -8,31 +7,32 @@ import formatDateToday from "../../../utils/formatDateToday";
 import { Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 
-export function OrderOfService({ register, control, setValue, formState, edit }) {
-  const noteRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => noteRef.current,
-  });
-  const getPageMargins = () => {
-    return `@page { margin: 20px 20px 20px 20px !important; }`;
-  };
-  const { getActiveServices, activeClient, formData } = useClient();
+export function OrderOfService({
+  register,
+  control,
+  setValue,
+  formState,
+  edit,
+}) {
+  const { getActiveServices, activeClient } = useClient();
 
   const [selectedServices, setSelectedServices] = useState(getActiveServices());
   const [convertedValues, setConvertedValues] = useState({});
   const [serviceids, setServiceids] = useState([]);
-  
+
   useEffect(() => {
     getListItemName(activeClient[21].ins1_fundingsource);
     getListItemName(activeClient[20].sexatbirthid);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     setSelectedServices(getActiveServices());
-  },[activeClient])
+    // eslint-disable-next-line
+  }, [activeClient]);
 
   const getListItemName = async (recid) => {
-    const listItem = await getListItem(recid).then((item) => {
+    await getListItem(recid).then((item) => {
       if (item)
         setConvertedValues((prevState) => ({
           ...prevState,
@@ -56,11 +56,14 @@ export function OrderOfService({ register, control, setValue, formState, edit })
   };
   useEffect(() => {
     setValue("f7", serviceids.toString());
+    // eslint-disable-next-line
   }, [serviceids]);
 
   useEffect(() => {
+    setValue("f1", Date.now())
     setValue("f5", convertedValues[activeClient[21].ins1_fundingsource]);
     setValue("f6", convertedValues[activeClient[20].sexatbirthid]);
+    // eslint-disable-next-line
   }, [convertedValues]);
 
   return (
@@ -81,7 +84,6 @@ export function OrderOfService({ register, control, setValue, formState, edit })
           <br /> Phone : 912-559-5536
         </Col>
       </Row>
-      <style>{getPageMargins()}</style>
       <Form.Group as={Row} className="justify-content-evenly mb-2 pb-3">
         <Col
           md={4}
@@ -156,17 +158,21 @@ export function OrderOfService({ register, control, setValue, formState, edit })
                   <Row className="mb-2">
                     <Col md={2}>
                       <Form.Control
+                        {...register("f" + (8 + i))}
                         className="text-center"
                         type="text"
-                        name="f7"
+                        name={"f" + (8 + i)}
                         onChange={(e) => setServiceValue(e, item.grouplistid)}
                         readOnly={!edit}
+                        register
                       />
                     </Col>
                     <Col
                       md={3}
                       className={`border d-flex justify-content-center align-items-center ${
-                        checkidexists(item.grouplistid) ? "fw-bold text-primary" : ""
+                        checkidexists(item.grouplistid)
+                          ? "fw-bold text-primary"
+                          : ""
                       }`}
                     >
                       {formatDateToday()}
@@ -174,7 +180,9 @@ export function OrderOfService({ register, control, setValue, formState, edit })
                     <Col
                       md={7}
                       className={
-                        checkidexists(item.grouplistid) ? "fw-bold text-primary" : ""
+                        checkidexists(item.grouplistid)
+                          ? "fw-bold text-primary"
+                          : ""
                       }
                     >
                       {item.groupvalue}

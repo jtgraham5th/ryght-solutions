@@ -42,8 +42,8 @@ export function InterventionDetail({
         objectiveid,
       );
       reset({ ...blankIntervention[0] });
-      // eslint-disable-next-line
     } else reset({ ...intervention });
+    // eslint-disable-next-line
   }, [intervention]);
 
   useEffect(() => {
@@ -57,10 +57,12 @@ export function InterventionDetail({
       reset({ ...blankIntervention[0] });
       setEditIntervention(true);
     }
+    // eslint-disable-next-line
   }, [focus.editing]);
 
   useEffect(() => {
     setSelectedServices(getActiveServices());
+    // eslint-disable-next-line
   }, [activeClient]);
 
   const onSubmit = (data) => {

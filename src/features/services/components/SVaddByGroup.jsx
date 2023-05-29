@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export function SVaddByGroup({ selectedGroup, setSelectedGroup }) {
   const { getActiveServices } = useClient();
-  const [services, setServices] = useState(getActiveServices());
+  const [services] = useState(getActiveServices());
 
   return (
     <Row className="align-items-center">

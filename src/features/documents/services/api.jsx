@@ -46,8 +46,8 @@ export const updateBillingTx = async (billingTx) => {
 };
 export const getAllPatientBillingTx = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/17?listing=patientid=${patientid}&orderby=billingid`
-  )
+    // `http://www.ivronlogs.icu:8080/rs1/generic_api/list/17?listing=patientid=${patientid}&orderby=billingid`
+    `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`  )
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -99,6 +99,18 @@ export const getDocumentbyType = async (docid, patientid) => {
     .then((response) => response.json())
     .then((data) => {
       return data;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const getDocumentbyBilling = async (billingid, patientid) => {
+  return await fetch(
+    `  http://www.ivronlogs.icu:8080/rs1/generic_api/list/16?listing=patientid=${patientid},billingid=${billingid}&orderby=billingid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0];
     })
     .catch((e) => {
       console.log(e);

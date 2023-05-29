@@ -83,6 +83,7 @@ export const renderPage = (
           control={control}
           formState={formState}
           setValue={setValue}
+          edit={true}
         />
       );
     default:

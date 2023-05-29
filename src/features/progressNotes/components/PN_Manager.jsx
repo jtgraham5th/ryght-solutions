@@ -5,7 +5,7 @@ import AlertContainer from "../../../components/AlertContainer";
 import { PN1 } from "./PN_1";
 import { PN4 } from "./PN_4";
 import { useForm } from "react-hook-form";
-import { addNewBillingTx } from "../../requirements/services/api";
+import { addNewBillingTx } from "../../documents/services/api";
 import { parseBillingTx } from "../../services/utils/parseData";
 import {
   parseDefaultProgressNote,

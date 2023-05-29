@@ -1,5 +1,5 @@
 export default function formatTime(newTime) {
-  if (!newTime instanceof Date) newTime = Date.now();
+  if (!(newTime instanceof Date)) newTime = Date.now();
   let hours = newTime.getHours();
   let minutes = newTime.getMinutes();
   let ampm = hours >= 12 ? "PM" : "AM";

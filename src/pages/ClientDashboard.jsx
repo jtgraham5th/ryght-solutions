@@ -13,6 +13,7 @@ function ClientDashboard(props) {
     if (match) {
       resetClient(match.params.patientid);
     }
+    // eslint-disable-next-line
   }, [match]);
 
   if (Object.keys(activeClient[20]).length < 0) {

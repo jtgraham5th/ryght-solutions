@@ -6,7 +6,7 @@ export const parseSignUpData = (data) => {
       UserName: "",
       Password: data.Password,
       PasswordHold: data.Password,
-      AccessLevel: 0,
+      AccessLevel: 10,
       Title: "",
       Credentials: '',
       FirstName: data.FirstName,
@@ -35,4 +35,12 @@ export const parseSignUpData = (data) => {
       EndDate: "1900-01-01",
     },
   ];
+};
+export const getUserFields = (obj) => {
+  const fields = Object.keys(obj);
+  const index = fields.indexOf("UseriD");
+  if (index !== -1) {
+    fields.splice(index, 1);
+  }
+  return fields.join(",");
 };

@@ -3,21 +3,17 @@ import "../TreatmentPlan.css";
 import { Printer } from "react-bootstrap-icons";
 import ModalContainer from "../../../components/ModalContainer";
 import { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import { PDFViewer, PDFDownloadLink, pdf } from "@react-pdf/renderer";
+import { PDFViewer} from "@react-pdf/renderer";
 import { TPPdf } from "./TP_Pdf";
 import { useClient } from "../../../context/ClientContext";
 
 export function TreatmentPlanHeader({
   editTreatmentPlan,
   setEditTreatmentPlan,
-  treatmentPlanRef,
 }) {
   const { activeClient, activeTreatmentPlan, formData } = useClient();
   const { tPlan } = activeTreatmentPlan;
   const [show, setShow] = useState(false);
-  pdfjs.GlobalWorkerOptions.workerSrc =
-    "//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js";
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -27,31 +23,33 @@ export function TreatmentPlanHeader({
     setEditTreatmentPlan(false);
   };
   const handlePrint = async (e) => {
-    const url =
-      "https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/198468/test.pdf";
-    window.open(url, "_blank");
-    // const TP = (
-    //   <TPPdf
-    //     formData={formData}
-    //     data={tPlan[0]}
-    //     activeTreatmentPlan={activeTreatmentPlan}
-    //     activeClient={activeClient}
-    //   />
-    // );
-    // const pdfBlob = await pdf(
-    //   <TPPdf
-    //     formData={formData}
-    //     data={tPlan[0]}
-    //     activeTreatmentPlan={activeTreatmentPlan}
-    //     activeClient={activeClient}
-    //   />
-    // ).toBlob();
-    // var file = new File([pdfBlob], "exampleTPlan", {
-    //   lastModified: new Date().getTime(),
-    // });
-    // const pdfFormData = new FormData();
-    // pdfFormData.append("file", file);
-    // console.log(TP)
+    // const url =
+    //   "https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/198468/test.pdf";
+    // window.open(url, "_blank");
+    const TP = (
+      <TPPdf
+        formData={formData}
+        data={tPlan[0]}
+        activeTreatmentPlan={activeTreatmentPlan}
+        activeClient={activeClient}
+      />
+    );
+    const pdfBlob = await pdf(
+      <TPPdf
+        formData={formData}
+        data={tPlan[0]}
+        activeTreatmentPlan={activeTreatmentPlan}
+        activeClient={activeClient}
+      />
+    ).toBlob();
+    console.log(pdfBlob)
+    var file = new File([pdfBlob], "exampleTPlan", {
+      lastModified: new Date().getTime(),
+    });
+    console.log(file)
+    const pdfFormData = new FormData();
+    pdfFormData.append("file", file);
+    console.log(TP)
     // fetch("/print/tPlan", {
     //   method: "POST",
     //   headers: {
@@ -62,22 +60,6 @@ export function TreatmentPlanHeader({
     // fetch("/print", {
     //   method: "GET",
     // });
-  };
-  const downloadBtn = () => {
-    <>
-      <PDFDownloadLink
-        document={
-          <TPPdf
-            formData={formData}
-            data={tPlan[0]}
-            activeTreatmentPlan={activeTreatmentPlan}
-            activeClient={activeClient}
-          />
-        }
-        fileName={"TP-PrintJob"}
-      />
-      <button> Download </button>{" "}
-    </>;
   };
 
   return (

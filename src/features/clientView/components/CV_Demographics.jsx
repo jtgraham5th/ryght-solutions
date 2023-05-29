@@ -6,7 +6,6 @@ import { renderDetail } from "../../clientDetails/utils/formatData";
 
 export function CVDemographics() {
   const { activeClient, formData } = useClient();
-  console.log(activeClient);
   const data01 = dataColumn1(formData, activeClient);
   const data02 = dataColumn2(formData, activeClient);
   const data03 = dataColumn3(formData, activeClient);

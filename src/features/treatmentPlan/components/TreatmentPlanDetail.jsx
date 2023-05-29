@@ -16,7 +16,6 @@ import {
 } from "../../../components/form/fieldCreator";
 import { Pencil } from "react-bootstrap-icons";
 import { useState, useRef, useEffect } from "react";
-import { TreatmentPlanHeader } from "./TreatmentPlanHeader";
 import {
   parseDefaultTreatmentPlan,
   parseTreatmentPlan,
@@ -27,8 +26,11 @@ import { InputPin } from "../../../components/InputPin";
 import {
   addNewBillingTx,
   updateBillingTx,
-} from "../../requirements/services/api";
+} from "../../documents/services/api";
 import { parseBillingTx } from "../../services/utils/parseData";
+import { TPPdf } from "./TP_Pdf";
+import { pdf, PDFViewer } from "@react-pdf/renderer";
+import ModalContainer from "../../../components/ModalContainer";
 
 export function TreatmentPlanDetail() {
   const {
@@ -37,11 +39,13 @@ export function TreatmentPlanDetail() {
     updateClientTreatmentPlan,
     activeClient,
     formData,
+    sendPDFtoAPI,
   } = useClient();
   const { user } = useUser();
-  const [activeNote, setActiveNote] = useState(true);
+  const [activeNote] = useState(true);
   const [edit, setEdit] = useState(false);
   const [pinNumber, setPinNumber] = useState();
+  const [show, setShow] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false);
   const { tPlan } = activeTreatmentPlan;
   const { patientid } = activeClient[20];
@@ -51,9 +55,47 @@ export function TreatmentPlanDetail() {
   const treatmentPlanRef = useRef();
 
   const handlePrint = async (e) => {
-    const url =
-      "https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/198468/test.pdf";
+    const pdfBlob = await pdf(
+      <TPPdf
+        formData={formData}
+        data={tPlan[0]}
+        activeTreatmentPlan={activeTreatmentPlan}
+        activeClient={activeClient}
+      />
+    ).toBlob();
+    console.log(pdfBlob);
+    console.log(tPlan[0])
+    const responseData = await sendPDFtoAPI(tPlan[0].recid, pdfBlob, user);
+    console.log(responseData);
+    // setShow(true)
+    const url = responseData[0].viewer + responseData[0].path + responseData[0].file;
+    console.log(url);
+    // "https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/198468/test.pdf";
+    // https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/1192772/1192772_0.pdf
     window.open(url, "_blank");
+    // console.log(pdfBlob);
+    // var file = new File([pdfBlob], "exampleTPlan", {
+    //   lastModified: new Date().getTime(),
+    // });
+    // console.log(file);
+    // const pdfFormData = new FormData();
+    // pdfFormData.append("PDFBlob", pdfBlob);
+    // console.log(pdfFormData);
+    // try {
+    //   const response = await fetch(
+    //     "http://www.ivronlogs.icu:8080/rsv1/generic_api/15?tid=3",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/pdf",
+    //       },
+    //       body: JSON.stringify([{ PDFBlob: pdfBlob }]),
+    //     }
+    //   );
+    //   console.log(response.json());
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   useEffect(() => {
@@ -290,6 +332,27 @@ export function TreatmentPlanDetail() {
         show={showPinInput}
         setShow={setShowPinInput}
         setPinNumber={setPinNumber}
+        pinNumber={pinNumber}
+      />
+      <ModalContainer
+        show={show}
+        setShow={setShow}
+        containerName="Print Page"
+        component={
+          <PDFViewer width="100%" height="100%" showToolbar={false}>
+            <TPPdf
+              formData={formData}
+              data={tPlan[0]}
+              activeTreatmentPlan={activeTreatmentPlan}
+              activeClient={activeClient}
+            />
+            {/* <PNPdf
+              formData={formData}
+              data={activeNote}
+              activeClient={activeClient}
+            /> */}
+          </PDFViewer>
+        }
       />
     </Card>
   );

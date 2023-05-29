@@ -8,16 +8,16 @@ import {
   Badge,
 } from "react-bootstrap";
 import { useState } from "react";
-import "./RQ_Manager.css";
+import "./DocManager.css";
 import AlertContainer from "../../../components/AlertContainer";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
-import { requirements } from "../data/requirements";
+import { requirements } from "../data/documents";
 import { useClient } from "../../../context/ClientContext";
-import { RQPreview } from "./RQ_Preview";
+import { DocPreview } from "./DocPreview";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 
-export function RQManager({ show, setShow, containerName }) {
+export function DocManager({ show, setShow, containerName }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
   const [activePage, setActivePage] = useState(0);
   const [activeItem, setActiveItem] = useState({});
@@ -217,7 +217,7 @@ export function RQManager({ show, setShow, containerName }) {
               </div>
             </Col> */}
           </Row>
-          <RQPreview
+          <DocPreview
             data={activeItem}
             activePage={activePage}
             fullscreen={fullscreen}

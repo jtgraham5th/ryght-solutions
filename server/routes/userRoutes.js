@@ -2,31 +2,22 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/login", async (req, res) => {
-  console.log("login!");
-  const { username, password } = req.query;
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
   try {
     const response = await fetch(
-      `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/750?tid=19&fields=userid,username,fullname,email,password&where=username=^jgrahm^&orderby=fullname`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+      `http://ivronlogs.icu:8080/rsv1/generic_api/list/19?fields=*&where=email=${email}&orderby=fullname`
     );
-    if (!response.ok) {
-      return res.status(response.status).json({ error: "Login failed" });
-    }
-
-    const data = await response.json();
-    console.log(data);
-    if (data.length > 0 && username === data[0].username) {
-      console.log("true", data);
-      localStorage.setItem("UserID", res[0].userid);
-      res.json(data[0]);
+    if (response.ok) {
+      const data = await response.json();
+      console.log("!!!",data[0].UseriD)
+      if (data.length > 0) {
+        res.json(data[0]);
+      }
     }
   } catch (err) {
-    return res.status(401).json({ error: "Invalid username or password" });
+    console.error(err);
+    res.send(false);
   }
 });
 

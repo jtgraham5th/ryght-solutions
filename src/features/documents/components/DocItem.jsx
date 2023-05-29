@@ -1,35 +1,27 @@
 import { forwardRef, useState } from "react";
-import { Row, Col, Card, Button, ListGroup } from "react-bootstrap";
+import { Row, Col, Card, ListGroup } from "react-bootstrap";
 import styles from "../Requirements.module.scss";
 import {
   FlagFill,
   CalendarEvent,
-  Check2Square,
-  XSquare,
 } from "react-bootstrap-icons";
-import { requirements } from "../data/requirements";
+import { requirements } from "../data/documents";
+import { getDocumentbyBilling } from "../services/api";
 
-import DatePicker from "react-datepicker";
 
-export function RQAssessmentItem({ index, data, selectDoc, active }) {
+export function DocItem({ index, data, selectDoc, active, resetDocument }) {
   const [startDate, setStartDate] = useState(new Date());
   const [complete] = useState(false);
 
   const getAssessmentInfo = () => {
     const assessmentInfo = requirements.filter(
-      (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
+      (requirement) => data.DocTypeID === parseInt(requirement.doctypeid)
     );
     if (assessmentInfo.length > 0) {
       return assessmentInfo[0].name;
     } else return "NULL";
   };
 
-  // const checkForRecord = () => {
-  //   console.log(data)
-  //   if (data.recid){
-
-  //   } exle
-  // }
   const SetDueDateBtn = forwardRef(({ value, onClick }, ref) => (
     <div className={styles.noWrap} onClick={onClick} ref={ref}>
       <span>
@@ -37,9 +29,12 @@ export function RQAssessmentItem({ index, data, selectDoc, active }) {
       </span>
     </div>
   ));
-  const viewForm = () => {
+  const viewForm = async () => {
     //right now set active form based on a switch case
-    selectDoc(data);
+    const document = await getDocumentbyBilling(data.BillingID, data.PatientID)
+    console.log(document)
+    resetDocument(document)
+    selectDoc(document);
   };
 
   return (

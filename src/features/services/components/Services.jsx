@@ -1,9 +1,7 @@
-import { Row, Col, ListGroup, Alert, Form, Button } from "react-bootstrap";
+import { Row, Col, ListGroup, Form } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
-import { SVaddByGroup } from "./SVaddByGroup";
 import { useClient } from "../../../context/ClientContext";
 import { useState, useEffect } from "react";
-import { X } from "react-bootstrap-icons";
 import { filterActiveServices } from "../utils/formHelper";
 
 export function Services({
@@ -30,11 +28,13 @@ export function Services({
   };
 
   const [results, setResults] = useState(setServices());
-  const [selectedGroup, setSelectedGroup] = useState(0);
+  const [selectedGroup] = useState(0);
 
   useEffect(() => {
     setResults(setServices());
+    // eslint-disable-next-line
   }, [filterBy]);
+
   const searchServices = (e) => {
     e.preventDefault();
     let filterCodes = [];
@@ -153,10 +153,12 @@ export function Services({
       });
     }
     setResults(filteredServices);
+    // eslint-disable-next-line
   }, [selectedGroup]);
 
   useEffect(() => {
     updateValue();
+    // eslint-disable-next-line
   }, [selectedServices]);
 
   return (

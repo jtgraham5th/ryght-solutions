@@ -2,12 +2,10 @@ import React from "react";
 import { Document, Page, View, Text } from "@react-pdf/renderer";
 import { getListItem } from "../../../services/api";
 import { useState, useEffect } from "react";
+import { PrintHeader } from "../../../components/PrintHeader";
 
 export function PNPdf({ formData, data, activeClient }) {
   console.log(formData, data);
-  //   const { tPlan } = activeTreatmentPlan;
-  //   const formData = {};
-  //   console.log(formData);
   const [convertedValues, setConvertedValues] = useState({});
 
   useEffect(() => {
@@ -27,7 +25,8 @@ export function PNPdf({ formData, data, activeClient }) {
   return (
     <Document>
       <Page size="A4">
-        <View style={{ margin: 20 }}>
+        <PrintHeader />
+        <View style={{ marginTop: 10, marginHorizontal: 20 }}>
           <Text style={{ fontSize: 20, marginBottom: 5 }}>Progress Note</Text>
           <Text style={{ fontSize: 15, marginBottom: 20 }}>
             {activeClient[20].pfirstname + " " + activeClient[20].plastname}

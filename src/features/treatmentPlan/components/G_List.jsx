@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Row, Col, Card, Form, Button } from "react-bootstrap";
-import { Search } from "react-bootstrap-icons";
+import { Row, Col, Card} from "react-bootstrap";
 import ModalContainer from "../../../components/ModalContainer";
 import { GoalsManager } from "../../treatmentPlan";
 import { client01 } from "../../../data/formData";

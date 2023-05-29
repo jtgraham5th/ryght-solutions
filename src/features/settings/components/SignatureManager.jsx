@@ -1,37 +1,35 @@
 import { Card, Col, Button, Row, Modal, Form } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
-import { useClient } from "../../../context/ClientContext";
 import { useForm } from "react-hook-form";
 import { TextField } from "../../../components/form/fieldCreator";
 import { SignatureCanvas } from "..";
-import $ from "jquery";
 // import alertify from 'alertifyjs';
 
 export function SignatureManger({ show, setShow, containerName, edit }) {
-  const [activePage, setActivePage] = useState(0);
-  const [tempID, setTempID] = useState();
-  const [editing, setEditing] = useState(edit);
-  const [userSig, setUserSig] = useState(false);
+  // const [activePage, setActivePage] = useState(0);
+  // const [tempID, setTempID] = useState();
+  // const [editing, setEditing] = useState(edit);
+  // const [userSig, setUserSig] = useState(false);
   const [adminSig, setAdminSig] = useState(false);
-  const { control, register, handleSubmit, watch, formState } = useForm();
+  const { register, handleSubmit, watch, formState } = useForm();
   const { touchedFields, errors } = formState;
   ///======================================================///
   const [imgWidth, setImgWidth] = useState(null);
   const [imgHeight, setImgHeight] = useState(null);
-  const [bIsOpen, setBIsOpen] = useState(false);
+  // const [bIsOpen, setBIsOpen] = useState(false);
   const [sigStringData, setSigStringData] = useState("");
   const [sigRawData, setSigRawData] = useState("Base64 String: ");
   const [signBtn, toggleSignBtn] = useState(false);
-  const [submitType, setSubmitType] = useState();
+  // const [submitType, setSubmitType] = useState();
 
   const pinNumber = useRef({});
   pinNumber.current = watch("pinNumber");
 
-  const pinValue2Ref = useRef();
-  const iagreeRef = useRef();
-  const saveRef = useRef();
-  const adminFormRef = useRef();
-  const witnessRef = useRef();
+  // const pinValue2Ref = useRef();
+  // const iagreeRef = useRef();
+  // const saveRef = useRef();
+  // const adminFormRef = useRef();
+  // const witnessRef = useRef();
   const cnvRef = useRef();
 
   const handleClose = () => {
@@ -106,6 +104,7 @@ export function SignatureManger({ show, setShow, containerName, edit }) {
     return () => {
       document.removeEventListener("SignResponse", signResponse, false);
     };
+    // eslint-disable-next-line
   }, [signBtn]);
 
   const setValues = (objResponse, imageWidth, imageHeight) => {
@@ -142,85 +141,85 @@ export function SignatureManger({ show, setShow, containerName, edit }) {
     setSigRawData("Base64 String: ");
   };
 
-  const formSubmit = (sType) => {
-    setSubmitType(sType);
-    adminFormRef.current.submit();
-  };
+  // const formSubmit = (sType) => {
+  //   setSubmitType(sType);
+  //   adminFormRef.current.submit();
+  // };
 
   const setButton = (e) => {
     toggleSignBtn(e.target.checked);
   };
 
-  const witnessSignature = () => {
-    const sSig = sigStringData;
-    const sWitnessID = witnessRef.current.value;
-    const sWitnessPin = pinValue2Ref.current.value;
-    const sStaffID = 125; // Staff ID is passed in from the calling program
-    // const sStaffPin = pinValueRef.current.value;
+  // const witnessSignature = () => {
+  //   const sSig = sigStringData;
+  //   const sWitnessID = witnessRef.current.value;
+  //   const sWitnessPin = pinValue2Ref.current.value;
+  //   const sStaffID = 125; // Staff ID is passed in from the calling program
+  //   // const sStaffPin = pinValueRef.current.value;
 
-    alert(
-      "Send to server witnessid=" +
-        sWitnessID +
-        ", witnesspin=" +
-        sWitnessPin +
-        ",staffid=" +
-        sStaffID +
-        ", staffpin=" +
-        // sStaffPin +
-        " and base representation of the signature shown on next popup..."
-    );
-    alert(sigStringData);
-  };
+  //   alert(
+  //     "Send to server witnessid=" +
+  //       sWitnessID +
+  //       ", witnesspin=" +
+  //       sWitnessPin +
+  //       ",staffid=" +
+  //       sStaffID +
+  //       ", staffpin=" +
+  //       // sStaffPin +
+  //       " and base representation of the signature shown on next popup..."
+  //   );
+  //   alert(sigStringData);
+  // };
 
-  const closeWindow = (sType) => {
-    setBIsOpen(false);
-    // w1.close();
-  };
+  // const closeWindow = (sType) => {
+  //   setBIsOpen(false);
+  //   // w1.close();
+  // };
 
-  const onDone = async (sWitnessID) => {
-    if (bIsOpen === true) {
-      // w1.close();
-      setBIsOpen(false);
-    }
+  // const onDone = async (sWitnessID) => {
+  //   if (bIsOpen === true) {
+  //     // w1.close();
+  //     setBIsOpen(false);
+  //   }
 
-    if (pinNumber.current.length >= 4) {
-      try {
-        const response = await fetch(
-          "/IHelp/admin.do?" +
-            encodeURI(
-              "submittype=ajaxcall&actiontype=savesignature&primaryid=&miscinfo=" +
-                sigStringData +
-                "&pinvalue=" +
-                // data.pinNumber +
-                "&witness=" +
-                sWitnessID
-            ),
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(""),
-          }
-        );
+  //   if (pinNumber.current.length >= 4) {
+  //     try {
+  //       const response = await fetch(
+  //         "/IHelp/admin.do?" +
+  //           encodeURI(
+  //             "submittype=ajaxcall&actiontype=savesignature&primaryid=&miscinfo=" +
+  //               sigStringData +
+  //               "&pinvalue=" +
+  //               // data.pinNumber +
+  //               "&witness=" +
+  //               sWitnessID
+  //           ),
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify(""),
+  //         }
+  //       );
 
-        if (response.ok) {
-          const res = await response.json();
-          console.log(res);
-          // alertify.success("signature saved");
-        }
-      } catch (err) {
-        console.error(err);
-        // alertify.alert('Error: ' + e);
-      }
-    } else {
-      // alertify.alert("You must enter a pin with four to eight characters to proceed...");
-    }
-  };
+  //       if (response.ok) {
+  //         const res = await response.json();
+  //         console.log(res);
+  //         // alertify.success("signature saved");
+  //       }
+  //     } catch (err) {
+  //       console.error(err);
+  //       // alertify.alert('Error: ' + e);
+  //     }
+  //   } else {
+  //     // alertify.alert("You must enter a pin with four to eight characters to proceed...");
+  //   }
+  // };
 
-  const setSaveBtn = () => {
-    saveRef.current.disabled = false;
-  };
+  // const setSaveBtn = () => {
+  //   saveRef.current.disabled = false;
+  // };
 
   return (
     <Modal show={show} dialogClassName="CE-width" onHide={handleClose}>

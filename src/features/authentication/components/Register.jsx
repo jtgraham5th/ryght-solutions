@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../context/UserContext";
 import { SelectField, TextField } from "../../../components/form/fieldCreator";
+import { getUserFields } from "../utils/parseData";
 
 export function Register() {
   const { register, handleSubmit, formState, watch } = useForm({
@@ -33,7 +34,8 @@ export function Register() {
         user.Title = data.Title;
         user.Email = data.Email;
         console.log(user);
-        const updatedUser = await updateUser(user);
+        const userFields = getUserFields(user);
+        const updatedUser = await updateUser(user, userFields);
         console.log("updated User", updatedUser);
         if (updatedUser) {
           return true;

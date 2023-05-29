@@ -1,5 +1,6 @@
 import { useContext, createContext, useEffect, useState } from "react";
 import React from "react";
+
 // import { parseSignUpData } from "../features/authentication/utils/parseData";
 
 const UserContext = createContext();
@@ -10,6 +11,7 @@ export function useUser() {
 
 export function UserProvider(props) {
   const [user, setUser] = useState("");
+  const [allUsers, setAllUser] = useState("");
   const isAuthenticated = () => {
     const token = localStorage.getItem("UserID");
     if (!token) return false;
@@ -17,14 +19,23 @@ export function UserProvider(props) {
   };
 
   const login = async (data) => {
-    const { username, password } = data;
+    const { email, password } = data;
+    console.log(data);
     try {
       const response = await fetch(
-        `http://ivronlogs.icu:8080/rsv1/generic_api/list/19?fields=*&where=username=${username}&orderby=fullname`
+        `http://www.ivronlogs.icu:8080/rsv1/generic_api/pcheck/760`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
       );
       if (response.ok) {
         const res = await response.json();
         if (res.length > 0) {
+          getUserWithField("username", data[0].UserName)
           setUser(res[0]);
           localStorage.setItem("UserID", res[0].UseriD);
           return true;
@@ -72,7 +83,7 @@ export function UserProvider(props) {
     console.log(requestBody);
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/${user.UseriD}?tid=19&fields=${fields}`,
+        `http://www.ivronlogs.icu:8080/rsv1/generic_api/${data.UseriD}?tid=19&fields=${fields}`,
         {
           method: "POST",
           headers: {
@@ -95,10 +106,37 @@ export function UserProvider(props) {
     }
     return false;
   };
+  const adminUpdateUser = async (userid, data, fields) => {
+    // const signupData = parseSignUpData(data);
+    console.log(data);
+    try {
+      const response = await fetch(
+        `http://www.ivronlogs.icu:8080/rsv1/generic_api/${userid}?tid=19&fields=${fields}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      console.log(response);
+      if (response.ok) {
+        const res = await response.json();
+        console.log(res);
+        if (res.length > 0) {
+          getAllUsers();
+          return true;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    return false;
+  };
   const logout = () => {
     localStorage.removeItem("UserID");
   };
-
   const getUser = async (userID) => {
     try {
       const response = await fetch(
@@ -119,6 +157,45 @@ export function UserProvider(props) {
       logout();
     }
   };
+  const getUserWithField = async (field, value) => {
+    try {
+      const response = await fetch(
+        `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/19?fields=*&where=${field}=${value}&orderby=userid`
+      );
+      if (response.ok) {
+        const res = await response.json();
+        console.log("!!", res);
+        if (res.length > 0) {
+          setUser(res[0]);
+          localStorage.setItem("UserID", res[0].UseriD);
+        }
+      } else {
+        logout();
+      }
+    } catch (err) {
+      console.error(err);
+      logout();
+    }
+  };
+  const getAllUsers = async () => {
+    try {
+      const response = await fetch(
+        `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/19?fields=email,userid,firstname,lastname,accesslevel&where=active=1&orderby=fullname`
+      );
+      if (response.ok) {
+        const res = await response.json();
+        console.log("!!", res);
+        if (res.length > 0) {
+          setAllUser(res);
+          return res;
+        }
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated() && !user) {
       const token = localStorage.getItem("UserID");
@@ -135,7 +212,10 @@ export function UserProvider(props) {
         logout,
         login,
         updateUser,
+        adminUpdateUser,
         isAuthenticated,
+        getAllUsers,
+        allUsers,
       }}
     >
       {props.children}

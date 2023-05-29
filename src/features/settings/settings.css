@@ -49,3 +49,11 @@
   overflow: auto;
   border: 1px solid silver;
 }
+.fade-in-out {
+  opacity: 1;
+  transition: opacity 3.5s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+}

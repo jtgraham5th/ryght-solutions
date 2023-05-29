@@ -8,3 +8,4 @@ export { PNListItem } from './components/PN_ListItem';
 export { PNNewNote } from './components/PN_NewNote';
 export { PNViewNote } from './components/PN_ViewNote';
 export { PNManager } from './components/PN_Manager';
+export { PNPdf } from './components/PN_Pdf';

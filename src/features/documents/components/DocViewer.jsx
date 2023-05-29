@@ -1,7 +1,5 @@
-import { Button, Row, Modal } from "react-bootstrap";
-import { useState } from "react";
-import "./RQ_Manager.css";
-import AlertContainer from "../../../components/AlertContainer";
+import { Row } from "react-bootstrap";
+import "./DocManager.css";
 import {
   renderAdultBPS,
   renderAdolescentBPS,
@@ -9,14 +7,13 @@ import {
   renderANSA,
   requirements,
   renderOrderOfService,
-} from "../data/requirements";
-import { useForm } from "react-hook-form";
+} from "../data/documents";
 
-export function RQViewer({ data, activePage, edit }) {
-  const { control, register, setValue } = useForm();
+export function DocViewer({ data, activePage, edit, register, control, setValue}) {
 
   const renderRequirement = () => {
-    switch (data.doctypeid) {
+    console.log(data)
+    switch (data.docid) {
       case 4:
         return renderAdolescentBPS(activePage, register, control, edit);
       case 5:
@@ -37,7 +34,7 @@ export function RQViewer({ data, activePage, edit }) {
   };
   const getAssessmentInfo = () => {
     const assessmentInfo = requirements.filter(
-      (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
+      (requirement) => data.docid === parseInt(requirement.docid)
     );
     if (assessmentInfo.length > 0) {
       return assessmentInfo[0].name;

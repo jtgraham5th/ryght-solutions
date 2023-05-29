@@ -1,4 +1,4 @@
-import { Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import "./Login.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -16,9 +16,16 @@ export function Login() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    let loginData = [
+      {
+        UserName: data.email,
+        StringValue: data.password,
+        PCheckTypeID: 3,
+      },
+    ];
     setloginStatus(true);
-    const loggedIn = await login(data);
-    console.log(loggedIn)
+    const loggedIn = await login(loginData);
+    console.log(loggedIn);
     if (loggedIn) {
       navigate("/ryght-solutions/home");
     } else {
@@ -34,12 +41,12 @@ export function Login() {
       <Form.Group>
         <TextField
           register={register}
-          labelName="Username"
-          fieldName="username"
-          fieldOptions={{ required: "Username required" }}
+          labelName="Email"
+          fieldName="email"
+          fieldOptions={{ required: "Email required" }}
           fieldStyle="mb-4"
-          isValid={touchedFields.username && !errors.username}
-          isInvalid={errors.username}
+          isValid={touchedFields.email && !errors.email}
+          isInvalid={errors.email}
         />
         <TextField
           register={register}
