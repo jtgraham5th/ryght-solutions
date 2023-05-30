@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../context/UserContext";
 import { SelectField, TextField } from "../../../components/form/fieldCreator";
 import { getUserFields } from "../utils/parseData";
+import { useClient } from "../../../context/ClientContext";
 
 export function Register() {
   const { register, handleSubmit, formState, watch } = useForm({
@@ -17,7 +18,7 @@ export function Register() {
   const password = useRef({});
   password.current = watch("Password", "");
   const { signup, updateUser } = useUser();
-
+  const { formData } = useClient();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -147,7 +148,7 @@ export function Register() {
           />
         </Col>
       </Form.Group>
-      <Button className="w-100 mb-2" type="submit">
+      <Button className="w-100 mb-2" type="submit" disabled={!formData}>
         Register
       </Button>
     </Form>

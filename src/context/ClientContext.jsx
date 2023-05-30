@@ -449,7 +449,6 @@ export function ClientProvider(props) {
     if (!dxCodes.length > 0) getDXCodes();
     if (!serviceCodes.length > 0) getServiceCodes();
     // if (!serviceGroups.length > 0) getServiceGroups();
-
     // eslint-disable-next-line
   }, []);
   useEffect(() => {

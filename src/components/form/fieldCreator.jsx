@@ -70,17 +70,23 @@ export function SelectField(props) {
     }
   }, [formData[groupName]]);
   const renderOptions = () => {
+    console.log("renderoptions");
     if (listData && groupName) {
       const filterOptions = listData.filter((listItem) => {
         return formData[groupName].some((formItem) => {
           return formItem.groupvalue === listItem.groupvalue;
         });
       });
+
       return filterOptions;
-    } else if (listData) return listData;
-    else if (groupName) return formData[groupName];
+    } else if (listData) {
+      return listData;
+    } else if (groupName) {
+      return formData[groupName];
+    }
     return [];
   };
+  renderOptions();
   return (
     <>
       {labelName ? (
@@ -235,7 +241,7 @@ export function TextField({
         {...other}
       />
       <Form.Control.Feedback type="invalid">
-            {isInvalid && isInvalid.message}
+        {isInvalid && isInvalid.message}
       </Form.Control.Feedback>
     </div>
   );

@@ -4,10 +4,10 @@ import "./PN_Manager.css";
 import { PNListItem } from "./PN_ListItem";
 import { useClient } from "../../../context/ClientContext";
 import { PNNewNote } from "./PN_NewNote";
+import { useEffect } from "react";
 
 export function PNList({ activeNote, setActiveNote }) {
   const { activeProgNotes, activeTreatmentPlan } = useClient();
-
   return (
     <Card className="h-100">
       <Card.Body className="p-0">
@@ -35,7 +35,8 @@ export function PNList({ activeNote, setActiveNote }) {
                   No Goals have been defined for this Client
                 </h3>
                 <h5 className="fw-lighter text-center">
-                  Click the 'Treatment Plan' Tab to add new goals, objectives and interventions.
+                  Click the 'Treatment Plan' Tab to add new goals, objectives
+                  and interventions.
                 </h5>
               </ListGroup.Item>
             )}

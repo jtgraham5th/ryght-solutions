@@ -71,8 +71,7 @@ export function CVProgressNotes() {
             <ViewerHeader
               edit={edit}
               setEdit={setEdit}
-              activeNote={activeNote}
-              disabled={!activeNote}
+              activeDocument={activeNote}
               handlePrint={handlePrint}
             />
             <Card.Body className="overflow-auto" style={{ height: "28rem" }}>

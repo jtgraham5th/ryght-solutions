@@ -42,7 +42,7 @@ export function TreatmentPlanDetail() {
     sendPDFtoAPI,
   } = useClient();
   const { user } = useUser();
-  const [activeNote] = useState(true);
+  const [activeDocument] = useState(true);
   const [edit, setEdit] = useState(false);
   const [pinNumber, setPinNumber] = useState();
   const [show, setShow] = useState(false);
@@ -149,7 +149,7 @@ export function TreatmentPlanDetail() {
         <ViewerHeader
           edit={edit}
           setEdit={setEdit}
-          activeNote={activeNote}
+          activeDocument={activeDocument}
           onSubmit={handleSubmit(onSubmit)}
           handlePrint={handlePrint}
           title="Treatment Plan"
@@ -348,7 +348,7 @@ export function TreatmentPlanDetail() {
             />
             {/* <PNPdf
               formData={formData}
-              data={activeNote}
+              data={activeDocument}
               activeClient={activeClient}
             /> */}
           </PDFViewer>
