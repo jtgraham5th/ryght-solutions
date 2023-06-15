@@ -9,11 +9,7 @@ import { pdf } from "@react-pdf/renderer";
 
 export function CVProgressNotes() {
   const { user } = useUser();
-  const {
-    activeClient,
-    formData,
-    sendPDFtoAPI,
-  } = useClient();
+  const { activeClient, formData, sendPDFtoAPI } = useClient();
 
   const [activeNote, setActiveNote] = useState(false);
   const [activePage, setActivePage] = useState(0);
@@ -26,15 +22,12 @@ export function CVProgressNotes() {
         activeClient={activeClient}
       />
     ).toBlob();
-    console.log(pdfBlob);
-    console.log(activeNote);
-    const responseData = await sendPDFtoAPI(activeNote.recid, pdfBlob, user);
-    console.log(responseData);
-    const url =
-      responseData[0].viewer + responseData[0].path + responseData[0].file;
-    console.log(url);
-    window.open(url, "_blank");
-
+    console.log("pdf Blob:", pdfBlob);
+    console.log("Active Doc:", activeNote);
+    await sendPDFtoAPI(activeNote.recid, pdfBlob, user).then((data) => {
+      const url = data[0].viewer + data[0].path + data[0].file;
+      window.open(url, "_blank");
+    });
 
     // console.log(pdfBlob);
     // var file = new File([pdfBlob], "exampleTPlan", {

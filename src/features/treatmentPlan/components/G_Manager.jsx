@@ -24,7 +24,7 @@ import {
 
 export function GoalsManager({ data }) {
   const { activeTreatmentPlan, activeClient } = useClient();
-  const { patientid } = activeClient[20];
+  const { patientid } = activeClient;
   const [alert, setAlert] = useState({ message: "", data: "" });
   const [activeGoal, setActiveGoal] = useState({});
   const [activeObjective, setActiveObjective] = useState("");

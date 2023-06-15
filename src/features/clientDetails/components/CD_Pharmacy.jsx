@@ -9,8 +9,8 @@ export function CDPharmacy() {
   const [contact, setContact] = useState();
 
   useEffect(() => {
-    if (activeClient[21].pharmacyproviderid) {
-      getContact(activeClient[21].pharmacyproviderid).then((data) =>
+    if (activeClient.pharmacyproviderid) {
+      getContact(activeClient.pharmacyproviderid).then((data) =>
         setContact(data[0])
       );
     }

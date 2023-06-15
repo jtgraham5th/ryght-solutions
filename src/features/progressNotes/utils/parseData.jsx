@@ -175,6 +175,7 @@ export const parseDefaultProgressNote = (pNote) => {
   };
 };
 export const parseServices = (services, serviceCodes, serviceArray) => {
+  console.log(serviceCodes)
   services.forEach((service) => {
     const foundService = serviceCodes.find((item) => {
       console.log(item.code, service);

@@ -70,7 +70,6 @@ export function SelectField(props) {
     }
   }, [formData[groupName]]);
   const renderOptions = () => {
-    console.log("renderoptions");
     if (listData && groupName) {
       const filterOptions = listData.filter((listItem) => {
         return formData[groupName].some((formItem) => {

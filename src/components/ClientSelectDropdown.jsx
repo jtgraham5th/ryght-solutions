@@ -13,9 +13,7 @@ function ClientSelectDropdown(props) {
   const [searchValue, setSearchValue] = useState("");
 
   const handleClientSelect = async (patientid) => {
-    for (let i = 20; i < 23; i++) {
-      await selectClient(patientid, i);
-    }
+    await selectClient(patientid);
     for (let i = 21; i < 25; i++) {
       await getContactList(patientid, i);
     }
@@ -65,7 +63,11 @@ function ClientSelectDropdown(props) {
 
           <ul className="list-unstyled">
             {React.Children.toArray(children).filter((child) => {
-              return !searchValue || child.props.children.toLowerCase().includes(searchValue.toLowerCase());
+              return !searchValue || child.props.children
+                ? child.props.children
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase())
+                : null;
             })}
           </ul>
         </div>

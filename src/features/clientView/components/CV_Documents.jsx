@@ -69,18 +69,12 @@ export function CVDocuments() {
     const pdfBlob = await pdf(
       generatePDF(formData, activeDocument, activeClient, activeServices)
     ).toBlob();
-    console.log(pdfBlob);
-    console.log(activeDocument);
-    const responseData = await sendPDFtoAPI(
-      activeDocument.recid,
-      pdfBlob,
-      user
-    );
-    console.log(responseData);
-    const url =
-      responseData[0].viewer + responseData[0].path + responseData[0].file;
-    console.log(url);
-    window.open(url, "_blank");
+    console.log("pdf Blob:", pdfBlob);
+    console.log("Active Doc:", activeDocument);
+    await sendPDFtoAPI(activeDocument.recid, pdfBlob, user).then((data) => {
+      const url = data[0].viewer + data[0].path + data[0].file;
+      window.open(url, "_blank");
+    });
   };
   const resetDocument = (document) => {
     reset(parseDefaultDocument(document));

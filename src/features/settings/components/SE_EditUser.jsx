@@ -51,7 +51,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="First Name"
-                  fieldName="FirstName"
+                  fieldName="firstname"
                   fieldOptions={{ required: true, maxLength: 40 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.FirstName && !errors.FirstName}
@@ -63,7 +63,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Last Name"
-                  fieldName="LastName"
+                  fieldName="lastname"
                   fieldOptions={{ required: true, maxLength: 40 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.LastName && !errors.LastName}
@@ -75,7 +75,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Company ID"
-                  fieldName="CompanyID"
+                  fieldName="companyid"
                   fieldOptions={{ required: true, maxLength: 40 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.CompanyID && !errors.CompanyID}
@@ -89,7 +89,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Credentials"
-                  fieldName="Credentials"
+                  fieldName="credentials"
                   fieldOptions={{ required: true, maxLength: 40 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.Credentials && !errors.Credentials}
@@ -101,7 +101,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Title"
-                  fieldName="Title"
+                  fieldName="title"
                   fieldOptions={{ required: true, maxLength: 40 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.Title && !errors.Title}
@@ -115,7 +115,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Email"
-                  fieldName="Email"
+                  fieldName="email"
                   fieldOptions={{ required: true, maxLength: 40 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.Email && !errors.Email}
@@ -139,7 +139,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Street Address"
-                  fieldName="Street1"
+                  fieldName="street1"
                   fieldOptions={{ maxLength: 100 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.Street1 && !errors.Street1}
@@ -151,7 +151,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="City"
-                  fieldName="City"
+                  fieldName="city"
                   fieldOptions={{ maxLength: 100 }}
                   labelStyle="CE-form-label"
                   isValid={dirtyFields.City && !errors.City}
@@ -163,7 +163,7 @@ export function SEEditUser(props) {
                 <SelectField
                   register={register}
                   labelName="State"
-                  fieldName="State"
+                  fieldName="state"
                   fieldOptions={{ maxLength: 2 }}
                   listData={statesList}
                   labelStyle="CE-form-label"
@@ -176,7 +176,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Zip Code"
-                  fieldName="Zip"
+                  fieldName="zip"
                   fieldType="number"
                   fieldOptions={{ valueAsNumber: true, maxLength: 15 }}
                   labelStyle="CE-form-label"
@@ -191,7 +191,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Phone 1"
-                  fieldName="Phone1"
+                  fieldName="phone1"
                   // fieldType="number"
                   fieldOptions={{ maxLength: 15 }}
                   labelStyle="CE-form-label"
@@ -204,7 +204,7 @@ export function SEEditUser(props) {
                 <TextField
                   register={register}
                   labelName="Phone 2"
-                  fieldName="Phone2"
+                  fieldName="phone2"
                   // fieldType="number"
                   fieldOptions={{ maxLength: 15 }}
                   labelStyle="CE-form-label"

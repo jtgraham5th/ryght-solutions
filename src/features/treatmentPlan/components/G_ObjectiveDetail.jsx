@@ -25,7 +25,7 @@ export function ObjectiveDetail({
   const [editObjective, setEditObjective] = useState(false);
   const { activeClient, updateClientObjective, addClientObjective } =
     useClient();
-  const { patientid } = activeClient[20];
+  const { patientid } = activeClient;
 
   const { control, register, handleSubmit, reset } = useForm();
 

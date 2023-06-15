@@ -1,7 +1,10 @@
+const apiUrl = process.env.REACT_APP_API_URL;
+// const rptUrl = process.env.REACT_APP_RPT_URL;
+
 export const addNewBillingTx = async () => {
   // console.log(newDoc);
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rsv1/generic_api/17?fields=billingid,patientid,doctypeid,lastuserid,lastupdate`,
+    `${apiUrl}generic_api/17?fields=billingid,patientid,doctypeid,lastuserid,lastupdate`,
     {
       method: "PUT",
       headers: {
@@ -12,7 +15,6 @@ export const addNewBillingTx = async () => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data[0];
     })
     .catch((e) => {
@@ -26,7 +28,7 @@ export const updateBillingTx = async (billingTx) => {
   console.log(requestBody);
 
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rsv1/generic_api/${billingTx.billingid}?tid=17&fields=patientid,doctypeid,lastuserid,lastupdate`,
+    `${apiUrl}generic_api/${billingTx.billingid}?tid=17&fields=patientid,doctypeid,lastuserid,lastupdate`,
     {
       method: "POST",
       headers: {
@@ -37,7 +39,6 @@ export const updateBillingTx = async (billingTx) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data;
     })
     .catch((e) => {
@@ -46,18 +47,24 @@ export const updateBillingTx = async (billingTx) => {
 };
 export const getAllPatientBillingTx = async (patientid) => {
   return await fetch(
-    // `http://www.ivronlogs.icu:8080/rs1/generic_api/list/17?listing=patientid=${patientid}&orderby=billingid`
-    `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`  )
+    // `${apiUrl}generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`
+    `${apiUrl}generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`
+  )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
     });
 };
 export const addNewDocument = async (newDoc) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/16`, {
+  return await fetch(`${apiUrl}generic_api/16?fields=recid`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -73,8 +80,9 @@ export const addNewDocument = async (newDoc) => {
     });
 };
 export const updateDocument = async (document) => {
+  const fields = Object.keys(document[0]).join(",");
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${document[0].recid}?tid=16`,
+    `${apiUrl}generic_api/${document[0].recid}?tid=16&fields=${fields}`,
     {
       method: "POST",
       headers: {
@@ -94,11 +102,16 @@ export const updateDocument = async (document) => {
 
 export const getDocumentbyType = async (docid, patientid) => {
   return await fetch(
-    `  http://www.ivronlogs.icu:8080/rs1/generic_api/list/16?listing=patientid=${patientid},docid=${docid}&orderby=billingid`
+    `  ${apiUrl}generic_api/list/16?fields=*&where=patientid=${patientid},docid=${docid}&orderby=billingid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -106,11 +119,16 @@ export const getDocumentbyType = async (docid, patientid) => {
 };
 export const getDocumentbyBilling = async (billingid, patientid) => {
   return await fetch(
-    `  http://www.ivronlogs.icu:8080/rs1/generic_api/list/16?listing=patientid=${patientid},billingid=${billingid}&orderby=billingid`
+    `  ${apiUrl}generic_api/list/16?fields=*&where=patientid=${patientid},billingid=${billingid}&orderby=billingid&allrecs=false`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data[0];
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData[0];
     })
     .catch((e) => {
       console.log(e);

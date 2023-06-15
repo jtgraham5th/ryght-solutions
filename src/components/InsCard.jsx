@@ -6,7 +6,7 @@ import { getFormValue } from "../features/clientDetails/utils/formatData";
 function InsCard({ source }) {
   const { activeClient, formData } = useClient();
   const { ins1_fundingsource, ins1_policynumber, ins1_dateexpires } =
-    activeClient[21];
+    activeClient;
 
   return (
     <Card className={styles.insuranceCard} border="primary fc-white">

@@ -64,7 +64,7 @@ export function PNViewNote({ data }) {
           <Row className="mb-2">
             <Col className="pn_note-view-item">
               <h6>Consumer: </h6>{" "}
-              {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+              {activeClient.pfirstname + " " + activeClient.plastname}
             </Col>
             <Col className="pn_note-view-item">
               <h6>Contact Type: </h6> {convertedValues[data.f7]}
@@ -247,13 +247,13 @@ export function PNViewNote({ data }) {
           <Row className="mb-2">
             <Col className="pn_note-view-item">
               <h6>Note First Signed By: </h6>{" "}
-              {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+              {activeClient.pfirstname + " " + activeClient.plastname}
             </Col>
           </Row>
           <Row className="mb-2">
             <Col className="pn_note-view-item">
               <h6>Note Last Modified By: </h6>{" "}
-              {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+              {activeClient.pfirstname + " " + activeClient.plastname}
             </Col>
           </Row>
           <Row className="mb-2">
@@ -272,29 +272,29 @@ export function PNViewNote({ data }) {
               <Row className="mb-2">
                 <Col className="pn_note-view-item">
                   <h6>Staff: </h6>{" "}
-                  {activeClient[20].pfirstname +
+                  {activeClient.pfirstname +
                     " " +
-                    activeClient[20].plastname}
+                    activeClient.plastname}
                 </Col>
                 <Col className="pn_note-view-item">
                   <h6>Date: </h6>{" "}
-                  {activeClient[20].pfirstname +
+                  {activeClient.pfirstname +
                     " " +
-                    activeClient[20].plastname}
+                    activeClient.plastname}
                 </Col>
                 <Col className="pn_note-view-item">
                   <h6>Reason: </h6>{" "}
-                  {activeClient[20].pfirstname +
+                  {activeClient.pfirstname +
                     " " +
-                    activeClient[20].plastname}
+                    activeClient.plastname}
                 </Col>
               </Row>
               <Row className="mb-2">
                 <Col className="pn_note-view-item">
                   <h6>Action: </h6>{" "}
-                  {activeClient[20].pfirstname +
+                  {activeClient.pfirstname +
                     " " +
-                    activeClient[20].plastname}
+                    activeClient.plastname}
                 </Col>
                 <Col className="pn_note-view-item">
                   <h6>(Signature Goes Here) </h6>

@@ -1,5 +1,8 @@
+const apiUrl = process.env.REACT_APP_API_URL;
+// const rptUrl = process.env.REACT_APP_RPT_URL;
+
 export const addNewAuthorization = async (authorization) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/35`, {
+  return await fetch(`${apiUrl}generic_api/35`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +19,7 @@ export const addNewAuthorization = async (authorization) => {
 };
 export const getAuthorizations = async (patientid) => {
   return await fetch(
-    `https://www.ivronlogs.icu:8080/rsv1/generic_api/list/35?listing=patientid=${patientid}&orderby=authrecid`
+    `${apiUrl}generic_api/list/35?fields=*&where=patientid=${patientid}&orderby=authrecid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -29,7 +32,7 @@ export const getAuthorizations = async (patientid) => {
 export const updateAuthorization = async (authrecid, authorization) => {
   console.log("updateAuthorization from api", authorization)
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${authrecid}?tid=35`,
+    `${apiUrl}generic_api/${authrecid}?tid=35`,
     {
       method: "POST",
       headers: {
@@ -47,7 +50,7 @@ export const updateAuthorization = async (authrecid, authorization) => {
     });
 };
 export const addNewAuthService = async (authService) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/36`, {
+  return await fetch(`${apiUrl}generic_api/36`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +67,7 @@ export const addNewAuthService = async (authService) => {
 };
 export const getAuthServices = async (authrecid) => {
   return await fetch(
-    `https://www.ivronlogs.icu:8080/rsv1/generic_api/list/36?listing=authrecid=${authrecid}&orderby=authrecid`
+    `${apiUrl}generic_api/list/36?fields=*&where=authrecid=${authrecid}&orderby=authrecid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -76,7 +79,7 @@ export const getAuthServices = async (authrecid) => {
 };
 export const updateAuthService = async (recid, authService) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${recid}?tid=36`,
+    `${apiUrl}generic_api/${recid}?tid=36`,
     {
       method: "POST",
       headers: {

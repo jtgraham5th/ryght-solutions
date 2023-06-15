@@ -55,7 +55,7 @@ export function AUManager({ data, show, setShow, containerName, edit }) {
   };
   const onSubmit = async (data) => {
     console.log(data);
-    const authorization = parseAuthorization(data, activeClient[20].patientid);
+    const authorization = parseAuthorization(data, activeClient.patientid);
     console.log(authorization);
     if (typeof show == "boolean") {
       await addClientAuthorization(authorization).then((authrecid) => {

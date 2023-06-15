@@ -39,17 +39,17 @@ function Settings(props) {
                 <ListGroup.Item action onClick={() => setActiveSetting(0)}>
                   Edit Personal Information
                 </ListGroup.Item>
-                {user.AccessLevel === 20 ? (
+                {user.accesslevel === 20 ? (
                   <ListGroup.Item action onClick={() => setActiveSetting(1)}>
                     Active Patients 
                   </ListGroup.Item>
                 ) : null}
-                {user.AccessLevel === 20 ? (
+                {user.accesslevel === 20 ? (
                   <ListGroup.Item action onClick={() => setActiveSetting(2)}>
                     Setup List Boxes
                   </ListGroup.Item>
                 ) : null}
-                {user.AccessLevel === 20 ? (
+                {user.accesslevel === 20 ? (
                   <ListGroup.Item action onClick={() => setActiveSetting(3)}>
                     Admin Management
                   </ListGroup.Item>

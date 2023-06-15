@@ -29,7 +29,7 @@ export function PNPdf({ formData, data, activeClient }) {
         <View style={{ marginTop: 10, marginHorizontal: 20 }}>
           <Text style={{ fontSize: 20, marginBottom: 5 }}>Progress Note</Text>
           <Text style={{ fontSize: 15, marginBottom: 20 }}>
-            {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+            {activeClient.pfirstname + " " + activeClient.plastname}
           </Text>
           <View
             style={{
@@ -57,9 +57,9 @@ export function PNPdf({ formData, data, activeClient }) {
                   Consumer:
                 </Text>
                 <Text style={{ fontSize: 12, marginBottom: "10px" }}>
-                  {activeClient[20].pfirstname +
+                  {activeClient.pfirstname +
                     " " +
-                    activeClient[20].plastname}
+                    activeClient.plastname}
                 </Text>
               </View>
               <View

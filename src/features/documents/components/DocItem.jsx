@@ -15,7 +15,7 @@ export function DocItem({ index, data, selectDoc, active, resetDocument }) {
 
   const getAssessmentInfo = () => {
     const assessmentInfo = requirements.filter(
-      (requirement) => data.DocTypeID === parseInt(requirement.doctypeid)
+      (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
     );
     if (assessmentInfo.length > 0) {
       return assessmentInfo[0].name;
@@ -31,8 +31,7 @@ export function DocItem({ index, data, selectDoc, active, resetDocument }) {
   ));
   const viewForm = async () => {
     //right now set active form based on a switch case
-    const document = await getDocumentbyBilling(data.BillingID, data.PatientID)
-    console.log(document)
+    const document = await getDocumentbyBilling(data.billingid, data.patientid)
     resetDocument(document)
     selectDoc(document);
   };

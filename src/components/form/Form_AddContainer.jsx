@@ -19,7 +19,7 @@ export function FormAddContainer({
     addClientContact,
     getFormFields,
     addGroupItem,
-    toggleUpdate,
+    updateClientContact,
     setToggleUpdate,
   } = useClient();
   const [state, setState] = useState({});
@@ -34,7 +34,7 @@ export function FormAddContainer({
     }
   };
   const onSubmit = async (e) => {
-    console.log(sectionTitle)
+    console.log(sectionTitle);
     if (sectionTitle === "provider") {
       const data = parseNewProvider(state);
       if (!state.carrierName || state.carrierName.length < 1) {
@@ -52,10 +52,11 @@ export function FormAddContainer({
       const data = parseNewContact(
         state,
         getContactType(),
-        activeClient[20].patientid
+        activeClient.patientid
       );
-      await addClientContact(data).then((newcontactid) => {
+      await addClientContact(data).then(async (newcontactid) => {
         getFormFields();
+        console.log(newcontactid);
         switch (sectionTitle) {
           case "physician":
             setValue("physicianid", newcontactid);
@@ -66,6 +67,9 @@ export function FormAddContainer({
           default:
             break;
         }
+        await updateClientContact(data, newcontactid).then((updatedContact) => {
+          console.log(updatedContact);
+        });
       });
     }
     setState({});

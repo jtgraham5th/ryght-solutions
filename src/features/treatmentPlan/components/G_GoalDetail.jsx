@@ -18,7 +18,7 @@ import { parseDefaultGoal, parseGoal } from "../utils/parseData";
 export function GoalDetail({ goal, setGoal, focus, setFocus, setAlert }) {
   const [editGoal, setEditGoal] = useState(false);
   const { activeClient, updateClientGoal, addClientGoal } = useClient();
-  const { patientid } = activeClient[20];
+  const { patientid } = activeClient;
 
   const { control, register, handleSubmit, reset } = useForm();
 

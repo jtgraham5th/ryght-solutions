@@ -15,8 +15,12 @@ export function Diagnosis({
   const { dxCodes, getActiveDXCodes } = useClient();
 
   const setCodes = () => {
-    if (showActiveDX) return getActiveDXCodes();
-    else return dxCodes;
+    if (showActiveDX) {
+      return getActiveDXCodes();
+    } else {
+      console.log(dxCodes);
+      return dxCodes;
+    }
   };
 
   const [results, setResults] = useState(setCodes());

@@ -9,11 +9,10 @@ export function CVDemographics() {
   const data01 = dataColumn1(formData, activeClient);
   const data02 = dataColumn2(formData, activeClient);
   const data03 = dataColumn3(formData, activeClient);
-
   return (
     <Card className="mb-4 shadow">
       <Card.Header className="fs-4 fw-normal text-center">
-        {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+        {activeClient.pfirstname + " " + activeClient.plastname}
       </Card.Header>
       <Card.Body as={Row} className="demoInfo justify-content-center">
         <img

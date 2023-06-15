@@ -23,10 +23,7 @@ import {
 import { ViewerHeader } from "../../../components/ViewerHeader";
 import { useUser } from "../../../context/UserContext";
 import { InputPin } from "../../../components/InputPin";
-import {
-  addNewBillingTx,
-  updateBillingTx,
-} from "../../documents/services/api";
+import { addNewBillingTx, updateBillingTx } from "../../documents/services/api";
 import { parseBillingTx } from "../../services/utils/parseData";
 import { TPPdf } from "./TP_Pdf";
 import { pdf, PDFViewer } from "@react-pdf/renderer";
@@ -48,7 +45,7 @@ export function TreatmentPlanDetail() {
   const [show, setShow] = useState(false);
   const [showPinInput, setShowPinInput] = useState(false);
   const { tPlan } = activeTreatmentPlan;
-  const { patientid } = activeClient[20];
+  const { patientid } = activeClient;
 
   const { control, register, handleSubmit, reset } = useForm();
 
@@ -59,20 +56,21 @@ export function TreatmentPlanDetail() {
       <TPPdf
         formData={formData}
         data={tPlan[0]}
-        activeTreatmentPlan={activeTreatmentPlan}
+        activeData={activeTreatmentPlan}
         activeClient={activeClient}
       />
     ).toBlob();
-    console.log(pdfBlob);
-    console.log(tPlan[0])
-    const responseData = await sendPDFtoAPI(tPlan[0].recid, pdfBlob, user);
-    console.log(responseData);
+    console.log("pdf Blob:", pdfBlob);
+    console.log("Active Doc:", tPlan[0]);
+    await sendPDFtoAPI(tPlan[0].recid, pdfBlob, user).then((data) => {
+      const url = data[0].viewer + data[0].path + data[0].file;
+      window.open(url, "_blank");
+    });
+    // console.log(responseData);
     // setShow(true)
-    const url = responseData[0].viewer + responseData[0].path + responseData[0].file;
-    console.log(url);
+    // console.log(url);
     // "https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/198468/test.pdf";
     // https://www.ivronlogs.icu/projects/PDFViewer/web/viewer.html?file=../../ryght-solutions/docs/1192772/1192772_0.pdf
-    window.open(url, "_blank");
     // console.log(pdfBlob);
     // var file = new File([pdfBlob], "exampleTPlan", {
     //   lastModified: new Date().getTime(),

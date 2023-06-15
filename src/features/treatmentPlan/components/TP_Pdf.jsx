@@ -39,7 +39,7 @@ export function TPPdf({ formData, data, activeClient, activeData }) {
         <View style={{ marginTop: 10, marginHorizontal: 20 }}>
           <Text style={{ fontSize: 20, marginBottom: 5 }}>Treatment Plan</Text>
           <Text style={{ fontSize: 15, marginBottom: 10 }}>
-            {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+            {activeClient.pfirstname + " " + activeClient.plastname}
           </Text>
           <View style={{ flexDirection: "row", marginBottom: 10 }}>
             <View

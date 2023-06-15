@@ -75,7 +75,7 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
     if (activePage === 1) {
       setAlert({
         message: <h6>Are you sure you want to save these changes?</h6>,
-        data: parseProgressNote(data, activeClient[20].patientid),
+        data: parseProgressNote(data, activeClient.patientid),
         title: "Save Progress Notes",
       });
     }
@@ -88,8 +88,8 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
         data.billingid = tx.billingid;
       });
     }
-    if (edit) updateClientProgNote(data, activeClient[20].patientid);
-    else addClientProgNote(data, activeClient[20].patientid);
+    if (edit) updateClientProgNote(data, activeClient.patientid);
+    else addClientProgNote(data, activeClient.patientid);
     handleClose();
     reset();
   };

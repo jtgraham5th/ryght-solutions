@@ -49,17 +49,20 @@ import {
   getAuthorizations,
   updateAuthorization,
 } from "../features/authorizations/services/api";
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 const ClientContext = createContext();
+const rptUrl = process.env.REACT_APP_RPT_URL;
 
 export function useClient() {
   return useContext(ClientContext);
 }
 
 export function ClientProvider(props) {
+  const [urlPath, setUrlPath] = useState();
   const [clientList, setClientlist] = useState([]);
   const [contactList] = useState([]);
-  const [activeClient, setActiveClient] = useState({ 20: {}, 21: {}, 22: {} });
+  const [activeClient, setActiveClient] = useState({});
   const [activeContacts, setActiveContacts] = useState({});
   const [activeTreatmentPlan, setActiveTreatmentPlan] = useState({});
   const [activeProgNotes, setActiveProgNotes] = useState([]);
@@ -89,13 +92,16 @@ export function ClientProvider(props) {
 
   const sendPDFtoAPI = async (recid, pdfBlob, user) => {
     const apiUrl = `https://www.ivronlogs.icu/rsv1/generic_api/doc/${recid}`;
+    // const apiUrl = `${rptUrl}generic_api/doc/${recid}`;
     const blobToBase64String = await blobToBase64(pdfBlob);
 
     const data = {
       b64: blobToBase64String,
-      signdoc: "false",
-      userid: user.UseriD,
+      signdoc: "true",
+      userid: 760,
+      pin: 1234,
     };
+    console.log("!!!", data);
     const formData = new FormData();
     formData.append("PDFBlob", pdfBlob);
 
@@ -137,9 +143,9 @@ export function ClientProvider(props) {
     groupObject.Physician = physicianList;
 
     for (const group of groupNameValues) {
-      const groupList = groupListValues.filter(
-        (listItem) => group.groupnameid === listItem.groupid
-      );
+      const groupList = groupListValues.filter((listItem) => {
+        return group.groupnameid === listItem.groupid;
+      });
       groupObject[`${group.groupname}`] = groupList;
     }
     setFormData(groupObject);
@@ -152,7 +158,10 @@ export function ClientProvider(props) {
         let lastName = [...nameArray[0]];
         let abcObjectKeys = Object.keys(sortedClients);
         for (const key of abcObjectKeys) {
-          if (lastName[0] && lastName[0].toLowerCase() === key.toLowerCase()) {
+          if (
+            lastName.length > 0 &&
+            lastName[0].toLowerCase() === key.toLowerCase()
+          ) {
             emptyObject[key] = [...emptyObject[key], clientList[i]].sort();
           }
         }
@@ -161,13 +170,10 @@ export function ClientProvider(props) {
   };
 
   /// CLIENT FUNCTIONS ///
-  const selectClient = async (patientid, tid) => {
-    await getClient(patientid, tid)
+  const selectClient = async (patientid) => {
+    await getClient(patientid)
       .then((data) => {
-        setActiveClient((prevState) => ({
-          ...prevState,
-          [tid]: { ...data[0] },
-        }));
+        setActiveClient(data);
       })
       .catch((e) => {
         console.log(e);
@@ -182,20 +188,22 @@ export function ClientProvider(props) {
     }
     return;
   };
-  const getClientList = async (tid) => {
+  const getClientList = async () => {
     setLoading(true);
-    await getAllClients(tid)
+    await getAllClients()
       .then((data) => {
         let clientArray = [];
         data.forEach((client) => {
-          return clientArray.push({
-            name:
-              capitalize(client.plastname) +
-              ", " +
-              capitalize(client.pfirstname),
-            statusid: client.statusid,
-            patientid: client.patientid,
-          });
+          return client.patientid
+            ? clientArray.push({
+                name:
+                  capitalize(client.plastname.trim()) +
+                  ", " +
+                  capitalize(client.pfirstname.trim()),
+                statusid: client.statusid,
+                patientid: client.patientid,
+              })
+            : null;
         });
 
         console.log("retrieved client list succesfully!");
@@ -207,10 +215,10 @@ export function ClientProvider(props) {
         setLoading(false);
       });
   };
-  const updateActiveClient = async (client, patientid, tid) => {
+  const updateActiveClient = async (client, patientid) => {
     console.log(client);
     setLoading(true);
-    await updateClient(client, tid, patientid)
+    await updateClient(client, patientid)
       .then((data) => {
         setLoading(false);
         return data[0];
@@ -222,16 +230,18 @@ export function ClientProvider(props) {
       });
   };
   const addActiveClient = async (client) => {
-    return await addNewClient(client)
-      .then((data) => {
-        console.log(data);
-        getClientList(20);
-        return data;
-      })
-      .catch((error) => {
-        console.log(error);
-        throw new Error(error);
-      });
+    try {
+      const newclient = await addNewClient(client);
+      client[0].patientid = newclient.patientid;
+      const updatedClient = await updateClient(client, newclient.patientid);
+      updatedClient[0].patientid = newclient.patientid;
+      console.log(updatedClient);
+      await getClientList();
+      return updatedClient;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
   };
 
   /// CONTACT FUNCTIONS ///
@@ -295,43 +305,37 @@ export function ClientProvider(props) {
         let newBillingTx = [
           {
             billingid: 0,
-            patientid: activeClient[20].patientid,
+            patientid: activeClient.patientid,
             doctypeid: requirement.doctypeid,
             lastuserid: 101,
           },
         ];
 
-        console.log(newBillingTx);
         addNewBillingTx(newBillingTx).then((data) => {
-          console.log(data);
           newBillingTxs.push(data[0]);
         });
       })
       .then(() => {
-        console.log(newBillingTxs);
         getClientBillingTx();
       });
   };
   const getClientBillingTx = async () => {
-    await getAllPatientBillingTx(activeClient[20].patientid).then((data) => {
-      console.log(data);
+    await getAllPatientBillingTx(activeClient.patientid).then((data) => {
       setActiveBillingTx(data);
     });
   };
 
   /// TREATMENT PLAN FUNCTIONS ///
   const getClientTreatmentPlan = async () => {
-    if (activeClient[20].patientid) {
+    if (activeClient.patientid) {
       let treatmentPlan = {};
-      treatmentPlan.tPlan = await getTreatmentPlan(activeClient[20].patientid);
-      treatmentPlan.goals = await getAllPatientGoals(
-        activeClient[20].patientid
-      );
+      treatmentPlan.tPlan = await getTreatmentPlan(activeClient.patientid);
+      treatmentPlan.goals = await getAllPatientGoals(activeClient.patientid);
       treatmentPlan.objectives = await getAllPatientObjectives(
-        activeClient[20].patientid
+        activeClient.patientid
       );
       treatmentPlan.interventions = await getAllPatientInterventions(
-        activeClient[20].patientid
+        activeClient.patientid
       );
       setActiveTreatmentPlan(treatmentPlan);
     }
@@ -340,7 +344,12 @@ export function ClientProvider(props) {
     await updateTreatmentPlan(tPlan).then(() => getClientTreatmentPlan());
   };
   const addClientTreatmentPlan = async (tPlan) => {
-    await addNewDocument(tPlan).then(() => getClientTreatmentPlan());
+    await addNewDocument().then(async (newdoc) => {
+      tPlan[0].recid = newdoc.recid;
+      await updateClientTreatmentPlan(tPlan).then(() =>
+        getClientTreatmentPlan()
+      );
+    });
   };
   const addClientGoal = async (newGoal) => {
     return await addNewGoal(newGoal).then((data) => {
@@ -391,11 +400,8 @@ export function ClientProvider(props) {
     setServiceGroups(data);
   };
   const getActiveServices = () => {
-    if (
-      activeClient[22].servicecodes &&
-      activeClient[22].servicecodes.length > 0
-    ) {
-      const clientCodes = activeClient[22].servicecodes.split(",");
+    if (activeClient.servicecodes && activeClient.servicecodes.length > 0) {
+      const clientCodes = activeClient.servicecodes.split(",");
       const filteredArray = formData["Services"].filter((service) => {
         return clientCodes.includes(service.grouplistid.toString());
       });
@@ -404,8 +410,8 @@ export function ClientProvider(props) {
     return [];
   };
   const getActiveDXCodes = () => {
-    if (activeClient[22].dxcodes && activeClient[22].dxcodes.length > 0) {
-      const clientCodes = activeClient[22].dxcodes.split(",");
+    if (activeClient.dxcodes && activeClient.dxcodes.length > 0) {
+      const clientCodes = activeClient.dxcodes.split(",");
       const filteredArray = dxCodes.filter((dx) =>
         clientCodes.includes(dx.code)
       );
@@ -414,13 +420,16 @@ export function ClientProvider(props) {
     return [];
   };
   const addClientProgNote = async (progNote) => {
-    await addNewDocument(progNote).then(() => getClientProgNotes());
+    await addNewDocument().then(async (newdoc) => {
+      progNote[0].recid = newdoc.recid;
+      await updateClientProgNote(progNote).then(() => getClientProgNotes());
+    });
   };
   const updateClientProgNote = async (updatedProgNote) => {
     await updateDocument(updatedProgNote).then(() => getClientProgNotes());
   };
   const getClientProgNotes = async () => {
-    let data = await getAllPatientProgNotes(activeClient[20].patientid);
+    let data = await getAllPatientProgNotes(activeClient.patientid);
     setActiveProgNotes(data);
   };
   const addClientAuthorization = async (authorization) => {
@@ -439,12 +448,26 @@ export function ClientProvider(props) {
     );
   };
   const getClientAuthorizations = async () => {
-    let data = await getAuthorizations(activeClient[20].patientid);
+    let data = await getAuthorizations(activeClient.patientid);
     setActiveAuthorizations(data);
   };
 
   useEffect(() => {
-    if (!clientList.length > 0) getClientList(20);
+    // const getApiUrl = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       "http://www.ivronlogs.club:8080/generic_api/param"
+    //     );
+    //     const data = await response.json();
+    //     console.log(data)
+    //     return data;
+    //   } catch (error) {
+    //     console.error("Failed to fetch API URL:", error);
+    //   }
+    // };
+    // getApiUrl().then(setUrlPath);
+
+    if (!clientList.length > 0) getClientList();
     if (!formData.length > 0) getFormFields();
     if (!dxCodes.length > 0) getDXCodes();
     if (!serviceCodes.length > 0) getServiceCodes();
@@ -452,20 +475,25 @@ export function ClientProvider(props) {
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
-    let abcObjectCopy = { ...abcObject };
-    console.log("start sorting");
-    for (let i = 100; i <= clientList.length; i += 100) {
-      sortClients(i, abcObjectCopy);
+    console.log(urlPath);
+  }, [urlPath]);
+  useEffect(() => {
+    if (clientList.length > 0) {
+      let abcObjectCopy = { ...abcObject };
+      console.log("start sorting");
+      for (let i = 100; i <= clientList.length; i += 100) {
+        sortClients(i, abcObjectCopy);
+      }
+      const leftovers = clientList.length - (clientList.length % 100) + 100;
+      sortClients(leftovers, abcObjectCopy);
+      setSortedClients(abcObjectCopy);
     }
-    const leftovers = clientList.length - (clientList.length % 100) + 100;
-    sortClients(leftovers, abcObjectCopy);
-    setSortedClients(abcObjectCopy);
     // eslint-disable-next-line
   }, [clientList]);
 
   useEffect(() => {
     // get document ids
-    if (activeClient[20].patientid) {
+    if (activeClient.patientid) {
       getClientBillingTx();
       getClientTreatmentPlan();
       getClientProgNotes();
@@ -477,6 +505,7 @@ export function ClientProvider(props) {
   return (
     <ClientContext.Provider
       value={{
+        urlPath,
         formData,
         getFormFields,
         updateGroupItem,

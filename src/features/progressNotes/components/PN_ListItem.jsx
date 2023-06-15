@@ -17,7 +17,7 @@ export function PNListItem({ type, disabled, note, showNote, selectNote, active 
             <small className="fst-italic">{note.f1}</small>
           </div>
           <h6 className="fw-bold mb-0">
-            {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+            {activeClient.pfirstname + " " + activeClient.plastname}
           </h6>
           <div>
             <small className="fw-bold">Goal: </small>

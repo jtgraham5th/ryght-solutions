@@ -1,10 +1,18 @@
+const apiUrl = process.env.REACT_APP_API_URL;
+// const rptUrl = process.env.REACT_APP_RPT_URL;
+
 export const getPharmacyList = async () => {
   return fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=contacttypeid=23&orderby=name`
+    `${apiUrl}generic_api/list/23?fields=*&where=contacttypeid=23&orderby=name`
   )
     .then((response) => response.json())
     .then(async (data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -12,11 +20,16 @@ export const getPharmacyList = async () => {
 };
 export const getPhysicianList = async () => {
   return fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=contacttypeid=24&orderby=name`
+    `${apiUrl}generic_api/list/23?fields=*&where=contacttypeid=24&orderby=name`
   )
     .then((response) => response.json())
     .then(async (data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -25,11 +38,16 @@ export const getPhysicianList = async () => {
 
 export const getGroupNameValues = async () => {
   return fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/25?listing=isactive=1&orderby=groupnameid`
+    `${apiUrl}generic_api/list/25?fields=*&where=isactive=1&orderby=groupnameid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -37,7 +55,7 @@ export const getGroupNameValues = async () => {
 };
 export const getGroupList = async (grouplistid) => {
   return fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/24?listing=groupid=${grouplistid},isactive=1&orderby=groupid`
+    `${apiUrl}generic_api/list/24?fields=*&where=groupid=${grouplistid},isactive=1&orderby=groupid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -49,7 +67,7 @@ export const getGroupList = async (grouplistid) => {
 };
 export const getGroupInactiveListValues = async (groupid) => {
   return fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/24?listing=groupid=${groupid}&orderby=groupid`
+    `${apiUrl}generic_api/list/24?fields=*&where=groupid=${groupid}&orderby=groupid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -61,18 +79,23 @@ export const getGroupInactiveListValues = async (groupid) => {
 };
 export const getGroupListValues = async () => {
   return fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/24?listing=isactive=1&orderby=groupid`
+    `${apiUrl}generic_api/list/24?fields=*&where=isactive=1&orderby=groupid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
     });
 };
 export const getListItem = async (grouplistid) => {
-   return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/${grouplistid}?tid=24`)
+  return await fetch(`${apiUrl}generic_api/list/24?where=grouplistid=${grouplistid}&orderby=grouplistid`)
     .then((response) => response.json())
     .then(async (data) => {
       return data[0];
@@ -82,16 +105,14 @@ export const getListItem = async (grouplistid) => {
     });
 };
 export const updateListItem = async (item) => {
-  return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${item[0].grouplistid}?tid=24`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(item),
-    }
-  )
+  const fields = Object.keys(item[0]).join(",");
+  return await fetch(`${apiUrl}generic_api/${item[0].grouplistid}?tid=24&fields=${fields}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  })
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -101,7 +122,7 @@ export const updateListItem = async (item) => {
     });
 };
 export const addNewListItem = async (listItem) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/24`, {
+  return await fetch(`${apiUrl}generic_api/24?fields=grouplistid`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

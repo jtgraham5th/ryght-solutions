@@ -1,6 +1,9 @@
-export const getAllClients = async (tid) => {
+const apiUrl = process.env.REACT_APP_API_URL;
+// const rptUrl = process.env.REACT_APP_RPT_URL;
+
+export const getAllClients = async () => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/${tid}?listing=statusid=0&orderby=plastname`
+    `${apiUrl}generic_api/list/20?fields=patientid,pfirstname,plastname,statusid&where=statusid=0&orderby=plastname`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -10,29 +13,33 @@ export const getAllClients = async (tid) => {
       console.log(e);
     });
 };
-export const getClient = async (patientid, tid) => {
+export const getClient = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${patientid}?tid=${tid}`
+    `${apiUrl}generic_api/list/20?fields=*&where=patientid=${patientid}&orderby=patientid`
+    // `${apiUrl}generic_api/${patientid}?tid=${tid}`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = Object.fromEntries(
+        Object.entries(data[0]).map(([k, v]) => [k.toLowerCase(), v])
+    )
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
     });
 };
-export const updateClient = async (client, tid, patientid) => {
-  return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${patientid}?tid=${tid}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(client),
-    }
-  )
+export const updateClient = async (client, patientid) => {
+  const trimClient = { ...client[0] };
+  delete trimClient["patientid"];
+  const fields = Object.keys(trimClient).join(",");
+  return await fetch(`${apiUrl}generic_api/${patientid}?tid=20&fields=${fields}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([trimClient]),
+  })
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -42,7 +49,7 @@ export const updateClient = async (client, tid, patientid) => {
     });
 };
 export const addNewClient = async (client) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/20`, {
+  return await fetch(`${apiUrl}generic_api/20?fields=patientid`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -59,16 +66,17 @@ export const addNewClient = async (client) => {
     });
 };
 export const updateContact = async (contact, contactid) => {
-  return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${contactid}?tid=23`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(contact),
-    }
-  )
+  console.log(contactid)
+  const trimContact = { ...contact[0] };
+  delete trimContact["contactid"];
+  const fields = Object.keys(trimContact).join(",");
+  return await fetch(`${apiUrl}generic_api/${contactid}?tid=23&fields=${fields}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([trimContact]),
+  })
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -78,7 +86,7 @@ export const updateContact = async (contact, contactid) => {
     });
 };
 export const addNewContact = async (contact) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/23`, {
+  return await fetch(`${apiUrl}generic_api/23?fields=contactid`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -94,9 +102,7 @@ export const addNewContact = async (contact) => {
     });
 };
 export const getContact = async (contactid) => {
-  return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${contactid}?tid=23`
-  )
+  return await fetch(`${apiUrl}generic_api/${contactid}?tid=23`)
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -108,11 +114,16 @@ export const getContact = async (contactid) => {
 };
 export const getAllPatientContactsWithType = async (patientid, type) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/23?listing=patientid=${patientid},contacttypeid=${type}&orderby=contactid`
+    `${apiUrl}generic_api/list/23?fields=*&where=patientid=${patientid},contacttypeid=${type}&orderby=contactid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);

@@ -16,7 +16,7 @@ function ClientDashboard(props) {
     // eslint-disable-next-line
   }, [match]);
 
-  if (Object.keys(activeClient[20]).length < 0) {
+  if (Object.keys(activeClient).length < 0) {
   }
   return (
     <Card className="mt-3 w-100 card-shadow">

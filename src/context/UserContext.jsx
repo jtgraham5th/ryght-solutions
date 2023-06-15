@@ -4,6 +4,7 @@ import React from "react";
 // import { parseSignUpData } from "../features/authentication/utils/parseData";
 
 const UserContext = createContext();
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export function useUser() {
   return useContext(UserContext);
@@ -20,10 +21,9 @@ export function UserProvider(props) {
 
   const login = async (data) => {
     const { email, password } = data;
-    console.log(data);
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/pcheck/760`,
+        `${apiUrl}generic_api/pcheck/760`,
         {
           method: "POST",
           headers: {
@@ -51,7 +51,7 @@ export function UserProvider(props) {
     // const signupData = parseSignUpData(data);
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/19?fields=UseriD,FirstName,LastName,Email,Password,Title`,
+        `${apiUrl}generic_api/19?fields=UseriD,FirstName,LastName,Email,Password,Title`,
         {
           method: "PUT",
           headers: {
@@ -79,11 +79,11 @@ export function UserProvider(props) {
     // const signupData = parseSignUpData(data);
     console.log(data);
     const requestBody = [{ ...data }];
-    delete requestBody[0].UseriD;
+    delete requestBody[0].userid;
     console.log(requestBody);
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/${data.UseriD}?tid=19&fields=${fields}`,
+        `${apiUrl}generic_api/${user.userid}?tid=19&fields=${fields}`,
         {
           method: "POST",
           headers: {
@@ -97,7 +97,7 @@ export function UserProvider(props) {
         const res = await response.json();
         console.log(res);
         if (res.length > 0) {
-          getUser(user.UseriD);
+          getUser(user.userid);
           return true;
         }
       }
@@ -111,7 +111,7 @@ export function UserProvider(props) {
     console.log(data);
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/${userid}?tid=19&fields=${fields}`,
+        `${apiUrl}generic_api/${userid}?tid=19&fields=${fields}`,
         {
           method: "POST",
           headers: {
@@ -140,14 +140,19 @@ export function UserProvider(props) {
   const getUser = async (userID) => {
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/${userID}?tid=19&fields=*`
+        `${apiUrl}generic_api/${userID}?tid=19&fields=*`
       );
       if (response.ok) {
         const res = await response.json();
-        console.log("!!", res);
-        if (res.length > 0) {
-          setUser(res[0]);
-          localStorage.setItem("UserID", res[0].UserID);
+        const userData = res.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+        console.log("!!", userData);
+        if (userData.length > 0) {
+          setUser(userData[0]);
+          localStorage.setItem("UserID", userData[0].userid);
         }
       } else {
         logout();
@@ -160,14 +165,19 @@ export function UserProvider(props) {
   const getUserWithField = async (field, value) => {
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/19?fields=*&where=${field}=${value}&orderby=userid`
+        `${apiUrl}generic_api/list/19?fields=*&where=${field}=${value}&orderby=userid`
       );
       if (response.ok) {
         const res = await response.json();
-        console.log("!!", res);
-        if (res.length > 0) {
-          setUser(res[0]);
-          localStorage.setItem("UserID", res[0].UseriD);
+        const userData = res.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+        console.log("!!", userData);
+        if (userData.length > 0) {
+          setUser(userData[0]);
+          localStorage.setItem("UserID", userData[0].userid);
         }
       } else {
         logout();
@@ -180,7 +190,7 @@ export function UserProvider(props) {
   const getAllUsers = async () => {
     try {
       const response = await fetch(
-        `http://www.ivronlogs.icu:8080/rsv1/generic_api/list/19?fields=email,userid,firstname,lastname,accesslevel&where=active=1&orderby=fullname`
+        `${apiUrl}generic_api/list/19?fields=email,userid,firstname,lastname,accesslevel&where=active=1&orderby=fullname`
       );
       if (response.ok) {
         const res = await response.json();

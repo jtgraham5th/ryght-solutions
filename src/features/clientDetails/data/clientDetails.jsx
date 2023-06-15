@@ -3,20 +3,20 @@ import { formatHeight } from "../../enrollment/utils/formhelper";
 
 export const dataArray1 = (formData, activeClient) => {
   return [
-    { field: "DOB", value: activeClient[20].dob },
-    { field: "Height", value: formatHeight(parseInt(activeClient[21].height)) },
-    { field: "Weight", value: activeClient[21].weight },
+    { field: "DOB", value: activeClient.dob },
+    { field: "Height", value: formatHeight(parseInt(activeClient.height)) },
+    { field: "Weight", value: activeClient.weight },
     {
       field: "Marital Status",
       value: getFormValue(
         "Marital Status",
-        activeClient[20].maritalstatusid,
+        activeClient.maritalstatusid,
         formData
       ),
     },
     {
       field: "Ethnicity",
-      value: getFormValue("Ethnicity", activeClient[20].ethnicityid, formData),
+      value: getFormValue("Ethnicity", activeClient.ethnicityid, formData),
     },
   ];
 };
@@ -26,7 +26,7 @@ export const dataArray2 = (formData, activeClient) => {
       field: "Sex At Birth",
       value: getFormValue(
         "Sex At Birth",
-        activeClient[20].sexatbirthid,
+        activeClient.sexatbirthid,
         formData
       ),
     },
@@ -34,7 +34,7 @@ export const dataArray2 = (formData, activeClient) => {
       field: "Gender Identity",
       value: getFormValue(
         "Gender Identity",
-        activeClient[20].genderid,
+        activeClient.genderid,
         formData
       ),
     },
@@ -42,13 +42,13 @@ export const dataArray2 = (formData, activeClient) => {
       field: "Preferred Pronouns",
       value: getFormValue(
         "Preferred Pronouns",
-        activeClient[20].preferredpronounid,
+        activeClient.preferredpronounid,
         formData
       ),
     },
     {
       field: "Religion",
-      value: getFormValue("Religion", activeClient[20].religionid, formData),
+      value: getFormValue("Religion", activeClient.religionid, formData),
     },
   ];
 };

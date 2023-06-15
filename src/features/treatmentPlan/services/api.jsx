@@ -1,19 +1,29 @@
+const apiUrl = process.env.REACT_APP_API_URL;
+// const rptUrl = process.env.REACT_APP_RPT_URL;
+
 //// TREATMENT PLAN /////
 export const getTreatmentPlan = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/16?listing=patientid=${patientid},docid=1&orderby=billingid`
+    `${apiUrl}generic_api/list/16?fields=*&where=patientid=${patientid},docid=1&orderby=billingid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
     });
 };
 export const updateTreatmentPlan = async (tPlan) => {
+  const fields = Object.keys(tPlan[0]).join(",");
+  console.log(fields);
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${tPlan[0].recid}?tid=16`,
+    `${apiUrl}generic_api/${tPlan[0].recid}?tid=16&fields=${fields}`,
     {
       method: "POST",
       headers: {
@@ -31,7 +41,7 @@ export const updateTreatmentPlan = async (tPlan) => {
     });
 };
 export const addNewTreatmentPlan = async (newTPlan) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/16`, {
+  return await fetch(`${apiUrl}generic_api/16`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +60,7 @@ export const addNewTreatmentPlan = async (newTPlan) => {
 //// GOALS ////
 export const getAllGoals = async () => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/18?listing=patientid&orderby=goalid`
+    `${apiUrl}generic_api/list/18?fields=*&where=StatusID=0&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -62,11 +72,16 @@ export const getAllGoals = async () => {
 };
 export const getAllPatientGoals = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/18?listing=patientid=${patientid}&orderby=goalid`
+    `${apiUrl}generic_api/list/18?fields=*&where=patientid=${patientid}&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -74,30 +89,34 @@ export const getAllPatientGoals = async (patientid) => {
 };
 export const getGoalwithBillingid = async (billingid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/18?listing=billingid=${billingid}&orderby=goalid`
+    `${apiUrl}generic_api/list/18?fields=*&where=billingid=${billingid}&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data[0];
+      const formattedData = Object.fromEntries(
+        Object.entries(data[0]).map(([k, v]) => [k.toLowerCase(), v])
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
     });
 };
 export const getGoalwithGoalid = async (goalid) => {
-  return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${goalid}?tid=18`
-  )
+  return await fetch(`${apiUrl}generic_api/${goalid}?tid=18`)
     .then((response) => response.json())
     .then((data) => {
-      return data[0];
+      const formattedData = Object.fromEntries(
+        Object.entries(data[0]).map(([k, v]) => [k.toLowerCase(), v])
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
     });
 };
 export const addNewGoal = async (newGoal) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/18`, {
+  return await fetch(`${apiUrl}generic_api/18`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -113,8 +132,9 @@ export const addNewGoal = async (newGoal) => {
     });
 };
 export const updateGoal = async (updatedGoal) => {
+  const fields = Object.keys(updatedGoal[0]).join(",");
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${updatedGoal[0].goalid}?tid=18`,
+    `${apiUrl}generic_api/${updatedGoal[0].goalid}?tid=18&fields=${fields}`,
     {
       method: "POST",
       headers: {
@@ -134,8 +154,8 @@ export const updateGoal = async (updatedGoal) => {
 //// OBJECTIVES ////
 export const getAllObjectives = async () => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/26
-      ?listing=patientid&orderby=goalid`
+    `${apiUrl}generic_api/list/26
+      ?fields=*&where=StatusID=0&orderby=objectiveid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -147,12 +167,16 @@ export const getAllObjectives = async () => {
 };
 export const getAllPatientObjectives = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/26
-      ?listing=patientid=${patientid}&orderby=goalid`
+    `${apiUrl}generic_api/list/26?fields=*&where=patientid=${patientid}&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -160,11 +184,16 @@ export const getAllPatientObjectives = async (patientid) => {
 };
 export const getObjectivesWithGoalid = async (goalid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/26?listing=goalid=${goalid}&orderby=objectiveid`
+    `${apiUrl}generic_api/list/26?fields=*&where=goalid=${goalid}&orderby=objectiveid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -172,19 +201,22 @@ export const getObjectivesWithGoalid = async (goalid) => {
 };
 export const getObjectivewithObjectiveid = async (objectiveid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${objectiveid}?tid=26
+    `${apiUrl}generic_api/${objectiveid}?tid=26
       `
   )
     .then((response) => response.json())
     .then((data) => {
-      return data[0];
+      const formattedData = Object.fromEntries(
+        Object.entries(data[0]).map(([k, v]) => [k.toLowerCase(), v])
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
     });
 };
 export const addNewObjective = async (newObjective) => {
-  return await fetch(`http://www.ivronlogs.icu:8080/rs1/generic_api/26`, {
+  return await fetch(`${apiUrl}generic_api/26`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -200,14 +232,17 @@ export const addNewObjective = async (newObjective) => {
     });
 };
 export const updateObjective = async (updatedObjective) => {
+  const trimObjective = { ...updatedObjective[0] };
+  delete trimObjective["objectiveid"];
+  const fields = Object.keys(trimObjective).join(",");
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${updatedObjective[0].objectiveid}?tid=26`,
+    `${apiUrl}generic_api/${updatedObjective[0].objectiveid}?tid=26&fields=${fields}`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedObjective),
+      body: JSON.stringify([trimObjective]),
     }
   )
     .then((response) => response.json())
@@ -222,8 +257,8 @@ export const updateObjective = async (updatedObjective) => {
 //// INTERVENTIONS ////
 export const getAllInterventions = async () => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/27
-        ?listing=patientid&orderby=goalid`
+    `${apiUrl}generic_api/list/27
+        ?fields=*&where=LastUpdateID=680&orderby=interventionid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -235,12 +270,16 @@ export const getAllInterventions = async () => {
 };
 export const getAllPatientInterventions = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/27
-        ?listing=patientid=${patientid}&orderby=interventionid`
+    `${apiUrl}generic_api/list/27?fields=*&where=patientid=${patientid}&orderby=interventionid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -248,11 +287,16 @@ export const getAllPatientInterventions = async (patientid) => {
 };
 export const getInterventionsWithPatientid = async (patientid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/27?listing=patientid=${patientid}&orderby=interventionid`
+    `${apiUrl}generic_api/list/27?fields=*&where=patientid=${patientid}&orderby=interventionid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -260,11 +304,16 @@ export const getInterventionsWithPatientid = async (patientid) => {
 };
 export const getInterventionsWithObjectiveid = async (objectiveid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/27?listing=objectiveid=${objectiveid}&orderby=interventionid`
+    `${apiUrl}generic_api/list/27?fields=*&where=objectiveid=${objectiveid}&orderby=interventionid`
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -272,12 +321,15 @@ export const getInterventionsWithObjectiveid = async (objectiveid) => {
 };
 export const getInterventionwithInterventionid = async (interventionid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${interventionid}?tid=27
+    `${apiUrl}generic_api/${interventionid}?tid=27
         `
   )
     .then((response) => response.json())
     .then((data) => {
-      return data[0];
+      const formattedData = Object.fromEntries(
+        Object.entries(data[0]).map(([k, v]) => [k.toLowerCase(), v])
+      );
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);
@@ -285,7 +337,7 @@ export const getInterventionwithInterventionid = async (interventionid) => {
 };
 export const addNewIntervention = async (newIntervention) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/27
+    `${apiUrl}generic_api/27
         `,
     {
       method: "PUT",
@@ -304,14 +356,18 @@ export const addNewIntervention = async (newIntervention) => {
     });
 };
 export const updateIntervention = async (updatedIntervention) => {
+  const trimIntervention = { ...updatedIntervention[0] };
+  delete trimIntervention["interventionid"];
+  const fields = Object.keys(trimIntervention).join(",");
+
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${updatedIntervention[0].interventionid}?tid=27`,
+    `${apiUrl}generic_api/${updatedIntervention[0].interventionid}?tid=27&fields=${fields}`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedIntervention),
+      body: JSON.stringify([trimIntervention]),
     }
   )
     .then((response) => response.json())

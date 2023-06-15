@@ -15,13 +15,11 @@ function UserDashboard(props) {
   const [sigManager, setSigManager] = useState(false);
   const { user } = useUser();
 
-  console.log(user);
-
   return (
     <>
       <Card className="mt-3 card-shadow">
         <Card.Header>
-          <h3>Welcome back, {user.FirstName}</h3>
+          <h3>Welcome back, {user.firstname}!</h3>
           <Card.Title>No Notifcations</Card.Title>
         </Card.Header>
         <Card.Body>

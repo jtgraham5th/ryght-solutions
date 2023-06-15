@@ -21,8 +21,8 @@ export function OrderOfService({
   const [serviceids, setServiceids] = useState([]);
 
   useEffect(() => {
-    getListItemName(activeClient[21].ins1_fundingsource);
-    getListItemName(activeClient[20].sexatbirthid);
+    getListItemName(activeClient.ins1_fundingsource);
+    getListItemName(activeClient.sexatbirthid);
     // eslint-disable-next-line
   }, []);
 
@@ -61,8 +61,8 @@ export function OrderOfService({
 
   useEffect(() => {
     setValue("f1", Date.now())
-    setValue("f5", convertedValues[activeClient[21].ins1_fundingsource]);
-    setValue("f6", convertedValues[activeClient[20].sexatbirthid]);
+    setValue("f5", convertedValues[activeClient.ins1_fundingsource]);
+    setValue("f6", convertedValues[activeClient.sexatbirthid]);
     // eslint-disable-next-line
   }, [convertedValues]);
 
@@ -128,19 +128,19 @@ export function OrderOfService({
         <Col md={6} className="pn_note-view-item  fs-5">
           <h5>Name:</h5>{" "}
           <h5 className="fw-normal ms-3 w-100 pb-1 border-bottom border-secondary">
-            {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+            {activeClient.pfirstname + " " + activeClient.plastname}
           </h5>
         </Col>
         <Col md={3} className="pn_note-view-item">
           <h5>Insurance: </h5>{" "}
           <h5 className="fw-normal ms-3">
-            {convertedValues[activeClient[21].ins1_fundingsource]}
+            {convertedValues[activeClient.ins1_fundingsource]}
           </h5>
         </Col>
         <Col md={3} className="pn_note-view-item">
           <h5>Gender: </h5>{" "}
           <h5 className="fw-normal ms-3">
-            {convertedValues[activeClient[20].sexatbirthid]}
+            {convertedValues[activeClient.sexatbirthid]}
           </h5>
         </Col>
       </Row>

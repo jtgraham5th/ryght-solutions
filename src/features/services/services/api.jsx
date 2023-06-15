@@ -1,6 +1,8 @@
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export const getAllServiceCodes = async () => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/29?listing=isactive=1&orderby=description`
+    `${apiUrl}generic_api/list/29?fields=*&where=isactive=1&orderby=description`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -12,7 +14,7 @@ export const getAllServiceCodes = async () => {
 };
 export const getServiceCodesWithId = async (grouplistid) => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/29?listing=grouplistid=${grouplistid}&orderby=description`
+    `${apiUrl}generic_api/list/29?fields=*&where=grouplistid=${grouplistid}&orderby=description`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -24,7 +26,7 @@ export const getServiceCodesWithId = async (grouplistid) => {
 };
 export const getAllServiceGroups = async () => {
   return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/list/28?listing=recid,isactive=1&orderby=recid`
+    `${apiUrl}generic_api/list/28?fields=*&where=isactive=1&orderby=recid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -35,9 +37,7 @@ export const getAllServiceGroups = async () => {
     });
 };
 export const getServiceGroup = async (recid) => {
-  return await fetch(
-    `http://www.ivronlogs.icu:8080/rs1/generic_api/${recid}?tid=28`
-  )
+  return await fetch(`${apiUrl}generic_api/${recid}?tid=28`)
     .then((response) => response.json())
     .then((data) => {
       return data[0];

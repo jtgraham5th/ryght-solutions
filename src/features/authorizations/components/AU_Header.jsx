@@ -8,8 +8,8 @@ export function AuthorizationsHeader({setShow}) {
   return (
     <div className="d-flex justify-content-between align-items-center mb-3">
       <h3>
-        Authorizations for {activeClient[20].pfirstname}{" "}
-        {activeClient[20].plastname}
+        Authorizations for {activeClient.pfirstname}{" "}
+        {activeClient.plastname}
       </h3>
       <Button
         className="me-2"

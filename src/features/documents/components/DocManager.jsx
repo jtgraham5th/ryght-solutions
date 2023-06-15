@@ -190,7 +190,7 @@ export function DocManager({ show, setShow, containerName }) {
                 onClick={createRequirements}
               >
                 Save {newRequirements.length} Client Requirements for{" "}
-                {activeClient[20].pfirstname + " " + activeClient[20].plastname}{" "}
+                {activeClient.pfirstname + " " + activeClient.plastname}{" "}
               </Button>
             </Col>
             {/* <Col md={4} className="d-flex flex-column justify-content-between">

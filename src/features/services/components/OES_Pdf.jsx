@@ -13,7 +13,7 @@ export function OESPdf({ data, activeClient, activeData }) {
           </Text>
           <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
             <Text style={{ fontSize: 15, marginRight: 10 }}>
-              {activeClient[20].pfirstname + " " + activeClient[20].plastname}
+              {activeClient.pfirstname + " " + activeClient.plastname}
             </Text>
             <Text style={{ fontSize: 12, marginRight: 5 }}>Insurance:</Text>
             <Text style={{ fontSize: 12, marginRight: 10 }}>{data.f5}</Text>

@@ -1,10 +1,10 @@
 import formatDate from "../../../utils/formatDate";
 import { formatHeight } from "./formhelper";
 
-export const parseFormData20 = (data, edit, tempID, activeClient) => {
+export const parseEnrollData = (data, edit, tempID, activeClient) => {
   return [
     {
-      patientid: edit ? activeClient[20].patientid : tempID ? tempID : 0,
+      patientid: edit ? activeClient.patientid : tempID ? tempID : 0,
       pfirstname: data.pfirstname ? data.pfirstname : "",
       pinitial: data.pinitial ? data.pinitial : "",
       plastname: data.plastname ? data.plastname : "",
@@ -23,18 +23,6 @@ export const parseFormData20 = (data, edit, tempID, activeClient) => {
       religionid: data.religionid ? parseInt(data.religionid) : 0,
       email: data.email ? data.email : "",
       statusid: data.statusid ? parseInt(data.statusid) : 0,
-    },
-  ];
-};
-export const parseFormData21 = (data, edit, tempID, activeClient) => {
-  return [
-    {
-      patientid:
-        edit && activeClient.length > 0
-          ? activeClient[20].patientid
-          : tempID
-          ? tempID
-          : 0,
       employer: data.employer ? data.employer : "",
       employerphone: data.employerphone ? data.employerphone : "",
       height: data.height ? formatHeight(data.height) : 0,
@@ -70,18 +58,6 @@ export const parseFormData21 = (data, edit, tempID, activeClient) => {
       ins2_cardavailableid: data.ins2_cardavailableid
         ? parseInt(data.ins2_cardavailableid)
         : 0,
-    },
-  ];
-};
-export const parseFormData22 = (data, edit, tempID, activeClient) => {
-  return [
-    {
-      patientid:
-        edit && activeClient[20]
-          ? activeClient[20].patientid
-          : tempID
-          ? tempID
-          : 0,
       referralid: data.referralid ? parseInt(data.referralid) : 0,
       referraldate: data.referraldate
         ? formatDate(data.referraldate)
@@ -194,72 +170,72 @@ export const parseNewProvider = (data) => {
 };
 export const parseDefaultValues = (edit, activeClient) => {
   return {
-    patientid: edit ? parseInt(activeClient[20].patientid) : 0,
-    pfirstname: edit ? activeClient[20].pfirstname : "",
-    plastname: edit ? activeClient[20].plastname : "",
-    pinitial: edit ? activeClient[20].pinitial : "",
-    preferredname: edit ? activeClient[20].preferredname : "",
-    dob: edit ? Date.parse(activeClient[20].dob) : Date.now(),
-    maritalstatusid: edit ? parseInt(activeClient[20].maritalstatusid) : 0,
-    socsec: edit ? activeClient[20].socsec : "",
-    ethnicityid: edit ? parseInt(activeClient[20].ethnicityid) : 0,
-    sexatbirthid: edit ? parseInt(activeClient[20].sexatbirthid) : 0,
-    genderid: edit ? parseInt(activeClient[20].genderid) : 0,
+    patientid: edit ? parseInt(activeClient.patientid) : 0,
+    pfirstname: edit ? activeClient.pfirstname : "",
+    plastname: edit ? activeClient.plastname : "",
+    pinitial: edit ? activeClient.pinitial : "",
+    preferredname: edit ? activeClient.preferredname : "",
+    dob: edit ? Date.parse(activeClient.dob) : Date.now(),
+    maritalstatusid: edit ? parseInt(activeClient.maritalstatusid) : 0,
+    socsec: edit ? activeClient.socsec : "",
+    ethnicityid: edit ? parseInt(activeClient.ethnicityid) : 0,
+    sexatbirthid: edit ? parseInt(activeClient.sexatbirthid) : 0,
+    genderid: edit ? parseInt(activeClient.genderid) : 0,
     preferredpronounid: edit
-      ? parseInt(activeClient[20].preferredpronounid)
+      ? parseInt(activeClient.preferredpronounid)
       : 0,
-    religionid: edit ? parseInt(activeClient[20].religionid) : 0,
-    weight: edit ? activeClient[21].weight : "",
-    height: edit ? formatHeight(parseInt(activeClient[21].height)) : "",
-    email: edit ? activeClient[20].email : "",
-    employer: edit ? activeClient[21].employer : "",
-    employerphone: edit ? activeClient[21].employerphone : "",
+    religionid: edit ? parseInt(activeClient.religionid) : 0,
+    weight: edit ? activeClient.weight : "",
+    height: edit ? formatHeight(parseInt(activeClient.height)) : "",
+    email: edit ? activeClient.email : "",
+    employer: edit ? activeClient.employer : "",
+    employerphone: edit ? activeClient.employerphone : "",
     ins1_cardavailableid: edit
-      ? parseInt(activeClient[21].ins1_cardavailableid)
+      ? parseInt(activeClient.ins1_cardavailableid)
       : 0,
     ins1_dateexpires: edit
-      ? Date.parse(activeClient[21].ins1_dateexpires)
+      ? Date.parse(activeClient.ins1_dateexpires)
       : Date.now(),
-    ins1_policynumber: edit ? activeClient[21].ins1_policynumber : "",
+    ins1_policynumber: edit ? activeClient.ins1_policynumber : "",
     ins1_relationshipid: edit
-      ? parseInt(activeClient[21].ins1_relationshipid)
+      ? parseInt(activeClient.ins1_relationshipid)
       : 0,
-    ins1_fundingsource: edit ? activeClient[21].ins1_fundingsource : "",
+    ins1_fundingsource: edit ? activeClient.ins1_fundingsource : "",
     ins2_cardavailableid: edit
-      ? parseInt(activeClient[21].ins2_cardavailableid)
+      ? parseInt(activeClient.ins2_cardavailableid)
       : 0,
     ins2_dateexpires: edit
-      ? Date.parse(activeClient[21].ins2_dateexpires)
+      ? Date.parse(activeClient.ins2_dateexpires)
       : Date.now(),
-    ins2_policynumber: edit ? activeClient[21].ins2_policynumber : "",
+    ins2_policynumber: edit ? activeClient.ins2_policynumber : "",
     ins2_relationshipid: edit
-      ? parseInt(activeClient[21].ins2_relationshipid)
+      ? parseInt(activeClient.ins2_relationshipid)
       : 0,
-    ins2_fundingsource: edit ? activeClient[21].ins2_fundingsource : "",
-    allergies: edit ? activeClient[21].allergies : "",
-    physicianid: edit ? parseInt(activeClient[21].physicianid) : 0,
-    pharmacy: edit ? activeClient[21].pharmacy : "",
+    ins2_fundingsource: edit ? activeClient.ins2_fundingsource : "",
+    allergies: edit ? activeClient.allergies : "",
+    physicianid: edit ? parseInt(activeClient.physicianid) : 0,
+    pharmacy: edit ? activeClient.pharmacy : "",
     pharmacyproviderid: edit
-      ? parseInt(activeClient[21].pharmacyproviderid)
+      ? parseInt(activeClient.pharmacyproviderid)
       : 0,
-    patient_comment: edit ? activeClient[22].patient_comment : "",
-    referralid: edit ? parseInt(activeClient[22].referralid) : 0,
-    referraldate: edit ? Date.parse(activeClient[22].referraldate) : Date.now(),
-    dxdate: edit ? Date.parse(activeClient[22].dxdate) : Date.now(),
+    patient_comment: edit ? activeClient.patient_comment : "",
+    referralid: edit ? parseInt(activeClient.referralid) : 0,
+    referraldate: edit ? Date.parse(activeClient.referraldate) : Date.now(),
+    dxdate: edit ? Date.parse(activeClient.dxdate) : Date.now(),
     internalreferralid: edit
-      ? parseInt(activeClient[22].internalreferralid)
+      ? parseInt(activeClient.internalreferralid)
       : 0,
-    statusid: edit ? parseInt(activeClient[20].statusid) : 0,
-    outcomeid: edit ? parseInt(activeClient[22].outcomeid) : 0,
-    dxcodes: edit ? activeClient[22].dxcodes : "",
-    servicecodes: edit ? activeClient[22].servicecodes : "",
+    statusid: edit ? parseInt(activeClient.statusid) : 0,
+    outcomeid: edit ? parseInt(activeClient.outcomeid) : 0,
+    dxcodes: edit ? activeClient.dxcodes : "",
+    servicecodes: edit ? activeClient.servicecodes : "",
     dateoutsourced: edit
-      ? Date.parse(activeClient[22].dateoutsourced)
+      ? Date.parse(activeClient.dateoutsourced)
       : Date.now(),
     firstapptdate: edit
-      ? Date.parse(activeClient[22].firstapptdate)
+      ? Date.parse(activeClient.firstapptdate)
       : Date.now(),
-    firstpsydate: edit ? Date.parse(activeClient[22].firstpsydate) : Date.now(),
+    firstpsydate: edit ? Date.parse(activeClient.firstpsydate) : Date.now(),
   };
 };
 export const parseDefaultPC = (edit, activeContacts) => {
@@ -318,12 +294,10 @@ export const parseFormData = (
   activeClient,
   activeContacts
 ) => {
-  const t20 = parseFormData20(data, editing, tempID, activeClient);
-  const t21 = parseFormData21(data, editing, tempID, activeClient);
-  const t22 = parseFormData22(data, editing, tempID, activeClient);
+  const patientData = parseEnrollData(data, editing, tempID, activeClient);
   const patientContact = parsePatientContact(data, editing, activeContacts);
   const emergencyContact = parseEmergencyContact(data, editing, activeContacts);
-  return { t20, t21, t22, patientContact, emergencyContact };
+  return { patientData, patientContact, emergencyContact };
 };
 export const parsePhoneNumber = (value, setValue, fieldName) => {
   // Get the current value of the phone number field

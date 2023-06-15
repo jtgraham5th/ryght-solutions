@@ -31,7 +31,7 @@ export function InterventionDetail({
   const [editIntervention, setEditIntervention] = useState(false);
   const [selectedServices, setSelectedServices] = useState(getActiveServices());
 
-  const { patientid } = activeClient[20];
+  const { patientid } = activeClient;
   const { control, register, handleSubmit, reset } = useForm();
 
   useEffect(() => {

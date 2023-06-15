@@ -87,14 +87,14 @@ export function CEManager({ show, setShow, containerName, edit }) {
       switch (activePage) {
         case 1:
           try {
-            await updateActiveClient(t21, activeClient[20].patientid, 21);
+            await updateActiveClient(t21, activeClient.patientid, 21);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
               show: true,
             });
             setActivePage((page) => page - 1);
-            resetClient(!tempID ? activeClient[20].patientid : tempID);
+            resetClient(!tempID ? activeClient.patientid : tempID);
           } catch (error) {
             setToggleUpdate({
               status: "Error",
@@ -105,14 +105,14 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 2:
           try {
-            await updateActiveClient(t22, activeClient[20].patientid, 22);
+            await updateActiveClient(t22, activeClient.patientid, 22);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
               show: true,
             });
             setActivePage((page) => page - 1);
-            resetClient(!tempID ? activeClient[20].patientid : tempID);
+            resetClient(!tempID ? activeClient.patientid : tempID);
           } catch (error) {
             setToggleUpdate({
               status: "Error",
@@ -133,7 +133,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
   const onSubmit = async (data) => {
     console.log(data);
     if (isDirty || hasSCDXFieldsChanged(getValues, editing, activeClient)) {
-      const { t20, t21, t22, patientContact, emergencyContact } = parseFormData(
+      const { patientData, patientContact, emergencyContact } = parseFormData(
         data,
         editing,
         tempID,
@@ -146,7 +146,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
         case 0:
           try {
             if (editing || tempID) {
-              await updateActiveClient(t20, activeClient[20].patientid, 20);
+              await updateActiveClient(patientData, activeClient.patientid);
               console.log("Client updated successfully");
               setToggleUpdate({
                 status: "Success",
@@ -154,8 +154,9 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 show: true,
               });
             } else {
-              const result = await addActiveClient(t20);
-              newPatientId = result.patientid;
+              const result = await addActiveClient(patientData);
+              console.log(result);
+              newPatientId = result[0].patientid;
               if (result instanceof Error) {
                 console.log("error adding client");
                 setToggleUpdate({
@@ -178,6 +179,8 @@ export function CEManager({ show, setShow, containerName, edit }) {
 
             if (hasPCFieldsChanged(dirtyFields, defaultPC)) {
               if (activeContacts.patient && activeContacts.patient.length > 0) {
+                console.log(emergencyContact, activeContacts);
+
                 await updateClientContact(
                   patientContact,
                   activeContacts.patient[0].contactid
@@ -194,6 +197,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 activeContacts.emergency &&
                 activeContacts.emergency.length > 0
               ) {
+                console.log(emergencyContact, activeContacts);
                 await updateClientContact(
                   emergencyContact,
                   activeContacts.emergency[0].contactid
@@ -204,9 +208,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 console.log("Client EC added successfully");
               }
             }
-            resetClient(
-              !newPatientId ? activeClient[20].patientid : newPatientId
-            );
+            resetClient(!newPatientId ? activeClient.patientid : newPatientId);
             nextPage();
           } catch (error) {
             console.log("there was an error", error);
@@ -219,13 +221,13 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 1:
           try {
-            await updateActiveClient(t21, activeClient[20].patientid, 21);
+            await updateActiveClient(patientData, activeClient.patientid);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
               show: true,
             });
-            resetClient(activeClient[21].patientid);
+            resetClient(activeClient.patientid);
             nextPage();
           } catch (error) {
             setToggleUpdate({
@@ -238,13 +240,13 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 2:
           try {
-            await updateActiveClient(t22, activeClient[20].patientid, 22);
+            await updateActiveClient(patientData, activeClient.patientid);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
               show: true,
             });
-            resetClient(activeClient[22].patientid);
+            resetClient(activeClient.patientid);
             nextPage();
           } catch (error) {
             setToggleUpdate({
@@ -275,7 +277,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
               await addNewBillingTx(tPlanBillingId).then(async (tx) => {
                 newTPlan.billingid = tx.billingid;
                 await addNewDocument(
-                  parseTreatmentPlan(newTPlan, activeClient[20].patientid)
+                  parseTreatmentPlan(newTPlan, activeClient.patientid)
                 );
               });
             } else {
@@ -287,7 +289,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
               message: "Order of Service form has been created",
               show: true,
             });
-            resetClient(activeClient[22].patientid);
+            resetClient(activeClient.patientid);
             handleClose();
           } catch (error) {
             setToggleUpdate({
@@ -340,7 +342,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
             if (clientHasDoctype(10, activeBillingTx)) {
               let document = await getDocumentbyType(
                 10,
-                activeClient[20].patientid
+                activeClient.patientid
               );
               document = parseDefaultOrderOfService(document[0]);
               defaultValues = { ...defaultValues, ...document[0] };
@@ -372,7 +374,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           <Button
             className="PNM-nav-button p-1"
             variant="outline-primary"
-            disabled={activePage === 0 || !isValid ? true : false}
+            disabled={activePage === 0 || isValid }
             onClick={activePage === 0 ? () => {} : prevPage}
           >
             {loading ? <Spinner animation="border" size="sm" /> : ""}
@@ -380,7 +382,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           </Button>
           <FormUpdate
             data={toggleUpdate}
-            client={activeClient[20]}
+            client={activeClient}
             show={toggleUpdate.show}
             toggleShow={closeUpdate}
           />

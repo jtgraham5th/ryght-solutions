@@ -7,7 +7,6 @@ export function PNNewNote() {
   const [show, setShow] = useState(false);
   const { activeTreatmentPlan } = useClient();
   const handleShow = () => setShow(true);
-  console.log(activeTreatmentPlan)
   return (
     <>
       <div className="ps-4 pe-4 pb-3 pt-3">
