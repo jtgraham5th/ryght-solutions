@@ -15,6 +15,7 @@ export function CVProfile({ sidebar }) {
         </Col>
         <Col md={9}>
           <InsuranceInfo />
+          <CDTabs />
           <Row className="mt-4">
             <Col md={6}>
               <Accordion className="mb-3">
@@ -37,7 +38,6 @@ export function CVProfile({ sidebar }) {
               </Accordion>
             </Col>
           </Row>
-          <CDTabs />
         </Col>
       </Row>
 

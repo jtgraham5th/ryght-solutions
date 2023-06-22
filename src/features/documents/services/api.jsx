@@ -2,7 +2,6 @@ const apiUrl = process.env.REACT_APP_API_URL;
 // const rptUrl = process.env.REACT_APP_RPT_URL;
 
 export const addNewBillingTx = async () => {
-  // console.log(newDoc);
   return await fetch(
     `${apiUrl}generic_api/17?fields=billingid,patientid,doctypeid,lastuserid,lastupdate`,
     {
@@ -22,10 +21,8 @@ export const addNewBillingTx = async () => {
     });
 };
 export const updateBillingTx = async (billingTx) => {
-  console.log(billingTx);
   const requestBody = [{ ...billingTx }];
   delete requestBody[0].billingid;
-  console.log(requestBody);
 
   return await fetch(
     `${apiUrl}generic_api/${billingTx.billingid}?tid=17&fields=patientid,doctypeid,lastuserid,lastupdate`,
@@ -119,7 +116,7 @@ export const getDocumentbyType = async (docid, patientid) => {
 };
 export const getDocumentbyBilling = async (billingid, patientid) => {
   return await fetch(
-    `  ${apiUrl}generic_api/list/16?fields=*&where=patientid=${patientid},billingid=${billingid}&orderby=billingid&allrecs=false`
+    `  ${apiUrl}generic_api/list/16?fields=*&where=billingid=${billingid}&orderby=billingid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -129,6 +126,27 @@ export const getDocumentbyBilling = async (billingid, patientid) => {
         )
       );
       return formattedData[0];
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const getAllPatientDocuments = async (patientid) => {
+  return await fetch(
+    // `${apiUrl}generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`
+    `${apiUrl}generic_api/list/16?fields=*&where=patientid=${patientid},pageid=1&orderby=billingid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const formattedData = data
+        .filter((obj) => obj.BillingID !== 0)
+        .map((obj) =>
+          Object.fromEntries(
+            Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+          )
+        );
+
+      return formattedData;
     })
     .catch((e) => {
       console.log(e);

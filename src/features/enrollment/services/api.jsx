@@ -58,7 +58,6 @@ export const addNewClient = async (client) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data[0];
     })
     .catch((e) => {
@@ -66,7 +65,6 @@ export const addNewClient = async (client) => {
     });
 };
 export const updateContact = async (contact, contactid) => {
-  console.log(contactid)
   const trimContact = { ...contact[0] };
   delete trimContact["contactid"];
   const fields = Object.keys(trimContact).join(",");

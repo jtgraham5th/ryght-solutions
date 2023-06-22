@@ -20,12 +20,6 @@ export const getFormValue = (groupName, activeListId, formData) => {
     let idValues = [];
     activeListId.forEach((activeId) => {
       const data = formDataArray.find((item) => {
-        // if (groupName.toLowerCase() === "services") {
-        //   return (
-        //     item.groupid === parseInt(activeId)
-        //   );
-        // }
-        // console.log(item)
         return parseInt(item.grouplistid) === parseInt(activeId);
       });
       if (data) {

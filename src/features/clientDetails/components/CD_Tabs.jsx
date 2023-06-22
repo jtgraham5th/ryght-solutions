@@ -32,7 +32,7 @@ export function CDTabs() {
 
   return (
     <>
-      <Card className="mb-3">
+      <Card className="mb-3 mt-4">
         <Card.Header>
           <CDNav setActiveTab={setActiveTab} activeTab={activeTab} />
         </Card.Header>

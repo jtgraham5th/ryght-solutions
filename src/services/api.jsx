@@ -95,10 +95,17 @@ export const getGroupListValues = async () => {
     });
 };
 export const getListItem = async (grouplistid) => {
-  return await fetch(`${apiUrl}generic_api/list/24?where=grouplistid=${grouplistid}&orderby=grouplistid`)
+  return await fetch(
+    `${apiUrl}generic_api/list/24?fields=*&where=grouplistid=${grouplistid}&orderby=grouplistid`
+  )
     .then((response) => response.json())
     .then(async (data) => {
-      return data[0];
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData[0];
     })
     .catch((e) => {
       console.log(e);
@@ -106,13 +113,16 @@ export const getListItem = async (grouplistid) => {
 };
 export const updateListItem = async (item) => {
   const fields = Object.keys(item[0]).join(",");
-  return await fetch(`${apiUrl}generic_api/${item[0].grouplistid}?tid=24&fields=${fields}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(item),
-  })
+  return await fetch(
+    `${apiUrl}generic_api/${item[0].grouplistid}?tid=24&fields=${fields}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    }
+  )
     .then((response) => response.json())
     .then((data) => {
       return data;

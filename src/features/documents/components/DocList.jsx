@@ -6,8 +6,7 @@ import { useClient } from "../../../context/ClientContext";
 import { DocNew } from "./DocNew";
 
 export function DocList({ activeDocument, setActiveDocument, resetDocument }) {
-  const { activeBillingTx } = useClient();
-  console.log(activeDocument);
+  const { activeDocuments } = useClient();
   return (
     <Card className="h-100">
       <Card.Body className="p-0">
@@ -19,8 +18,8 @@ export function DocList({ activeDocument, setActiveDocument, resetDocument }) {
           <div
             style={{ height: "100%", overflowY: "auto", overflowX: "hidden" }}
           >
-            {activeBillingTx
-              .filter((item) => item.doctypeid !== 1)
+            {activeDocuments
+              .filter((item) => item.docid > 3)
               .map((value, i) => {
                 return (
                   <DocItem

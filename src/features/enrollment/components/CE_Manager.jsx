@@ -31,10 +31,13 @@ import {
   parseOrderOfService,
 } from "../../documents/services/parseData";
 import { parseTreatmentPlan } from "../../treatmentPlan/utils/parseData";
+import AlertContainer from "../../../components/AlertContainer";
+
 export function CEManager({ show, setShow, containerName, edit }) {
   const [activePage, setActivePage] = useState(0);
   const [tempID, setTempID] = useState();
   const [editing, setEditing] = useState(edit);
+  const [alert, setAlert] = useState({ message: "", data: "" });
 
   const {
     control,
@@ -76,7 +79,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
   };
   const prevPage = async () => {
     const data = watch();
-    const { t21, t22 } = parseFormData(
+    const { patientData } = parseFormData(
       data,
       editing,
       tempID,
@@ -87,7 +90,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
       switch (activePage) {
         case 1:
           try {
-            await updateActiveClient(t21, activeClient.patientid, 21);
+            await updateActiveClient(patientData, activeClient.patientid);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
@@ -105,7 +108,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           break;
         case 2:
           try {
-            await updateActiveClient(t22, activeClient.patientid, 22);
+            await updateActiveClient(patientData, activeClient.patientid);
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
@@ -131,7 +134,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (isDirty || hasSCDXFieldsChanged(getValues, editing, activeClient)) {
       const { patientData, patientContact, emergencyContact } = parseFormData(
         data,
@@ -147,7 +149,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
           try {
             if (editing || tempID) {
               await updateActiveClient(patientData, activeClient.patientid);
-              console.log("Client updated successfully");
               setToggleUpdate({
                 status: "Success",
                 message: "Client data has been successfully updated.",
@@ -155,10 +156,8 @@ export function CEManager({ show, setShow, containerName, edit }) {
               });
             } else {
               const result = await addActiveClient(patientData);
-              console.log(result);
               newPatientId = result[0].patientid;
               if (result instanceof Error) {
-                console.log("error adding client");
                 setToggleUpdate({
                   status: result.name,
                   message:
@@ -168,7 +167,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 return;
               }
               setTempID(newPatientId);
-              console.log("Client added successfully");
               setToggleUpdate({
                 status: "Success",
                 message: "Client has been successfully added.",
@@ -179,16 +177,13 @@ export function CEManager({ show, setShow, containerName, edit }) {
 
             if (hasPCFieldsChanged(dirtyFields, defaultPC)) {
               if (activeContacts.patient && activeContacts.patient.length > 0) {
-                console.log(emergencyContact, activeContacts);
 
                 await updateClientContact(
                   patientContact,
                   activeContacts.patient[0].contactid
                 );
-                console.log("Client PC updated successfully");
               } else {
                 await addClientContact(patientContact, 20);
-                console.log("Client PC added successfully");
               }
             }
 
@@ -197,21 +192,17 @@ export function CEManager({ show, setShow, containerName, edit }) {
                 activeContacts.emergency &&
                 activeContacts.emergency.length > 0
               ) {
-                console.log(emergencyContact, activeContacts);
                 await updateClientContact(
                   emergencyContact,
                   activeContacts.emergency[0].contactid
                 );
-                console.log("Client EC updated successfully");
               } else {
                 await addClientContact(emergencyContact, 20);
-                console.log("Client EC added successfully");
               }
             }
             resetClient(!newPatientId ? activeClient.patientid : newPatientId);
             nextPage();
           } catch (error) {
-            console.log("there was an error", error);
             setToggleUpdate({
               status: "Error",
               message: "There was an error saving the data. Please try again.",
@@ -233,7 +224,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
             setToggleUpdate({
               status: "Error",
               message:
-                "There was an error saving the contact data. Please try again.",
+                "There was an error saving the client data. Please try again.",
               show: true,
             });
           }
@@ -241,26 +232,8 @@ export function CEManager({ show, setShow, containerName, edit }) {
         case 2:
           try {
             await updateActiveClient(patientData, activeClient.patientid);
-            setToggleUpdate({
-              status: "Success",
-              message: "Client data has been successfully updated.",
-              show: true,
-            });
-            resetClient(activeClient.patientid);
-            nextPage();
-          } catch (error) {
-            setToggleUpdate({
-              status: "Error",
-              message:
-                "There was an error saving the contact data. Please try again.",
-              show: true,
-            });
-          }
-          break;
-        case 3:
-          try {
+            //Check for Order of Service & create if not present
             if (!clientHasDoctype(10, activeBillingTx)) {
-              console.log("starting new order of service");
               let osBillingId = parseBillingTx(activeClient, 10);
 
               await addNewBillingTx(osBillingId).then(async (tx) => {
@@ -268,34 +241,37 @@ export function CEManager({ show, setShow, containerName, edit }) {
                   parseOrderOfService(data, activeClient, tx.billingid)
                 );
               });
-
+              //Check for Treatment Plan & create if not found
+              if (!clientHasDoctype(1, activeBillingTx)) {
               let tPlanBillingId = parseBillingTx(activeClient, 1);
               let newTPlan = {};
               newTPlan.f11 = data.f7;
-              console.log(newTPlan);
 
               await addNewBillingTx(tPlanBillingId).then(async (tx) => {
                 newTPlan.billingid = tx.billingid;
                 await addNewDocument(
                   parseTreatmentPlan(newTPlan, activeClient.patientid)
                 );
+              });}
+              setAlert({
+                message: <h6>Client has been enrolled. Please complete Order of Service form in the Documents Tab</h6>,
+                data: '',
+                title: "Patient Successfully Created",
               });
-            } else {
-              console.log("order of service already exists");
-              await updateDocument(parseOrderOfService(data, activeClient));
             }
+            else {
             setToggleUpdate({
               status: "Success",
-              message: "Order of Service form has been created",
+              message: "Client data has been successfully updated.",
               show: true,
             });
             resetClient(activeClient.patientid);
-            handleClose();
-          } catch (error) {
+            handleClose();      
+          }} catch (error) {
             setToggleUpdate({
               status: "Error",
               message:
-                "There was an error saving the contact data. Please try again.",
+                "There was an error saving the Client data. Please try again.",
               show: true,
             });
           }
@@ -303,7 +279,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
         default:
           break;
       }
-    } else if (activePage === 3) {
+    } else if (activePage === 2) {
       handleClose();
     } else {
       nextPage();
@@ -336,7 +312,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
         defaultValues = { ...defaultValues, ...emergencyContact };
       }
       if (clientHasDoctype(10, activeBillingTx)) {
-        console.log("has order of service");
         async function getDocument() {
           try {
             if (clientHasDoctype(10, activeBillingTx)) {
@@ -374,7 +349,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           <Button
             className="PNM-nav-button p-1"
             variant="outline-primary"
-            disabled={activePage === 0 || isValid }
+            disabled={activePage === 0 }
             onClick={activePage === 0 ? () => {} : prevPage}
           >
             {loading ? <Spinner animation="border" size="sm" /> : ""}
@@ -389,16 +364,23 @@ export function CEManager({ show, setShow, containerName, edit }) {
 
           <Button
             className="PNM-nav-button p-1"
-            variant={activePage >= 3 ? "outline-success" : "outline-primary"}
+            variant={activePage >= 2 ? "outline-success" : "outline-primary"}
             type="submit"
             // disabled={!isValid}
           >
             {loading ? <Spinner animation="border" size="sm" /> : ""}
 
-            {activePage >= 3 ? " Save & Exit" : " Save and Continue"}
+            {activePage >= 2 ? " Save & Exit" : " Save and Continue"}
           </Button>
         </Modal.Footer>
       </Form>
+
+      <AlertContainer
+        show={alert.message && alert.data}
+        alert={alert}
+        setAlert={setAlert}
+        handleConfirm={handleClose}
+      />
     </Modal>
   );
 }

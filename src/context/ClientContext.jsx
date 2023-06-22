@@ -36,6 +36,7 @@ import {
   getAllPatientBillingTx,
   addNewDocument,
   updateDocument,
+  getAllPatientDocuments,
 } from "../features/documents/services/api";
 import { getAllDXCodes } from "../features/diagnosis/services/api";
 import {
@@ -67,6 +68,7 @@ export function ClientProvider(props) {
   const [activeTreatmentPlan, setActiveTreatmentPlan] = useState({});
   const [activeProgNotes, setActiveProgNotes] = useState([]);
   const [activeBillingTx, setActiveBillingTx] = useState([]);
+  const [activeDocuments, setActiveDocuments] = useState([]);
   const [activeAuthorizations, setActiveAuthorizations] = useState([]);
   const [formData, setFormData] = useState({});
   const [sortedClients, setSortedClients] = useState({ ...abcObject });
@@ -324,6 +326,11 @@ export function ClientProvider(props) {
       setActiveBillingTx(data);
     });
   };
+  const getClientDocuments = async () => {
+    await getAllPatientDocuments(activeClient.patientid).then((data) => {
+      setActiveDocuments(data);
+    });
+  };
 
   /// TREATMENT PLAN FUNCTIONS ///
   const getClientTreatmentPlan = async () => {
@@ -495,6 +502,7 @@ export function ClientProvider(props) {
     // get document ids
     if (activeClient.patientid) {
       getClientBillingTx();
+      getClientDocuments();
       getClientTreatmentPlan();
       getClientProgNotes();
       // getClientAuthorizations();
@@ -546,6 +554,8 @@ export function ClientProvider(props) {
         activeProgNotes,
         addClientProgNote,
         updateClientProgNote,
+        getClientDocuments,
+        activeDocuments,
         loading,
         setLoading,
         toggleUpdate,

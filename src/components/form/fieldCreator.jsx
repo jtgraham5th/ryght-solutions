@@ -308,16 +308,6 @@ export function FormLabelButtons({
   return (
     <div className="CE-form-label-button-container">
       {toggle ? (
-        <>
-          <Button
-            className="CE-form-label-button me-2"
-            name={name}
-            onClick={closeItem}
-            variant="outline-success"
-            size="sm"
-          >
-            Save
-          </Button>
           <Button
             className="CE-form-label-button"
             name={name}
@@ -327,7 +317,6 @@ export function FormLabelButtons({
           >
             Cancel
           </Button>
-        </>
       ) : (
         <Button
           disabled={disabled}

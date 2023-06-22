@@ -15,8 +15,12 @@ export function FileManager() {
   const [toggle, setToggle] = useState(null);
 
   return (
-    <>
-      <ButtonGroup size="sm" className="mb-2 mt-2">
+    <Row className="w-100 mt-2 align-items-center">
+      <Col>
+        <h3 className="text-muted text-center">Feature Coming Soon.</h3>
+      </Col>
+
+      {/* <ButtonGroup size="sm" className="mb-2 mt-2">
         {["File Manager", "File Upload"].map((value, idx) => (
           <ToggleButton
             key={idx}
@@ -82,7 +86,7 @@ export function FileManager() {
             <Button>Cancel</Button>
           </div>
         </Form.Group>
-      )}
-    </>
+      )} */}
+    </Row>
   );
 }

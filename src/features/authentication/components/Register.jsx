@@ -16,28 +16,24 @@ export function Register() {
   const { touchedFields, errors } = formState;
 
   const password = useRef({});
-  password.current = watch("Password", "");
+  password.current = watch("password", "");
   const { signup, updateUser } = useUser();
   const { formData } = useClient();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    console.log(data);
     let newUser = { ...data };
-    delete newUser.PasswordConfirm;
-    console.log(newUser);
+    delete newUser.passwordconfirm;
     setSignupStatus(true);
     const signupComplete = await signup(newUser).then(async (user) => {
-      if (user && user.UseriD) {
-        user.FirstName = data.FirstName;
-        user.LastName = data.LastName;
-        user.Password = data.Password;
-        user.Title = data.Title;
-        user.Email = data.Email;
-        console.log(user);
+      if (user && user.userid) {
+        user.firstname = data.firstname;
+        user.lastname = data.lastname;
+        user.password = data.password;
+        user.title = data.title;
+        user.email = data.email;
         const userFields = getUserFields(user);
         const updatedUser = await updateUser(user, userFields);
-        console.log("updated User", updatedUser);
         if (updatedUser) {
           return true;
         } else {
@@ -63,22 +59,22 @@ export function Register() {
           <TextField
             register={register}
             labelName="First Name"
-            fieldName="FirstName"
+            fieldName="firstname"
             fieldOptions={{ required: true, maxLength: 40 }}
             fieldStyle="mb-4"
-            isValid={touchedFields.FirstName && !errors.FirstName}
-            isInvalid={errors.FirstName}
+            isValid={touchedFields.firstname && !errors.firstname}
+            isInvalid={errors.firstname}
           />
         </Col>
         <Col md={6}>
           <TextField
             register={register}
             labelName="Last Name"
-            fieldName="LastName"
+            fieldName="lastname"
             fieldOptions={{ required: true, maxLength: 40 }}
             fieldStyle="mb-4"
-            isValid={touchedFields.LastName && !errors.LastName}
-            isInvalid={errors.LastName}
+            isValid={touchedFields.lastname && !errors.lastname}
+            isInvalid={errors.lastname}
           />
         </Col>
       </Form.Group>
@@ -87,12 +83,12 @@ export function Register() {
           <TextField
             register={register}
             labelName="Email"
-            fieldName="Email"
+            fieldName="email"
             fieldType="email"
             fieldOptions={{ required: true }}
             fieldStyle="mb-4"
-            isValid={touchedFields.Email && !errors.Email}
-            isInvalid={errors.Email}
+            isValid={touchedFields.email && !errors.email}
+            isInvalid={errors.email}
           />
         </Col>
       </Form.Group>
@@ -102,7 +98,7 @@ export function Register() {
             register={register}
             labelName="Staff Title"
             groupName="Staff Title"
-            fieldName="Title"
+            fieldName="title"
             fieldStyle="mb-4"
             labelStyle="w-50 m-0 pe-1 small"
           />
@@ -113,7 +109,7 @@ export function Register() {
           <TextField
             register={register}
             labelName="Password"
-            fieldName="Password"
+            fieldName="password"
             fieldType="password"
             fieldOptions={{
               required: true,
@@ -123,15 +119,15 @@ export function Register() {
               },
             }}
             fieldStyle="mb-4"
-            isValid={touchedFields.Password && !errors.Password}
-            isInvalid={errors.Password}
+            isValid={touchedFields.password && !errors.password}
+            isInvalid={errors.password}
           />
         </Col>
         <Col md={6}>
           <TextField
             register={register}
             labelName="Confirm Password"
-            fieldName="PasswordConfirm"
+            fieldName="passwordconfirm"
             fieldType="password"
             fieldOptions={{
               required: true,
@@ -143,8 +139,8 @@ export function Register() {
                 password.current === value || "Passwords do not Match",
             }}
             fieldStyle="mb-4"
-            isValid={touchedFields.PasswordConfirm && !errors.PasswordConfirm}
-            isInvalid={errors.PasswordConfirm}
+            isValid={touchedFields.passwordconfirm && !errors.passwordconfirm}
+            isInvalid={errors.passwordconfirm}
           />
         </Col>
       </Form.Group>

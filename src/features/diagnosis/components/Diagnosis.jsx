@@ -18,7 +18,6 @@ export function Diagnosis({
     if (showActiveDX) {
       return getActiveDXCodes();
     } else {
-      console.log(dxCodes);
       return dxCodes;
     }
   };

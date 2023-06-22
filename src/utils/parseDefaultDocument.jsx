@@ -16,7 +16,8 @@ export default function parseDefaultDocument(docData) {
   const parseFunction = DocComponents[docTypeID];
 
   if (!parseFunction) {
-    throw new Error(`Unsupported docTypeID: ${docTypeID}`);
+    return docData;
+    // throw new Error(`Unsupported docTypeID: ${docTypeID}`);
   }
 
   return parseFunction(docData);

@@ -54,7 +54,7 @@ export function Documents() {
       <DocManager
         show={showManager}
         setShow={setShowManager}
-        containerName="Requirements Manager"
+        containerName="Documents Manager"
       />
     </>
   );

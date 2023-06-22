@@ -169,7 +169,7 @@ export function ViewerFooter({ activePage, setActivePage }) {
       <Button
         className="RQ-nav-button p-1"
         variant="outline-primary"
-        disabled={activePage === 0 ? true : false}
+        disabled={activePage === 0 ? true : false || !activePage}
         onClick={activePage === 0 ? () => {} : prevPage}
       >
         Previous
@@ -185,6 +185,7 @@ export function ViewerFooter({ activePage, setActivePage }) {
         className="RQ-nav-button p-1"
         variant={activePage >= 14 ? "outline-success" : "outline-primary"}
         onClick={nextPage}
+        disabled={!activePage}
         type="submit"
       >
         {activePage >= 14 ? "Complete" : "Next"}

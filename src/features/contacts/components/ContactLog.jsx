@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, ListGroup, Button } from "react-bootstrap";
-import {
-  Printer,
-  PlusSquare,
-} from "react-bootstrap-icons";
-import {CLContactItem} from "./CL_ContactItem";
+import { Printer, PlusSquare } from "react-bootstrap-icons";
+import { CLContactItem } from "./CL_ContactItem";
 import styles from "../ContactLog.module.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,7 +13,10 @@ export function ContactLog() {
   return (
     <>
       <Row className="w-100 mt-2 align-items-center">
-        <Col md={7}>
+        <Col>
+          <h3 className="text-muted text-center">Feature Coming Soon.</h3>
+        </Col>
+        {/* <Col md={7}>
           <h5>Search Contact Log</h5>
           <DatePicker
             selectsRange={true}
@@ -53,7 +53,7 @@ export function ContactLog() {
           <ListGroup.Item className={styles.dataItem}>
             <CLContactItem />
           </ListGroup.Item>
-        </ListGroup>
+        </ListGroup> */}
       </Row>
     </>
   );

@@ -5,14 +5,19 @@ import {
   renderAdolescentBPS,
   renderCANS,
   renderANSA,
-  requirements,
   renderOrderOfService,
+  renderUnavailable,
 } from "../data/documents";
 
-export function DocViewer({ data, activePage, edit, register, control, setValue}) {
-
+export function DocViewer({
+  data,
+  activePage,
+  edit,
+  register,
+  control,
+  setValue,
+}) {
   const renderRequirement = () => {
-    console.log(data)
     switch (data.docid) {
       case 4:
         return renderAdolescentBPS(activePage, register, control, edit);
@@ -27,25 +32,21 @@ export function DocViewer({ data, activePage, edit, register, control, setValue}
       case 9:
         return renderAdultBPS(activePage, register, control), edit;
       case 10:
-        return renderOrderOfService(activePage, register, control, setValue, edit);
+        return renderOrderOfService(
+          activePage,
+          register,
+          control,
+          setValue,
+          edit
+        );
       default:
-        return renderAdultBPS(activePage, register, control, edit);
+        return renderUnavailable();
     }
-  };
-  const getAssessmentInfo = () => {
-    const assessmentInfo = requirements.filter(
-      (requirement) => data.docid === parseInt(requirement.docid)
-    );
-    if (assessmentInfo.length > 0) {
-      return assessmentInfo[0].name;
-    } else return "NULL";
   };
 
   return (
-    <div>
-      <Row className="d-flex justify-content-evenly align-items-center">
-        {renderRequirement(activePage, register, control)}
-      </Row>
-    </div>
+    <Row className="d-flex h-100 justify-content-evenly align-items-center">
+      {renderRequirement(activePage, register, control)}
+    </Row>
   );
 }

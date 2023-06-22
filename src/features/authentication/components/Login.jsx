@@ -25,7 +25,6 @@ export function Login() {
     ];
     setloginStatus(true);
     const loggedIn = await login(loginData);
-    console.log(loggedIn);
     if (loggedIn) {
       navigate("/ryght-solutions/home");
     } else {

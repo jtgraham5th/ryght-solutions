@@ -79,7 +79,7 @@ export function FormAddContainer({
   return (
     <Collapse in={open} timeout={300}>
       <Row>
-        <Card bg="light" className="p-0 mt-3 mb-3">
+        <Card bg="light" border="primary" className="p-0 mt-3 mb-3 shadow  border border-2">
           <Card.Body>
             <Card.Title className="d-flex justify-content-between">
               Add {sectionTitle.charAt(0).toUpperCase() + sectionTitle.slice(1)}
@@ -87,7 +87,7 @@ export function FormAddContainer({
                 <Button
                   size="sm"
                   className="CE-form-label-button me-2"
-                  variant="outline-success"
+                  variant="success"
                   onClick={onSubmit}
                 >
                   Submit
@@ -95,7 +95,7 @@ export function FormAddContainer({
                 <Button
                   size="sm"
                   className="CE-form-label-button "
-                  variant="outline-secondary"
+                  variant="secondary"
                   name={sectionTitle.split(" ").join("")}
                   onClick={close}
                 >

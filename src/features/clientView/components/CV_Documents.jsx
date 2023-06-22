@@ -31,24 +31,17 @@ export function CVDocuments() {
   }, [activeDocument]);
 
   const onSubmit = async (data) => {
-    console.log("document", data);
     // setShowPinInput(true);
     const updatedDocument = parseDocument(data, activeClient);
-    console.log("user", user);
-    console.log("updated document", updatedDocument);
     if (!updatedDocument[0].billingid || updatedDocument[0].billingid === 0) {
       let newBillingTx = parseBillingTx(activeClient, 1, user.userid);
-      console.log("new billing Tx: ", newBillingTx);
       await addNewBillingTx().then(async (tx) => {
-        console.log("New billing id created: ", tx);
         if (tx && tx.billingid) {
           tx.lastuserid = newBillingTx[0].lastuserid;
           tx.patientid = newBillingTx[0].patientid;
           tx.doctypeid = newBillingTx[0].doctypeid;
           tx.lastupdate = newBillingTx[0].lastupdate;
-          console.log(tx);
           const updatedBillingTx = await updateBillingTx(tx);
-          console.log("updated billing tx", updatedBillingTx);
           updatedDocument[0].billingid = tx.billingid;
         }
       });
@@ -57,20 +50,16 @@ export function CVDocuments() {
     // console.log("updated treatment plan", updatedTPlan);
     // updateClientTreatmentPlan(updatedTPlan, user.UserId, user.PinValue);
     const response = await updateDocument(updatedDocument);
-    console.log(response);
     // updateClientTreatmentPlan(updatedTPlan);
     // }
     setEdit(false);
   };
 
   const handlePrint = async (e) => {
-    console.log("HIT~");
     const activeServices = getActiveServices();
     const pdfBlob = await pdf(
       generatePDF(formData, activeDocument, activeClient, activeServices)
     ).toBlob();
-    console.log("pdf Blob:", pdfBlob);
-    console.log("Active Doc:", activeDocument);
     await sendPDFtoAPI(activeDocument.recid, pdfBlob, user).then((data) => {
       const url = data[0].viewer + data[0].path + data[0].file;
       window.open(url, "_blank");
@@ -79,6 +68,13 @@ export function CVDocuments() {
   const resetDocument = (document) => {
     reset(parseDefaultDocument(document));
   };
+  useEffect(() => {
+    const singlePageDocTypes = [10];
+    if (singlePageDocTypes.includes(activeDocument.docid)) {
+      setActivePage(false);
+    }
+  }, [activeDocument]);
+  
   return (
     <>
       <Row className="mb-3">

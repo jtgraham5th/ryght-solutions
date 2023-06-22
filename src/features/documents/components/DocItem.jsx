@@ -5,7 +5,7 @@ import {
   FlagFill,
   CalendarEvent,
 } from "react-bootstrap-icons";
-import { requirements } from "../data/documents";
+import { documents } from "../data/documents";
 import { getDocumentbyBilling } from "../services/api";
 
 
@@ -13,12 +13,12 @@ export function DocItem({ index, data, selectDoc, active, resetDocument }) {
   const [startDate, setStartDate] = useState(new Date());
   const [complete] = useState(false);
 
-  const getAssessmentInfo = () => {
-    const assessmentInfo = requirements.filter(
-      (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
+  const getDocumentInfo = () => {
+    const documentInfo = documents.filter(
+      (requirement) => data.docid === parseInt(requirement.doctypeid)
     );
-    if (assessmentInfo.length > 0) {
-      return assessmentInfo[0].name;
+    if (documentInfo.length > 0) {
+      return documentInfo[0].name;
     } else return "NULL";
   };
 
@@ -42,7 +42,7 @@ export function DocItem({ index, data, selectDoc, active, resetDocument }) {
         <Col md="auto" className="text-start">
           <h6>
             <FlagFill color="orange" />
-            {getAssessmentInfo()}
+            {getDocumentInfo()}
           </h6>
           <Card.Subtitle></Card.Subtitle>
         </Col>

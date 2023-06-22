@@ -76,16 +76,16 @@ export const renderPage = (
           setValue={setValue}
         />
       );
-    case 3:
-      return (
-        <OrderOfService
-          register={register}
-          control={control}
-          formState={formState}
-          setValue={setValue}
-          edit={true}
-        />
-      );
+    // case 3:
+    //   return (
+    //     <OrderOfService
+    //       register={register}
+    //       control={control}
+    //       formState={formState}
+    //       setValue={setValue}
+    //       edit={true}
+    //     />
+    //   );
     default:
       return (
         <CE1 register={register} control={control} formState={formState} />

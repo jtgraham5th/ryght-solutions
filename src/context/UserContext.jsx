@@ -51,7 +51,7 @@ export function UserProvider(props) {
     // const signupData = parseSignUpData(data);
     try {
       const response = await fetch(
-        `${apiUrl}generic_api/19?fields=UseriD,FirstName,LastName,Email,Password,Title`,
+        `${apiUrl}generic_api/19?fields=userid`,
         {
           method: "PUT",
           headers: {
@@ -66,7 +66,7 @@ export function UserProvider(props) {
         console.log(res);
         if (res.length > 0) {
           setUser(res[0]);
-          localStorage.setItem("UserID", res[0].UseriD);
+          localStorage.setItem("UserID", res[0].userid);
           return res[0];
         }
       }
@@ -76,14 +76,11 @@ export function UserProvider(props) {
     return false;
   };
   const updateUser = async (data, fields) => {
-    // const signupData = parseSignUpData(data);
-    console.log(data);
     const requestBody = [{ ...data }];
-    delete requestBody[0].userid;
-    console.log(requestBody);
+    delete requestBody[0].UseriD;
     try {
       const response = await fetch(
-        `${apiUrl}generic_api/${user.userid}?tid=19&fields=${fields}`,
+        `${apiUrl}generic_api/${data.userid}?tid=19&fields=${fields}`,
         {
           method: "POST",
           headers: {
@@ -92,10 +89,8 @@ export function UserProvider(props) {
           body: JSON.stringify(requestBody),
         }
       );
-      console.log(response);
       if (response.ok) {
         const res = await response.json();
-        console.log(res);
         if (res.length > 0) {
           getUser(user.userid);
           return true;
@@ -108,7 +103,6 @@ export function UserProvider(props) {
   };
   const adminUpdateUser = async (userid, data, fields) => {
     // const signupData = parseSignUpData(data);
-    console.log(data);
     try {
       const response = await fetch(
         `${apiUrl}generic_api/${userid}?tid=19&fields=${fields}`,
@@ -120,10 +114,8 @@ export function UserProvider(props) {
           body: JSON.stringify(data),
         }
       );
-      console.log(response);
       if (response.ok) {
         const res = await response.json();
-        console.log(res);
         if (res.length > 0) {
           getAllUsers();
           return true;
@@ -149,7 +141,6 @@ export function UserProvider(props) {
           Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
         )
       );
-        console.log("!!", userData);
         if (userData.length > 0) {
           setUser(userData[0]);
           localStorage.setItem("UserID", userData[0].userid);
@@ -174,7 +165,6 @@ export function UserProvider(props) {
           Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
         )
       );
-        console.log("!!", userData);
         if (userData.length > 0) {
           setUser(userData[0]);
           localStorage.setItem("UserID", userData[0].userid);
@@ -194,7 +184,6 @@ export function UserProvider(props) {
       );
       if (response.ok) {
         const res = await response.json();
-        console.log("!!", res);
         if (res.length > 0) {
           setAllUser(res);
           return res;

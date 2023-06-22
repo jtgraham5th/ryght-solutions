@@ -15,7 +15,7 @@ export function DocNew() {
       <DocManager
         show={showManager}
         setShow={setShowManager}
-        containerName="Requirements Manager"
+        containerName="Add New Documents"
       />
     </div>
   );

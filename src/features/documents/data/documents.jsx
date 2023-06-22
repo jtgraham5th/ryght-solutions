@@ -153,13 +153,34 @@ export const renderANSA = (activePage, register, control) => {
       return <ANSA1 register={register} control={control} />;
   }
 };
-export const renderOrderOfService= (activePage, register, control, setValue, edit) => {
-  switch (activePage) {
-    case 0:
-      return <OrderOfService register={register} control={control} setValue={setValue} edit={edit} />;
-  }
+export const renderOrderOfService = (
+  activePage,
+  register,
+  control,
+  setValue,
+  edit
+) => {
+  return (
+    <OrderOfService
+      register={register}
+      control={control}
+      setValue={setValue}
+      edit={edit}
+    />
+  );
 };
-export const requirements = [
+export const renderUnavailable = () => (
+  <div >
+    <h3 className="text-muted text-center">
+      This document is currently unavailable.
+    </h3>
+    <h5 className="fw-lighter text-center">
+      Please check back soon, for updates.
+    </h5>
+  </div>
+);
+
+export const documents = [
   {
     name: "Adolescent Biopsychosocial Assessment",
     type: "assessment",

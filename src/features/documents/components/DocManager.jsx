@@ -12,7 +12,7 @@ import "./DocManager.css";
 import AlertContainer from "../../../components/AlertContainer";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
-import { requirements } from "../data/documents";
+import { documents } from "../data/documents";
 import { useClient } from "../../../context/ClientContext";
 import { DocPreview } from "./DocPreview";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
@@ -21,7 +21,7 @@ export function DocManager({ show, setShow, containerName }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
   const [activePage, setActivePage] = useState(0);
   const [activeItem, setActiveItem] = useState({});
-  const [newRequirements, setNewRequirements] = useState([]);
+  const [newDocuments, setNewDocuments] = useState([]);
   const [fullscreen, toggleFullScreen] = useState(false);
 
   const { control, register, handleSubmit, reset } = useForm();
@@ -55,7 +55,6 @@ export function DocManager({ show, setShow, containerName }) {
     }
   };
   const handleConfirm = (data) => {
-    console.log(data);
     handleClose();
     reset();
   };
@@ -66,12 +65,12 @@ export function DocManager({ show, setShow, containerName }) {
         (value) => parseInt(value.doctypeid) === parseInt(form.doctypeid)
       )
     ) {
-      if (newRequirements.some((value) => value.name === form.name)) {
-        setNewRequirements((prevState) =>
+      if (newDocuments.some((value) => value.name === form.name)) {
+        setNewDocuments((prevState) =>
           prevState.filter((value) => value.name !== form.name)
         );
       } else {
-        setNewRequirements((prevState) => [...prevState, form]);
+        setNewDocuments((prevState) => [...prevState, form]);
       }
     }
   };
@@ -81,18 +80,9 @@ export function DocManager({ show, setShow, containerName }) {
     toggleFullScreen(true);
   };
 
-  const createRequirements = () => {
-    addClientBillingTx(newRequirements);
+  const createDocuments = () => {
+    addClientBillingTx(newDocuments);
     handleClose();
-  };
-
-  const getAssessmentInfo = (data) => {
-    const assessmentInfo = requirements.filter(
-      (requirement) => data.doctypeid === parseInt(requirement.doctypeid)
-    );
-    if (assessmentInfo.length > 0) {
-      return assessmentInfo[0].name;
-    } else return "NULL";
   };
 
   return (
@@ -108,9 +98,9 @@ export function DocManager({ show, setShow, containerName }) {
             } mb-2`}
           >
             <Col>
-              <h3 className="RQ-section-header mb-2">Requirements</h3>
+              <h3 className="RQ-section-header mb-2">Documents</h3>
               <ListGroup className="RQ-list mb-3">
-                {requirements.map((form, index) => {
+                {documents.map((form, index) => {
                   return (
                     <ListGroup.Item
                       variant={
@@ -144,11 +134,11 @@ export function DocManager({ show, setShow, containerName }) {
                           )}
                         />
                       </Col>
-                      <Col md={8}>
+                      <Col md={10}>
                         <div>{form.name}</div>
                         <Badge>{form.type}</Badge>
                       </Col>
-                      <Col md={2}>
+                      {/* <Col md={2}>
                         <Form.Label className="CE-form-label">
                           Set Due Date
                         </Form.Label>
@@ -163,7 +153,7 @@ export function DocManager({ show, setShow, containerName }) {
                             />
                           )}
                         />
-                      </Col>
+                      </Col> */}
                       <Col
                         md={1}
                         className="d-flex justify-content-center align-items-center"
@@ -186,16 +176,16 @@ export function DocManager({ show, setShow, containerName }) {
               </ListGroup>
               <Button
                 className="mb-3 w-100"
-                disabled={newRequirements.length < 1}
-                onClick={createRequirements}
+                disabled={newDocuments.length < 1}
+                onClick={createDocuments}
               >
-                Save {newRequirements.length} Client Requirements for{" "}
+                Save {newDocuments.length} Client Documents for{" "}
                 {activeClient.pfirstname + " " + activeClient.plastname}{" "}
               </Button>
             </Col>
             {/* <Col md={4} className="d-flex flex-column justify-content-between">
               <div>
-                <h3 className="RQ-section-header">Selected Requirements</h3>
+                <h3 className="RQ-section-header">Selected Documents</h3>
                 <ListGroup className="RQ-list-active">
                   {activeBillingTx.map((requirement, index) => {
                     return (
@@ -205,7 +195,7 @@ export function DocManager({ show, setShow, containerName }) {
                       </ListGroup.Item>
                     );
                   })}
-                  {newRequirements.map((requirement, index) => {
+                  {newDocuments.map((requirement, index) => {
                     return (
                       <ListGroup.Item key={index}>
                         <div>{requirement.name}</div>
