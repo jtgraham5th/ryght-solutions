@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import { Printer, Pencil } from "react-bootstrap-icons";
+import { Printer, Pencil, Send } from "react-bootstrap-icons";
 import { PNPdf } from "../features/progressNotes/components/PN_Pdf";
 import ModalContainer from "./ModalContainer";
 import { PDFViewer } from "@react-pdf/renderer";
@@ -22,15 +22,27 @@ export function ViewerHeader({
   onSubmit,
   handlePrint,
   title,
+  billing,
 }) {
   const { activeClient, formData } = useClient();
   const [show, setShow] = useState(false);
   return (
     <Card.Header className="d-flex flex-row justify-content-between align-items-center p-2">
-      <h4 className="mb-0">{title}</h4>
+      <h5 className="mb-0 ms-2">{title}</h5>
       <div>
         {!edit ? (
           <>
+            {billing ? (
+              <Button
+                className="me-2"
+                onClick={handlePrint}
+                variant={"success"}
+                type="button"
+                disabled={disabled || !activeDocument}
+              >
+                <Send className="me-1" /> Submit
+              </Button>
+            ) : null}
             {handlePrint ? (
               <Button
                 className="me-2"

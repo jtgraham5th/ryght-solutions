@@ -18,9 +18,11 @@ export function Login() {
   const onSubmit = async (data) => {
     let loginData = [
       {
+        userid: 760,
         UserName: data.email,
         StringValue: data.password,
         PCheckTypeID: 3,
+        PinValue: ""
       },
     ];
     setloginStatus(true);

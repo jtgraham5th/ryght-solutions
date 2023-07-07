@@ -134,7 +134,7 @@ export const getDocumentbyBilling = async (billingid, patientid) => {
 export const getAllPatientDocuments = async (patientid) => {
   return await fetch(
     // `${apiUrl}generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`
-    `${apiUrl}generic_api/list/16?fields=*&where=patientid=${patientid},pageid=1&orderby=billingid`
+    `${apiUrl}generic_api/list/16?fields=*&where=patientid=${patientid}&orderby=billingid`
   )
     .then((response) => response.json())
     .then((data) => {

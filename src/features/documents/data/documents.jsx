@@ -43,15 +43,15 @@ import SA5 from "../forms/SA/SA_5";
 
 export const renderShortAssessment = (activePage, register, control) => {
   switch (activePage) {
-    case 0:
-      return <SA1 register={register} control={control} />;
     case 1:
-      return <SA2 register={register} control={control} />;
+      return <SA1 register={register} control={control} />;
     case 2:
-      return <SA3 register={register} control={control} />;
+      return <SA2 register={register} control={control} />;
     case 3:
-      return <SA4 register={register} control={control} />;
+      return <SA3 register={register} control={control} />;
     case 4:
+      return <SA4 register={register} control={control} />;
+    case 5:
       return <SA5 register={register} control={control} />;
     default:
       return <SA1 register={register} control={control} />;
@@ -59,31 +59,31 @@ export const renderShortAssessment = (activePage, register, control) => {
 };
 export const renderAdolescentBPS = (activePage, register, control) => {
   switch (activePage) {
-    case 0:
-      return <BPS1 register={register} control={control} />;
     case 1:
-      return <BPS2 register={register} control={control} />;
+      return <BPS1 register={register} control={control} />;
     case 2:
-      return <BSP3 register={register} control={control} />;
+      return <BPS2 register={register} control={control} />;
     case 3:
-      return <BSP4 register={register} control={control} />;
+      return <BSP3 register={register} control={control} />;
     case 4:
-      return <BSP5 register={register} control={control} />;
+      return <BSP4 register={register} control={control} />;
     case 5:
-      return <BSP6 register={register} control={control} />;
+      return <BSP5 register={register} control={control} />;
     case 6:
-      return <BSP7 register={register} control={control} />;
+      return <BSP6 register={register} control={control} />;
     case 7:
-      return <BSP8 register={register} control={control} />;
+      return <BSP7 register={register} control={control} />;
     case 8:
-      return <BSP9 register={register} control={control} />;
+      return <BSP8 register={register} control={control} />;
     case 9:
-      return <BSP10 register={register} control={control} />;
+      return <BSP9 register={register} control={control} />;
     case 10:
-      return <BSP11 register={register} control={control} />;
+      return <BSP10 register={register} control={control} />;
     case 11:
-      return <BSP12 register={register} control={control} />;
+      return <BSP11 register={register} control={control} />;
     case 12:
+      return <BSP12 register={register} control={control} />;
+    case 13:
       return <BSP13 register={register} control={control} />;
     default:
       return <SA1 register={register} control={control} />;
@@ -91,35 +91,35 @@ export const renderAdolescentBPS = (activePage, register, control) => {
 };
 export const renderAdultBPS = (activePage, register, control) => {
   switch (activePage) {
-    case 0:
-      return <ABPS1 register={register} control={control} />;
     case 1:
-      return <ABPS2 register={register} control={control} />;
+      return <ABPS1 register={register} control={control} />;
     case 2:
-      return <ABSP3 register={register} control={control} />;
+      return <ABPS2 register={register} control={control} />;
     case 3:
-      return <ABSP4 register={register} control={control} />;
+      return <ABSP3 register={register} control={control} />;
     case 4:
-      return <ABSP5 register={register} control={control} />;
+      return <ABSP4 register={register} control={control} />;
     case 5:
-      return <ABSP6 register={register} control={control} />;
+      return <ABSP5 register={register} control={control} />;
     case 6:
-      return <ABSP7 register={register} control={control} />;
+      return <ABSP6 register={register} control={control} />;
     case 7:
-      return <ABSP8 register={register} control={control} />;
+      return <ABSP7 register={register} control={control} />;
     case 8:
-      return <ABSP9 register={register} control={control} />;
+      return <ABSP8 register={register} control={control} />;
     case 9:
-      return <ABSP10 register={register} control={control} />;
+      return <ABSP9 register={register} control={control} />;
     case 10:
-      return <ABSP11 register={register} control={control} />;
+      return <ABSP10 register={register} control={control} />;
     case 11:
-      return <ABSP12 register={register} control={control} />;
+      return <ABSP11 register={register} control={control} />;
     case 12:
-      return <ABSP13 register={register} control={control} />;
+      return <ABSP12 register={register} control={control} />;
     case 13:
-      return <ABSP14 register={register} control={control} />;
+      return <ABSP13 register={register} control={control} />;
     case 14:
+      return <ABSP14 register={register} control={control} />;
+    case 15:
       return <ABSP15 register={register} control={control} />;
     default:
       return <SA1 register={register} control={control} />;
@@ -127,15 +127,15 @@ export const renderAdultBPS = (activePage, register, control) => {
 };
 export const renderCANS = (activePage, register, control) => {
   switch (activePage) {
-    case 0:
-      return <CANS1 register={register} control={control} />;
     case 1:
-      return <CANS2 register={register} control={control} />;
+      return <CANS1 register={register} control={control} />;
     case 2:
-      return <CANS3 register={register} control={control} />;
+      return <CANS2 register={register} control={control} />;
     case 3:
-      return <CANS4 register={register} control={control} />;
+      return <CANS3 register={register} control={control} />;
     case 4:
+      return <CANS4 register={register} control={control} />;
+    case 5:
       return <CANS5 register={register} control={control} />;
     default:
       return <CANS1 register={register} control={control} />;
@@ -143,11 +143,11 @@ export const renderCANS = (activePage, register, control) => {
 };
 export const renderANSA = (activePage, register, control) => {
   switch (activePage) {
-    case 0:
-      return <ANSA1 register={register} control={control} />;
     case 1:
-      return <ANSA2 register={register} control={control} />;
+      return <ANSA1 register={register} control={control} />;
     case 2:
+      return <ANSA2 register={register} control={control} />;
+    case 3:
       return <ANSA3 register={register} control={control} />;
     default:
       return <ANSA1 register={register} control={control} />;
@@ -185,42 +185,42 @@ export const documents = [
     name: "Adolescent Biopsychosocial Assessment",
     type: "assessment",
     pages: 12,
-    doctypeid: "4",
+    doctypeid: 4,
   },
   {
     name: "Adult Biopsychosocial Assessment",
     type: "assessment",
     pages: 15,
-    doctypeid: "5",
+    doctypeid: 5,
   },
   {
     name: "Child and Adolescent Needs and Strengths (CASA)",
     type: "assessment",
     pages: 5,
-    doctypeid: "6",
+    doctypeid: 6,
   },
   {
     name: "Adult Needs and Strengths Assessment (ANSA)",
     type: "assessment",
     pages: 3,
-    doctypeid: "7",
+    doctypeid: 7,
   },
   {
     name: "C-SSRS Adolescent - Lifetime Recent (Initial/Annual)",
     type: "assessment",
     pages: 10,
-    doctypeid: "8",
+    doctypeid: 8,
   },
   {
     name: "C-SSRS Adult - Lifetime Recent (Initial/Annual)",
     type: "assessment",
     pages: 10,
-    doctypeid: "9",
+    doctypeid: 9,
   },
   {
     name: "Order of Services",
     type: "assessment",
-    pages: 10,
-    doctypeid: "10",
+    pages: 1,
+    doctypeid: 10,
   },
 ];

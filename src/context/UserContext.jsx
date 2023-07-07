@@ -22,23 +22,22 @@ export function UserProvider(props) {
   const login = async (data) => {
     const { email, password } = data;
     try {
-      const response = await fetch(
-        `${apiUrl}generic_api/pcheck/760`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${apiUrl}generic_api/pcheck/760?tid=19`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       if (response.ok) {
         const res = await response.json();
         if (res.length > 0) {
-          getUserWithField("username", data[0].UserName)
-          setUser(res[0]);
-          localStorage.setItem("UserID", res[0].UseriD);
-          return true;
+          if (res[0].message !== "password was not validated...") {
+            getUserWithField("username", data[0].UserName);
+            setUser(res[0]);
+            localStorage.setItem("UserID", res[0].UseriD);
+            return true;
+          } else return false;
         }
       }
     } catch (err) {
@@ -50,20 +49,16 @@ export function UserProvider(props) {
   const signup = async (data) => {
     // const signupData = parseSignUpData(data);
     try {
-      const response = await fetch(
-        `${apiUrl}generic_api/19?fields=userid`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // body: JSON.stringify(signupData),
-        }
-      );
+      const response = await fetch(`${apiUrl}generic_api/19?fields=userid`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify(signupData),
+      });
 
       if (response.ok) {
         const res = await response.json();
-        console.log(res);
         if (res.length > 0) {
           setUser(res[0]);
           localStorage.setItem("UserID", res[0].userid);
@@ -137,10 +132,10 @@ export function UserProvider(props) {
       if (response.ok) {
         const res = await response.json();
         const userData = res.map((obj) =>
-        Object.fromEntries(
-          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
-        )
-      );
+          Object.fromEntries(
+            Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+          )
+        );
         if (userData.length > 0) {
           setUser(userData[0]);
           localStorage.setItem("UserID", userData[0].userid);
@@ -161,10 +156,10 @@ export function UserProvider(props) {
       if (response.ok) {
         const res = await response.json();
         const userData = res.map((obj) =>
-        Object.fromEntries(
-          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
-        )
-      );
+          Object.fromEntries(
+            Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+          )
+        );
         if (userData.length > 0) {
           setUser(userData[0]);
           localStorage.setItem("UserID", userData[0].userid);

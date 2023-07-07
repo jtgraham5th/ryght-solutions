@@ -32,8 +32,8 @@ export function DocItem({ index, data, selectDoc, active, resetDocument }) {
   const viewForm = async () => {
     //right now set active form based on a switch case
     const document = await getDocumentbyBilling(data.billingid, data.patientid)
-    resetDocument(document)
-    selectDoc(document);
+    resetDocument(data)
+    selectDoc(data);
   };
 
   return (

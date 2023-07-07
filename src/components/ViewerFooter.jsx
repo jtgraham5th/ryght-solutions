@@ -9,43 +9,37 @@ import {
   Col,
   Collapse,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AlertContainer from "./AlertContainer";
 import { useForm } from "react-hook-form";
 import { Pen } from "react-bootstrap-icons";
 import { SelectField, TextField } from "./form/fieldCreator.jsx";
+import { documents } from "../features/documents/data/documents";
 
-export function ViewerFooter({ activePage, setActivePage }) {
+export function ViewerFooter({
+  activePage,
+  setActivePage,
+  activeDocument,
+  onSubmit,
+}) {
   const [alert, setAlert] = useState({ message: "", data: "" });
   const { control, register, reset } = useForm();
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [maxPages, setMaxPages] = useState(
+    activeDocument
+      ? (
+          documents.find((doc) => doc.doctypeid === activeDocument.docid) || {
+            pages: 0,
+          }
+        ).pages
+      : 0
+  );
+
   const handleClose = () => {
     setActivePage(0);
   };
 
-  const nextPage = () => {
-    if (activePage < 14) {
-      setActivePage((page) => page + 1);
-    }
-  };
-  const prevPage = () => {
-    setActivePage((page) => page - 1);
-  };
-
-  const onSubmit = (data) => {
-    if (activePage < 14) {
-      setActivePage((page) => page + 1);
-    }
-    if (activePage === 14) {
-      setAlert({
-        message: <h6>Are you sure you want to save these changes?</h6>,
-        data: data,
-        title: "Add New Client",
-      });
-    }
-  };
   const handleConfirm = (data) => {
-    console.log(data);
     handleClose();
     reset();
   };
@@ -168,9 +162,11 @@ export function ViewerFooter({ activePage, setActivePage }) {
     <Card.Footer className="d-flex flex-row justify-content-between p-2">
       <Button
         className="RQ-nav-button p-1"
+        id="footer-previous"
         variant="outline-primary"
-        disabled={activePage === 0 ? true : false || !activePage}
-        onClick={activePage === 0 ? () => {} : prevPage}
+        disabled={activePage === 1 ? true : false || !activePage}
+        // onClick={activePage === 0 ? () => {} : prevPage}
+        type="submit"
       >
         Previous
       </Button>
@@ -183,12 +179,13 @@ export function ViewerFooter({ activePage, setActivePage }) {
 
       <Button
         className="RQ-nav-button p-1"
-        variant={activePage >= 14 ? "outline-success" : "outline-primary"}
-        onClick={nextPage}
-        disabled={!activePage}
+        variant={activePage >= maxPages ? "outline-success" : "outline-primary"}
+        id="footer-next"
+        // onClick={nextPage}
+        disabled={activePage === false}
         type="submit"
       >
-        {activePage >= 14 ? "Complete" : "Next"}
+        {activePage >= maxPages ? "Complete" : "Next"}
       </Button>
       <AlertContainer
         show={alert.message && alert.data}

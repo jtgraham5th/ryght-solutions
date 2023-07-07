@@ -14,8 +14,17 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { documents } from "../data/documents";
 import { useClient } from "../../../context/ClientContext";
+import { useUser } from "../../../context/UserContext";
 import { DocPreview } from "./DocPreview";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
+import { parseBillingTx } from "../../services/utils/parseData";
+import {
+  updateDocument,
+  addNewDocument,
+  addNewBillingTx,
+  updateBillingTx,
+} from "../services/api";
+import parseDocument from "../../../utils/parseDocument";
 
 export function DocManager({ show, setShow, containerName }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
@@ -25,8 +34,9 @@ export function DocManager({ show, setShow, containerName }) {
   const [fullscreen, toggleFullScreen] = useState(false);
 
   const { control, register, handleSubmit, reset } = useForm();
-  const { activeClient, addClientBillingTx, activeBillingTx } = useClient();
-
+  const { activeClient, activeDocuments, activeBillingTx, getClientDocuments } =
+    useClient();
+  const { user } = useUser();
   const prevPage = () => {
     setActivePage((page) => page - 1);
   };
@@ -61,8 +71,8 @@ export function DocManager({ show, setShow, containerName }) {
 
   const addRequirement = (form) => {
     if (
-      !activeBillingTx.some(
-        (value) => parseInt(value.doctypeid) === parseInt(form.doctypeid)
+      !activeDocuments.some(
+        (value) => parseInt(value.docid) === parseInt(form.doctypeid)
       )
     ) {
       if (newDocuments.some((value) => value.name === form.name)) {
@@ -81,7 +91,34 @@ export function DocManager({ show, setShow, containerName }) {
   };
 
   const createDocuments = () => {
-    addClientBillingTx(newDocuments);
+    newDocuments.forEach(async (document, index) => {
+      let newBillingTx = parseBillingTx(
+        activeClient,
+        document.doctypeid,
+        user.userid
+      );
+      const tx = await addNewBillingTx();
+      if (tx && tx.billingid) {
+        tx.lastuserid = newBillingTx[0].lastuserid;
+        tx.patientid = newBillingTx[0].patientid;
+        tx.doctypeid = newBillingTx[0].doctypeid;
+        tx.lastupdate = newBillingTx[0].lastupdate;
+        await updateBillingTx(tx);
+
+        await addNewDocument().then(async (newdoc) => {
+          const blankDocument = {
+            recid: newdoc.recid,
+            docid: document.doctypeid,
+            pageid: 1,
+            billingid: tx.billingid
+          };
+          const res = await updateDocument(
+            parseDocument(blankDocument, activeClient)
+          );
+          await getClientDocuments();
+        });
+      }
+    });
     handleClose();
   };
 
@@ -104,10 +141,9 @@ export function DocManager({ show, setShow, containerName }) {
                   return (
                     <ListGroup.Item
                       variant={
-                        activeBillingTx.some(
+                        activeDocuments.some(
                           (value) =>
-                            parseInt(value.doctypeid) ===
-                            parseInt(form.doctypeid)
+                            parseInt(value.docid) === parseInt(form.doctypeid)
                         )
                           ? "primary"
                           : ""
@@ -120,18 +156,25 @@ export function DocManager({ show, setShow, containerName }) {
                         className="d-flex justify-content-center align-items-center"
                       >
                         <Form.Check
+                          inline
                           style={{ fontSize: "1.5rem" }}
                           onClick={() => addRequirement(form)}
-                          inline
-                          {...register(form.doctypeid)}
+                          {...register(`${form.doctypeid}`)}
                           type="checkbox"
                           name={form.doctypeid}
                           value={form.doctypeid}
-                          checked={activeBillingTx.some(
-                            (value) =>
-                              parseInt(value.doctypeid) ===
-                              parseInt(form.doctypeid)
-                          )}
+                          checked={
+                            activeDocuments.some(
+                              (value) =>
+                                parseInt(value.docid) ===
+                                parseInt(form.doctypeid)
+                            ) ||
+                            newDocuments.some(
+                              (value) =>
+                                parseInt(value.doctypeid) ===
+                                parseInt(form.doctypeid)
+                            )
+                          }
                         />
                       </Col>
                       <Col md={10}>

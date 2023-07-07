@@ -18,10 +18,10 @@ function InsCard({ source }) {
               {getFormValue("Funding Source ", ins1_fundingsource, formData)}
             </Card.Title>
             <Card.Subtitle>{ins1_policynumber}</Card.Subtitle>
-            <Card.Text className="d-flex small mt-1 mb-2">
+            <div className="d-flex small mt-1 mb-2">
               <div>Expiration Date:</div>
               <div>{ins1_dateexpires}</div>
-            </Card.Text>
+            </div>
           </Col>
           <Col className={styles.icCoPay}>
             <div>Co-Pay Amount:</div> $20

@@ -164,7 +164,6 @@ export function OrderOfService({
                         name={"f" + (8 + i)}
                         onChange={(e) => setServiceValue(e, item.grouplistid)}
                         readOnly={!edit}
-                        register
                       />
                     </Col>
                     <Col
