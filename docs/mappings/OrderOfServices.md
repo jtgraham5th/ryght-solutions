@@ -1,6 +1,5 @@
 | Field                                                                 | fieldName | type  |
 |-----------------------------------------------------------------------|-----------|-------|
-
 | Start Date                                                            | f2        | Date (Time)      |
 | End Date                                                              | f3        | Date (Time)      |
 | Patient Name                                                          | f4        | Text      |
