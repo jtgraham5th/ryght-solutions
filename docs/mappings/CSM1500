@@ -1,0 +1,28 @@
+| Field                                               | fieldName | type  |
+|-----------------------------------------------------|-----------|-------|
+| FIRST NAME OF PATIENT                               | f23       | text  |
+| M.I.                                                | f24       | text  |
+| LAST NAME OF PATIENT                                | f25       | text  |
+| a. INSURED'S I.D. NUMBER                            | f26       | text  |
+| b. INSURED'S NAME                                   | f27       | text  |
+| c. INSURED'S ADDRESS                                | f28       | text  |
+| SEX                                                 | f29       |       |
+| b. OTHER CLAIM ID                                   | f30       | text  |
+| c. INSURANCE PLAN NAME                              | f31       | text  |
+| d. IS THERE ANOTHER HEALTH BENEFIT PLAN             | f32       | radio |
+| DATE OF CURRENT ILLNESS, INJURY, or PREGNANCY       | f33       | text  |
+| OTHER DATE                                          | f34       | text  |
+| FROM                                                | f35       | text  |
+| TO                                                  | f36       | text  |
+| NAME OF REFERRING PROVIDER OR OTHER SOURCE          | f37       | text  |
+| 17a.                                                | f38       | text  |
+| 17b.                                                | f39       | text  |
+| FROM                                                | f40       | text  |
+| TO                                                  | f41       | text  |
+| 19. ADDITIONAL CLAIM INFORMATION                    | f60       | text  |
+| OUTSIDE LAB?                                        | f42       | radio |
+| $ CHARGES                                           | f43       | text  |
+| (No labelName provided)                             |           |       |
+| RESUBMISSION CODE                                   | f44       | text  |
+| ORIGNAL REF. NO.                                    | f45       | text  |
+| PRIOR AUTORIZATION NUMBER                           | f46       | text  |
