@@ -49,3 +49,18 @@
 | Secondary Ins Policy Number  | ins2_policynumber     | text  |
 | Secondary Ins Date Expires   | ins2_dateexpires      | date  |
 | Secondary Ins Card Available | ins2_cardavailableid  | radio |
+
+## Enrollment- Page 3
+| Field                  | fieldName           | type  |
+|------------------------|---------------------|-------|
+| Referrall Source       | referralid          | text  |
+| Referrall Date         | referraldate        | date  |
+| First Appointment Date | firstapptdate       | date  |
+| Referrall Outsource    | referralOutsource   | text  |
+| Date of Outsourced     | dateoutsourced      | date  |
+| First Psy Date         | firstpsydate        | date  |
+| Internal Referral      | internalreferralid  | text  |
+| Reason For Referral    | patient_comment     | text  |
+| Services               | servicecodes        | text (Comma Separated String)  |
+| Diagnosis              | dxcodes             | text (Comma Separated String)  |
+| Diagnosis Date         | dxdate              | date  |
