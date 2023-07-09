@@ -1,4 +1,4 @@
-##Enrollment- Page 1
+## Enrollment- Page 1
 | Field                 | fieldName      | type  |
 |-----------------------|----------------|-------|
 | First Name            | pfirstname     | text  |
@@ -31,7 +31,7 @@
 | Phone 1               | ecPhone        | text  |
 | Phone Type            | ecPhoneType    | number  |
 
-##Enrollment- Page 2
+## Enrollment- Page 2
 | Field         | fieldName            | type  |
 |---------------|----------------------|-------|
 | Employer      | employer             | text  |
