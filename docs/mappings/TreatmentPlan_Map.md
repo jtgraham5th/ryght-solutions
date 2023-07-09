@@ -10,6 +10,6 @@
 | Projected Family Involvement            | f8        | TextArea      |
 | Projected Discharge/Transition Date     | f9        |   Date    |
 | Plans for Discharge/Transition          | f10       | TextArea      |
-| Anticipated Step Down Services          | f11       |    Text   |
+| Anticipated Step Down Services          | f11       |    Text (Comma Separated String)   |
 | Other Step Down Services                | f12       | Text     |
 | Anticipated Step Down Date              | f13        | Date |
