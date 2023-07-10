@@ -1,6 +1,6 @@
 | Field                                               | fieldName | type  |
 |-----------------------------------------------------|-----------|-------|
-| INSURANCE COMPANY                                   | f1        | radio |
+| INSURANCE COMPANY                                   | f1        | text |
 | INSURED'S ID NUMBER                                 | f2        | text  |
 | PATIENT'S NAME                                      | f3        | text  |
 | BIRTH DATE                                          | f4        | text  |
@@ -22,9 +22,9 @@
 | b. RESERVED FOR NUCC USE                            | f20       | text  |
 | c. RESERVED FOR NUCC USE                            | f21       | text  |
 | d.INUSRANCE PLAN NAME                               | f22       | text  |
-| a. EMPLOYMENT?                                      | f23       | radio |
-| b. AUTO ACCIDENT?                                   | f24       | radio |
-| c. OTHER ACCIDENT?                                  | f25       | radio |
+| a. EMPLOYMENT?                                      | f23       | text |
+| b. AUTO ACCIDENT?                                   | f24       | text |
+| c. OTHER ACCIDENT?                                  | f25       | text |
 | 10d.CLAIM CODES                                     | f26       | text  |
 | INSURED'S POLICY GROUP / FECA #                     | f27       | text  |
 | a. BIRTH DATE                                       | f28       | text  |
@@ -37,7 +37,7 @@
 | SEX                                                 | f29                   |       |
 | b. OTHER CLAIM ID                                   | f30                   | text  |
 | c. INSURANCE PLAN NAME                              | f31                   | text  |
-| d. IS THERE ANOTHER HEALTH BENEFIT PLAN             | f32                   | radio |
+| d. IS THERE ANOTHER HEALTH BENEFIT PLAN             | f32                   | text |
 | DATE OF CURRENT ILLNESS, INJURY, or PREGNANCY       | f33                   | text  |
 | OTHER DATE                                          | f34                   | text  |
 | FROM                                                | f35                   | text  |
@@ -48,7 +48,7 @@
 | FROM                                                | f40                   | text  |
 | TO                                                  | f41                   | text  |
 | 19. ADDITIONAL CLAIM INFORMATION                    | f60                   | textarea  |
-| OUTSIDE LAB?                                        | f42                   | radio |
+| OUTSIDE LAB?                                        | f42                   | text |
 | $ CHARGES                                           | f43                   | text  |
 | RESUBMISSION CODE                                   | f44                   | text  |
 | ORIGNAL REF. NO.                                    | f45                   | text  |
@@ -65,7 +65,7 @@
 | I. ID. QUAL.                                        | serviceI1-[0-5]       | text  |
 | J. RENDERING PROVIDER ID. #                         | serviceJ1-[0-5]       | text  |
 | FEDERAL TAX I.D. NUMBER                             | f47                   | text  |
-| SSN / EID                                           | f48                   | radio  |
+| SSN / EID                                           | f48                   | text  |
 | PATIENT'S ACCOUNT NO.                               | f49                   | text  |
 | ACCEPT ASSIGNMENT                                   | f50                   | radio  |
 | TOTAL CHARGE                                        | f51                   | text  |
