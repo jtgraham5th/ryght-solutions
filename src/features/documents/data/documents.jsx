@@ -170,7 +170,7 @@ export const renderOrderOfService = (
   );
 };
 export const renderUnavailable = () => (
-  <div >
+  <div>
     <h3 className="text-muted text-center">
       This document is currently unavailable.
     </h3>
@@ -223,4 +223,30 @@ export const documents = [
     pages: 1,
     doctypeid: 10,
   },
+  {
+    name: "Progress Note",
+    type: "assessment",
+    pages: 1,
+    doctypeid: 2,
+  },
+  {
+    name: "Treatment Plan",
+    type: "assessment",
+    pages: 1,
+    doctypeid: 1,
+  },
+];
+export const dxTable = [
+  { label: "A", diagnosis: "" },
+  { label: "B", diagnosis: "" },
+  { label: "C", diagnosis: "" },
+  { label: "D", diagnosis: "" },
+  { label: "E", diagnosis: "" },
+  { label: "F", diagnosis: "" },
+  { label: "G", diagnosis: "" },
+  { label: "H", diagnosis: "" },
+  { label: "I", diagnosis: "" },
+  { label: "J", diagnosis: "" },
+  { label: "K", diagnosis: "" },
+  { label: "L", diagnosis: "" },
 ];

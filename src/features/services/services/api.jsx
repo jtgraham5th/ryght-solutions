@@ -6,7 +6,12 @@ export const getAllServiceCodes = async () => {
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+     const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData
     })
     .catch((e) => {
       console.log(e);
@@ -18,7 +23,12 @@ export const getServiceCodesWithId = async (grouplistid) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+     const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData
     })
     .catch((e) => {
       console.log(e);
@@ -30,7 +40,12 @@ export const getAllServiceGroups = async () => {
   )
     .then((response) => response.json())
     .then((data) => {
-      return data;
+     const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData
     })
     .catch((e) => {
       console.log(e);
@@ -40,7 +55,12 @@ export const getServiceGroup = async (recid) => {
   return await fetch(`${apiUrl}generic_api/${recid}?tid=28`)
     .then((response) => response.json())
     .then((data) => {
-      return data[0];
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData[0]
     })
     .catch((e) => {
       console.log(e);

@@ -50,16 +50,6 @@ export function TreatmentPlanHeader({
     const pdfFormData = new FormData();
     pdfFormData.append("file", file);
     console.log(TP)
-    // fetch("/print/tPlan", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/pdf",
-    //   },
-    //   body: TP,
-    // });
-    // fetch("/print", {
-    //   method: "GET",
-    // });
   };
 
   return (

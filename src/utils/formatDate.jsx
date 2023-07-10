@@ -1,9 +1,11 @@
+import moment from "moment";
+
 export default function formatDate(newDate) {
   if (newDate instanceof Date || (typeof newDate === 'number' && !isNaN(newDate))) {
-    const formattedDate = new Date(newDate).toISOString().slice(0, 10).replace("T", " ");
+    const formattedDate = moment(newDate).format("YYYY-MM-DD");
     return formattedDate
   } else {
-    const formattedDate = new Date().toISOString().slice(0, 10).replace("T", " ");
+    const formattedDate = moment().format("YYYY-MM-DD");
     return formattedDate
   }
 }

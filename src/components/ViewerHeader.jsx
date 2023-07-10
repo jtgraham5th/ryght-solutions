@@ -1,10 +1,11 @@
-import { Button, Card } from "react-bootstrap";
-import { Printer, Pencil, Send } from "react-bootstrap-icons";
+import { Button, Card, OverlayTrigger } from "react-bootstrap";
+import { Printer, Pencil, Send, Pen } from "react-bootstrap-icons";
 import { PNPdf } from "../features/progressNotes/components/PN_Pdf";
 import ModalContainer from "./ModalContainer";
 import { PDFViewer } from "@react-pdf/renderer";
 import { useState } from "react";
 import { useClient } from "../context/ClientContext";
+import { SignaturePopover } from "./SignaturePopover";
 
 // const printOptions = [
 //   "Case Manager Name",
@@ -23,19 +24,36 @@ export function ViewerHeader({
   handlePrint,
   title,
   billing,
+  submitBilling,
 }) {
   const { activeClient, formData } = useClient();
   const [show, setShow] = useState(false);
+  const popover = (<SignaturePopover />)
   return (
     <Card.Header className="d-flex flex-row justify-content-between align-items-center p-2">
       <h5 className="mb-0 ms-2">{title}</h5>
       <div>
         {!edit ? (
           <>
+            <OverlayTrigger
+              trigger="click"
+              placement="bottom"
+              overlay={popover}
+            >
+              <Button
+                variant="secondary"
+                className="me-2"
+                disabled={true}
+                // disabled={disabled || !activeDocument}
+              >
+                <Pen />
+                Sign
+              </Button>
+            </OverlayTrigger>
             {billing ? (
               <Button
                 className="me-2"
-                onClick={handlePrint}
+                onClick={submitBilling}
                 variant={"success"}
                 type="button"
                 disabled={disabled || !activeDocument}

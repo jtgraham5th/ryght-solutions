@@ -1,14 +1,21 @@
 import { forwardRef, useState } from "react";
-import { Row, Col, Card, ListGroup, Badge } from "react-bootstrap";
+import { Row, Col, Card, ListGroup, Badge, Form } from "react-bootstrap";
 import styles from "../Requirements.module.scss";
 import { FlagFill, CalendarEvent } from "react-bootstrap-icons";
 import { documents } from "../data/documents";
 import { getDocumentbyBilling } from "../services/api";
 import formatISODate from "../../../utils/formatISODate";
 
-export function BillingItem({ index, data, selectDoc, active, resetDocument }) {
+export function BillingItem({
+  index,
+  data,
+  selectDoc,
+  active,
+  resetDocument,
+  batchBilling,
+  setBatchBilling,
+}) {
   const [startDate, setStartDate] = useState(new Date());
-  const [complete] = useState(false);
 
   const getDocumentInfo = () => {
     const documentInfo = documents.filter(
@@ -49,28 +56,66 @@ export function BillingItem({ index, data, selectDoc, active, resetDocument }) {
         return "no status";
     }
   };
+  const addBillingId = (billingid) => {
+    if (
+      !batchBilling.some((value) => parseInt(value) === parseInt(billingid))
+      ) {
+      setBatchBilling((prevState) => [...prevState, billingid]);
+    } else {
+      setBatchBilling((prevState) =>
+        prevState.filter((value) => value !== billingid)
+      );
+    }
+  };
 
   return (
     <ListGroup.Item
-      className="pe-2 ps-2"
+      className="pe-2 ps-2 d-flex"
+      as={Row}
       action
       active={active}
-      border={complete ? "success" : "danger"}
       key={index}
       onClick={() => viewForm()}
+      variant={
+        batchBilling.some(
+          (value) => parseInt(value) === parseInt(data.billingid)
+        )
+          ? "primary"
+          : ""
+      }
     >
-      <Row>
-        <Col md="auto" className="text-start">
-          <small className="fw-light"># {data.billingid}</small>
-          <Card.Subtitle>{getDocumentInfo()}</Card.Subtitle>
-        </Col>
-      </Row>
-      <div className="d-flex">
-        <small className="fw-light mb-0 me-1">Last Update: </small>
-        <small className="fw-light">{formatISODate(data.lastupdate)}</small>
-      </div>
-      <Badge bg={renderStatusVariant(data.status)}>
-                {renderStatus(data.status)}</Badge>
+      <Col md={2} className="d-flex justify-content-center align-items-center">
+        <Form.Check
+          inline
+          style={{ fontSize: "1.5rem", marginRight: "0px" }}
+          onClick={() => addBillingId(data.billingid)}
+          type="checkbox"
+          name={data.billingid}
+          value={data.billingid}
+          checked={
+            batchBilling
+              ? batchBilling.some(
+                  (value) => parseInt(value) === parseInt(data.billingid)
+                )
+              : false
+          }
+        />
+      </Col>
+      <Col md={10}>
+        <Row>
+          <Col md="auto" className="text-start">
+            <small className="fw-light"># {data.billingid}</small>
+            <Card.Subtitle>{getDocumentInfo()}</Card.Subtitle>
+          </Col>
+        </Row>
+        <div className="d-flex">
+          <small className="fw-light mb-0 me-1">Last Update: </small>
+          <small className="fw-light">{formatISODate(data.lastupdate)}</small>
+        </div>
+        <Badge bg={renderStatusVariant(data.status)}>
+          {renderStatus(data.status)}
+        </Badge>
+      </Col>
     </ListGroup.Item>
   );
 }

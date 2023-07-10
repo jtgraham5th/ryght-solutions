@@ -23,6 +23,7 @@ export function DateField(props) {
             {...other}
             className={`datePicker ${fieldStyle} border-1 rounded`}
             selected={field.value}
+            locale={"en-US"}
             onChange={(date) => {
               field.onChange(date);
             }}
@@ -89,7 +90,11 @@ export function SelectField(props) {
   return (
     <>
       {labelName ? (
-        <Form.Label className={`fs-6 ${labelStyle}`}>{labelName}</Form.Label>
+        <Form.Label
+          className={labelStyle ? labelStyle : "fs-6"}
+        >
+          {labelName}
+        </Form.Label>
       ) : null}
       <Form.Select
         {...(register ? { ...register(fieldName, fieldOptions) } : null)}
@@ -192,11 +197,23 @@ export function MultiSelectField(props) {
   );
 }
 export function TextAreaField(props) {
-  const { register, labelName, fieldName, readOnly, disabled, rows, ...other } =
-    props;
+  const {
+    register,
+    labelName,
+    labelStyle,
+    fieldName,
+    readOnly,
+    disabled,
+    rows,
+    ...other
+  } = props;
   return (
     <>
-      <Form.Label className="fs-6 ">{labelName}</Form.Label>
+      <Form.Label
+        className={labelStyle ? labelStyle : disabled ? "text-muted" : "fs-6"}
+      >
+        {labelName}
+      </Form.Label>
       <Form.Control
         {...register(fieldName)}
         as="textarea"
@@ -308,15 +325,15 @@ export function FormLabelButtons({
   return (
     <div className="CE-form-label-button-container">
       {toggle ? (
-          <Button
-            className="CE-form-label-button"
-            name={name}
-            variant="outline-secondary"
-            size="sm"
-            onClick={closeItem}
-          >
-            Cancel
-          </Button>
+        <Button
+          className="CE-form-label-button"
+          name={name}
+          variant="outline-secondary"
+          size="sm"
+          onClick={closeItem}
+        >
+          Cancel
+        </Button>
       ) : (
         <Button
           disabled={disabled}

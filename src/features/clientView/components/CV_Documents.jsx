@@ -24,6 +24,7 @@ export function CVDocuments() {
   const [activePage, setActivePage] = useState(1);
   const [edit, setEdit] = useState(false);
   const [screenValue, setScreenValue] = useState(1);
+  const [batchBilling, setBatchBilling] = useState([]);
 
   const {
     activeClient,
@@ -34,7 +35,8 @@ export function CVDocuments() {
     getClientDocuments,
   } = useClient();
   const { user } = useUser();
-  const { handleSubmit, reset, register, control, setValue } = useForm();
+  const { handleSubmit, reset, register, control, setValue, formState } =
+    useForm();
   const maxPages = (
     documents.find((doc) => doc.doctypeid === activeDocument.docid) || {
       pages: 0,
@@ -149,6 +151,10 @@ export function CVDocuments() {
     const singlePageDocTypes = [10];
     if (singlePageDocTypes.includes(activeDocument.docid)) setActivePage(false);
   }, [activeDocument]);
+  
+  const submitBilling = () => {
+    console.log(batchBilling);
+  };
 
   return (
     <>
@@ -160,6 +166,8 @@ export function CVDocuments() {
             resetDocument={resetDocument}
             screenValue={screenValue}
             setScreenValue={setScreenValue}
+            batchBilling={batchBilling}
+            setBatchBilling={setBatchBilling}
           />
         </Col>
         <Col md={9}>
@@ -181,6 +189,7 @@ export function CVDocuments() {
                   ).name
                 }
                 billing={screenValue === 2 ? true : false}
+                submitBilling={submitBilling}
               />
               {activeDocument ? (
                 <>
@@ -192,6 +201,8 @@ export function CVDocuments() {
                       register={register}
                       control={control}
                       setValue={setValue}
+                      screenValue={screenValue}
+                      formState={formState}
                     />
                   </Card.Body>
                   <ViewerFooter
@@ -205,13 +216,6 @@ export function CVDocuments() {
             </Form>
           </Card>
         </Col>
-        {/* <PNManager
-          show={show}
-          setShow={setShow}
-          containerName="B.I.R.P. Progress Note Form"
-          data={activeDocument}
-          edit
-        /> */}
       </Row>
     </>
   );

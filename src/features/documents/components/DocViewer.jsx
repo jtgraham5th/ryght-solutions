@@ -8,6 +8,7 @@ import {
   renderOrderOfService,
   renderUnavailable,
 } from "../data/documents";
+import { CSM } from "../forms/CSM1500/CSM";
 
 export function DocViewer({
   data,
@@ -16,6 +17,8 @@ export function DocViewer({
   register,
   control,
   setValue,
+  screenValue,
+  formState,
 }) {
   const renderRequirement = () => {
     switch (data.docid) {
@@ -46,7 +49,11 @@ export function DocViewer({
 
   return (
     <Row className="d-flex h-100 justify-content-evenly align-items-center">
-      {renderRequirement(activePage, register, control)}
+      {screenValue === 1 ? (
+        renderRequirement(activePage, register, control)
+      ) : screenValue === 2 ? (
+        <CSM register={register} control={control} formState={formState} />
+      ) : null}
     </Row>
   );
 }

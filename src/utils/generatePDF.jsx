@@ -17,7 +17,7 @@ export default function generatePDF(formData,docData,activeClient,activeData) {
   if (!PdfComponent) {
     return null; // or handle the error somehow
   }
-
+  console.log(docData)
   return (
     <PdfComponent
       formData={formData}

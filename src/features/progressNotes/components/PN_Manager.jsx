@@ -12,6 +12,8 @@ import {
   parseProgressNote,
 } from "../utils/parseData";
 import { useClient } from "../../../context/ClientContext";
+import { useUser } from "../../../context/UserContext";
+import { updateBillingTx } from "../../documents/services/api";
 
 export function PNManager({ data, show, setShow, containerName, edit }) {
   const [alert, setAlert] = useState({ message: "", data: "" });
@@ -19,6 +21,7 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
   const { control, register, handleSubmit, reset, setValue, watch, getValues } =
     useForm();
   const { updateClientProgNote, addClientProgNote, activeClient } = useClient();
+  const { user } = useUser();
 
   const handleClose = () => {
     setActivePage(0);
@@ -81,13 +84,21 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
     }
   };
   const handleConfirm = async (data) => {
-    console.log(data);
-    if (!data.billingid || data.billingid === 0) {
-      await addNewBillingTx(parseBillingTx(activeClient, 2)).then((tx) => {
-        console.log("New billing id created: " + tx.billingid);
-        data.billingid = tx.billingid;
-      });
+
+    // Create new billingid if there isnt one
+    if (!data[0].billingid || data[0].billingid === 0 || data[0].billingid === 1000) {
+      let newBillingTx = parseBillingTx(activeClient, 2, user.userid);
+      const tx = await addNewBillingTx();
+      if (tx && tx.billingid) {
+        tx.lastuserid = newBillingTx[0].lastuserid;
+        tx.patientid = newBillingTx[0].patientid;
+        tx.doctypeid = newBillingTx[0].doctypeid;
+        tx.lastupdate = newBillingTx[0].lastupdate;
+        await updateBillingTx(tx);
+        data[0].billingid = tx.billingid;
+      }
     }
+
     if (edit) updateClientProgNote(data, activeClient.patientid);
     else addClientProgNote(data, activeClient.patientid);
     handleClose();
@@ -96,6 +107,7 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
 
   useEffect(() => {
     if (edit && data) {
+      console.log("initial data", data)
       const updatedProgNote = parseDefaultProgressNote(data);
       console.log("updatedProgNote", updatedProgNote);
       reset({ ...updatedProgNote });

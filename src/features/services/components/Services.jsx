@@ -1,5 +1,4 @@
 import { Row, Col, ListGroup, Form } from "react-bootstrap";
-import "react-datepicker/dist/react-datepicker.css";
 import { useClient } from "../../../context/ClientContext";
 import { useState, useEffect } from "react";
 import { filterActiveServices } from "../utils/formHelper";
@@ -22,8 +21,8 @@ export function Services({
     if (showActiveServices) return activeServices;
     if (filterBy && showServiceCodes)
       return filterActiveServices(filterBy, serviceCodes);
-    if (showServiceCodes)
-      return filterActiveServices(activeServices, serviceCodes);
+    if (showServiceCodes){
+      return filterActiveServices(activeServices, serviceCodes);}
     else return formData["Services"];
   };
 

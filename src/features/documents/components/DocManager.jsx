@@ -11,7 +11,6 @@ import { useState } from "react";
 import "./DocManager.css";
 import AlertContainer from "../../../components/AlertContainer";
 import { useForm, Controller } from "react-hook-form";
-import DatePicker from "react-datepicker";
 import { documents } from "../data/documents";
 import { useClient } from "../../../context/ClientContext";
 import { useUser } from "../../../context/UserContext";
@@ -181,22 +180,6 @@ export function DocManager({ show, setShow, containerName }) {
                         <div>{form.name}</div>
                         <Badge>{form.type}</Badge>
                       </Col>
-                      {/* <Col md={2}>
-                        <Form.Label className="CE-form-label">
-                          Set Due Date
-                        </Form.Label>
-                        <Controller
-                          control={control}
-                          name={`f${index + 1}`}
-                          render={({ field }) => (
-                            <DatePicker
-                              className="datePicker rounded"
-                              onChange={(date) => field.onChange(date)}
-                              selected={field.value}
-                            />
-                          )}
-                        />
-                      </Col> */}
                       <Col
                         md={1}
                         className="d-flex justify-content-center align-items-center"

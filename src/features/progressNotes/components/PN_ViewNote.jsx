@@ -118,7 +118,7 @@ export function PNViewNote({ data }) {
         <Card.Body>
           <Row className="mb-2">
             <Col className="pn_note-view-item">
-              <h6>Service Delivered: </h6>{" "}
+              <h6>Service Delivered: </h6>
             </Col>
           </Row>
           <Row>

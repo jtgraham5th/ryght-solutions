@@ -433,6 +433,7 @@ export function ClientProvider(props) {
     });
   };
   const updateClientProgNote = async (updatedProgNote) => {
+    console.log(updatedProgNote)
     await updateDocument(updatedProgNote).then(() => getClientProgNotes());
   };
   const getClientProgNotes = async () => {

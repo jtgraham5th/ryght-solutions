@@ -226,7 +226,6 @@ export function TPPdf({ formData, data, activeClient, activeData }) {
                 {formData["Services"]
                   .filter((service) => data.f11.includes(service.grouplistid))
                   .map((service) => {
-                    console.log(service);
                     return (
                       <Text style={{ fontSize: "12" }}>
                         • {service.groupvalue}

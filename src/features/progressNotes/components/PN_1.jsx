@@ -33,6 +33,7 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       const services = data.f11;
       const diagnosis = data.f12;
       let serviceArray = [];

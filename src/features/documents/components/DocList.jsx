@@ -5,6 +5,7 @@ import { DocItem } from "./DocItem";
 import { useClient } from "../../../context/ClientContext";
 import { DocNew } from "./DocNew";
 import { BillingItem } from "./BillingItem";
+import { useState } from "react";
 
 export function DocList({
   activeDocument,
@@ -12,10 +13,10 @@ export function DocList({
   resetDocument,
   screenValue,
   setScreenValue,
+  batchBilling, 
+  setBatchBilling
 }) {
   const { activeDocuments, activeBillingTx } = useClient();
-
-  console.log(activeDocuments);
 
   const screens = [
     { name: "Documents", value: 1 },
@@ -73,6 +74,8 @@ export function DocList({
                       selectDoc={setActiveDocument}
                       active={activeDocument === value}
                       resetDocument={resetDocument}
+                      batchBilling={batchBilling}
+                      setBatchBilling={setBatchBilling}
                     />
                   );
                 })}
