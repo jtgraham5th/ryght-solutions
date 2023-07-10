@@ -44,11 +44,11 @@
 | Primary Ins Funding Source | ins1_fundingsource    | text  |
 | Primary Ins Policy Number  | ins1_policynumber     | text  |
 | Primary Ins Date Expires   | ins1_dateexpires      | date  |
-| Primary Ins Card Available | ins1_cardavailableid  | radio |
+| Primary Ins Card Available | ins1_cardavailableid  | text |
 | Secondary Ins Funding Source | ins2_fundingsource    | text  |
 | Secondary Ins Policy Number  | ins2_policynumber     | text  |
 | Secondary Ins Date Expires   | ins2_dateexpires      | date  |
-| Secondary Ins Card Available | ins2_cardavailableid  | radio |
+| Secondary Ins Card Available | ins2_cardavailableid  | text |
 
 ## Enrollment- Page 3
 | Field                  | fieldName           | type  |
