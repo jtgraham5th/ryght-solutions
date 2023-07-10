@@ -6,6 +6,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import { useState } from "react";
 import { useClient } from "../context/ClientContext";
 import { SignaturePopover } from "./SignaturePopover";
+import AlertContainer from "./AlertContainer";
 
 // const printOptions = [
 //   "Case Manager Name",
@@ -28,28 +29,27 @@ export function ViewerHeader({
 }) {
   const { activeClient, formData } = useClient();
   const [show, setShow] = useState(false);
-  const popover = (<SignaturePopover />)
+  const [alert, setAlert] = useState({ message: "", data: "" });
+  
+  const signDocument = () => {
+    setAlert({ title: "Signature" });
+  }
   return (
     <Card.Header className="d-flex flex-row justify-content-between align-items-center p-2">
       <h5 className="mb-0 ms-2">{title}</h5>
       <div>
         {!edit ? (
           <>
-            <OverlayTrigger
-              trigger="click"
-              placement="bottom"
-              overlay={popover}
+            <Button
+              variant="secondary"
+              className="me-2"
+              onClick={signDocument}
+              // disabled={true}
+              disabled={disabled || !activeDocument}
             >
-              <Button
-                variant="secondary"
-                className="me-2"
-                disabled={true}
-                // disabled={disabled || !activeDocument}
-              >
-                <Pen />
-                Sign
-              </Button>
-            </OverlayTrigger>
+              <Pen />
+              Sign
+            </Button>
             {billing ? (
               <Button
                 className="me-2"
@@ -115,6 +115,19 @@ export function ViewerHeader({
               activeClient={activeClient}
             />
           </PDFViewer>
+        }
+      />
+      <AlertContainer
+        show={alert.title}
+        alert={alert}
+        setAlert={setAlert}
+        alertStyle="alert-signature"
+        component={
+          <SignaturePopover
+            disabled={disabled}
+            activeDocument={activeDocument}
+            handlePrint={handlePrint}
+          />
         }
       />
     </Card.Header>

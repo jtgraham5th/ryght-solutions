@@ -7,9 +7,11 @@ function AlertContainer({
   setAlert,
   handleConfirm,
   handleCancel,
+  component,
+  alertStyle,
 }) {
   const handleClose = () => {
-    handleCancel();
+    if (handleCancel) handleCancel();
     setAlert({ message: "", data: "", title: "" });
   };
 
@@ -25,20 +27,25 @@ function AlertContainer({
       centered
       animation={false}
       onHide={handleClose}
-      dialogClassName="alert-width"
+      dialogClassName={alertStyle ? alertStyle : "alert-width"}
     >
       <Modal.Header className="alertHeader" closeButton>
         <h6 className="mb-0">{alert.title}</h6>
       </Modal.Header>
-      <Modal.Body className="text-center">{alert.message}</Modal.Body>
-      <Modal.Footer className="justify-content-center pt-2 pb-2">
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="success" onClick={handleSave}>
-          Save
-        </Button>
-      </Modal.Footer>
+
+      <Modal.Body className={component ? "" : "text-center"}>
+        {component ? component : alert.message}
+      </Modal.Body>
+      {component ? null : (
+        <Modal.Footer className="justify-content-center pt-2 pb-2">
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+        </Modal.Footer>
+      )}
     </Modal>
   );
 }

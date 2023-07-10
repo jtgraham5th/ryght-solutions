@@ -6,29 +6,37 @@ import { PNList, PNManager, PNViewNote, PNPdf } from "../../progressNotes";
 import { useUser } from "../../../context/UserContext";
 import { useClient } from "../../../context/ClientContext";
 import { pdf } from "@react-pdf/renderer";
+import generatePDF from "../../../utils/generatePDF";
 
 export function CVProgressNotes() {
   const { user } = useUser();
-  const { activeClient, formData, sendPDFtoAPI } = useClient();
+  const { activeClient, formData, sendPDFtoAPI, getActiveServices } =
+    useClient();
 
   const [activeNote, setActiveNote] = useState(false);
   const [activePage, setActivePage] = useState(0);
   const [edit, setEdit] = useState(false);
-  const handlePrint = async (e) => {
+  const handlePrint = async (pinNumber) => {
+    let pin;
+    if (typeof pinNumber === "string" || typeof pinNumber === "number") {
+      pin = pinNumber;
+    } else {
+      pin = false;
+    }
+
+    const activeServices = getActiveServices();
     const pdfBlob = await pdf(
-      <PNPdf
-        formData={formData}
-        data={activeNote}
-        activeClient={activeClient}
-      />
+      generatePDF(formData, activeNote, activeClient, activeServices)
     ).toBlob();
+
     console.log("pdf Blob:", pdfBlob);
     console.log("Active Doc:", activeNote);
-    await sendPDFtoAPI(activeNote.recid, pdfBlob, user).then((data) => {
-      const url = data[0].viewer + data[0].path + data[0].file;
-      window.open(url, "_blank");
-    });
-
+    await sendPDFtoAPI(activeNote.recid, pdfBlob, user, pin).then(
+      (data) => {
+        const url = data[0].viewer + data[0].path + data[0].file;
+        window.open(url, "_blank");
+      }
+    );
     // console.log(pdfBlob);
     // var file = new File([pdfBlob], "exampleTPlan", {
     //   lastModified: new Date().getTime(),

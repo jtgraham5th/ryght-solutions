@@ -132,15 +132,23 @@ export function CVDocuments() {
     if (activePage >= 2) setActivePage((page) => page - 1);
   };
 
-  const handlePrint = async (e) => {
+  const handlePrint = async (pinNumber) => {
+    let pin;
+    if (typeof pinNumber === 'string' || typeof pinNumber === 'number') {
+      pin = pinNumber
+    } else {
+      pin = false
+    }
     const activeServices = getActiveServices();
     const pdfBlob = await pdf(
       generatePDF(formData, activeDocument, activeClient, activeServices)
     ).toBlob();
-    await sendPDFtoAPI(activeDocument.recid, pdfBlob, user).then((data) => {
-      const url = data[0].viewer + data[0].path + data[0].file;
-      window.open(url, "_blank");
-    });
+    await sendPDFtoAPI(activeDocument.recid, pdfBlob, user, pin).then(
+      (data) => {
+        const url = data[0].viewer + data[0].path + data[0].file;
+        window.open(url, "_blank");
+      }
+    );
   };
   const resetDocument = (document) => {
     setActivePage(1);
@@ -151,7 +159,7 @@ export function CVDocuments() {
     const singlePageDocTypes = [10];
     if (singlePageDocTypes.includes(activeDocument.docid)) setActivePage(false);
   }, [activeDocument]);
-  
+
   const submitBilling = () => {
     console.log(batchBilling);
   };

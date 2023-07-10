@@ -189,6 +189,26 @@ export function UserProvider(props) {
       console.error(err);
     }
   };
+  const pinCheck = async (data) => {
+    const { email, password } = data;
+    try {
+      const response = await fetch(`${apiUrl}generic_api/pcheck/760?tid=19`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        const res = await response.json();
+        console.log(res);
+        return true;
+      } else return false;
+    } catch (err) {
+      console.error(err);
+    }
+    return false;
+  };
 
   useEffect(() => {
     if (isAuthenticated() && !user) {
@@ -210,6 +230,7 @@ export function UserProvider(props) {
         isAuthenticated,
         getAllUsers,
         allUsers,
+        pinCheck,
       }}
     >
       {props.children}

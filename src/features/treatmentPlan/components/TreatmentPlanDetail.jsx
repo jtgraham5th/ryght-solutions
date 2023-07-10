@@ -28,6 +28,7 @@ import { parseBillingTx } from "../../services/utils/parseData";
 import { TPPdf } from "./TP_Pdf";
 import { pdf, PDFViewer } from "@react-pdf/renderer";
 import ModalContainer from "../../../components/ModalContainer";
+import generatePDF from "../../../utils/generatePDF";
 
 export function TreatmentPlanDetail() {
   const {
@@ -51,18 +52,20 @@ export function TreatmentPlanDetail() {
 
   const treatmentPlanRef = useRef();
 
-  const handlePrint = async (e) => {
+  const handlePrint = async (pinNumber) => {
+    let pin;
+    if (typeof pinNumber === "string" || typeof pinNumber === "number") {
+      pin = pinNumber;
+    } else {
+      pin = false;
+    }
     const pdfBlob = await pdf(
-      <TPPdf
-        formData={formData}
-        data={tPlan[0]}
-        activeData={activeTreatmentPlan}
-        activeClient={activeClient}
-      />
+      generatePDF(formData, tPlan[0], activeClient, activeTreatmentPlan)
     ).toBlob();
+
     console.log("pdf Blob:", pdfBlob);
     console.log("Active Doc:", tPlan[0]);
-    await sendPDFtoAPI(tPlan[0].recid, pdfBlob, user).then((data) => {
+    await sendPDFtoAPI(tPlan[0].recid, pdfBlob, user, pin).then((data) => {
       const url = data[0].viewer + data[0].path + data[0].file;
       window.open(url, "_blank");
     });

@@ -92,18 +92,16 @@ export function ClientProvider(props) {
     });
   };
 
-  const sendPDFtoAPI = async (recid, pdfBlob, user) => {
+  const sendPDFtoAPI = async (recid, pdfBlob, user, pinNumber) => {
     const apiUrl = `https://www.ivronlogs.icu/rsv1/generic_api/doc/${recid}`;
     // const apiUrl = `${rptUrl}generic_api/doc/${recid}`;
     const blobToBase64String = await blobToBase64(pdfBlob);
-
     const data = {
       b64: blobToBase64String,
-      signdoc: "true",
-      userid: 760,
-      pin: 1234,
+      signdoc: pinNumber ? "true" : "false",
+      userid: user.userid,
+      pin: pinNumber ? pinNumber : 0,
     };
-    console.log("!!!", data);
     const formData = new FormData();
     formData.append("PDFBlob", pdfBlob);
 
@@ -112,9 +110,6 @@ export function ClientProvider(props) {
       body: JSON.stringify([data]),
     });
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {

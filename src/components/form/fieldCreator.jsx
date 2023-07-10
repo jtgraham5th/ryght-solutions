@@ -23,7 +23,7 @@ export function DateField(props) {
             {...other}
             className={`datePicker ${fieldStyle} border-1 rounded`}
             selected={field.value}
-            locale={"en-US"}
+            locale={"en-us"}
             onChange={(date) => {
               field.onChange(date);
             }}
@@ -51,8 +51,11 @@ export function SelectField(props) {
   const [detail, setDetail] = useState(
     itemDetail && Array.isArray(itemDetail)
       ? itemDetail
+      : groupName === "Pharmacy" || groupName === "Physician"
+      ? ["contactid", "name"]
       : ["grouplistid", "groupvalue"]
   );
+
   useEffect(() => {
     function hasContactAndNameKeysInArray(arr) {
       for (let i = 0; i < arr.length; i++) {
@@ -90,9 +93,7 @@ export function SelectField(props) {
   return (
     <>
       {labelName ? (
-        <Form.Label
-          className={labelStyle ? labelStyle : "fs-6"}
-        >
+        <Form.Label className={labelStyle ? labelStyle : "fs-6"}>
           {labelName}
         </Form.Label>
       ) : null}
@@ -103,8 +104,10 @@ export function SelectField(props) {
         {...other}
       >
         {renderOptions().map((item, i) => {
-          if (groupName || itemDetail)
+          if (groupName || itemDetail) {
+            console.log(groupName, item);
             item[detail[0]] = isStringNumber(item[detail[0]]);
+          }
           return (
             <option
               key={i}
@@ -279,6 +282,8 @@ export function CheckboxField(props) {
   const [detail] = useState(
     itemDetail && Array.isArray(itemDetail)
       ? itemDetail
+      : groupName === "Pharmacy" || groupName === "Physician"
+      ? ["contactid", "name"]
       : ["grouplistid", "groupvalue"]
   );
   const renderOptions = () => {
