@@ -9,6 +9,6 @@
 | Contact Type                                                          | f7        | Number      |
 | Person(s) Involved:                                                   | f8        | Text (Comma Separated String)      |
 | Consumer's Overall Affect                                             | f9        | Text (Comma Separated String)     |
-| Relevant changes in medical condition ...                             | f10       |  radio    |
+| Relevant changes in medical condition ...                             | f10       |  Text    |
 | Service Codes                                                         | f11       |  Text (Comma Separated String)     |
 | Diagnosis Codes                                                       | f12       |  Text (Comma Separated String)     |
