@@ -14,8 +14,12 @@ export function PNNewNote() {
           className="text-nowrap w-100"
           onClick={handleShow}
           disabled={
-            activeTreatmentPlan.goals.length < 1 &&
-            activeTreatmentPlan.objectives.length < 1 &&
+            !activeTreatmentPlan ||
+            !activeTreatmentPlan.goals ||
+            activeTreatmentPlan.goals.length < 1 ||
+            !activeTreatmentPlan.objectives ||
+            activeTreatmentPlan.objectives.length < 1 ||
+            !activeTreatmentPlan.interventions ||
             activeTreatmentPlan.interventions.length < 1
           }
         >

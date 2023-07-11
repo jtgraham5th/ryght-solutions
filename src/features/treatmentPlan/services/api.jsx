@@ -41,7 +41,7 @@ export const updateTreatmentPlan = async (tPlan) => {
     });
 };
 export const addNewTreatmentPlan = async (newTPlan) => {
-  return await fetch(`${apiUrl}generic_api/16`, {
+  return await fetch(`${apiUrl}generic_api/16?fields=recid`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export const getGoalwithGoalid = async (goalid) => {
     });
 };
 export const addNewGoal = async (newGoal) => {
-  return await fetch(`${apiUrl}generic_api/18`, {
+  return await fetch(`${apiUrl}generic_api/18?fields=goalid`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export const getObjectivewithObjectiveid = async (objectiveid) => {
     });
 };
 export const addNewObjective = async (newObjective) => {
-  return await fetch(`${apiUrl}generic_api/26`, {
+  return await fetch(`${apiUrl}generic_api/26?fields=objectiveid`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -337,7 +337,7 @@ export const getInterventionwithInterventionid = async (interventionid) => {
 };
 export const addNewIntervention = async (newIntervention) => {
   return await fetch(
-    `${apiUrl}generic_api/27
+    `${apiUrl}generic_api/27?fields=interventionid
         `,
     {
       method: "PUT",

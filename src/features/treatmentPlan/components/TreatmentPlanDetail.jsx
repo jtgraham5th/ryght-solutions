@@ -200,7 +200,7 @@ export function TreatmentPlanDetail() {
               />
               <TextAreaField
                 register={register}
-                labelName="Client Prefrences"
+                labelName="Client Preferences"
                 fieldName="f7"
                 readOnly={!edit}
               />
@@ -259,20 +259,21 @@ export function TreatmentPlanDetail() {
                     as={Row}
                     className="ps-4 pe-4 pb-3 align-items-center"
                   >
-                    {formData["Services"].map((item, i) => {
-                      item.grouplistid = item.grouplistid.toString();
-                      return (
-                        <Form.Check
-                          key={i}
-                          type="checkbox"
-                          className="w-25"
-                          name="f11"
-                          {...register("f11")}
-                          value={item.grouplistid}
-                          label={item.groupvalue}
-                        />
-                      );
-                    })}
+                    {formData["Services"] &&
+                      formData["Services"].map((item, i) => {
+                        item.grouplistid = item.grouplistid.toString();
+                        return (
+                          <Form.Check
+                            key={i}
+                            type="checkbox"
+                            className="w-25"
+                            name="f11"
+                            {...register("f11")}
+                            value={item.grouplistid}
+                            label={item.groupvalue}
+                          />
+                        );
+                      })}
 
                     <Form.Control
                       {...register("f12")}
@@ -315,7 +316,7 @@ export function TreatmentPlanDetail() {
           <PDFViewer width="100%" height="100%" showToolbar={false}>
             <TPPdf
               formData={formData}
-              data={tPlan[0]}
+              data={tPlan ? tPlan[0] : null}
               activeTreatmentPlan={activeTreatmentPlan}
               activeClient={activeClient}
             />

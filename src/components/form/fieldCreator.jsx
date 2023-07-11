@@ -23,7 +23,7 @@ export function DateField(props) {
             {...other}
             className={`datePicker ${fieldStyle} border-1 rounded`}
             selected={field.value}
-            locale={"en-us"}
+            // locale={"en-us"}
             onChange={(date) => {
               field.onChange(date);
             }}
@@ -105,7 +105,6 @@ export function SelectField(props) {
       >
         {renderOptions().map((item, i) => {
           if (groupName || itemDetail) {
-            console.log(groupName, item);
             item[detail[0]] = isStringNumber(item[detail[0]]);
           }
           return (

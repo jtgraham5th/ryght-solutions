@@ -213,7 +213,6 @@ export function ClientProvider(props) {
       });
   };
   const updateActiveClient = async (client, patientid) => {
-    console.log(client);
     setLoading(true);
     await updateClient(client, patientid)
       .then((data) => {
@@ -356,7 +355,7 @@ export function ClientProvider(props) {
   const addClientGoal = async (newGoal) => {
     return await addNewGoal(newGoal).then((data) => {
       getClientTreatmentPlan();
-      return data;
+      return data.goalid;
     });
   };
   const updateClientGoal = async (updatedGoal) => {
@@ -368,7 +367,7 @@ export function ClientProvider(props) {
   const addClientObjective = async (newGoal) => {
     return await addNewObjective(newGoal).then((data) => {
       getClientTreatmentPlan();
-      return data;
+      return data.objectiveid;
     });
   };
   const updateClientObjective = async (updatedGoal) => {
@@ -380,7 +379,7 @@ export function ClientProvider(props) {
   const addClientIntervention = async (newIntervention) => {
     return await addNewIntervention(newIntervention).then((data) => {
       getClientTreatmentPlan();
-      return data;
+      return data.interventionid;
     });
   };
   const updateClientIntervention = async (updatedIntervention) => {
@@ -477,9 +476,9 @@ export function ClientProvider(props) {
     // if (!serviceGroups.length > 0) getServiceGroups();
     // eslint-disable-next-line
   }, []);
-  useEffect(() => {
-    console.log(urlPath);
-  }, [urlPath]);
+  // useEffect(() => {
+  //   console.log(urlPath);
+  // }, [urlPath]);
   useEffect(() => {
     if (clientList.length > 0) {
       let abcObjectCopy = { ...abcObject };

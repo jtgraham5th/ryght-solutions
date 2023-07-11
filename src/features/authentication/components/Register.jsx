@@ -32,6 +32,7 @@ export function Register() {
         user.password = data.password;
         user.title = data.title;
         user.email = data.email;
+        user.username = data.email;
         const userFields = getUserFields(user);
         const updatedUser = await updateUser(user, userFields);
         if (updatedUser) {

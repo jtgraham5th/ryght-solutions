@@ -190,9 +190,9 @@ export const parseGoal = (goal, patientid) => {
     },
   ];
 };
-export const parseDefaultGoal = (edit, patientid, goal) => {
+export const parseDefaultGoal = (edit, patientid, goal, goalid) => {
   return {
-    goalid: edit ? goal.goalid : 0,
+    goalid: edit ? goal.goalid : goalid,
     billingid: edit ? goal.billingid : 0,
     patientid: edit ? goal.patientid : patientid,
     targetdate: edit ? Date.now() : null,

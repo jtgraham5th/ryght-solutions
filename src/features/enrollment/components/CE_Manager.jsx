@@ -183,7 +183,12 @@ export function CEManager({ show, setShow, containerName, edit }) {
                   activeContacts.patient[0].contactid
                 );
               } else {
-                await addClientContact(patientContact, 20);
+                await addClientContact(patientContact).then(async (newContact) => {
+                  console.log(newContact)
+                  await updateClientContact(patientContact, newContact).then((updatedContact) => {
+                    console.log(updatedContact);
+                  });
+                });
               }
             }
 
@@ -197,7 +202,11 @@ export function CEManager({ show, setShow, containerName, edit }) {
                   activeContacts.emergency[0].contactid
                 );
               } else {
-                await addClientContact(emergencyContact, 20);
+                await addClientContact(emergencyContact).then(async (newContact) => {
+                  await updateClientContact(emergencyContact, newContact).then((updatedContact) => {
+                    console.log(updatedContact);
+                  });
+                });
               }
             }
             resetClient(!newPatientId ? activeClient.patientid : newPatientId);

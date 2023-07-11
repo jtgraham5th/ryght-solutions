@@ -33,13 +33,17 @@ export function GoalDetail({ goal, setGoal, focus, setFocus, setAlert }) {
     }
   }, [focus.editing]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newGoal = parseGoal(data, patientid);
     console.log(newGoal);
     if (focus.editing === "new-goal") {
       console.log("new goal");
-      addClientGoal(newGoal).then((data) => {
-        setGoal(parseDefaultGoal(true, patientid, data));
+      await addClientGoal().then(async (goalid) => {
+        newGoal[0].goalid = goalid
+        await updateClientGoal(newGoal).then((updatedGoal) => {
+          console.log(updatedGoal)
+          setGoal(parseDefaultGoal(true, patientid, newGoal, updatedGoal));
+        });
       });
     } else if (editGoal) {
       console.log("updated goal");

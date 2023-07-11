@@ -45,13 +45,19 @@ export function ObjectiveDetail({
     }
   }, [focus.editing]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newObjective = parseObjective(patientid, goalid, data);
     console.log(newObjective);
     if (focus.editing === "new-objective") {
       console.log("new objective");
-      addClientObjective(newObjective).then((data) => {
-        setObjective(parseDefaultObjective(true, patientid, goalid, data));
+      await addClientObjective().then(async (objectiveid) => {
+        newObjective[0].objectiveid = objectiveid;
+        await updateClientObjective(newObjective).then((updatedObjective) => {
+          setObjective(
+            parseDefaultObjective(true, patientid, goalid, updatedObjective)
+          );
+          console.log(updatedObjective);
+        });
       });
     } else if (editObjective) {
       console.log("updated objective");

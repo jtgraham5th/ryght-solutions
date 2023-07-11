@@ -4,11 +4,11 @@ import { useClient } from "../../../context/ClientContext";
 
 export function CDContact() {
   const { activeContacts } = useClient();
-
+  const allContacts = [].concat(...Object.values(activeContacts));
   return (
     <ListGroup className={styles.dataGroup}>
       {activeContacts &&
-        activeContacts["patient"].map((contact, index) => (
+        allContacts.map((contact, index) => (
           <ListGroup.Item as={Row} className="d-flex w-100" key={index}>
             <Col md={6}>
               <Row>

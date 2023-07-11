@@ -65,13 +65,17 @@ export function InterventionDetail({
     // eslint-disable-next-line
   }, [activeClient]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newIntervention = parseIntervention(data, patientid, objectiveid);
     console.log(newIntervention);
     if (focus.editing === "new-intervention") {
       console.log("new intervention");
-      addClientIntervention(newIntervention).then((data) => {
-        setIntervention(parseDefaultIntervention(true, patientid, objectiveid, data));
+      await addClientIntervention().then(async (interventionid) => {
+        newIntervention[0].interventionid = interventionid
+        await updateClientIntervention(newIntervention).then((updatedIntervention) => {
+          setIntervention(parseDefaultIntervention(true, patientid, objectiveid, updatedIntervention));
+          console.log(updatedIntervention)
+        });
       });
     } else if (editIntervention) {
       console.log("updated intervention");

@@ -109,7 +109,7 @@ export function DocManager({ show, setShow, containerName }) {
             recid: newdoc.recid,
             docid: document.doctypeid,
             pageid: 1,
-            billingid: tx.billingid
+            billingid: tx.billingid,
           };
           const res = await updateDocument(
             parseDocument(blankDocument, activeClient)
@@ -136,69 +136,72 @@ export function DocManager({ show, setShow, containerName }) {
             <Col>
               <h3 className="RQ-section-header mb-2">Documents</h3>
               <ListGroup className="RQ-list mb-3">
-                {documents.map((form, index) => {
-                  return (
-                    <ListGroup.Item
-                      variant={
-                        activeDocuments.some(
-                          (value) =>
-                            parseInt(value.docid) === parseInt(form.doctypeid)
-                        )
-                          ? "primary"
-                          : ""
-                      }
-                      className="d-flex"
-                      key={form.doctypeid + index}
-                    >
-                      <Col
-                        md={1}
-                        className="d-flex justify-content-center align-items-center"
+                {documents
+                  .filter((item) => item.doctypeid > 3)
+                  .map((form, index) => {
+                    return (
+                      <ListGroup.Item
+                        variant={
+                          activeDocuments.some(
+                            (value) =>
+                              parseInt(value.docid) === parseInt(form.doctypeid)
+                          )
+                            ? "primary"
+                            : ""
+                        }
+                        className="d-flex"
+                        key={form.doctypeid + index}
+                        disabled={![10,4,5].some((docid) => docid === form.doctypeid)}
                       >
-                        <Form.Check
-                          inline
-                          style={{ fontSize: "1.5rem" }}
-                          onClick={() => addRequirement(form)}
-                          {...register(`${form.doctypeid}`)}
-                          type="checkbox"
-                          name={form.doctypeid}
-                          value={form.doctypeid}
-                          checked={
-                            activeDocuments.some(
-                              (value) =>
-                                parseInt(value.docid) ===
-                                parseInt(form.doctypeid)
-                            ) ||
-                            newDocuments.some(
-                              (value) =>
-                                parseInt(value.doctypeid) ===
-                                parseInt(form.doctypeid)
-                            )
-                          }
-                        />
-                      </Col>
-                      <Col md={10}>
-                        <div>{form.name}</div>
-                        <Badge>{form.type}</Badge>
-                      </Col>
-                      <Col
-                        md={1}
-                        className="d-flex justify-content-center align-items-center"
-                      >
-                        <Button
-                          variant="outline-primary"
-                          size="sm"
-                          onClick={() => previewForm(form)}
+                        <Col
+                          md={1}
+                          className="d-flex justify-content-center align-items-center"
                         >
-                          {fullscreen ? (
-                            <EyeSlash size={20} />
-                          ) : (
-                            <Eye size={20} />
-                          )}
-                        </Button>
-                      </Col>
-                    </ListGroup.Item>
-                  );
-                })}
+                          <Form.Check
+                            inline
+                            style={{ fontSize: "1.5rem" }}
+                            onClick={() => addRequirement(form)}
+                            {...register(`${form.doctypeid}`)}
+                            type="checkbox"
+                            name={form.doctypeid}
+                            value={form.doctypeid}
+                            checked={
+                              activeDocuments.some(
+                                (value) =>
+                                  parseInt(value.docid) ===
+                                  parseInt(form.doctypeid)
+                              ) ||
+                              newDocuments.some(
+                                (value) =>
+                                  parseInt(value.doctypeid) ===
+                                  parseInt(form.doctypeid)
+                              )
+                            }
+                          />
+                        </Col>
+                        <Col md={10}>
+                          <div>{form.name}</div>
+                          <Badge>{form.type}</Badge>
+                        </Col>
+                        <Col
+                          md={1}
+                          className="d-flex justify-content-center align-items-center"
+                        >
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            onClick={() => previewForm(form)}
+                          >
+                            {fullscreen ? (
+                              <EyeSlash size={20} />
+                            ) : (
+                              <Eye size={20} />
+                            )}
+                          </Button>
+                        </Col>
+                      </ListGroup.Item>
+                    );
+                  })}
               </ListGroup>
               <Button
                 className="mb-3 w-100"
