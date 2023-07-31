@@ -28,14 +28,7 @@ export function Landing({ setStatus }) {
               <ArrowRightSquare size="25" className="me-2" color="#4a235a" />
               <h2 style={{ color: "#4a235a" }}>Ryght Solutions</h2>
             </div>
-            {toggle ? <Login /> : <Register />}
-            <Button
-              className="w-100 mb-2"
-              variant="link"
-              onClick={() => setToggle(!toggle)}
-            >
-              {toggle ? "Register" : "Login"}
-            </Button>
+            <Login />
           </Col>
         </Row>
       </Card>
