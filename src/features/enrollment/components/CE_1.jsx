@@ -9,11 +9,12 @@ import {
   SelectField,
   TextField,
 } from "../../../components/form/fieldCreator";
+import { formatPhoneNumber } from "../utils/formhelper";
+import { useEffect } from "react";
 
 export function CE1({ register, control, formState }) {
   const { formData } = useClient();
   const { touchedFields, errors } = formState;
-
   return (
     <>
       <div className="CE-section-title">
@@ -28,10 +29,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="First Name"
             fieldName="pfirstname"
-            fieldOptions={{ required: true, maxLength: 40 }}
+            fieldOptions={{ required: true, maxLength: {value: 40, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.pfirstname && !errors.pfirstname}
             isInvalid={errors.pfirstname}
+            errorMessage={errors.pfirstname ? errors.pfirstname.message : null}
           />
         </Col>
         <Col md={2}>
@@ -39,10 +41,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="Initial"
             fieldName="pinitial"
-            fieldOptions={{ required: false, maxLength: 1 }}
+            fieldOptions={{ required: false, maxLength: {value: 1, message: "Max character length reached" }}}
             labelStyle="CE-form-label"
             isValid={touchedFields.pinitial && !errors.pinitial}
             isInvalid={errors.pinitial}
+            errorMessage={errors.pinitial ? errors.pinitial.message : null}
           />
         </Col>
         <Col md={3}>
@@ -50,10 +53,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="Last Name"
             fieldName="plastname"
-            fieldOptions={{ required: true, maxLength: 40 }}
+            fieldOptions={{ required: true, maxLength: {value: 40, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.plastname && !errors.plastname}
             isInvalid={errors.plastname}
+            errorMessage={errors.plastname ? errors.plastname.message : null}
           />
         </Col>
         <Col md={3}>
@@ -61,10 +65,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="Preferred Name"
             fieldName="preferredname"
-            fieldOptions={{ maxLength: 40 }}
+            fieldOptions={{ maxLength: {value: 40, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.preferredname && !errors.preferredname}
             isInvalid={errors.preferredname}
+            errorMessage={errors.preferredname ? errors.preferredname.message : null}
           />
         </Col>
       </Form.Group>
@@ -118,10 +123,11 @@ export function CE1({ register, control, formState }) {
             labelName="Social Security #"
             fieldName="socsec"
             fieldType="password"
-            fieldOptions={{ maxLength: 9 }}
+            fieldOptions={{ maxLength: {value: 9, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.socsec && !errors.socsec}
             isInvalid={errors.socsec}
+            errorMessage={errors.socsec ? errors.socsec.message : null}
           />
         </Col>
       </Form.Group>
@@ -199,10 +205,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="Street Address"
             fieldName="paddress"
-            fieldOptions={{ maxLength: 100 }}
+            fieldOptions={{ maxLength: {value: 100, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.paddress && !errors.paddress}
             isInvalid={errors.paddress}
+            errorMessage={errors.paddress ? errors.paddress.message : null}
           />
         </Col>
         <Col md={4}>
@@ -210,10 +217,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="City"
             fieldName="pcity"
-            fieldOptions={{ maxLength: 100 }}
+            fieldOptions={{ maxLength: {value: 100, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.pcity && !errors.pcity}
             isInvalid={errors.pcity}
+            errorMessage={errors.pcity ? errors.pcity.message : null}
           />
         </Col>
         <Col md={2}>
@@ -234,24 +242,38 @@ export function CE1({ register, control, formState }) {
             labelName="Zip Code"
             fieldName="pZip"
             fieldType="number"
-            fieldOptions={{ valueAsNumber: true, maxLength: 15 }}
+            fieldOptions={{ valueAsNumber: true, maxLength: {value: 15, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.pZip && !errors.pZip}
             isInvalid={errors.pZip}
+            errorMessage={errors.pZip ? errors.pZip.message : null}
           />
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
         <Col md={2}>
-          <TextField
-            register={register}
-            labelName="Phone 1"
-            fieldName="pphone1"
-            fieldType="number"
-            fieldOptions={{ maxLength: 15 }}
-            labelStyle="CE-form-label"
-            isValid={touchedFields.pphone1 && !errors.pphone1}
-            isInvalid={errors.pphone1}
+          <Controller
+            control={control}
+            name="pphone1"
+            rules={{ minLength: {value: 10, message: "Max character length reached" } }}
+            render={({ field }) => {
+              return (
+                <TextField
+                  {...field}
+                  labelName="Phone 1"
+                  maxLength="13"
+                  labelStyle="CE-form-label"
+                  isValid={touchedFields.pphone1 && !errors.pphone1}
+                  isInvalid={errors.pphone1}
+                  onBlur={(e) => {
+                    e.target.value = formatPhoneNumber(e.target.value);
+                    field.onBlur(e);
+                    field.onChange(e);
+                  }}
+                  errorMessage={errors.pphone1 ? errors.pphone1.message : null}
+                />
+              );
+            }}
           />
         </Col>
         <Col md={2}>
@@ -267,15 +289,28 @@ export function CE1({ register, control, formState }) {
           />
         </Col>
         <Col md={2}>
-          <TextField
-            register={register}
-            labelName="Phone 2"
-            fieldName="pphone2"
-            fieldType="number"
-            fieldOptions={{ maxLength: 15 }}
-            labelStyle="CE-form-label"
-            isValid={touchedFields.pphone2 && !errors.pphone2}
-            isInvalid={errors.pphone2}
+          <Controller
+            control={control}
+            name="pphone2"
+            rules={{ minLength: {value: 10, message: "Max character length reached" } }}
+            render={({ field }) => {
+              return (
+                <TextField
+                  {...field}
+                  labelName="Phone 2"
+                  maxLength="13"
+                  labelStyle="CE-form-label"
+                  isValid={touchedFields.pphone2 && !errors.pphone2}
+                  isInvalid={errors.pphone2}
+                  onBlur={(e) => {
+                    e.target.value = formatPhoneNumber(e.target.value);
+                    field.onBlur(e);
+                    field.onChange(e);
+                  }}
+                  errorMessage={errors.pphone2 ? errors.pphone2.message : null}
+                />
+              );
+            }}
           />
         </Col>
         <Col md={2}>
@@ -312,10 +347,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="Name"
             fieldName="ecName"
-            fieldOptions={{ maxLength: 100 }}
+            fieldOptions={{ maxLength: {value: 100, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.ecName && !errors.ecName}
             isInvalid={errors.ecName}
+            errorMessage={errors.ecName ? errors.ecName.message : null}
           />
         </Col>
         <Col md={4}>
@@ -337,10 +373,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="Address"
             fieldName="ecAddress"
-            fieldOptions={{ maxLength: 100 }}
+            fieldOptions={{ maxLength: {value: 100, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.ecAddress && !errors.ecAddress}
             isInvalid={errors.ecAddress}
+            errorMessage={errors.ecAddress ? errors.ecAddress.message : null}
           />
         </Col>
         <Col md={4}>
@@ -348,10 +385,11 @@ export function CE1({ register, control, formState }) {
             register={register}
             labelName="City"
             fieldName="ecCity"
-            fieldOptions={{ maxLength: 100 }}
+            fieldOptions={{ maxLength: {value: 100, message: "Max character length reached" } }}
             labelStyle="CE-form-label"
             isValid={touchedFields.ecCity && !errors.ecCity}
             isInvalid={errors.ecCity}
+            errorMessage={errors.ecCity ? errors.ecCity.message : null}
           />
         </Col>
         <Col md={2}>
@@ -376,20 +414,34 @@ export function CE1({ register, control, formState }) {
             labelStyle="CE-form-label"
             isValid={touchedFields.ecZip && !errors.ecZip}
             isInvalid={errors.ecZip}
+            errorMessage={errors.ecZip ? errors.ecZip.message : null}
           />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
         <Col md={4}>
-          <TextField
-            register={register}
-            labelName="Phone 1"
-            fieldName="ecPhone"
-            fieldType="number"
-            fieldOptions={{ maxLength: 15 }}
-            labelStyle="CE-form-label"
-            isValid={touchedFields.ecPhone && !errors.ecPhone}
-            isInvalid={errors.ecPhone}
+        <Controller
+            control={control}
+            name="ecPhone"
+            rules={{ minLength: {value: 10, message: "Max character length reached" } }}
+            render={({ field }) => {
+              return (
+                <TextField
+                  {...field}
+                  labelName="Phone 1"
+                  maxLength="13"
+                  labelStyle="CE-form-label"
+                  isValid={touchedFields.ecPhone && !errors.ecPhone}
+                  isInvalid={errors.ecPhone}
+                  onBlur={(e) => {
+                    e.target.value = formatPhoneNumber(e.target.value);
+                    field.onBlur(e);
+                    field.onChange(e);
+                  }}
+                  errorMessage={errors.ecPhone ? errors.ecPhone.message : null}
+                />
+              );
+            }}
           />
         </Col>
         <Col md={4}>

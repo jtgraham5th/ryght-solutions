@@ -77,7 +77,7 @@ export function GoalDetail({ goal, setGoal, focus, setFocus, setAlert }) {
       md={3}
       className={`detail-container ${focus.goals ? "cardFocus" : ""}`}
     >
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Card.Header className="detail-container-header">
           <h6 className="m-0">Goals</h6>
 
@@ -138,6 +138,7 @@ export function GoalDetail({ goal, setGoal, focus, setFocus, setAlert }) {
             <ListGroupItem className="small d-flex justify-content-between align-items-center p-1 ps-3 pe-3">
               <Form.Label className="w-50 m-0 pe-1 small">Goal Name</Form.Label>
               <Form.Control
+                autoComplete="off"
                 className="goal-detail-input"
                 {...register("goalname")}
                 type="text"
@@ -226,6 +227,7 @@ export function GoalDetail({ goal, setGoal, focus, setFocus, setAlert }) {
         <Card.Body className="detail-card-body">
           <Form.Label className="small">Full Goal / Purpose</Form.Label>
           <Form.Control
+            autoComplete="off"
             size="sm"
             as="textarea"
             rows={3}
@@ -236,6 +238,7 @@ export function GoalDetail({ goal, setGoal, focus, setFocus, setAlert }) {
           />
           <Form.Label className="small">Comments:</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="mb-3"
             size="sm"
             as="textarea"

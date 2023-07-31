@@ -17,9 +17,10 @@ export function FormAddContainer({
   const {
     activeClient,
     addClientContact,
-    getFormFields,
-    addGroupItem,
     updateClientContact,
+    addGroupItem,
+    updateGroupItem,
+    getFormFields,
     setToggleUpdate,
   } = useClient();
   const [state, setState] = useState({});
@@ -34,7 +35,6 @@ export function FormAddContainer({
     }
   };
   const onSubmit = async (e) => {
-    console.log(sectionTitle);
     if (sectionTitle === "provider") {
       const data = parseNewProvider(state);
       if (!state.carrierName || state.carrierName.length < 1) {
@@ -47,7 +47,14 @@ export function FormAddContainer({
         setState({});
         return;
       }
-      await addGroupItem([data]);
+      await addGroupItem([data]).then(async (newGroupItem) => {
+        console.log(data)
+        console.log(newGroupItem)
+        data.grouplistid = newGroupItem.grouplistid
+        updateGroupItem([data]).then((updatedGroupItem) => {
+          console.log(updatedGroupItem)
+        })
+      });
     } else {
       const data = parseNewContact(
         state,

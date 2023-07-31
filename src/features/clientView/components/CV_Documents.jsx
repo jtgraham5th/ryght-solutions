@@ -48,7 +48,7 @@ export function CVDocuments() {
   }, [activeDocument]);
 
   const onSubmit = async (data, e) => {
-    const submitter = e.nativeEvent.submitter.id;
+    const submitter = e.nativeEvent.submitter ? e.nativeEvent.submitter.id : e.target.id;
     const updatedDocument = parseDocument(data, activeClient, activePage);
     const blankDoc = parseDefaultDocument({
       docid: updatedDocument[0].docid,
@@ -180,7 +180,7 @@ export function CVDocuments() {
         </Col>
         <Col md={9}>
           <Card style={{ height: "40rem" }}>
-            <Form onSubmit={handleSubmit(onSubmit)} style={{ height: "84%" }}>
+            <Form onSubmit={handleSubmit(onSubmit)} style={{ height: "84%" }} autoComplete="off">
               <ViewerHeader
                 handlePrint={handlePrint}
                 edit={edit}

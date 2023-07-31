@@ -7,6 +7,7 @@ import { useUser } from "../../../context/UserContext";
 import { useClient } from "../../../context/ClientContext";
 import { pdf } from "@react-pdf/renderer";
 import generatePDF from "../../../utils/generatePDF";
+import { getListItemName } from "../../services/utils/formHelper";
 
 export function CVProgressNotes() {
   const { user } = useUser();
@@ -25,18 +26,25 @@ export function CVProgressNotes() {
     }
 
     const activeServices = getActiveServices();
+    activeClient.ins1_fundingsource = await getListItemName(
+      activeClient.ins1_fundingsource
+    );
+    activeClient.sexatbirthid = await getListItemName(
+      activeClient.sexatbirthid
+    );
+    activeNote.f6 = await getListItemName(activeNote.f6);
+    activeNote.f7 = await getListItemName(activeNote.f7);
+    
     const pdfBlob = await pdf(
       generatePDF(formData, activeNote, activeClient, activeServices)
     ).toBlob();
 
     console.log("pdf Blob:", pdfBlob);
     console.log("Active Doc:", activeNote);
-    await sendPDFtoAPI(activeNote.recid, pdfBlob, user, pin).then(
-      (data) => {
-        const url = data[0].viewer + data[0].path + data[0].file;
-        window.open(url, "_blank");
-      }
-    );
+    await sendPDFtoAPI(activeNote.recid, pdfBlob, user, pin).then((data) => {
+      const url = data[0].viewer + data[0].path + data[0].file;
+      window.open(url, "_blank");
+    });
     // console.log(pdfBlob);
     // var file = new File([pdfBlob], "exampleTPlan", {
     //   lastModified: new Date().getTime(),

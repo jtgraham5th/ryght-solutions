@@ -181,6 +181,7 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
           </Row>
           <Form.Text>If yes, please explain:</Form.Text>
           <Form.Control
+            autoComplete="off"
             as="textarea"
             {...register("f60")}
             name="f60"
@@ -193,6 +194,7 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
               Did the consumer met his/her progress goal this session?
             </Form.Label>
             <Form.Control
+              autoComplete="off"
               {...register("f61")}
               as="textarea"
               name="f61"

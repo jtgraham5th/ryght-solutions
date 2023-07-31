@@ -1,5 +1,5 @@
 import formatDate from "../../../utils/formatDate";
-import { formatHeight } from "./formhelper";
+import { formatHeight, formatPhoneNumber } from "./formhelper";
 
 export const parseEnrollData = (data, edit, tempID, activeClient) => {
   return [
@@ -98,11 +98,11 @@ export const parsePatientContact = (data, edit, activeContacts) => {
       contacttypeid: 21,
       patientid: parseInt(data.patientid),
       relationshipid: 0,
-      phone1: parseInt(data.pphone1),
+      phone1: data.pphone1 ? parseInt(data.pphone1.replace(/\D/g, "")) : "",
       phone1typeid: parseInt(data.pphone1type),
-      phone2: parseInt(data.pphone2),
+      phone2: data.pphone2 ? parseInt(data.pphone2.replace(/\D/g, "")) : "",
       phone2typeid: parseInt(data.pphone2type),
-      phone3: parseInt(data.pphone3),
+      phone3: data.pphone3 ? parseInt(data.pphone3.replace(/\D/g, "")) : "",
       phone3typeid: parseInt(data.pphone3type),
       countyid: 0,
       isactive: 1,
@@ -181,9 +181,7 @@ export const parseDefaultValues = (edit, activeClient) => {
     ethnicityid: edit ? parseInt(activeClient.ethnicityid) : 0,
     sexatbirthid: edit ? parseInt(activeClient.sexatbirthid) : 0,
     genderid: edit ? parseInt(activeClient.genderid) : 0,
-    preferredpronounid: edit
-      ? parseInt(activeClient.preferredpronounid)
-      : 0,
+    preferredpronounid: edit ? parseInt(activeClient.preferredpronounid) : 0,
     religionid: edit ? parseInt(activeClient.religionid) : 0,
     weight: edit ? activeClient.weight : "",
     height: edit ? formatHeight(parseInt(activeClient.height)) : "",
@@ -197,9 +195,7 @@ export const parseDefaultValues = (edit, activeClient) => {
       ? Date.parse(activeClient.ins1_dateexpires)
       : Date.now(),
     ins1_policynumber: edit ? activeClient.ins1_policynumber : "",
-    ins1_relationshipid: edit
-      ? parseInt(activeClient.ins1_relationshipid)
-      : 0,
+    ins1_relationshipid: edit ? parseInt(activeClient.ins1_relationshipid) : 0,
     ins1_fundingsource: edit ? activeClient.ins1_fundingsource : "",
     ins2_cardavailableid: edit
       ? parseInt(activeClient.ins2_cardavailableid)
@@ -208,33 +204,23 @@ export const parseDefaultValues = (edit, activeClient) => {
       ? Date.parse(activeClient.ins2_dateexpires)
       : Date.now(),
     ins2_policynumber: edit ? activeClient.ins2_policynumber : "",
-    ins2_relationshipid: edit
-      ? parseInt(activeClient.ins2_relationshipid)
-      : 0,
+    ins2_relationshipid: edit ? parseInt(activeClient.ins2_relationshipid) : 0,
     ins2_fundingsource: edit ? activeClient.ins2_fundingsource : "",
     allergies: edit ? activeClient.allergies : "",
     physicianid: edit ? parseInt(activeClient.physicianid) : 0,
     pharmacy: edit ? activeClient.pharmacy : "",
-    pharmacyproviderid: edit
-      ? parseInt(activeClient.pharmacyproviderid)
-      : 0,
+    pharmacyproviderid: edit ? parseInt(activeClient.pharmacyproviderid) : 0,
     patient_comment: edit ? activeClient.patient_comment : "",
     referralid: edit ? parseInt(activeClient.referralid) : 0,
     referraldate: edit ? Date.parse(activeClient.referraldate) : Date.now(),
     dxdate: edit ? Date.parse(activeClient.dxdate) : Date.now(),
-    internalreferralid: edit
-      ? parseInt(activeClient.internalreferralid)
-      : 0,
+    internalreferralid: edit ? parseInt(activeClient.internalreferralid) : 0,
     statusid: edit ? parseInt(activeClient.statusid) : 0,
     outcomeid: edit ? parseInt(activeClient.outcomeid) : 0,
     dxcodes: edit ? activeClient.dxcodes : "",
     servicecodes: edit ? activeClient.servicecodes : "",
-    dateoutsourced: edit
-      ? Date.parse(activeClient.dateoutsourced)
-      : Date.now(),
-    firstapptdate: edit
-      ? Date.parse(activeClient.firstapptdate)
-      : Date.now(),
+    dateoutsourced: edit ? Date.parse(activeClient.dateoutsourced) : Date.now(),
+    firstapptdate: edit ? Date.parse(activeClient.firstapptdate) : Date.now(),
     firstpsydate: edit ? Date.parse(activeClient.firstpsydate) : Date.now(),
   };
 };
@@ -244,11 +230,17 @@ export const parseDefaultPC = (edit, activeContacts) => {
     pcity: edit ? activeContacts.patient[0].city : "",
     pstate: edit ? activeContacts.patient[0].state : "",
     pZip: edit ? activeContacts.patient[0].zip : "",
-    pphone1: edit ? parseInt(activeContacts.patient[0].phone1) : "",
+    pphone1: edit
+      ? formatPhoneNumber(parseInt(activeContacts.patient[0].phone1))
+      : "",
     pphone1type: edit ? activeContacts.patient[0].phone1typeid : 0,
-    pphone2: edit ? parseInt(activeContacts.patient[0].phone2) : "",
+    pphone2: edit
+      ? formatPhoneNumber(parseInt(activeContacts.patient[0].phone2))
+      : "",
     pphone2type: edit ? activeContacts.patient[0].phone2typeid : 0,
-    pphone3: edit ? parseInt(activeContacts.patient[0].phone3) : "",
+    pphone3: edit
+      ? formatPhoneNumber(parseInt(activeContacts.patient[0].phone3))
+      : "",
     pphone3type: edit ? activeContacts.patient[0].phone3typeid : 0,
   };
 };
@@ -259,7 +251,9 @@ export const parseDefaultEC = (edit, activeContacts) => {
     ecCity: edit ? activeContacts.emergency[0].city : "",
     ecState: edit ? activeContacts.emergency[0].state : "",
     ecZip: edit ? activeContacts.emergency[0].zip : "",
-    ecPhone: edit ? parseInt(activeContacts.emergency[0].phone1) : "",
+    ecPhone: edit
+      ? formatPhoneNumber(parseInt(activeContacts.emergency[0].phone1))
+      : "",
     ecPhoneType: edit ? activeContacts.emergency[0].phone1typeid : "",
     ecRelationship: edit ? activeContacts.emergency[0].RelationshipID : "",
   };

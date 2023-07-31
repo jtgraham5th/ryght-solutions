@@ -29,6 +29,7 @@ import { TPPdf } from "./TP_Pdf";
 import { pdf, PDFViewer } from "@react-pdf/renderer";
 import ModalContainer from "../../../components/ModalContainer";
 import generatePDF from "../../../utils/generatePDF";
+import { getListItemName } from "../../services/utils/formHelper";
 
 export function TreatmentPlanDetail() {
   const {
@@ -59,6 +60,14 @@ export function TreatmentPlanDetail() {
     } else {
       pin = false;
     }
+
+    activeClient.ins1_fundingsource = await getListItemName(
+      activeClient.ins1_fundingsource
+    );
+    activeClient.sexatbirthid = await getListItemName(
+      activeClient.sexatbirthid
+    );
+
     const pdfBlob = await pdf(
       generatePDF(formData, tPlan[0], activeClient, activeTreatmentPlan)
     ).toBlob();
@@ -107,6 +116,7 @@ export function TreatmentPlanDetail() {
     if (!tPlan || tPlan.length === 0) {
       console.log("new treatment plan");
       addClientTreatmentPlan(updatedTPlan, user.UserId, user.PinValue);
+      setEdit(false);
     } else if (edit) {
       console.log("updated treatment plan", updatedTPlan);
       // updateClientTreatmentPlan(updatedTPlan, user.UserId, user.PinValue);
@@ -276,6 +286,7 @@ export function TreatmentPlanDetail() {
                       })}
 
                     <Form.Control
+                      autoComplete="off"
                       {...register("f12")}
                       className="w-25 h-50"
                       type="text"
@@ -320,11 +331,6 @@ export function TreatmentPlanDetail() {
               activeTreatmentPlan={activeTreatmentPlan}
               activeClient={activeClient}
             />
-            {/* <PNPdf
-              formData={formData}
-              data={activeDocument}
-              activeClient={activeClient}
-            /> */}
           </PDFViewer>
         }
       />

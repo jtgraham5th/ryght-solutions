@@ -105,7 +105,7 @@ export function AUManager({ data, show, setShow, containerName, edit }) {
       <Modal.Header className="PNM-header" closeButton>
         <Modal.Title>{containerName}</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Modal.Body>
           <Row className="d-flex justify-content-evenly align-items-center">
             {renderPage()}

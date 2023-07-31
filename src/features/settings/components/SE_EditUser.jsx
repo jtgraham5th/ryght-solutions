@@ -2,28 +2,26 @@ import { useState } from "react";
 import { Row, Col, Form, Card, Alert } from "react-bootstrap";
 import "../settings.css";
 import { useUser } from "../../../context/UserContext";
-import { useForm } from "react-hook-form";
-import {
-  SelectField,
-  TextField,
-} from "../../../components/form/fieldCreator";
+import { useForm, Controller } from "react-hook-form";
+import { SelectField, TextField } from "../../../components/form/fieldCreator";
 import { statesList } from "../../../data/formData";
 import { ViewerHeader } from "../../../components/ViewerHeader";
 import { getDirtyFields, filterObjectByKeys } from "../utils/parseData";
+import { formatPhoneNumber } from "../../enrollment/utils/formhelper";
 
 export function SEEditUser(props) {
-  const { user, updateUser } = useUser();
+  const { user, updateCurrentUser } = useUser();
   const { register, handleSubmit, control, formState } = useForm({
     defaultValues: { ...user },
   });
-  const { dirtyFields, errors } = formState;
+  const { dirtyFields, touchedFields, errors } = formState;
   const [edit, setEdit] = useState(false);
   const [alert, setAlert] = useState({ show: false, status: false });
 
   const onSubmit = async (data) => {
     const dirtyFieldsString = getDirtyFields(dirtyFields);
     const filteredObj = filterObjectByKeys(data, dirtyFields);
-    await updateUser(filteredObj, dirtyFieldsString).then((response) => {
+    await updateCurrentUser(filteredObj, dirtyFieldsString).then((response) => {
       if (response) {
         setAlert({ show: true, status: true });
       } else {
@@ -36,7 +34,7 @@ export function SEEditUser(props) {
   return (
     <Col md={10} className="settings-main">
       <Card className="p-0">
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <ViewerHeader
             edit={edit}
             setEdit={setEdit}
@@ -188,29 +186,53 @@ export function SEEditUser(props) {
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
               <Col md={4}>
-                <TextField
-                  register={register}
-                  labelName="Phone 1"
-                  fieldName="phone1"
-                  // fieldType="number"
-                  fieldOptions={{ maxLength: 15 }}
-                  labelStyle="CE-form-label"
-                  isValid={dirtyFields.Phone1 && !errors.Phone1}
-                  isInvalid={errors.Phone1}
-                  readOnly={!edit}
+                <Controller
+                  control={control}
+                  name="phone1"
+                  rules={{ minLength: 10 }}
+                  render={({ field }) => {
+                    return (
+                      <TextField
+                        {...field}
+                        labelName="Phone 1"
+                        maxLength="13"
+                        labelStyle="CE-form-label"
+                        isValid={touchedFields.phone1 && !errors.phone1}
+                        isInvalid={errors.phone1}
+                        onBlur={(e) => {
+                          e.target.value = formatPhoneNumber(e.target.value);
+                          field.onBlur(e);
+                          field.onChange(e);
+                        }}
+                        readOnly={!edit}
+                      />
+                    );
+                  }}
                 />
               </Col>
               <Col md={4}>
-                <TextField
-                  register={register}
-                  labelName="Phone 2"
-                  fieldName="phone2"
-                  // fieldType="number"
-                  fieldOptions={{ maxLength: 15 }}
-                  labelStyle="CE-form-label"
-                  isValid={dirtyFields.Phone2 && !errors.Phone2}
-                  isInvalid={errors.Phone2}
-                  readOnly={!edit}
+              <Controller
+                  control={control}
+                  name="phone2"
+                  rules={{ minLength: 10 }}
+                  render={({ field }) => {
+                    return (
+                      <TextField
+                        {...field}
+                        labelName="Phone 2"
+                        maxLength="13"
+                        labelStyle="CE-form-label"
+                        isValid={touchedFields.phone2 && !errors.phone2}
+                        isInvalid={errors.phone2}
+                        onBlur={(e) => {
+                          e.target.value = formatPhoneNumber(e.target.value);
+                          field.onBlur(e);
+                          field.onChange(e);
+                        }}
+                        readOnly={!edit}
+                      />
+                    );
+                  }}
                 />
               </Col>
             </Form.Group>

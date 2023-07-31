@@ -1,37 +1,23 @@
-import { Row, Col, Button, Card, ListGroup } from "react-bootstrap";
-import {
-  Unlock,
-  Printer,
-  Trash,
-  Key,
-  Receipt,
-  CreditCardFill,
-} from "react-bootstrap-icons";
+import { Row, Col, Card } from "react-bootstrap";
 import "./PN_Manager.css";
-import { useReactToPrint } from "react-to-print";
-import { useRef, useState } from "react";
 import { getListItem } from "../../../services/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useClient } from "../../../context/ClientContext";
 
 export function PNViewNote({ data }) {
-  const noteRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => noteRef.current,
-  });
   const getPageMargins = () => {
     return `@page { margin: 20px 20px 20px 20px !important; }`;
   };
   const { activeClient } = useClient();
   const [convertedValues, setConvertedValues] = useState({});
-
+  console.log(activeClient);
   useEffect(() => {
     getListItemName(data.f7);
     getListItemName(data.f6);
   }, [data]);
 
   const getListItemName = async (grouplistid) => {
-    const listItem = await getListItem(grouplistid).then((item) => {
+    await getListItem(grouplistid).then((item) => {
       if (item)
         setConvertedValues((prevState) => ({
           ...prevState,
@@ -81,7 +67,7 @@ export function PNViewNote({ data }) {
               <h6>Units Used: </h6> {data.f5}
             </Col>
             <Col className="pn_note-view-item">
-              <h6>Policy #: </h6> ???
+              <h6>Policy #: </h6> {activeClient.ins1_policynumber}
             </Col>
           </Row>
           <Row className="mb-2">
@@ -272,29 +258,21 @@ export function PNViewNote({ data }) {
               <Row className="mb-2">
                 <Col className="pn_note-view-item">
                   <h6>Staff: </h6>{" "}
-                  {activeClient.pfirstname +
-                    " " +
-                    activeClient.plastname}
+                  {activeClient.pfirstname + " " + activeClient.plastname}
                 </Col>
                 <Col className="pn_note-view-item">
                   <h6>Date: </h6>{" "}
-                  {activeClient.pfirstname +
-                    " " +
-                    activeClient.plastname}
+                  {activeClient.pfirstname + " " + activeClient.plastname}
                 </Col>
                 <Col className="pn_note-view-item">
                   <h6>Reason: </h6>{" "}
-                  {activeClient.pfirstname +
-                    " " +
-                    activeClient.plastname}
+                  {activeClient.pfirstname + " " + activeClient.plastname}
                 </Col>
               </Row>
               <Row className="mb-2">
                 <Col className="pn_note-view-item">
                   <h6>Action: </h6>{" "}
-                  {activeClient.pfirstname +
-                    " " +
-                    activeClient.plastname}
+                  {activeClient.pfirstname + " " + activeClient.plastname}
                 </Col>
                 <Col className="pn_note-view-item">
                   <h6>(Signature Goes Here) </h6>

@@ -1,8 +1,16 @@
-import { OrderOfService } from "../../services/components/OrderOfServices";
 import { CE1 } from "../components/CE_1";
 import { CE2 } from "../components/CE_2";
 import { CE3 } from "../components/CE_3";
 import { parseDefaultValues } from "./parseData";
+
+export const formatPhoneNumber = (value) => {
+  let cleaned = ('' + value).replace(/\D/g, '');
+  let match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4}).*/);
+  if (match) {
+    cleaned = `(${match[1].substr(0, 3)})${match[2] ? match[2] : ''}${match[3] ? '-' + match[3] : ''}`;
+  }
+  return cleaned;
+};
 
 export const hasSCDXFieldsChanged = (getValues, editing, activeClient) => {
   const serviceCodesValue = getValues("servicecodes");
@@ -76,16 +84,6 @@ export const renderPage = (
           setValue={setValue}
         />
       );
-    // case 3:
-    //   return (
-    //     <OrderOfService
-    //       register={register}
-    //       control={control}
-    //       formState={formState}
-    //       setValue={setValue}
-    //       edit={true}
-    //     />
-    //   );
     default:
       return (
         <CE1 register={register} control={control} formState={formState} />

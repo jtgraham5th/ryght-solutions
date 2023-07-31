@@ -20,7 +20,7 @@ export function InputPin({ show, setShow, setPinNumber }) {
       <Modal.Header className="PNM-header" closeButton>
         <Modal.Title>Input Pin Number</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Modal.Body className="h-25">
           <Row className="d-flex justify-content-evenly align-items-center">
             <TextField

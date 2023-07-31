@@ -109,7 +109,7 @@ export function InterventionDetail({
       as={Col}
       className={`detail-container ${focus.interventions ? "cardFocus" : ""}`}
     >
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Card.Header className="detail-container-header">
           <h6 className="m-0">Interventions</h6>
           {editIntervention ? (
@@ -203,6 +203,7 @@ export function InterventionDetail({
         <Card.Body className="detail-card-body">
           <Form.Label className="small">Intervention</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="mb-3 small"
             {...register("description")}
             name="description"

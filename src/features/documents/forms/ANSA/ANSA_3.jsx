@@ -47,7 +47,7 @@ function ANSA3() {
       </div>
       <hr />
 
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Row>
           <Col md={4}>
             <h5>Strengths</h5>

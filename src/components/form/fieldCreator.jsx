@@ -5,7 +5,7 @@ import { useClient } from "../../context/ClientContext";
 import { useState } from "react";
 import isStringNumber from "../../utils/isStringNumber";
 import Select from "react-select";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 export function DateField(props) {
   const { control, labelName, fieldName, labelStyle, fieldStyle, ...other } =
@@ -217,6 +217,7 @@ export function TextAreaField(props) {
         {labelName}
       </Form.Label>
       <Form.Control
+        autoComplete="off"
         {...register(fieldName)}
         as="textarea"
         rows={rows ? rows : 3}
@@ -228,42 +229,54 @@ export function TextAreaField(props) {
     </>
   );
 }
-export function TextField({
-  register,
-  labelName,
-  fieldName,
-  readOnly,
-  disabled,
-  labelStyle,
-  fieldStyle,
-  fieldType,
-  fieldOptions,
-  isInvalid,
-  ...other
-}) {
-  return (
-    <div className={fieldStyle}>
-      {labelName ? (
-        <Form.Label
-          className={labelStyle ? labelStyle : disabled ? "text-muted" : "fs-6"}
-        >
-          {labelName}
-        </Form.Label>
-      ) : null}
-      <Form.Control
-        {...register(fieldName, fieldOptions)}
-        type={fieldType ? fieldType : "text"}
-        readOnly={readOnly}
-        disabled={disabled}
-        isInvalid={isInvalid}
-        {...other}
-      />
-      <Form.Control.Feedback type="invalid">
-        {isInvalid && isInvalid.message}
-      </Form.Control.Feedback>
-    </div>
-  );
-}
+export const TextField = React.forwardRef(
+  (
+    {
+      register,
+      labelName,
+      fieldName,
+      readOnly,
+      disabled,
+      labelStyle,
+      fieldStyle,
+      fieldType,
+      fieldOptions,
+      isInvalid,
+      errorMessage,
+      ...other
+    },
+    ref
+  ) => {
+    const registerProps =
+      register && fieldName ? { ...register(fieldName, fieldOptions) } : {};
+    return (
+      <div className={fieldStyle}>
+        {labelName ? (
+          <Form.Label
+            className={
+              labelStyle ? labelStyle : disabled ? "text-muted" : "fs-6"
+            }
+          >
+            {labelName}
+          </Form.Label>
+        ) : null}
+        <Form.Control
+          autoComplete="off"
+          {...registerProps}
+          type={fieldType ? fieldType : "text"}
+          readOnly={readOnly}
+          disabled={disabled}
+          isInvalid={isInvalid}
+          {...other}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errorMessage}
+        </Form.Control.Feedback>
+      </div>
+    );
+  }
+);
+
 export function CheckboxField(props) {
   const {
     register,

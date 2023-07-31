@@ -7,6 +7,7 @@ export function CEFormReferralOutSource({ register }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Referral Source</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             {...register("firstName")}
             type="text"
@@ -18,6 +19,7 @@ export function CEFormReferralOutSource({ register }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Street Address</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             {...register("address")}
             type="text"
@@ -27,6 +29,7 @@ export function CEFormReferralOutSource({ register }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">City</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             {...register("city")}
             type="text"
@@ -49,6 +52,7 @@ export function CEFormReferralOutSource({ register }) {
         <Col md={2}>
           <Form.Label className="CE-form-label">Zip Code</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             {...register("zipCode")}
             type="number"

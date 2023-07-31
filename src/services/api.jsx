@@ -105,6 +105,7 @@ export const getListItem = async (grouplistid) => {
           Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
         )
       );
+      console.log(formattedData[0])
       return formattedData[0];
     })
     .catch((e) => {
@@ -112,6 +113,7 @@ export const getListItem = async (grouplistid) => {
     });
 };
 export const updateListItem = async (item) => {
+  console.log(item)
   const fields = Object.keys(item[0]).join(",");
   return await fetch(
     `${apiUrl}generic_api/${item[0].grouplistid}?tid=24&fields=${fields}`,
@@ -141,7 +143,6 @@ export const addNewListItem = async (listItem) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data[0];
     })
     .catch((e) => {

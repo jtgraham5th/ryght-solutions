@@ -1,5 +1,11 @@
 import { useContext, createContext, useEffect, useState } from "react";
 import React from "react";
+import {
+  addNewUser,
+  getUserWithID,
+  getUserWithField,
+  updateUser,
+} from "../features/authentication/services/api";
 
 // import { parseSignUpData } from "../features/authentication/utils/parseData";
 
@@ -33,89 +39,66 @@ export function UserProvider(props) {
         const res = await response.json();
         if (res.length > 0) {
           if (res[0].message !== "password was not validated...") {
-            getUserWithField("username", data[0].UserName);
-            setUser(res[0]);
-            localStorage.setItem("UserID", res[0].UseriD);
-            return true;
-          } else return false;
+            return await getUserWithField("username", data[0].UserName).then(
+              (userData) => {
+                if (userData.length > 0) {
+                  setUser(userData[0]);
+                  localStorage.setItem("UserID", userData[0].userid);
+                  return true;
+                }
+              }
+            );
+          } else {
+            logout();
+            return false;
+          }
         }
       }
     } catch (err) {
       console.error(err);
+      logout();
     }
-    return false;
   };
 
   const signup = async (data) => {
     // const signupData = parseSignUpData(data);
     try {
-      const response = await fetch(`${apiUrl}generic_api/19?fields=userid`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // body: JSON.stringify(signupData),
-      });
-
-      if (response.ok) {
-        const res = await response.json();
-        if (res.length > 0) {
-          setUser(res[0]);
-          localStorage.setItem("UserID", res[0].userid);
-          return res[0];
+      return await addNewUser().then((data) => {
+        if (data) {
+          setUser(data);
+          localStorage.setItem("UserID", data.userid);
+          return data;
         }
-      }
+      });
     } catch (err) {
       console.error(err);
     }
     return false;
   };
-  const updateUser = async (data, fields) => {
+  const updateCurrentUser = async (data, fields) => {
     const requestBody = [{ ...data }];
     delete requestBody[0].UseriD;
     try {
-      const response = await fetch(
-        `${apiUrl}generic_api/${data.userid}?tid=19&fields=${fields}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
-      if (response.ok) {
-        const res = await response.json();
-        if (res.length > 0) {
+      await updateUser(data.userid, requestBody, fields).then((data) => {
+        if (data.length > 0) {
           getUser(user.userid);
           return true;
         }
-      }
+      });
     } catch (err) {
       console.error(err);
     }
     return false;
   };
-  const adminUpdateUser = async (userid, data, fields) => {
+  const adminUpdateUser = async (userid, updatedUser, fields) => {
     // const signupData = parseSignUpData(data);
     try {
-      const response = await fetch(
-        `${apiUrl}generic_api/${userid}?tid=19&fields=${fields}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-      if (response.ok) {
-        const res = await response.json();
-        if (res.length > 0) {
+      return await updateUser(userid, updatedUser, fields).then((data) => {
+        if (data.length > 0) {
           getAllUsers();
           return true;
         }
-      }
+      });
     } catch (err) {
       console.error(err);
     }
@@ -126,47 +109,14 @@ export function UserProvider(props) {
   };
   const getUser = async (userID) => {
     try {
-      const response = await fetch(
-        `${apiUrl}generic_api/${userID}?tid=19&fields=*`
-      );
-      if (response.ok) {
-        const res = await response.json();
-        const userData = res.map((obj) =>
-          Object.fromEntries(
-            Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
-          )
-        );
-        if (userData.length > 0) {
-          setUser(userData[0]);
-          localStorage.setItem("UserID", userData[0].userid);
+      await getUserWithID(userID).then((data) => {
+        if (data.length > 0) {
+          setUser(data[0]);
+          localStorage.setItem("UserID", data[0].userid);
+        } else {
+          logout();
         }
-      } else {
-        logout();
-      }
-    } catch (err) {
-      console.error(err);
-      logout();
-    }
-  };
-  const getUserWithField = async (field, value) => {
-    try {
-      const response = await fetch(
-        `${apiUrl}generic_api/list/19?fields=*&where=${field}=${value}&orderby=userid`
-      );
-      if (response.ok) {
-        const res = await response.json();
-        const userData = res.map((obj) =>
-          Object.fromEntries(
-            Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
-          )
-        );
-        if (userData.length > 0) {
-          setUser(userData[0]);
-          localStorage.setItem("UserID", userData[0].userid);
-        }
-      } else {
-        logout();
-      }
+      });
     } catch (err) {
       console.error(err);
       logout();
@@ -225,7 +175,7 @@ export function UserProvider(props) {
         signup,
         logout,
         login,
-        updateUser,
+        updateCurrentUser,
         adminUpdateUser,
         isAuthenticated,
         getAllUsers,

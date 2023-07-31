@@ -154,7 +154,7 @@ export function PN3({ register, control }) {
           </Col>
         </Row>
         <Form.Text>If yes, please explain:</Form.Text>
-        <Form.Control as="textarea" {...register("medChangesComments")} name="medChangesComments" rows={3} />
+        <Form.Control autoComplete="off" as="textarea" {...register("medChangesComments")} name="medChangesComments" rows={3} />
       </Form.Group>
       <hr />
       <Form.Group as={Row}>
@@ -171,7 +171,7 @@ export function PN3({ register, control }) {
         </Col>
         <Col md={6}>
           <Form.Label className="PNM-form-label">Comments:</Form.Label>
-          <Form.Control {...register("progressComments")} as="textarea" name="progressComments" rows={3} />
+          <Form.Control autoComplete="off"  {...register("progressComments")} as="textarea" name="progressComments" rows={3} />
         </Col>
       </Form.Group>
     </>

@@ -14,6 +14,7 @@ export function FormPharmacy({ state, setState }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Pharmacy Name</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             onChange={(e) => handleChange(e)}
             type="text"
@@ -25,6 +26,7 @@ export function FormPharmacy({ state, setState }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Phone Number</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             onChange={(e) => handleChange(e)}
             type="number"
@@ -35,6 +37,7 @@ export function FormPharmacy({ state, setState }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Fax Phone Number</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             onChange={(e) => handleChange(e)}
             type="number"

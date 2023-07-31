@@ -82,6 +82,7 @@ export function Diagnosis({
           <div className="d-flex align-items-center">
             <Col md={6} className="me-2">
               <Form.Control
+                autoComplete="off"
                 className="m-1"
                 placeholder="Type to filter..."
                 onChange={searchDXCodes}

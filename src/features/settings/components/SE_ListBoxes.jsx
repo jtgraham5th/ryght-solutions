@@ -20,13 +20,12 @@ export function SEListBoxes(props) {
   const [activeGroup, setActiveGroup] = useState(null);
   const [showInactive, setShowInactive] = useState(false);
   const [newItem, setNewItem] = useState(false);
-  const { register, handleSubmit, reset, setValue, watch } = useForm(
-    {
+  const { register, handleSubmit, reset, setValue, watch, control, formState } =
+    useForm({
       defaultValues: {
         groupvalue: "",
       },
-    }
-  );
+    });
 
   const alternateGroupType = (group) => {
     if (group.hasOwnProperty("contactid") || group.hasOwnProperty("name")) {
@@ -247,15 +246,20 @@ export function SEListBoxes(props) {
                       );
                     })}
                 </div>
-                <Form onSubmit={handleSubmit(addItem)}>
+                <Form onSubmit={handleSubmit(addItem)} autoComplete="off">
                   <ListGroup.Item variant="dark" className="d-flex flex-column">
                     {activeGroup &&
                     Object.keys(activeGroup).length > 0 &&
                     (activeGroup[0].hasOwnProperty("contactid") ||
                       activeGroup[0].hasOwnProperty("name")) ? (
-                      <UpdateContact register={register} />
+                      <UpdateContact
+                        register={register}
+                        formState={formState}
+                        control={control}
+                      />
                     ) : (
                       <Form.Control
+                        autoComplete="off"
                         {...register("groupvalue")}
                         type="text"
                         name="groupvalue"

@@ -185,6 +185,7 @@ export function Services({
             <Row className="d-flex align-items-center">
               <Col md={!minimal ? 6 : "auto"}>
                 <Form.Control
+                  autoComplete="off"
                   className="m-1"
                   placeholder="Type to filter..."
                   onChange={searchServices}

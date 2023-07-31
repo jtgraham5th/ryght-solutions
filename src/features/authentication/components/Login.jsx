@@ -27,6 +27,7 @@ export function Login() {
     ];
     setloginStatus(true);
     const loggedIn = await login(loginData);
+    console.log(loggedIn)
     if (loggedIn) {
       navigate("/ryght-solutions/home");
     } else {
@@ -35,7 +36,7 @@ export function Login() {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="w-75">
+    <Form onSubmit={handleSubmit(onSubmit)} className="w-75" autoComplete="off">
       {!loginStatus ? (
         <Alert variant="danger">Login Failed, Please try again.</Alert>
       ) : null}

@@ -126,7 +126,7 @@ export function DocManager({ show, setShow, containerName }) {
       <Modal.Header className="RQ-header" closeButton>
         <Modal.Title>{containerName}</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Modal.Body className="RQ-modal-body">
           <Row
             className={`${

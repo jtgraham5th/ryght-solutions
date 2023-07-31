@@ -13,6 +13,7 @@ export function FormInsuranceProvider({ state, setState }) {
         <Col md={4}>
           <Form.Label className="CE-form-label">Carrier Name</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             onChange={(e) => handleChange(e)}
             type="text"

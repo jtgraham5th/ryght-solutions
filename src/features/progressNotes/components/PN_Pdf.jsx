@@ -1,36 +1,18 @@
 import React from "react";
 import { Document, Page, View, Text } from "@react-pdf/renderer";
-import { getListItem } from "../../../services/api";
-import { useState, useEffect } from "react";
 import { PrintHeader } from "../../../components/PrintHeader";
 
 export function PNPdf({ formData, data, activeClient }) {
-  console.log(formData, data);
-  const [convertedValues, setConvertedValues] = useState({});
-
-  useEffect(() => {
-    getListItemName(data.f7);
-    getListItemName(data.f6);
-  }, [data]);
-
-  const getListItemName = async (grouplistid) => {
-    const listItem = await getListItem(grouplistid).then((item) => {
-      if (item)
-        setConvertedValues((prevState) => ({
-          ...prevState,
-          [grouplistid]: item.groupvalue,
-        }));
-    });
-  };
   return (
     <Document>
       <Page size="A4">
-        <PrintHeader />
-        <View style={{ marginTop: 10, marginHorizontal: 20 }}>
-          <Text style={{ fontSize: 20, marginBottom: 5 }}>Progress Note</Text>
-          <Text style={{ fontSize: 15, marginBottom: 20 }}>
-            {activeClient.pfirstname + " " + activeClient.plastname}
-          </Text>
+        <PrintHeader
+          docTitle="Progress Note"
+          activeClient={activeClient}
+          insurance={activeClient.ins1_fundingsource}
+          gender={activeClient.sexatbirthid}
+        />
+        <View style={{ marginHorizontal: 20 }}>
           <View
             style={{
               flexDirection: "row",
@@ -57,9 +39,7 @@ export function PNPdf({ formData, data, activeClient }) {
                   Consumer:
                 </Text>
                 <Text style={{ fontSize: 12, marginBottom: "10px" }}>
-                  {activeClient.pfirstname +
-                    " " +
-                    activeClient.plastname}
+                  {activeClient.pfirstname + " " + activeClient.plastname}
                 </Text>
               </View>
               <View
@@ -123,7 +103,7 @@ export function PNPdf({ formData, data, activeClient }) {
                   Contact Type:
                 </Text>
                 <Text style={{ fontSize: 12, marginBottom: "10px" }}>
-                  {convertedValues[data.f7]}
+                  {data.f7}
                 </Text>
               </View>
               <View
@@ -179,7 +159,7 @@ export function PNPdf({ formData, data, activeClient }) {
                   Setting:
                 </Text>
                 <Text style={{ fontSize: 12, marginBottom: "10px" }}>
-                  {convertedValues[data.f6]}
+                  {data.f6}
                 </Text>
               </View>
               <View
@@ -192,7 +172,9 @@ export function PNPdf({ formData, data, activeClient }) {
                 <Text style={{ fontSize: 12, marginRight: "10px" }}>
                   Policy #:
                 </Text>
-                <Text style={{ fontSize: 12, marginBottom: "10px" }}>???</Text>
+                <Text style={{ fontSize: 12, marginBottom: "10px" }}>
+                  {activeClient.ins1_policynumber}
+                </Text>
               </View>
               <View
                 style={{
@@ -394,6 +376,7 @@ export function PNPdf({ formData, data, activeClient }) {
               padding: "5px",
               marginBottom: 10,
             }}
+            wrap={false}
           >
             <View
               style={{
@@ -418,6 +401,7 @@ export function PNPdf({ formData, data, activeClient }) {
               padding: "5px",
               marginBottom: 10,
             }}
+            wrap={false}
           >
             <View
               style={{
@@ -442,6 +426,7 @@ export function PNPdf({ formData, data, activeClient }) {
               padding: "5px",
               marginBottom: 10,
             }}
+            wrap={false}
           >
             <View
               style={{
@@ -466,6 +451,7 @@ export function PNPdf({ formData, data, activeClient }) {
               padding: "5px",
               marginBottom: 10,
             }}
+            wrap={false}
           >
             <View
               style={{

@@ -30,10 +30,10 @@ export function ViewerHeader({
   const { activeClient, formData } = useClient();
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState({ message: "", data: "" });
-  
+
   const signDocument = () => {
     setAlert({ title: "Signature" });
-  }
+  };
   return (
     <Card.Header className="d-flex flex-row justify-content-between align-items-center p-2">
       <h5 className="mb-0 ms-2">{title}</h5>
@@ -89,6 +89,7 @@ export function ViewerHeader({
               onClick={onSubmit}
               variant="success"
               type="button"
+              id="footer-next"
               disabled={disabled}
             >
               Save Document

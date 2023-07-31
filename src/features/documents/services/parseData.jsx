@@ -11,9 +11,11 @@ export const parseOrderOfService = (os, activeClient, billingid) => {
       f1: os.f1 ? formatDate(os.f1) : formatDate(Date.now()),
       f2: os.f2 ? formatDate(os.f2) : formatDate(Date.now()),
       f3: os.f3 ? formatDate(os.f3) : formatDate(Date.now()),
-      f4: os.f4 ? os.f4 : activeClient.pfirstname + " " + activeClient.plastname,
-      f5: os.f5 ? os.f5 : "",
-      f6: os.f6 ? os.f6 : "",
+      f4: os.f4
+        ? os.f4
+        : activeClient.pfirstname + " " + activeClient.plastname,
+      f5: os.f5 ? os.f5 : activeClient.ins1_fundingsource,
+      f6: os.f6 ? os.f6 : activeClient.sexatbirthid,
       f7: os.f7 ? os.f7 : "",
       f8: os.f8 ? os.f8 : "",
       f9: os.f9 ? os.f9 : "",
@@ -82,6 +84,7 @@ export const parseOrderOfService = (os, activeClient, billingid) => {
   ];
 };
 export const parseDefaultOrderOfService = (os) => {
+  console.log(os);
   return {
     recid: os.recid,
     pageid: os.pageid,
@@ -160,7 +163,12 @@ export const parseDefaultOrderOfService = (os) => {
     f70: os.f70,
   };
 };
-export const parseAdolescentBPS = (doc, activeClient, billingid, activePage) => {
+export const parseAdolescentBPS = (
+  doc,
+  activeClient,
+  billingid,
+  activePage
+) => {
   return [
     {
       recid: doc.recid ? doc.recid : 0,

@@ -28,10 +28,6 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
     setShow(false);
     reset();
   };
-  const handleShow = () => setAlert(true);
-  const nextPage = () => {
-    setActivePage((page) => page + 1);
-  };
   const prevPage = () => {
     setActivePage((page) => page - 1);
   };
@@ -120,7 +116,7 @@ export function PNManager({ data, show, setShow, containerName, edit }) {
       <Modal.Header className="PNM-header" closeButton>
         <Modal.Title>{containerName}</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Modal.Body>
           <Row className="d-flex justify-content-evenly align-items-center">
             {renderPage()}

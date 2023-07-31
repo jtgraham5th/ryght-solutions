@@ -35,12 +35,13 @@ export function TPPdf({ formData, data, activeClient, activeData }) {
   return (
     <Document>
       <Page size="A4">
-        <PrintHeader />
+        <PrintHeader
+          docTitle="Treatment Plan"
+          activeClient={activeClient}
+          insurance={activeClient.ins1_fundingsource}
+          gender={activeClient.sexatbirthid}
+        />
         <View style={{ marginTop: 10, marginHorizontal: 20 }}>
-          <Text style={{ fontSize: 20, marginBottom: 5 }}>Treatment Plan</Text>
-          <Text style={{ fontSize: 15, marginBottom: 10 }}>
-            {activeClient.pfirstname + " " + activeClient.plastname}
-          </Text>
           <View style={{ flexDirection: "row", marginBottom: 10 }}>
             <View
               style={{
@@ -227,7 +228,7 @@ export function TPPdf({ formData, data, activeClient, activeData }) {
                   .filter((service) => data.f11.includes(service.grouplistid))
                   .map((service) => {
                     return (
-                      <Text style={{ fontSize: "12" }}>
+                      <Text key={service.groupvalue} style={{ fontSize: "12" }}>
                         • {service.groupvalue}
                       </Text>
                     );
@@ -399,7 +400,7 @@ export function TPPdf({ formData, data, activeClient, activeData }) {
       </Page>
       <Page>
         <PrintSignatureHeader />
-      <PrintFooter />
+        <PrintFooter />
       </Page>
     </Document>
   );

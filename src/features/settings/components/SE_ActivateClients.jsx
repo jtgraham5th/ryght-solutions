@@ -117,7 +117,7 @@ export function SEActivateClients(props) {
             <Card>
               <Card.Header>
                 <Card.Subtitle>Active Patients</Card.Subtitle>
-                <Form.Control id="active-patients" onChange={searchClients} />
+                <Form.Control autoComplete="off" id="active-patients" onChange={searchClients} />
               </Card.Header>
               <Card.Body as={Row} className="select-container">
                 <Col md={2} className="border-right-3 alpha-list">
@@ -266,7 +266,7 @@ export function SEActivateClients(props) {
             <Card>
               <Card.Header>
                 <Card.Subtitle>Inactive Patients</Card.Subtitle>
-                <Form.Control id="inactive-patients" onChange={searchClients} />
+                <Form.Control autoComplete="off" id="inactive-patients" onChange={searchClients} />
               </Card.Header>
               <Card.Body as={Row} className="select-container">
                 <Col md={2} className="border-right-3 alpha-list">

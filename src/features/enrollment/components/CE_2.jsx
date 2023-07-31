@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Row, Col, Form, Accordion } from "react-bootstrap";
 import "./CE_Manager.css";
+import { Controller } from "react-hook-form";
 import { ClipboardHeartFill } from "react-bootstrap-icons";
 import { useClient } from "../../../context/ClientContext";
 import { FormAddContainer } from "../../../components/form/Form_AddContainer";
@@ -13,6 +14,7 @@ import {
   SelectField,
   TextField,
 } from "../../../components/form/fieldCreator";
+import { formatPhoneNumber } from "../utils/formhelper";
 
 export function CE2({ register, control, setValue, formState }) {
   const [addNew, setAddNew] = useState({
@@ -80,15 +82,27 @@ export function CE2({ register, control, setValue, formState }) {
           />
         </Col>
         <Col md={6}>
-          <TextField
-            register={register}
-            labelName="Phone Number"
-            fieldName="employerphone"
-            fieldType="number"
-            fieldOptions={{ maxLength: 15 }}
-            labelStyle="CE-form-label"
-            isValid={touchedFields.employerphone && !errors.employerphone}
-            isInvalid={errors.employerphone}
+          <Controller
+            control={control}
+            name="employerphone"
+            rules={{ minLength: 10 }}
+            render={({ field }) => {
+              return (
+                <TextField
+                  {...field}
+                  labelName="Phone Number"
+                  maxLength="13"
+                  labelStyle="CE-form-label"
+                  isValid={touchedFields.employerphone && !errors.employerphone}
+                  isInvalid={errors.employerphone}
+                  onBlur={(e) => {
+                    e.target.value = formatPhoneNumber(e.target.value);
+                    field.onBlur(e);
+                    field.onChange(e);
+                  }}
+                />
+              );
+            }}
           />
         </Col>
       </Form.Group>

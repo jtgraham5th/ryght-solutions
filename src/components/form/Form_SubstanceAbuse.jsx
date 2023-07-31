@@ -10,6 +10,7 @@ function FormSubstanceAbuse({ register, title, subtitle, field }) {
       </Col>
       <Col md={2} className="d-flex justify-content-center">
         <Form.Control
+          autoComplete="off"
           {...register(`f${field}`)}
           className="mb-2"
           aria-label="Text input with radio button"
@@ -17,6 +18,7 @@ function FormSubstanceAbuse({ register, title, subtitle, field }) {
       </Col>
       <Col md={2} className="d-flex justify-content-center">
         <Form.Control
+          autoComplete="off"
           {...register(`f${field + 1}`)}
           className="mb-2"
           aria-label="Text input with radio button"
@@ -24,6 +26,7 @@ function FormSubstanceAbuse({ register, title, subtitle, field }) {
       </Col>
       <Col md={2} className="d-flex justify-content-center">
         <Form.Control
+          autoComplete="off"
           {...register(`f${field + 2}`)}
           className="mb-2"
           aria-label="Text input with radio button"
@@ -31,6 +34,7 @@ function FormSubstanceAbuse({ register, title, subtitle, field }) {
       </Col>
       <Col md={2} className="d-flex justify-content-center">
         <Form.Control
+          autoComplete="off"
           {...register(`f${field + 3}`)}
           className="mb-2"
           aria-label="Text input with radio button"

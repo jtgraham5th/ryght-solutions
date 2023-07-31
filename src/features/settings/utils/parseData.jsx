@@ -24,11 +24,14 @@ export const defaultListItem = {
   isactive: 1,
   groupid: 0,
 };
-export const getDirtyFields = (obj) => {
-  const fields = Object.keys(obj);
+export const getDirtyFields = (obj, excludeKey) => {
+  let fields = Object.keys(obj);
+  if (excludeKey) {
+    fields = fields.filter((key) => key !== excludeKey);
+  }
   return fields.join(",");
 };
-export const filterObjectByKeys = (obj, keysObj) =>{
+export const filterObjectByKeys = (obj, keysObj) => {
   const filteredObj = {};
   for (const key in obj) {
     if (keysObj.hasOwnProperty(key)) {
@@ -36,4 +39,4 @@ export const filterObjectByKeys = (obj, keysObj) =>{
     }
   }
   return filteredObj;
-}
+};

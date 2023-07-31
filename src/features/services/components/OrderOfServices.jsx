@@ -158,6 +158,7 @@ export function OrderOfService({
                   <Row className="mb-2">
                     <Col md={2}>
                       <Form.Control
+                        autoComplete="off"
                         {...register("f" + (8 + i))}
                         className="text-center"
                         type="text"

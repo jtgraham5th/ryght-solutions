@@ -94,7 +94,7 @@ export function ObjectiveDetail({
       as={Col}
       className={`detail-container ${focus.objectives ? "cardFocus" : ""}`}
     >
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Card.Header className="detail-container-header">
           <h6 className="m-0">Objectives</h6>
           {editObjective ? (
@@ -196,6 +196,7 @@ export function ObjectiveDetail({
         <Card.Body>
           <Form.Label className="w-50 m-0 pe-1 small">Objective</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="mb-2 small"
             {...register("description")}
             as="textarea"

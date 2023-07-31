@@ -13,6 +13,7 @@ const handleChange =(e) => {
         <Col md={4}>
           <Form.Label className="CE-form-label">Physician Name</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             onChange={(e) => handleChange(e)}
             type="text"
@@ -24,6 +25,7 @@ const handleChange =(e) => {
         <Col md={4}>
           <Form.Label className="CE-form-label">Office Phone Number</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             onChange={(e) => handleChange(e)}
             type="number"
@@ -34,6 +36,7 @@ const handleChange =(e) => {
         <Col md={4}>
           <Form.Label className="CE-form-label">Fax Phone Number</Form.Label>
           <Form.Control
+            autoComplete="off"
             className="goal-detail-input"
             onChange={(e) => handleChange(e)}
             type="number"

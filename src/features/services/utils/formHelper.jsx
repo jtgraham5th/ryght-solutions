@@ -1,3 +1,5 @@
+import { getListItem } from "../../../services/api";
+
 export const filterActiveServices = (activeServices, services, returnCodes) => {
   let serviceIds = activeServices.map((service) =>
     parseInt(service.grouplistid)
@@ -11,4 +13,13 @@ export const filterActiveServices = (activeServices, services, returnCodes) => {
     return filteredServiceCodes;
   }
   return filteredServices;
+};
+export const getListItemName = async (recid) => {
+  return await getListItem(recid).then((item) => {
+    if (item) {
+      return item.groupvalue;
+    } else {
+      return "NULL";
+    }
+  });
 };

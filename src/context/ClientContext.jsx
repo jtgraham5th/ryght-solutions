@@ -50,17 +50,15 @@ import {
   getAuthorizations,
   updateAuthorization,
 } from "../features/authorizations/services/api";
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 const ClientContext = createContext();
-const rptUrl = process.env.REACT_APP_RPT_URL;
 
 export function useClient() {
   return useContext(ClientContext);
 }
 
 export function ClientProvider(props) {
-  const [urlPath, setUrlPath] = useState();
+  const [urlPath] = useState();
   const [clientList, setClientlist] = useState([]);
   const [contactList] = useState([]);
   const [activeClient, setActiveClient] = useState({});
@@ -119,6 +117,7 @@ export function ClientProvider(props) {
   };
   /// MOVE TO SERVICES API ///
   const addGroupItem = async (groupItemObject) => {
+    console.log(groupItemObject)
     return await addNewListItem(groupItemObject).then((data) => {
       getFormFields();
       return data;
@@ -345,8 +344,11 @@ export function ClientProvider(props) {
     await updateTreatmentPlan(tPlan).then(() => getClientTreatmentPlan());
   };
   const addClientTreatmentPlan = async (tPlan) => {
+    console.log(tPlan);
     await addNewDocument().then(async (newdoc) => {
+      console.log(newdoc);
       tPlan[0].recid = newdoc.recid;
+      console.log(tPlan);
       await updateClientTreatmentPlan(tPlan).then(() =>
         getClientTreatmentPlan()
       );
@@ -427,7 +429,7 @@ export function ClientProvider(props) {
     });
   };
   const updateClientProgNote = async (updatedProgNote) => {
-    console.log(updatedProgNote)
+    console.log(updatedProgNote);
     await updateDocument(updatedProgNote).then(() => getClientProgNotes());
   };
   const getClientProgNotes = async () => {

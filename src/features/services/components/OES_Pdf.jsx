@@ -6,20 +6,14 @@ export function OESPdf({ data, activeClient, activeData }) {
   return (
     <Document>
       <Page size="A4">
-        <PrintHeader />
+        <PrintHeader
+          docTitle="Order of Service"
+          activeClient={activeClient}
+          insurance={data.f5}
+          gender={data.f6}
+        />
         <View style={{ marginTop: 10, marginHorizontal: 20, marginBottom: 15 }}>
-          <Text style={{ fontSize: 20, marginBottom: 5 }}>
-            Order of Service
-          </Text>
-          <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-            <Text style={{ fontSize: 15, marginRight: 10 }}>
-              {activeClient.pfirstname + " " + activeClient.plastname}
-            </Text>
-            <Text style={{ fontSize: 12, marginRight: 5 }}>Insurance:</Text>
-            <Text style={{ fontSize: 12, marginRight: 10 }}>{data.f5}</Text>
-            <Text style={{ fontSize: 12, marginRight: 5 }}>Gender:</Text>
-            <Text style={{ fontSize: 12 }}>{data.f6}</Text>
-          </View>
+          <View style={{ flexDirection: "row", alignItems: "flex-end" }}></View>
         </View>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <View

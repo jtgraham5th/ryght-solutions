@@ -89,7 +89,7 @@ export const SignaturePopover = ({handlePrint}) => {
           register={register}
           labelName="Select Staff"
           groupName="Staff Title"
-          fieldName="stafftitleid"
+          fieldName="witnesslist"
           labelStyle="w-50 m-0 pe-1 small"
           // disabled={!intervention || !editIntervention ? true : false}
         />
@@ -104,13 +104,13 @@ export const SignaturePopover = ({handlePrint}) => {
           />
         </Col>
       </Row>
-      <Collapse in={acceptedTerms} timeout={100}>
+      <Collapse in={acceptedTerms} timeout={100} autoComplete="off">
         <Form >
           <Row className="p-2 mt-3 border ms-2 me-2 bg-light flex-row justify-content-center">
             <TextField
               register={register}
               labelName="Pin Number"
-              fieldName="pinNumber"
+              fieldName="pinvalue"
               fieldType="password"
               fieldOptions={{ maxLength: 15 }}
               fieldStyle="w-25"

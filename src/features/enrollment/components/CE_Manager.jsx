@@ -16,21 +16,8 @@ import {
   hasECFieldsChanged,
   hasPCFieldsChanged,
   renderPage,
-  clientHasDoctype,
   hasSCDXFieldsChanged,
 } from "../utils/formhelper";
-import {
-  addNewBillingTx,
-  addNewDocument,
-  getDocumentbyType,
-  updateDocument,
-} from "../../documents/services/api";
-import { parseBillingTx } from "../../services/utils/parseData";
-import {
-  parseDefaultOrderOfService,
-  parseOrderOfService,
-} from "../../documents/services/parseData";
-import { parseTreatmentPlan } from "../../treatmentPlan/utils/parseData";
 import AlertContainer from "../../../components/AlertContainer";
 
 export function CEManager({ show, setShow, containerName, edit }) {
@@ -58,11 +45,10 @@ export function CEManager({ show, setShow, containerName, edit }) {
     updateClientContact,
     resetClient,
     loading,
-    activeBillingTx,
     toggleUpdate,
     setToggleUpdate,
   } = useClient();
-  const { isDirty, isValid, dirtyFields, errors } = formState;
+  const { isDirty, dirtyFields } = formState;
 
   const closeUpdate = () => {
     setToggleUpdate((prevState) => ({ ...prevState, show: false }));
@@ -143,7 +129,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
         activeContacts
       );
       let newPatientId = false;
-
       switch (activePage) {
         case 0:
           try {
@@ -177,18 +162,22 @@ export function CEManager({ show, setShow, containerName, edit }) {
 
             if (hasPCFieldsChanged(dirtyFields, defaultPC)) {
               if (activeContacts.patient && activeContacts.patient.length > 0) {
-
                 await updateClientContact(
                   patientContact,
                   activeContacts.patient[0].contactid
                 );
               } else {
-                await addClientContact(patientContact).then(async (newContact) => {
-                  console.log(newContact)
-                  await updateClientContact(patientContact, newContact).then((updatedContact) => {
-                    console.log(updatedContact);
-                  });
-                });
+                await addClientContact(patientContact).then(
+                  async (newContactId) => {
+                    console.log(newContactId);
+                    patientContact[0].contactid = newContactId
+                    await updateClientContact(patientContact, newContactId).then(
+                      (updatedContact) => {
+                        console.log(updatedContact);
+                      }
+                    );
+                  }
+                );
               }
             }
 
@@ -202,11 +191,17 @@ export function CEManager({ show, setShow, containerName, edit }) {
                   activeContacts.emergency[0].contactid
                 );
               } else {
-                await addClientContact(emergencyContact).then(async (newContact) => {
-                  await updateClientContact(emergencyContact, newContact).then((updatedContact) => {
-                    console.log(updatedContact);
-                  });
-                });
+                await addClientContact(emergencyContact).then(
+                  async (newContactId) => {
+                    emergencyContact[0].contactid = newContactId
+                    await updateClientContact(
+                      emergencyContact,
+                      newContactId
+                    ).then((updatedContact) => {
+                      console.log(updatedContact);
+                    });
+                  }
+                );
               }
             }
             resetClient(!newPatientId ? activeClient.patientid : newPatientId);
@@ -241,42 +236,14 @@ export function CEManager({ show, setShow, containerName, edit }) {
         case 2:
           try {
             await updateActiveClient(patientData, activeClient.patientid);
-            //Check for Order of Service & create if not present
-            if (!clientHasDoctype(10, activeBillingTx)) {
-              let osBillingId = parseBillingTx(activeClient, 10);
-
-              await addNewBillingTx(osBillingId).then(async (tx) => {
-                await addNewDocument(
-                  parseOrderOfService(data, activeClient, tx.billingid)
-                );
-              });
-              //Check for Treatment Plan & create if not found
-              if (!clientHasDoctype(1, activeBillingTx)) {
-              let tPlanBillingId = parseBillingTx(activeClient, 1);
-              let newTPlan = {};
-              newTPlan.f11 = data.f7;
-
-              await addNewBillingTx(tPlanBillingId).then(async (tx) => {
-                newTPlan.billingid = tx.billingid;
-                await addNewDocument(
-                  parseTreatmentPlan(newTPlan, activeClient.patientid)
-                );
-              });}
-              setAlert({
-                message: <h6>Client has been enrolled. Please complete Order of Service form in the Documents Tab</h6>,
-                data: '',
-                title: "Patient Successfully Created",
-              });
-            }
-            else {
             setToggleUpdate({
               status: "Success",
               message: "Client data has been successfully updated.",
               show: true,
             });
             resetClient(activeClient.patientid);
-            handleClose();      
-          }} catch (error) {
+            handleClose();
+          } catch (error) {
             setToggleUpdate({
               status: "Error",
               message:
@@ -320,24 +287,6 @@ export function CEManager({ show, setShow, containerName, edit }) {
         );
         defaultValues = { ...defaultValues, ...emergencyContact };
       }
-      if (clientHasDoctype(10, activeBillingTx)) {
-        async function getDocument() {
-          try {
-            if (clientHasDoctype(10, activeBillingTx)) {
-              let document = await getDocumentbyType(
-                10,
-                activeClient.patientid
-              );
-              document = parseDefaultOrderOfService(document[0]);
-              defaultValues = { ...defaultValues, ...document[0] };
-            }
-            reset({ ...defaultValues });
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        getDocument();
-      }
       reset({ ...defaultValues });
     }
     // eslint-disable-next-line
@@ -358,7 +307,7 @@ export function CEManager({ show, setShow, containerName, edit }) {
           <Button
             className="PNM-nav-button p-1"
             variant="outline-primary"
-            disabled={activePage === 0 }
+            disabled={activePage === 0}
             onClick={activePage === 0 ? () => {} : prevPage}
           >
             {loading ? <Spinner animation="border" size="sm" /> : ""}

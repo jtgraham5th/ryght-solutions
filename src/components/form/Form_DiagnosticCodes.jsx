@@ -8,6 +8,7 @@ function FormDiagnosticCodes({ register, title, field}) {
       </Col>
       <Col md={5} className="d-flex justify-content-center">
         <Form.Control
+          autoComplete="off"
           {...register(`f${field}`)}
           className="mb-2"
           aria-label="Text input with radio button"
@@ -15,6 +16,7 @@ function FormDiagnosticCodes({ register, title, field}) {
       </Col>
       <Col md={5} className="d-flex justify-content-center">
         <Form.Control
+          autoComplete="off"
           {...register(`f${field + 1}`)}
           className="mb-2"
           aria-label="Text input with radio button"

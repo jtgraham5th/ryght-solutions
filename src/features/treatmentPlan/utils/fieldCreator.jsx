@@ -62,6 +62,7 @@ export function TextAreaField({
     <Form.Group className="mb-3">
       <Form.Label className="fs-5 ">{labelName}</Form.Label>
       <Form.Control
+        autoComplete="off"
         {...register(fieldName)}
         as="textarea"
         rows={3}

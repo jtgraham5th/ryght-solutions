@@ -260,7 +260,7 @@ export function SignatureManger({ show, setShow, containerName, edit }) {
           // {...other}
         />
       </Modal.Body>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <Modal.Footer className="bg-light flex-row justify-content-between p-2">
           <Row className="w-100">
             <h5>1. User Signature & Pin Verification</h5>
