@@ -163,7 +163,7 @@ export function SEAdminManagement(props) {
                           }
                           onClick={(e) => viewUser(e, altUser)}
                         >
-                          {altUser.accesslevel === 20 ? <StarFill /> : ""}
+                          <div>{parseInt(altUser.accesslevel) === 20 ? <StarFill size={10}/> : ""}</div>
                           <div className="ms-2 me-auto fw-lighter">
                             <div className="fw-normal">
                               {altUser.firstname + " " + altUser.lastname}
