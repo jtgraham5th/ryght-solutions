@@ -118,6 +118,19 @@ export function Register({
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
+      <Col md={4}>
+          <TextField
+            register={register}
+            labelName="Username"
+            fieldName="username"
+            fieldType="text"
+            fieldOptions={{ required: true }}
+            fieldStyle="mb-4"
+            isValid={touchedFields.email && !errors.email}
+            isInvalid={errors.email}
+            readOnly={!edit}
+          />
+        </Col>
         <Col md={4}>
           <TextField
             register={register}

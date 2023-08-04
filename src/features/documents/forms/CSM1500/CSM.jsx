@@ -13,8 +13,9 @@ import {
 import { dxTable } from "../../data/documents";
 import { CSMHeader } from "./CSM_Header";
 import { CSMItem } from "./CSM_Item";
+import { isEditable } from "@testing-library/user-event/dist/utils";
 
-export function CSM({ register, control, formState }) {
+export function CSM({ register, control, formState, edit }) {
   const { formData } = useClient();
   const { touchedFields, errors } = formState;
   const insCarriers = [
@@ -35,8 +36,7 @@ export function CSM({ register, control, formState }) {
       <hr />
       <Form.Group as={Row} className="mb-2">
         <Col md={8}>
-          <div>
-            {insCarriers.map((item, i) => {
+          {/* {insCarriers.map((item, i) => {
               return (
                 <Controller
                   key={item + i}
@@ -58,13 +58,25 @@ export function CSM({ register, control, formState }) {
                         label={item}
                         isValid={fieldState.isTouched && !fieldState.error}
                         isInvalid={fieldState.error}
+                        readOnly={!edit}
                       />
                     );
                   }}
                 />
               );
-            })}
-          </div>
+            })} */}
+          <SelectField
+            register={register}
+            labelName="INSURANCE CARRIER"
+            fieldName="f1"
+            groupName="Funding Source "
+            labelStyle="text-primary small"
+            isValid={
+              touchedFields.ins1_fundingsource && !errors.ins1_fundingsource
+            }
+            isInvalid={errors.ins1_fundingsource}
+            disabled={!edit}
+          />
         </Col>
         <Col md={4}>
           <TextField
@@ -75,6 +87,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f2 && !errors.f2}
             isInvalid={errors.f2}
+            readOnly={!edit}
           />
         </Col>
       </Form.Group>
@@ -88,6 +101,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f3 && !errors.f3}
             isInvalid={errors.f3}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
@@ -101,6 +115,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f4 && !errors.f4}
                 isInvalid={errors.f4}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -117,6 +132,7 @@ export function CSM({ register, control, formState }) {
                 }}
                 isValid={touchedFields.f5 && !errors.f5}
                 isInvalid={errors.f5}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -130,6 +146,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f6 && !errors.f6}
             isInvalid={errors.f6}
+            readOnly={!edit}
           />
         </Col>
       </Form.Group>
@@ -143,6 +160,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f7 && !errors.f7}
             isInvalid={errors.f7}
+            readOnly={!edit}
           />
           <Row>
             <Col md={8}>
@@ -154,6 +172,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f8 && !errors.f8}
                 isInvalid={errors.f8}
+                readOnly={!edit}
               />
             </Col>
             <Col md={4}>
@@ -166,6 +185,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f9 && !errors.f9}
                 isInvalid={errors.f9}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -180,6 +200,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f10 && !errors.f10}
                 isInvalid={errors.f10}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -192,6 +213,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f11 && !errors.f11}
                 isInvalid={errors.f11}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -206,17 +228,19 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f12 && !errors.f12}
             isInvalid={errors.f12}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
           <TextField
             register={register}
-            labelName="INSURED'S NAME"
+            labelName="INSURED'S ADDRESS"
             fieldName="f13"
             fieldOptions={{ maxLength: 100 }}
             labelStyle="text-primary small"
             isValid={touchedFields.f13 && !errors.f13}
             isInvalid={errors.f13}
+            readOnly={!edit}
           />
           <Row>
             <Col md={8}>
@@ -228,6 +252,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f14 && !errors.f14}
                 isInvalid={errors.f14}
+                readOnly={!edit}
               />
             </Col>
             <Col md={4}>
@@ -240,6 +265,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f15 && !errors.f15}
                 isInvalid={errors.f15}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -254,6 +280,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f16 && !errors.f16}
                 isInvalid={errors.f16}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -266,6 +293,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f17 && !errors.f17}
                 isInvalid={errors.f17}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -281,6 +309,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f18 && !errors.f18}
             isInvalid={errors.f18}
+            readOnly={!edit}
           />
           <TextField
             register={register}
@@ -290,6 +319,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f19 && !errors.f19}
             isInvalid={errors.f19}
+            readOnly={!edit}
           />
           <TextField
             register={register}
@@ -299,6 +329,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f20 && !errors.f20}
             isInvalid={errors.f20}
+            readOnly={!edit}
           />
           <TextField
             register={register}
@@ -308,6 +339,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f21 && !errors.f21}
             isInvalid={errors.f21}
+            readOnly={!edit}
           />
           <TextField
             register={register}
@@ -317,6 +349,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f22 && !errors.f22}
             isInvalid={errors.f22}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
@@ -386,6 +419,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f26 && !errors.f26}
             isInvalid={errors.f26}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
@@ -397,6 +431,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f27 && !errors.f27}
             isInvalid={errors.f27}
+            readOnly={!edit}
           />
 
           <Row>
@@ -409,6 +444,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f28 && !errors.f28}
                 isInvalid={errors.f28}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -425,6 +461,7 @@ export function CSM({ register, control, formState }) {
                 }}
                 isValid={touchedFields.f29 && !errors.f29}
                 isInvalid={errors.f29}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -436,6 +473,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f30 && !errors.f30}
             isInvalid={errors.f30}
+            readOnly={!edit}
           />
           <TextField
             register={register}
@@ -445,6 +483,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f31 && !errors.f31}
             isInvalid={errors.f31}
+            readOnly={!edit}
           />
           <Form.Label className="text-primary small">
             d. IS THERE ANOTHER HEALTH BENEFIT PLAN
@@ -479,6 +518,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f33 && !errors.f33}
             isInvalid={errors.f33}
+            readOnly={!edit}
           />
         </Col>
         <Col md={3}>
@@ -491,6 +531,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f34 && !errors.f34}
             isInvalid={errors.f34}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
@@ -508,6 +549,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f35 && !errors.f35}
                 isInvalid={errors.f35}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -520,6 +562,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f36 && !errors.f36}
                 isInvalid={errors.f36}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -536,6 +579,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f37 && !errors.f37}
             isInvalid={errors.f37}
+            readOnly={!edit}
           />
         </Col>
         <Col md={3}>
@@ -548,6 +592,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f38 && !errors.f38}
             isInvalid={errors.f38}
+            readOnly={!edit}
           />
           <TextField
             register={register}
@@ -558,6 +603,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f39 && !errors.f39}
             isInvalid={errors.f39}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
@@ -575,6 +621,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f40 && !errors.f40}
                 isInvalid={errors.f40}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -587,6 +634,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f41 && !errors.f41}
                 isInvalid={errors.f41}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -605,7 +653,9 @@ export function CSM({ register, control, formState }) {
         <Col md={4}>
           <Row>
             <Col md={6}>
-              <Form.Label className="text-primary small">OUTSIDE LAB?</Form.Label>
+              <Form.Label className="text-primary small">
+                OUTSIDE LAB?
+              </Form.Label>
               <div className="d-flex flex-row justify-content-evenly">
                 <Form.Check
                   type="radio"
@@ -633,6 +683,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f43 && !errors.f43}
                 isInvalid={errors.f43}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -668,6 +719,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f44 && !errors.f44}
                 isInvalid={errors.f44}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -680,6 +732,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f45 && !errors.f45}
                 isInvalid={errors.f45}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -692,6 +745,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f46 && !errors.f46}
             isInvalid={errors.f46}
+            readOnly={!edit}
           />
         </Col>
       </Form.Group>
@@ -721,6 +775,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f47 && !errors.f47}
                 isInvalid={errors.f47}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -755,6 +810,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f49 && !errors.f49}
                 isInvalid={errors.f49}
+                readOnly={!edit}
               />
             </Col>
             <Col md={6}>
@@ -793,6 +849,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f51 && !errors.f51}
                 isInvalid={errors.f51}
+                readOnly={!edit}
               />
             </Col>
             <Col md={4}>
@@ -805,6 +862,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f52 && !errors.f52}
                 isInvalid={errors.f52}
+                readOnly={!edit}
               />
             </Col>
             <Col md={4}>
@@ -817,6 +875,7 @@ export function CSM({ register, control, formState }) {
                 labelStyle="text-primary small"
                 isValid={touchedFields.f53 && !errors.f53}
                 isInvalid={errors.f53}
+                readOnly={!edit}
               />
             </Col>
           </Row>
@@ -833,6 +892,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f54 && !errors.f54}
             isInvalid={errors.f54}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
@@ -852,6 +912,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f55 && !errors.f55}
             isInvalid={errors.f55}
+            readOnly={!edit}
           />
         </Col>
         <Col md={4}>
@@ -871,6 +932,7 @@ export function CSM({ register, control, formState }) {
             labelStyle="text-primary small"
             isValid={touchedFields.f56 && !errors.f56}
             isInvalid={errors.f56}
+            readOnly={!edit}
           />
         </Col>
       </Form.Group>

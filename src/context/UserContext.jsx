@@ -125,11 +125,12 @@ export function UserProvider(props) {
   const getAllUsers = async () => {
     try {
       const response = await fetch(
-        `${apiUrl}generic_api/list/19?fields=email,userid,firstname,lastname,accesslevel&where=active=1&orderby=fullname`
+        `${apiUrl}generic_api/list/19?fields=email,userid,firstname,lastname,username,accesslevel&where=active=1&orderby=fullname`
       );
       if (response.ok) {
         const res = await response.json();
         if (res.length > 0) {
+          console.log(res)
           setAllUser(res);
           return res;
         }
@@ -143,6 +144,25 @@ export function UserProvider(props) {
     const { email, password } = data;
     try {
       const response = await fetch(`${apiUrl}generic_api/pcheck/760?tid=19`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        const res = await response.json();
+        console.log(res);
+        return true;
+      } else return false;
+    } catch (err) {
+      console.error(err);
+    }
+    return false;
+  };
+  const updatePassword = async (data) => {
+    try {
+      const response = await fetch(`${apiUrl}generic_api/pcheck/${data[0].userid}?tid=19`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -175,6 +195,7 @@ export function UserProvider(props) {
         signup,
         logout,
         login,
+        updatePassword,
         updateCurrentUser,
         adminUpdateUser,
         isAuthenticated,

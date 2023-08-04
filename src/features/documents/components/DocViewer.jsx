@@ -52,7 +52,7 @@ export function DocViewer({
       {screenValue === 1 ? (
         renderRequirement(activePage, register, control)
       ) : screenValue === 2 ? (
-        <CSM register={register} control={control} formState={formState} />
+        <CSM register={register} control={control} formState={formState} edit={edit}/>
       ) : null}
     </Row>
   );

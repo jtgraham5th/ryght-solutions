@@ -18,6 +18,7 @@ import { parseBillingTx } from "../../services/utils/parseData";
 import parseDocument from "../../../utils/parseDocument";
 import parseDefaultDocument from "../../../utils/parseDefaultDocument";
 import { documents } from "../../documents/data/documents";
+import { parseDefaultCSM } from "../../documents/services/parseData";
 
 export function CVDocuments() {
   const [activeDocument, setActiveDocument] = useState(false);
@@ -28,6 +29,7 @@ export function CVDocuments() {
 
   const {
     activeClient,
+    activeContacts,
     activeDocuments,
     formData,
     sendPDFtoAPI,
@@ -42,13 +44,14 @@ export function CVDocuments() {
       pages: 0,
     }
   ).pages;
-
   useEffect(() => {
     setEdit(false);
   }, [activeDocument]);
 
   const onSubmit = async (data, e) => {
-    const submitter = e.nativeEvent.submitter ? e.nativeEvent.submitter.id : e.target.id;
+    const submitter = e.nativeEvent.submitter
+      ? e.nativeEvent.submitter.id
+      : e.target.id;
     const updatedDocument = parseDocument(data, activeClient, activePage);
     const blankDoc = parseDefaultDocument({
       docid: updatedDocument[0].docid,
@@ -134,10 +137,10 @@ export function CVDocuments() {
 
   const handlePrint = async (pinNumber) => {
     let pin;
-    if (typeof pinNumber === 'string' || typeof pinNumber === 'number') {
-      pin = pinNumber
+    if (typeof pinNumber === "string" || typeof pinNumber === "number") {
+      pin = pinNumber;
     } else {
-      pin = false
+      pin = false;
     }
     const activeServices = getActiveServices();
     const pdfBlob = await pdf(
@@ -152,7 +155,11 @@ export function CVDocuments() {
   };
   const resetDocument = (document) => {
     setActivePage(1);
-    reset(parseDefaultDocument(document));
+    reset(
+      screenValue === 2
+        ? parseDefaultCSM(document, activeClient, activeContacts)
+        : parseDefaultDocument(document)
+    );
   };
   useEffect(() => {
     //List of docids that are single pages
@@ -180,7 +187,11 @@ export function CVDocuments() {
         </Col>
         <Col md={9}>
           <Card style={{ height: "40rem" }}>
-            <Form onSubmit={handleSubmit(onSubmit)} style={{ height: "84%" }} autoComplete="off">
+            <Form
+              onSubmit={handleSubmit(onSubmit)}
+              style={{ height: "84%" }}
+              autoComplete="off"
+            >
               <ViewerHeader
                 handlePrint={handlePrint}
                 edit={edit}

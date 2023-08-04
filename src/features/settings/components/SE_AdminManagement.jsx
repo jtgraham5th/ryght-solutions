@@ -23,7 +23,8 @@ import { getDirtyFields } from "../utils/parseData";
 import { filterObjectByKeys } from "../utils/parseData";
 
 export function SEAdminManagement(props) {
-  const { user, adminUpdateUser, getAllUsers, allUsers } = useUser();
+  const { user, adminUpdateUser, getAllUsers, allUsers, updatePassword } =
+    useUser();
   const { register, handleSubmit, formState, watch, control, reset } = useForm({
     mode: "onBlur",
   });
@@ -95,27 +96,45 @@ export function SEAdminManagement(props) {
   };
 
   const onSubmit = async (data) => {
-    const dirtyFieldsString = getDirtyFields(dirtyFields, "passwordconfirm");
+    console.log(dirtyFields);
+    let dirtyFieldsString = getDirtyFields(dirtyFields, "passwordconfirm");
+    console.log(dirtyFieldsString);
     if (dirtyFieldsString) {
       const filteredObj = filterObjectByKeys(data, dirtyFields);
       delete filteredObj.passwordconfirm;
-
       const signupData = parseSignUpData(data);
+      let userid;
       if (signupData[0].UserID) {
         console.log("updated", signupData, dirtyFieldsString);
-        await updateUser(
-          signupData[0].UserID,
-          [filteredObj],
-          dirtyFieldsString
-        ).then(() => getAllUsers());
+        userid = signupData[0].UserID;
+        await updateUser(userid, [filteredObj], dirtyFieldsString).then(() =>
+          getAllUsers()
+        );
       } else {
         console.log("new", signupData, dirtyFieldsString);
-        await addNewUser().then((newUser) => {
+        await addNewUser().then(async (newUser) => {
           console.log(newUser);
-          signupData[0].UserID = newUser.userid;
-          updateUser(signupData[0].UserID, [filteredObj], dirtyFieldsString);
-          getAllUsers();
+          userid = newUser.userid;
+          signupData[0].UserID = userid;
+          await updateUser(userid, [filteredObj], dirtyFieldsString).then(() =>
+            getAllUsers()
+          );
         });
+      }
+      if (dirtyFieldsString.includes("password")) {
+        let pCheckData = [
+          {
+            userid: userid,
+            UserName: data.email,
+            StringValue: data.password,
+            PCheckTypeID: 1,
+            PinValue: "",
+          },
+        ];
+        const passwordUpdate = await updatePassword(pCheckData);
+        console.log(passwordUpdate);
+        delete filteredObj.password;
+        dirtyFieldsString = dirtyFieldsString.replace(/password/g, "");
       }
     }
     setEdit(false);
@@ -163,7 +182,13 @@ export function SEAdminManagement(props) {
                           }
                           onClick={(e) => viewUser(e, altUser)}
                         >
-                          <div>{parseInt(altUser.accesslevel) === 20 ? <StarFill size={10}/> : ""}</div>
+                          <div>
+                            {parseInt(altUser.accesslevel) === 20 ? (
+                              <StarFill size={10} />
+                            ) : (
+                              ""
+                            )}
+                          </div>
                           <div className="ms-2 me-auto fw-lighter">
                             <div className="fw-normal">
                               {altUser.firstname + " " + altUser.lastname}
