@@ -105,7 +105,6 @@ export const getListItem = async (grouplistid) => {
           Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
         )
       );
-      console.log(formattedData[0])
       return formattedData[0];
     })
     .catch((e) => {

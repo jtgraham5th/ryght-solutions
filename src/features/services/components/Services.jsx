@@ -21,9 +21,9 @@ export function Services({
     if (showActiveServices) return activeServices;
     if (filterBy && showServiceCodes)
       return filterActiveServices(filterBy, serviceCodes);
-    if (showServiceCodes){
-      return filterActiveServices(activeServices, serviceCodes);}
-    else return formData["Services"];
+    if (showServiceCodes) {
+      return filterActiveServices(activeServices, serviceCodes);
+    } else return formData["Services"];
   };
 
   const [results, setResults] = useState(setServices());
@@ -38,13 +38,15 @@ export function Services({
     e.preventDefault();
     let filterCodes = [];
     const searchTerm = e.currentTarget.value;
-
+    console.log(results);
     if (searchTerm.length > 0) {
       filterCodes = setServices().filter((service) =>
-        service.description.includes(searchTerm)
+        service.groupvalue.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      setResults(filterCodes);
+    } else {
+      setResults(setServices());
     }
-    setResults(filterCodes);
   };
   const selectService = (code) => {
     if (

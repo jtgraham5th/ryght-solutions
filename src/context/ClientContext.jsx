@@ -502,7 +502,7 @@ export function ClientProvider(props) {
       getClientDocuments();
       getClientTreatmentPlan();
       getClientProgNotes();
-      // getClientAuthorizations();
+      getClientAuthorizations();
     }
     // eslint-disable-next-line
   }, [activeClient]);

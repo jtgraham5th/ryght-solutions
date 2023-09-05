@@ -30,14 +30,16 @@ export function Diagnosis({
     let filterCodes = [];
     const searchTerm = e.currentTarget.value;
     if (searchType === 0) {
-      filterCodes = setCodes().filter((code) => code.code.includes(searchTerm));
-    }
-    if (searchType === 1) {
+      filterCodes = setCodes().filter((code) => code.code.toLowerCase().includes(searchTerm.toLowerCase()));
+      setResults(filterCodes);
+    } else if (searchType === 1) {
       filterCodes = setCodes().filter((code) =>
-        code.description.includes(searchTerm)
+        code.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      setResults(filterCodes);
+    } else {
+      setResults(setCodes())
     }
-    setResults(filterCodes);
   };
   const selectDX = (code) => {
     if (

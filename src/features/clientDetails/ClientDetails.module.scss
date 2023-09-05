@@ -16,10 +16,9 @@
   }
 }
 .dataGroup {
-  margin-right: -1rem;
+  // margin-right: -1rem;
   width: 100%;
-  height: 21rem;
-  max-height: 15rem;
+  max-height: 30rem;
   border: 1px solid silver;
   overflow: auto;
   padding: 0;
@@ -27,7 +26,7 @@
 
   div:nth-child(1) {
     // padding-left: 0;
-    padding-right: 0;
+    // padding-right: 0;
   }
 }
 .dataGroupRow {

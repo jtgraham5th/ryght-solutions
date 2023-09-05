@@ -110,7 +110,8 @@ export function AUListItem({ data, setShow }) {
                     >
                       <Collapse in={serviceIndex === i} timeout={100}>
                         <ul className="mt-2">
-                          {service.servicecodes.split(",").map((code) => (
+                          {console.log(service)}
+                          {service.servicecodes && service.servicecodes.split(",").map((code) => (
                             <li>
                               <small>
                                 {getServiceCodeValue(code, serviceCodes)}

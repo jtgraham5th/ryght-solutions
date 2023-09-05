@@ -4,6 +4,7 @@ import AlertContainer from "../../../components/AlertContainer";
 import { AU1 } from "./AU_1";
 import { useForm } from "react-hook-form";
 import { useClient } from "../../../context/ClientContext";
+import { useUser } from "../../.."
 import {
   newAuthorization,
   parseAuthorization,
@@ -23,7 +24,7 @@ export function AUManager({ data, show, setShow, containerName, edit }) {
     useClient();
   const { control, register, handleSubmit, reset, setValue, watch, getValues } =
     useForm({
-      defaultValues: newAuthorization(),
+      defaultValues: newAuthorization(userid),
     });
   useEffect(() => {
     if (typeof show !== "boolean") {
@@ -59,10 +60,16 @@ export function AUManager({ data, show, setShow, containerName, edit }) {
     console.log(authorization);
     if (typeof show == "boolean") {
       await addClientAuthorization(authorization).then((authrecid) => {
+        updateClientAuthorization(authrecid, authorization);
         data.services.map((authService) => {
           if (authService.authrecid !== authrecid) {
             console.log("add auth service1");
-            addNewAuthService(parseAuthService(authService, authrecid));
+            addNewAuthService().then((recid) => {
+              updateAuthService(
+                recid,
+                parseAuthService(authService, authrecid)
+              );
+            });
           } else {
             console.log("update auth service1");
             updateAuthService(
@@ -80,9 +87,12 @@ export function AUManager({ data, show, setShow, containerName, edit }) {
         data.services.map((authService) => {
           if (authService.authrecid !== authorization[0].authrecid) {
             console.log("add auth service2");
-            addNewAuthService(
-              parseAuthService(authService, authorization[0].authrecid)
-            );
+            addNewAuthService().then((authrecid) => {
+              updateAuthService(
+                authService.recid,
+                parseAuthService(authService, authorization[0].authrecid)
+              );
+            });
           } else {
             console.log("update auth service2");
             updateAuthService(

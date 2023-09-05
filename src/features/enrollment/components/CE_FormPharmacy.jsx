@@ -3,7 +3,8 @@ import "./CE_Manager.css";
 
 export function CEFormPharmacy({ register }) {
   return (
-<>      <Form.Group as={Row}>
+    <>
+      <Form.Group as={Row}>
         <Col md={4}>
           <Form.Label className="CE-form-label">Pharmacy Name</Form.Label>
           <Form.Control
@@ -25,7 +26,6 @@ export function CEFormPharmacy({ register }) {
             type="number"
             name="phone1"
           />
-
         </Col>
         <Col md={4}>
           <Form.Label className="CE-form-label">Fax Phone Number</Form.Label>
@@ -36,9 +36,8 @@ export function CEFormPharmacy({ register }) {
             type="number"
             name="phone2"
           />
-
         </Col>
-        </Form.Group>
+      </Form.Group>
     </>
   );
 }

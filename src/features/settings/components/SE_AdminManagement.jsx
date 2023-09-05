@@ -50,7 +50,6 @@ export function SEAdminManagement(props) {
   }, [alert.show]);
 
   const toggleAccess = async (user) => {
-    console.log(user);
     const updatedUser = {};
     if (user.accesslevel === 20) {
       updatedUser.accesslevel = 10;
@@ -58,17 +57,15 @@ export function SEAdminManagement(props) {
       updatedUser.accesslevel = 20;
     }
 
-    console.log(updatedUser);
     const response = await adminUpdateUser(
       user.userid,
       [updatedUser],
       "accesslevel"
     );
-    console.log(response);
     if (response) {
       setAlert({
         show: true,
-        status: true,
+        status: "access",
         user: user.firstname + " " + user.lastname,
       });
       const updatedSelectedUser = allUsers.find(
@@ -107,17 +104,29 @@ export function SEAdminManagement(props) {
       if (signupData[0].UserID) {
         console.log("updated", signupData, dirtyFieldsString);
         userid = signupData[0].UserID;
-        await updateUser(userid, [filteredObj], dirtyFieldsString).then(() =>
-          getAllUsers()
-        );
+        await updateUser(userid, [filteredObj], dirtyFieldsString).then(() => {
+          getAllUsers();
+          setAlert({
+            show: true,
+            status: "updated",
+            user: data.firstname + " " + data.lastname,
+          });
+        });
       } else {
         console.log("new", signupData, dirtyFieldsString);
         await addNewUser().then(async (newUser) => {
           console.log(newUser);
           userid = newUser.userid;
           signupData[0].UserID = userid;
-          await updateUser(userid, [filteredObj], dirtyFieldsString).then(() =>
-            getAllUsers()
+          await updateUser(userid, [filteredObj], dirtyFieldsString).then(
+            () => {
+              getAllUsers();
+              setAlert({
+                show: true,
+                status: "newUser",
+                user: data.firstname + " " + data.lastname,
+              });
+            }
           );
         });
       }
@@ -284,9 +293,15 @@ export function SEAdminManagement(props) {
                 variant={alert.status ? "primary" : "danger"}
                 className={` ${alert.show ? "fade-in-out" : "fade-out"}`}
               >
-                {alert.status
+                {alert.status === "access"
                   ? "Access Updated For " + alert.user
-                  : "Update Failed, Please try again."}
+                  : alert.status === "newUser"
+                  ? "Account has been created for " + alert.user
+                  : alert.status === "updated"
+                  ? "Account has been updated for " + alert.user
+                  : alert.status === "error"
+                  ? "Update Failed, Please try again."
+                  : null}
               </Alert>
             ) : null}
           </Card.Body>
