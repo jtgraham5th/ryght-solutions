@@ -24,7 +24,7 @@ export function AUManager({ data, show, setShow, containerName, edit }) {
     useClient();
   const { control, register, handleSubmit, reset, setValue, watch, getValues } =
     useForm({
-      defaultValues: newAuthorization(userid),
+      defaultValues: newAuthorization(),
     });
   useEffect(() => {
     if (typeof show !== "boolean") {
