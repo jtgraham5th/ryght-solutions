@@ -125,7 +125,7 @@ export function UserProvider(props) {
   const getAllUsers = async () => {
     try {
       const response = await fetch(
-        `${apiUrl}generic_api/list/19?fields=email,userid,firstname,lastname,username,accesslevel&where=active=1&orderby=fullname`
+        `${apiUrl}generic_api/list/19?fields=email,userid,firstname,lastname,username,fullname,accesslevel&where=active=1&orderby=fullname`
       );
       if (response.ok) {
         const res = await response.json();

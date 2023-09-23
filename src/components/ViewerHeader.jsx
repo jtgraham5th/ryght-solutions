@@ -43,7 +43,7 @@ export function ViewerHeader({
             <Button
               variant="secondary"
               className="me-2"
-              onClick={signDocument}
+              onClick={handlePrint}
               // disabled={true}
               disabled={disabled || !activeDocument}
             >

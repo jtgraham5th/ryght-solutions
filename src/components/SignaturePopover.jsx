@@ -30,9 +30,9 @@ export const SignaturePopover = ({handlePrint}) => {
     //   },
     // ];
     // const sigConfirmed = await pinCheck(sigData);
-    if (data.pinNumber) {
+    if (data.pinvalue) {
       //api call to print job clarify
-      handlePrint(data.pinNumber)
+      handlePrint(data.pinvalue)
     } else {
       //set error alert
     }

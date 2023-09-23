@@ -15,7 +15,7 @@ export function SignatureCanvas({ canvasRef }) {
 
   return (
     <div>
-      <canvas ref={canvasRef} width={400} height={300} />
+      <canvas ref={canvasRef} id="cnv" name="cnv" width={400} height={300} />
     </div>
   );
 }

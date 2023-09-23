@@ -1,24 +1,24 @@
-import { Card, Col, Button, Row, Modal, Form } from "react-bootstrap";
+import { Col, Button, Row, Modal, Form, Collapse } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { TextField } from "../../../components/form/fieldCreator";
-import { SignatureCanvas } from "..";
-// import alertify from 'alertifyjs';
+import { useUser } from "../../../context/UserContext";
+import { TextField, SelectField } from "../../../components/form/fieldCreator";
+import { getDirtyFields } from "../utils/parseData";
 
 export function SignatureManger({ show, setShow, containerName, edit }) {
-  // const [activePage, setActivePage] = useState(0);
-  // const [tempID, setTempID] = useState();
-  // const [editing, setEditing] = useState(edit);
-  // const [userSig, setUserSig] = useState(false);
-  const [adminSig, setAdminSig] = useState(false);
-  const { register, handleSubmit, watch, formState } = useForm();
+  const { register, handleSubmit, watch, formState, getValues } = useForm();
   const { touchedFields, errors } = formState;
+  const { user, getAllUsers, allUsers, updateCurrentUser, pinCheck } =
+    useUser();
+
+  const [sigRawData, setSigRawData] = useState("");
+  const [activeKey, setActiveKey] = useState(0);
+  const [adminSig, setAdminSig] = useState(false);
   ///======================================================///
-  const [imgWidth, setImgWidth] = useState(null);
-  const [imgHeight, setImgHeight] = useState(null);
+  const [imgWidth, setImgWidth] = useState(0);
+  const [imgHeight, setImgHeight] = useState(0);
   // const [bIsOpen, setBIsOpen] = useState(false);
   const [sigStringData, setSigStringData] = useState("");
-  const [sigRawData, setSigRawData] = useState("Base64 String: ");
   const [signBtn, toggleSignBtn] = useState(false);
   // const [submitType, setSubmitType] = useState();
 
@@ -30,82 +30,93 @@ export function SignatureManger({ show, setShow, containerName, edit }) {
   // const saveRef = useRef();
   // const adminFormRef = useRef();
   // const witnessRef = useRef();
-  const cnvRef = useRef();
 
   const handleClose = () => {
-    clearFormData();
+    // clearFormData();
     setShow(false);
   };
 
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
-  const startSign = () => {
-    // pinValueRef.current.disabled = false;
-    // pinValue2Ref.current.disabled = false;
+  useEffect(() => {
+    var deviceStatus = {
+      metadata: { version: 1.0, command: "GetDeviceStatus" },
+      deviceStatus: "",
+    };
+    getAllUsers();
+    var deviceStatusData = JSON.stringify(deviceStatus);
+    var element = document.createElement("MyExtensionDataElementDeviceStatus");
+    element.setAttribute("msgeAttributeDeviceStatus", deviceStatusData);
+    document.documentElement.appendChild(element);
+    var evt = document.createEvent("Events");
+    evt.initEvent("GetDeviceStatusEvent", true, false);
+    element.dispatchEvent(evt);
 
-    const isInstalled = document.documentElement.getAttribute(
-      "SigPlusExtLiteExtension-installed"
+    const getDeviceStatusResponse = (event) => {
+      const str = event.target.getAttribute("msgAttribute");
+      const obj = JSON.parse(str);
+      // Process the response
+      console.log(obj);
+    };
+
+    document.addEventListener(
+      "GetDeviceStatusResponse",
+      getDeviceStatusResponse,
+      false
     );
-    if (!isInstalled) {
-      alert(
-        "SigPlusExtLite extension is either not installed or disabled. Please install or enable extension."
+    // Clean-up: Remove event listener on component unmount
+    return () => {
+      document.removeEventListener(
+        "GetDeviceStatusResponse",
+        getDeviceStatusResponse,
+        false
       );
-      return;
-    }
-    const canvasObj = cnvRef.current;
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  const startSign = () => {
+    var canvasObj = document.getElementById("cnv");
     canvasObj
       .getContext("2d")
       .clearRect(0, 0, canvasObj.width, canvasObj.height);
-    setSigStringData("");
-    setSigRawData("Base64 String: ");
-    setImgWidth(canvasObj.width);
-    setImgHeight(canvasObj.height);
-
-    const message = {
+    console.log(canvasObj);
+    var message = {
       firstName: "",
       lastName: "",
       eMail: "",
       location: "",
       imageFormat: 1,
-      imageX: imgWidth,
-      imageY: imgHeight,
+      imageX: canvasObj.width,
+      imageY: canvasObj.height,
       imageTransparency: false,
       imageScaling: false,
       maxUpScalePercent: 0.0,
       rawDataFormat: "ENC",
       minSigPoints: 25,
     };
-
-    const messageData = JSON.stringify(message);
-    const element = document.createElement("MyExtensionDataElement");
+    var messageData = JSON.stringify(message);
+    var element = document.createElement("MyExtensionDataElement");
     element.setAttribute("messageAttribute", messageData);
     document.documentElement.appendChild(element);
+    var evt = document.createEvent("Events");
+    evt.initEvent("SignStartEvent", true, false);
+    element.dispatchEvent(evt);
 
-    const customEvent = new CustomEvent("SignStartEvent", {
-      bubbles: true,
-      cancelable: false,
-      detail: { messageData },
-    });
+    const signResponse = (event) => {
+      var str = event.target.getAttribute("msgAttribute");
+      var obj = JSON.parse(str);
+      console.log(obj);
+      if (!obj.errorMsg) {
+        setActiveKey(2);
+      } else {
+        console.log(obj.errorMsg);
+      }
 
-    window.dispatchEvent(customEvent);
-  };
-
-  const signResponse = (event) => {
-    const str = event.target.getAttribute("msgAttribute");
-    const obj = JSON.parse(str);
-    setValues(obj, imgWidth, imgHeight);
-  };
-  useEffect(() => {
-    // Add the event listener when the component mounts
-    document.addEventListener("SignResponse", signResponse, false);
-
-    // Cleanup function to remove the event listener when the component unmounts
-    return () => {
-      document.removeEventListener("SignResponse", signResponse, false);
+      // Process the response
+      setValues(obj, canvasObj.width, canvasObj.height);
     };
-    // eslint-disable-next-line
-  }, [signBtn]);
+
+    document.addEventListener("SignResponse", signResponse, false);
+  };
 
   const setValues = (objResponse, imageWidth, imageHeight) => {
     let obj = null;
@@ -115,7 +126,7 @@ export function SignatureManger({ show, setShow, containerName, edit }) {
       obj = JSON.parse(JSON.stringify(objResponse));
     }
 
-    const ctx = cnvRef.current.getContext("2d");
+    const ctx = document.getElementById("cnv").getContext("2d");
 
     if (
       obj.errorMsg != null &&
@@ -125,31 +136,54 @@ export function SignatureManger({ show, setShow, containerName, edit }) {
       alert(obj.errorMsg);
     } else {
       if (obj.isSigned) {
-        setSigRawData(sigRawData + obj.imageData);
-        setSigStringData(sigStringData + obj.sigString);
-        const img = new Image();
+        var img = new Image();
         img.onload = function () {
           ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
         };
         img.src = "data:image/png;base64," + obj.imageData;
+        setSigRawData(img.src);
       }
     }
   };
 
-  const clearFormData = () => {
-    setSigStringData("");
-    setSigRawData("Base64 String: ");
-  };
-
-  // const formSubmit = (sType) => {
-  //   setSubmitType(sType);
-  //   adminFormRef.current.submit();
-  // };
-
   const setButton = (e) => {
-    toggleSignBtn(e.target.checked);
+    setActiveKey(1);
   };
 
+  const setUserPin = () => {
+    //get formstate of pinNumber and pinVerify Fields
+    const userPin = getValues("pinNumber");
+    const userPinVerify = getValues("pinVerify");
+    //check if they are the same
+    if (userPin === userPinVerify) {
+      setActiveKey(3);
+    }
+    //api call to save pin to user object (pCheck)
+  };
+  const onSubmit = async (data) => {
+    console.log(data);
+    //build pcheck obj
+    const pCheckObj = [
+      {
+        userid: user.userid,
+        UserName: user.username,
+        StringValue: data.witnessPin,
+        PCheckTypeID: 2,
+        PinValue: data.witnessPin,
+      },
+    ];
+
+    //check witness pin
+    const witnessVerified = await pinCheck(pCheckObj);
+    console.log(witnessVerified);
+
+    // if true save pinNumber and signatrue
+    // const updatedUserObj = { userid: user.userid, pinValue: data.pinValue, signature: sigRawData };
+    const updatedUserObj = { userid: user.userid, signature: sigRawData };
+    const fieldsString = getDirtyFields(updatedUserObj);
+    console.log(updatedUserObj, fieldsString);
+    await updateCurrentUser(updatedUserObj, fieldsString);
+  };
   // const witnessSignature = () => {
   //   const sSig = sigStringData;
   //   const sWitnessID = witnessRef.current.value;
@@ -260,87 +294,164 @@ export function SignatureManger({ show, setShow, containerName, edit }) {
           // {...other}
         />
       </Modal.Body>
-      <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <Form
+        onSubmit={handleSubmit(onSubmit)}
+        action="https://sigplusweb.com/sign_chrome_ff_sigplusextlite.html#"
+        autoComplete="off"
+      >
         <Modal.Footer className="bg-light flex-row justify-content-between p-2">
           <Row className="w-100">
             <h5>1. User Signature & Pin Verification</h5>
-            <SignatureCanvas canvasRef={cnvRef} />
-            <Col md={6}>
-              <TextField
-                register={register}
-                labelName="Pin Number"
-                fieldName="pinNumber"
-                fieldType="number"
-                fieldOptions={{
-                  minLength: {
-                    value: 4,
-                    message: "Pin Number must be 4 numbers long",
-                  },
-                  maxLength: {
-                    value: 4,
-                    message: "Pin Number must be 4 numbers long",
-                  },
-                }}
-                disabled={!signBtn}
-                // disabled={!userSig}
-                isValid={touchedFields.pinNumber && !errors.pinNumber}
-                isInvalid={errors.pinNumber}
-              />
-            </Col>
-            <Col md={6}>
-              <TextField
-                register={register}
-                labelName="Verify Pin Number"
-                fieldName="pinVerify"
-                fieldType="number"
-                fieldOptions={{
-                  required: true,
-                  minLength: {
-                    value: 4,
-                    message: "Pin Number must be 4 numbers long",
-                  },
-                  maxLength: {
-                    value: 4,
-                    message: "Pin Number must be 4 numbers long",
-                  },
-                  validate: (value) =>
-                    pinNumber.current === value || "Pin Numbers do not Match",
-                }}
-                disabled={!signBtn}
-                // disabled={!userSig}
-                isValid={touchedFields.pinVerify && !errors.pinVerify}
-                isInvalid={errors.pinVerify}
-              />
-            </Col>
+            <Collapse in={activeKey === 1}>
+              <div className="w-100 d-flex flex-column align-items-center justify-content-center">
+                <div className="w-100 d-flex  justify-content-center p-2">
+                  <canvas
+                    id="cnv"
+                    name="cnv"
+                    width={400}
+                    height={100}
+                    className="border"
+                  />
+                </div>
+                <Button
+                  id="SignBtn"
+                  name="SignBtn"
+                  size="lg"
+                  disabled={activeKey !== 1}
+                  className="w-25 mt-2"
+                  // disabled={!userSig || !adminSig}
+                  onClick={startSign}
+                >
+                  Sign
+                </Button>
+              </div>
+            </Collapse>
+          </Row>
+          <Row className="w-100 border-top mt-3 pt-3 align-items-end">
+            <h5 className={activeKey === 2 ? "" : "text-muted"}>
+              2. Pin Number Verification
+            </h5>
+            <Collapse in={activeKey === 2}>
+              <div>
+                <Form.Group as={Row}>
+                  <Col md={5}>
+                    <TextField
+                      register={register}
+                      labelName="Pin Number"
+                      fieldName="pinNumber"
+                      fieldType="number"
+                      fieldOptions={{
+                        minLength: {
+                          value: 4,
+                          message: "Pin Number must be 4 numbers long",
+                        },
+                        maxLength: {
+                          value: 4,
+                          message: "Pin Number must be 4 numbers long",
+                        },
+                      }}
+                      disabled={!sigRawData}
+                      // disabled={!userSig}
+                      isValid={touchedFields.pinNumber && !errors.pinNumber}
+                      isInvalid={errors.pinNumber}
+                    />
+                  </Col>
+                  <Col md={5}>
+                    <TextField
+                      register={register}
+                      labelName="Verify Pin Number"
+                      fieldName="pinVerify"
+                      fieldType="number"
+                      fieldOptions={{
+                        required: true,
+                        minLength: {
+                          value: 4,
+                          message: "Pin Number must be 4 numbers long",
+                        },
+                        maxLength: {
+                          value: 4,
+                          message: "Pin Number must be 4 numbers long",
+                        },
+                        validate: (value) =>
+                          pinNumber.current === value ||
+                          "Pin Numbers do not Match",
+                      }}
+                      disabled={!sigRawData}
+                      // disabled={!userSig}
+                      isValid={touchedFields.pinVerify && !errors.pinVerify}
+                      isInvalid={errors.pinVerify}
+                    />
+                  </Col>
+                  <Col md={2}>
+                    <Button
+                      id="SignBtn"
+                      name="SignBtn"
+                      disabled={!sigRawData}
+                      className="w-100 mt-2"
+                      // disabled={!userSig || !adminSig}
+                      onClick={setUserPin}
+                    >
+                      Verify & Save
+                    </Button>
+                  </Col>
+                </Form.Group>
+              </div>
+            </Collapse>
           </Row>
           <Row className="w-100 border-top mt-3 pt-3 mb-3">
-            <Col md={8} className=" p-2">
-              <h5 className={adminSig ? "" : "text-muted"}>
-                2. Admin Signature
-              </h5>
-              <Card
-                className="h-75 border border-2"
-                border={adminSig ? "success" : "secondary"}
-                bg={adminSig ? "success" : "secondary"}
-                onClick={() => setAdminSig(!adminSig)}
-              >
-                <Card.Body>signature</Card.Body>
-              </Card>
-            </Col>
-            <Col
-              md={4}
-              className="d-flex justify-content-center align-items-center"
-            >
-              <Button
-                className="w-75"
-                size="lg"
-                disabled={!signBtn}
-                // disabled={!userSig || !adminSig}
-                onClick={startSign}
-              >
-                Sign
-              </Button>
-            </Col>
+            <h5 className={activeKey === 3 ? "" : "text-muted"}>
+              3. Witness Confirmation
+            </h5>
+            <Collapse in={activeKey === 3}>
+              <div>
+                <Form.Group as={Row} className="justify-content-center">
+                  <Col md={6} className=" p-2">
+                    <SelectField
+                      listData={allUsers}
+                      itemDetail={["userid", "fullname"]}
+                      register={register}
+                      labelName="Select Staff Member"
+                      fieldName="witness"
+                      labelStyle="w-50 m-0 pe-1 small"
+                      // disabled={!intervention || !editIntervention ? true : false}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <TextField
+                      register={register}
+                      labelName="Witness Pin Number"
+                      fieldName="witnessPin"
+                      fieldType="number"
+                      fieldOptions={{
+                        minLength: {
+                          value: 4,
+                          message: "Pin Number must be 4 numbers long",
+                        },
+                        maxLength: {
+                          value: 4,
+                          message: "Pin Number must be 4 numbers long",
+                        },
+                      }}
+                      // disabled={!signBtn}
+                      // disabled={!userSig}
+                      isValid={touchedFields.witnessPin && !errors.witnessPin}
+                      isInvalid={errors.witnessPin}
+                    />
+                  </Col>
+                </Form.Group>
+                <Row className="justify-content-center">
+                  <Button
+                    variant="success"
+                    disabled={!sigRawData}
+                    className="w-50 mt-2"
+                    // disabled={!userSig || !adminSig}
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </Row>
+              </div>
+            </Collapse>
           </Row>
         </Modal.Footer>
       </Form>
