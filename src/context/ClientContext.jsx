@@ -13,6 +13,9 @@ import {
   updateIntervention,
   getTreatmentPlan,
   updateTreatmentPlan,
+  removeGoal,
+  removeObjective,
+  removeIntervention,
 } from "../features/treatmentPlan/services/api";
 import {
   addNewClient,
@@ -41,9 +44,11 @@ import {
 import { getAllDXCodes } from "../features/diagnosis/services/api";
 import {
   getAllServiceCodes,
-  getAllServiceGroups,
 } from "../features/services/services/api";
-import { getAllPatientProgNotes } from "../features/progressNotes/services/api";
+import {
+  getAllPatientProgNotes,
+  getAllProgNotes,
+} from "../features/progressNotes/services/api";
 import { capitalize } from "../data/helpers";
 import {
   addNewAuthorization,
@@ -65,6 +70,7 @@ export function ClientProvider(props) {
   const [activeContacts, setActiveContacts] = useState({});
   const [activeTreatmentPlan, setActiveTreatmentPlan] = useState({});
   const [activeProgNotes, setActiveProgNotes] = useState([]);
+  const [allNotes, setAllNotes] = useState([]);
   const [activeBillingTx, setActiveBillingTx] = useState([]);
   const [activeDocuments, setActiveDocuments] = useState([]);
   const [activeAuthorizations, setActiveAuthorizations] = useState([]);
@@ -117,7 +123,7 @@ export function ClientProvider(props) {
   };
   /// MOVE TO SERVICES API ///
   const addGroupItem = async (groupItemObject) => {
-    console.log(groupItemObject)
+    console.log(groupItemObject);
     return await addNewListItem(groupItemObject).then((data) => {
       getFormFields();
       return data;
@@ -366,6 +372,12 @@ export function ClientProvider(props) {
       return data;
     });
   };
+  const removeClientGoal = async (goalToRemove, user) => {
+    return await removeGoal(goalToRemove, user).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
+  };
   const addClientObjective = async (newGoal) => {
     return await addNewObjective(newGoal).then((data) => {
       getClientTreatmentPlan();
@@ -378,6 +390,13 @@ export function ClientProvider(props) {
       return data;
     });
   };
+  const removeClientObjective = async (objectiveToRemove, user) => {
+    return await removeObjective(objectiveToRemove, user).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
+  };
+
   const addClientIntervention = async (newIntervention) => {
     return await addNewIntervention(newIntervention).then((data) => {
       getClientTreatmentPlan();
@@ -390,6 +409,13 @@ export function ClientProvider(props) {
       return data;
     });
   };
+  const removeClientIntervention = async (intToRemove, user) => {
+    return await removeIntervention(intToRemove, user).then((data) => {
+      getClientTreatmentPlan();
+      return data;
+    });
+  };
+
   const getDXCodes = async () => {
     let data = await getAllDXCodes();
     setDxCodes(data);
@@ -398,10 +424,7 @@ export function ClientProvider(props) {
     let data = await getAllServiceCodes();
     setServiceCodes(data);
   };
-  const getServiceGroups = async () => {
-    let data = await getAllServiceGroups();
-    setServiceGroups(data);
-  };
+  
   const getActiveServices = () => {
     if (activeClient.servicecodes && activeClient.servicecodes.length > 0) {
       const clientCodes = activeClient.servicecodes.split(",");
@@ -425,17 +448,28 @@ export function ClientProvider(props) {
   const addClientProgNote = async (progNote) => {
     await addNewDocument().then(async (newdoc) => {
       progNote[0].recid = newdoc.recid;
-      await updateClientProgNote(progNote).then(() => getClientProgNotes());
+      await updateClientProgNote(progNote).then(() => {
+        getClientProgNotes();
+        getAllNotes();
+      });
     });
   };
   const updateClientProgNote = async (updatedProgNote) => {
     console.log(updatedProgNote);
-    await updateDocument(updatedProgNote).then(() => getClientProgNotes());
+    await updateDocument(updatedProgNote).then(() => {
+      getClientProgNotes();
+      getAllNotes();
+    });
   };
   const getClientProgNotes = async () => {
     let data = await getAllPatientProgNotes(activeClient.patientid);
     setActiveProgNotes(data);
   };
+  const getAllNotes = async () => {
+    let data = await getAllProgNotes();
+    setAllNotes(data);
+  };
+
   const addClientAuthorization = async (authorization) => {
     console.log(authorization);
     return await addNewAuthorization(authorization).then((authrecid) => {
@@ -475,6 +509,7 @@ export function ClientProvider(props) {
     if (!formData.length > 0) getFormFields();
     if (!dxCodes.length > 0) getDXCodes();
     if (!serviceCodes.length > 0) getServiceCodes();
+    if (!allNotes.length > 0) getAllNotes();
     // if (!serviceGroups.length > 0) getServiceGroups();
     // eslint-disable-next-line
   }, []);
@@ -536,10 +571,13 @@ export function ClientProvider(props) {
         updateClientTreatmentPlan,
         addClientGoal,
         updateClientGoal,
+        removeClientGoal,
         addClientObjective,
         updateClientObjective,
+        removeClientObjective,
         addClientIntervention,
         updateClientIntervention,
+        removeClientIntervention,
         activeAuthorizations,
         addClientAuthorization,
         updateClientAuthorization,
@@ -549,6 +587,7 @@ export function ClientProvider(props) {
         getActiveServices,
         serviceGroups,
         activeProgNotes,
+        allNotes,
         addClientProgNote,
         updateClientProgNote,
         getClientDocuments,

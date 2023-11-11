@@ -210,3 +210,20 @@ export const statesList = [
   "WI",
   "WY",
 ];
+export const billingStatusList = [
+  "Billable",
+  "Closed (Paid, Billed, Received)",
+  "Closed (Paid, Billed, Received, w/adjustments)",
+  "Corrected/Billable",
+  "Error - Correction Needed",
+  "Not Billable",
+  "On Hold",
+  "Payment Denied",
+  "Write Off"
+];
+export const noteStatusList = [
+  "To be Reviewed",
+  "Lock",
+  "Lock/Sign",
+  "Error Correction Needed"
+];

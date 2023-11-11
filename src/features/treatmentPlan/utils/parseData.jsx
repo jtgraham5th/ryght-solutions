@@ -8,19 +8,19 @@ export const parseTreatmentPlan = (tPlan, patientid) => {
       docid: tPlan.docid ? tPlan.docid : 1,
       patientid: tPlan.patientid ? tPlan.patientid : patientid,
       billingid: tPlan.billingid ? tPlan.billingid : 0,
-      f1: tPlan.f1 ? formatDate(tPlan.f1) : formatDate(Date.now()),
-      f2: tPlan.f2 ? formatDate(tPlan.f2) : formatDate(Date.now()),
-      f3: tPlan.f3 ? formatDate(tPlan.f3) : formatDate(Date.now()),
+      f1: tPlan.f1 ? formatDate("YYYY-MM-DD",tPlan.f1) : formatDate("YYYY-MM-DD",Date.now()),
+      f2: tPlan.f2 ? formatDate("YYYY-MM-DD",tPlan.f2) : formatDate("YYYY-MM-DD",Date.now()),
+      f3: tPlan.f3 ? formatDate("YYYY-MM-DD",tPlan.f3) : formatDate("YYYY-MM-DD",Date.now()),
       f4: tPlan.f4 ? tPlan.f4 : "",
       f5: tPlan.f5 ? tPlan.f5 : "",
       f6: tPlan.f6 ? tPlan.f6 : "",
       f7: tPlan.f7 ? tPlan.f7 : "",
       f8: tPlan.f8 ? tPlan.f8 : "",
-      f9: tPlan.f9 ? formatDate(tPlan.f9) : formatDate(Date.now()),
+      f9: tPlan.f9 ? formatDate("YYYY-MM-DD",tPlan.f9) : formatDate("YYYY-MM-DD",Date.now()),
       f10: tPlan.f10 ? tPlan.f10 : "",
       f11: tPlan.f11 ? tPlan.f11.toString() : "",
       f12: tPlan.f12 ? tPlan.f12 : "",
-      f13: tPlan.f13 ? formatDate(tPlan.f13) : formatDate(Date.now()),
+      f13: tPlan.f13 ? formatDate("YYYY-MM-DD",tPlan.f13) : formatDate("YYYY-MM-DD",Date.now()),
       f14: tPlan.f14 ? tPlan.f14 : "",
       f15: tPlan.f15 ? tPlan.f15 : "",
       f16: tPlan.f16 ? tPlan.f16 : "",
@@ -167,21 +167,21 @@ export const parseGoal = (goal, patientid) => {
       billingid: goal.billingid ? goal.billingid : 0,
       patientid: goal.patientid ? goal.patientid : patientid,
       targetdate: goal.targetdate
-        ? formatDate(goal.targetdate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",goal.targetdate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       description: goal.description ? goal.description : "",
       goalname: goal.goalname ? goal.goalname : "",
       templateid: goal.templateid ? goal.templateid : 0,
       dateclosed: goal.dateclosed
-        ? formatDate(goal.dateclosed)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",goal.dateclosed)
+        : formatDate("YYYY-MM-DD",Date.now()),
       stepdownservice: goal.stepdownservice ? goal.stepdownservice : "",
       stepdowndate: goal.stepdowndate
-        ? formatDate(goal.stepdowndate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",goal.stepdowndate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       dischargedate: goal.dischargedate
-        ? formatDate(goal.dischargedate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",goal.dischargedate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       dischargeplanning: goal.dischargeplanning ? goal.dischargeplanning : "",
       statusid: goal.statusid ? goal.statusid : 0,
       lastupdateid: goal.lastupdateid ? goal.lastupdateid : 680,
@@ -217,10 +217,10 @@ export const parseObjective = (patientid, goalid, objective) => {
       billingid: objective.billingid ? objective.billingid : 0,
       patientid: objective.patientid ? objective.patientid : patientid,
       targetdate: objective.targetdate
-        ? formatDate(objective.targetdate)
+        ? formatDate("YYYY-MM-DD",objective.targetdate)
         : null,
       description: objective.description ? objective.description : "",
-      opendate: objective.opendate ? formatDate(objective.opendate) : null,
+      opendate: objective.opendate ? formatDate("YYYY-MM-DD",objective.opendate) : null,
       statusid: objective.statusid ? parseInt(objective.statusid) : 0,
       goalid: objective.goalid ? objective.goalid : goalid,
       lastupdateid: objective.lastupdateid ? objective.lastupdateid : 680,
@@ -255,7 +255,7 @@ export const parseIntervention = (intervention, patientid, objectiveid) => {
       billingid: intervention.billingid ? intervention.billingid : 0,
       patientid: intervention.patientid ? intervention.patientid : patientid,
       targetdate: intervention.targetdate
-        ? formatDate(intervention.targetdate)
+        ? formatDate("YYYY-MM-DD",intervention.targetdate)
         : null,
       objectiveid: intervention.objectiveid
         ? intervention.objectiveid

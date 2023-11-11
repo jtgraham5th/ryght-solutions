@@ -12,7 +12,7 @@ export const parseEnrollData = (data, edit, tempID, activeClient) => {
       maritalstatusid: data.maritalstatusid
         ? parseInt(data.maritalstatusid)
         : 0,
-      dob: data.dob ? formatDate(data.dob) : formatDate(Date.now()),
+      dob: data.dob ? formatDate("YYYY-MM-DD",data.dob) : formatDate("YYYY-MM-DD",Date.now()),
       socsec: data.socsec ? data.socsec : "",
       sexatbirthid: data.sexatbirthid ? parseInt(data.sexatbirthid) : 0,
       genderid: data.genderid ? parseInt(data.genderid) : 0,
@@ -37,8 +37,8 @@ export const parseEnrollData = (data, edit, tempID, activeClient) => {
         : 0,
       ins1_policynumber: data.ins1_policynumber ? data.ins1_policynumber : "",
       ins1_dateexpires: data.ins1_dateexpires
-        ? formatDate(data.ins1_dateexpires)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",data.ins1_dateexpires)
+        : formatDate("YYYY-MM-DD",Date.now()),
       ins1_relationshipid: data.ins1_relationshipid
         ? parseInt(data.ins1_relationshipid)
         : 0,
@@ -50,8 +50,8 @@ export const parseEnrollData = (data, edit, tempID, activeClient) => {
         : 0,
       ins2_policynumber: data.ins2_policynumber ? data.ins2_policynumber : "",
       ins2_dateexpires: data.ins2_dateexpires
-        ? formatDate(data.ins2_dateexpires)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",data.ins2_dateexpires)
+        : formatDate("YYYY-MM-DD",Date.now()),
       ins2_relationshipid: data.ins2_relationshipid
         ? parseInt(data.ins2_relationshipid)
         : 0,
@@ -60,25 +60,25 @@ export const parseEnrollData = (data, edit, tempID, activeClient) => {
         : 0,
       referralid: data.referralid ? parseInt(data.referralid) : 0,
       referraldate: data.referraldate
-        ? formatDate(data.referraldate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",data.referraldate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       referralOutsourceid: parseInt(0),
       dateoutsourced: data.dateoutsourced
-        ? formatDate(data.dateoutsourced)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",data.dateoutsourced)
+        : formatDate("YYYY-MM-DD",Date.now()),
       internalreferralid: data.internalreferralid
         ? parseInt(data.internalreferralid)
         : 0,
       patient_comment: data.patient_comment ? data.patient_comment : "",
       dxcodes: data.dxcodes ? data.dxcodes : "",
       servicecodes: data.servicecodes ? data.servicecodes : "",
-      dxdate: data.dxdate ? formatDate(data.dxdate) : formatDate(Date.now()),
+      dxdate: data.dxdate ? formatDate("YYYY-MM-DD",data.dxdate) : formatDate("YYYY-MM-DD",Date.now()),
       firstapptdate: data.firstapptdate
-        ? formatDate(data.firstapptdate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",data.firstapptdate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       firstpsydate: data.firstpsydate
-        ? formatDate(data.firstpsydate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",data.firstpsydate)
+        : formatDate("YYYY-MM-DD",Date.now()),
     },
   ];
 };

@@ -6,6 +6,7 @@ import { SEListBoxes } from "../features/settings";
 import { SEEditUser } from "../features/settings/components/SE_EditUser";
 import { useUser } from "../context/UserContext";
 import { SEAdminManagement } from "../features/settings/components/SE_AdminManagement";
+import { SEServiceGroupManagement } from "../features/settings/components/SE_ServiceGroupMangagement";
 
 function Settings(props) {
   // let navigate = useNavigate();
@@ -24,6 +25,8 @@ function Settings(props) {
         return <SEListBoxes />;
       case 3:
         return <SEAdminManagement />;
+      case 4:
+        return <SEServiceGroupManagement />
       default:
         return <SEEditUser />;
     }
@@ -52,6 +55,11 @@ function Settings(props) {
                 {user.accesslevel === 20 ? (
                   <ListGroup.Item action onClick={() => setActiveSetting(3)}>
                     Admin Management
+                  </ListGroup.Item>
+                ) : null}
+                {user.accesslevel === 20 ? (
+                  <ListGroup.Item action onClick={() => setActiveSetting(4)}>
+                    Service Group Management
                   </ListGroup.Item>
                 ) : null}
               </ListGroup>

@@ -7,8 +7,6 @@ import {
   updateUser,
 } from "../features/authentication/services/api";
 
-// import { parseSignUpData } from "../features/authentication/utils/parseData";
-
 const UserContext = createContext();
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -19,6 +17,7 @@ export function useUser() {
 export function UserProvider(props) {
   const [user, setUser] = useState("");
   const [allUsers, setAllUser] = useState("");
+
   const isAuthenticated = () => {
     const token = localStorage.getItem("UserID");
     if (!token) return false;
@@ -130,7 +129,7 @@ export function UserProvider(props) {
       if (response.ok) {
         const res = await response.json();
         if (res.length > 0) {
-          console.log(res)
+          console.log(res);
           setAllUser(res);
           return res;
         }
@@ -162,13 +161,16 @@ export function UserProvider(props) {
   };
   const updatePassword = async (data) => {
     try {
-      const response = await fetch(`${apiUrl}generic_api/pcheck/${data[0].userid}?tid=19`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${apiUrl}generic_api/pcheck/${data[0].userid}?tid=19`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.ok) {
         const res = await response.json();
         console.log(res);
@@ -179,11 +181,12 @@ export function UserProvider(props) {
     }
     return false;
   };
-
+  
   useEffect(() => {
     if (isAuthenticated() && !user) {
       const token = localStorage.getItem("UserID");
       getUser(token);
+      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

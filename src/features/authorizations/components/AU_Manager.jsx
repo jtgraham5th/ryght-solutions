@@ -60,6 +60,7 @@ export function AUManager({ data, show, setShow, containerName, edit }) {
     console.log(authorization);
     if (typeof show == "boolean") {
       await addClientAuthorization(authorization).then((authrecid) => {
+        console.log("moving to update")
         updateClientAuthorization(authrecid, authorization);
         data.services.map((authService) => {
           if (authService.authrecid !== authrecid) {

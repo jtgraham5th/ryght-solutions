@@ -40,35 +40,6 @@ export function CVProfile({ sidebar }) {
           </Row>
         </Col>
       </Row>
-
-      {/* <Row>
-        <Col md={6}>
-          <Accordion defaultActiveKey="0" className="mb-3">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Assigned Staff</Accordion.Header>
-              <Accordion.Body className="p-0">
-                <ListGroup variant="flush">
-                  <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                  <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                  <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-                </ListGroup>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          <Accordion defaultActiveKey="0" className="mb-3">
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Medical & Nursing</Accordion.Header>
-              <Accordion.Body className="p-0">
-                <ListGroup variant="flush">
-                  <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                  <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                  <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-                </ListGroup>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        </Col>
-      </Row> */}
     </>
   );
 }

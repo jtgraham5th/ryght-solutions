@@ -40,3 +40,17 @@ export const filterObjectByKeys = (obj, keysObj) => {
   }
   return filteredObj;
 };
+export const createServiceGroupCodeString = (groupServiceCodes) => {
+  // const parsedGrouplistId = parseInt(grouplistid);
+  // console.log(await getServiceGroupCodes(parsedGrouplistId))
+
+  // const groupServiceCodes = await getServiceCodesWithId(parsedGrouplistId);
+  // console.log(groupServiceCodes);
+
+  const groupServiceCodesArray = [];
+  groupServiceCodes.map((item, i) => {
+    groupServiceCodesArray.push(item.recid);
+  });
+
+  return groupServiceCodesArray.toString(",");
+};

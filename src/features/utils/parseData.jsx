@@ -21,17 +21,17 @@ export const parseAuthorization = (authorization, patientid) => {
         : patientid,
       status: authorization.status ? parseInt(authorization.status) : 1,
       effectivedate: authorization.effectivedate
-        ? formatDate(authorization.effectivedate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",authorization.effectivedate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       lapsedate: authorization.lapsedate
-        ? formatDate(authorization.lapsedate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",authorization.lapsedate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       approvaldate: authorization.approvaldate
-        ? formatDate(authorization.approvaldate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",authorization.approvaldate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       submitdate: authorization.submitdate
-        ? formatDate(authorization.submitdate)
-        : formatDate(Date.now()),
+        ? formatDate("YYYY-MM-DD",authorization.submitdate)
+        : formatDate("YYYY-MM-DD",Date.now()),
       submittedby: authorization.submittedby ? authorization.submittedby : 0,
       authorizationid: authorization.authorizationid
         ? parseInt(authorization.authorizationid)

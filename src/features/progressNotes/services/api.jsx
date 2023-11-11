@@ -18,3 +18,21 @@ export const getAllPatientProgNotes = async (patientid) => {
       console.log(e);
     });
 };
+
+export const getAllProgNotes = async () => {
+  return await fetch(
+    `${apiUrl}generic_api/list/16?fields=*&where=docid=2&orderby=billingid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};

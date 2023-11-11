@@ -60,7 +60,7 @@ export const addNewTreatmentPlan = async (newTPlan) => {
 //// GOALS ////
 export const getAllGoals = async () => {
   return await fetch(
-    `${apiUrl}generic_api/list/18?fields=*&where=StatusID=0&orderby=goalid`
+    `${apiUrl}generic_api/list/18?fields=*&where=isdeleted=0&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -72,7 +72,7 @@ export const getAllGoals = async () => {
 };
 export const getAllPatientGoals = async (patientid) => {
   return await fetch(
-    `${apiUrl}generic_api/list/18?fields=*&where=patientid=${patientid}&orderby=goalid`
+    `${apiUrl}generic_api/list/18?fields=*&where=patientid=${patientid},isdeleted=0&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -89,7 +89,7 @@ export const getAllPatientGoals = async (patientid) => {
 };
 export const getGoalwithBillingid = async (billingid) => {
   return await fetch(
-    `${apiUrl}generic_api/list/18?fields=*&where=billingid=${billingid}&orderby=goalid`
+    `${apiUrl}generic_api/list/18?fields=*&where=billingid=${billingid},isdeleted=0&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -151,11 +151,30 @@ export const updateGoal = async (updatedGoal) => {
       console.log(e);
     });
 };
+export const removeGoal = async (goalToRemove,userid) => {
+  return await fetch(
+    `${apiUrl}generic_api/delete/18?primaryid=${goalToRemove.goalid}&userid=${userid}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(goalToRemove),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0];
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 //// OBJECTIVES ////
 export const getAllObjectives = async () => {
   return await fetch(
     `${apiUrl}generic_api/list/26
-      ?fields=*&where=StatusID=0&orderby=objectiveid`
+      ?fields=*&where=StatusID=0,isdeleted=0&orderby=objectiveid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -167,7 +186,7 @@ export const getAllObjectives = async () => {
 };
 export const getAllPatientObjectives = async (patientid) => {
   return await fetch(
-    `${apiUrl}generic_api/list/26?fields=*&where=patientid=${patientid}&orderby=goalid`
+    `${apiUrl}generic_api/list/26?fields=*&where=patientid=${patientid},isdeleted=0&orderby=goalid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -184,7 +203,7 @@ export const getAllPatientObjectives = async (patientid) => {
 };
 export const getObjectivesWithGoalid = async (goalid) => {
   return await fetch(
-    `${apiUrl}generic_api/list/26?fields=*&where=goalid=${goalid}&orderby=objectiveid`
+    `${apiUrl}generic_api/list/26?fields=*&where=goalid=${goalid},isdeleted=0&orderby=objectiveid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -253,7 +272,25 @@ export const updateObjective = async (updatedObjective) => {
       console.log(e);
     });
 };
-
+export const removeObjective = async (objectiveToRemove,userid) => {
+  return await fetch(
+    `${apiUrl}generic_api/delete/26?primaryid=${objectiveToRemove.objectiveid}&userid=${userid}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(objectiveToRemove),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0];
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 //// INTERVENTIONS ////
 export const getAllInterventions = async () => {
   return await fetch(
@@ -270,7 +307,7 @@ export const getAllInterventions = async () => {
 };
 export const getAllPatientInterventions = async (patientid) => {
   return await fetch(
-    `${apiUrl}generic_api/list/27?fields=*&where=patientid=${patientid}&orderby=interventionid`
+    `${apiUrl}generic_api/list/27?fields=*&where=patientid=${patientid},isdeleted=0&orderby=interventionid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -287,7 +324,7 @@ export const getAllPatientInterventions = async (patientid) => {
 };
 export const getInterventionsWithPatientid = async (patientid) => {
   return await fetch(
-    `${apiUrl}generic_api/list/27?fields=*&where=patientid=${patientid}&orderby=interventionid`
+    `${apiUrl}generic_api/list/27?fields=*&where=patientid=${patientid},isdeleted=0&orderby=interventionid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -304,7 +341,7 @@ export const getInterventionsWithPatientid = async (patientid) => {
 };
 export const getInterventionsWithObjectiveid = async (objectiveid) => {
   return await fetch(
-    `${apiUrl}generic_api/list/27?fields=*&where=objectiveid=${objectiveid}&orderby=interventionid`
+    `${apiUrl}generic_api/list/27?fields=*&where=objectiveid=${objectiveid},isdeleted=0&orderby=interventionid`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -368,6 +405,25 @@ export const updateIntervention = async (updatedIntervention) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify([trimIntervention]),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0];
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const removeIntervention = async (intToRemove,userid) => {
+  return await fetch(
+    `${apiUrl}generic_api/delete/27?primaryid=${intToRemove.interventionid}&userid=${userid}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(intToRemove),
     }
   )
     .then((response) => response.json())

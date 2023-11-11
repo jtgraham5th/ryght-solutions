@@ -14,6 +14,7 @@ import { ObjectiveDetail } from "./G_ObjectiveDetail";
 import { InterventionDetail } from "./G_InterventionDetail";
 import AlertContainer from "../../../components/AlertContainer";
 import { useClient } from "../../../context/ClientContext";
+import { useUser } from "../../../context/UserContext";
 import {
   parseDefaultGoal,
   parseDefaultObjective,
@@ -23,7 +24,14 @@ import {
 } from "../utils/parseData";
 
 export function GoalsManager({ data }) {
-  const { activeTreatmentPlan, activeClient } = useClient();
+  const { user } = useUser();
+  const {
+    activeTreatmentPlan,
+    activeClient,
+    removeClientGoal,
+    removeClientObjective,
+    removeClientIntervention,
+  } = useClient();
   const { patientid } = activeClient;
   const [alert, setAlert] = useState({ message: "", data: "" });
   const [activeGoal, setActiveGoal] = useState({});
@@ -35,10 +43,9 @@ export function GoalsManager({ data }) {
     interventions: false,
     editing: false,
   });
+  console.log(activeTreatmentPlan.objectives);
 
-  useEffect(() => {
-
-  }, [activeTreatmentPlan])
+  useEffect(() => {}, [activeTreatmentPlan]);
 
   const goalSelect = (goal) => {
     setCardFocus({
@@ -53,6 +60,38 @@ export function GoalsManager({ data }) {
       setActiveIntervention("");
     }
   };
+  const removeGOI = (data) => {
+    if ("interventionid" in data) {
+      return removeIntervention(data);
+    } else if ("objectiveid" in data && "goalid" in data) {
+      return removeObjective(data);
+    } else if ("goalid" in data) {
+      return removeGoal(data);
+    } else {
+      return;
+    }
+  };
+  const removeGoal = (goal) => {
+    removeClientGoal(goal, user.userid);
+    parseObjectives(activeTreatmentPlan, goal).map((obj) => {
+      removeClientObjective(obj, user.userid);
+      parseInterventions(activeTreatmentPlan, obj).map((int) => {
+        removeClientIntervention(int, user.userid);
+      });
+    });
+  };
+
+  const removeObjective = (objective) => {
+    removeClientObjective(objective, user.userid);
+    parseInterventions(activeTreatmentPlan, objective).map((int) => {
+      removeClientIntervention(int, user.userid);
+    });
+  };
+
+  const removeIntervention = (intervention) => {
+    removeClientIntervention(intervention, user.userid);
+  };
+
   const newGoal = () => {
     setActiveGoal(parseDefaultGoal(false, patientid));
     setCardFocus({
@@ -142,19 +181,38 @@ export function GoalsManager({ data }) {
             </div>
           </Card.Header>
           <Card.Body className="p-0">
-            <ListGroup numbered className="list-container">
+            <ListGroup className="list-container">
               {activeTreatmentPlan &&
                 activeTreatmentPlan.goals.map((goal, index) => {
                   return (
                     <ListGroupItem
-                      className="list-container-item"
+                      className="list-container-item d-flex justify-content-between align-items-center"
                       key={`goal-${index}`}
                       onClick={() => goalSelect(goal)}
                       active={activeGoal.goalid === goal.goalid ? true : false}
                       variant={"flush"}
                       disabled={cardFocus.editing ? true : false}
                     >
-                      {goal.goalname}
+                      <div className="div-overflow">
+                        {index + 1 + ". "}
+                        {goal.goalname}
+                      </div>
+                      <div style={{ width: "10%" }} className="text-center">
+                        <Button
+                          onClick={() =>
+                            setAlert({
+                              message:
+                                "Are you sure you want to remove this goal? All accompanying objectives and interventions will also be removed. This action cannot be undone.",
+                              data: goal,
+                            })
+                          }
+                          size="sm"
+                          className="btn-circle"
+                          variant="outline-secondary"
+                        >
+                          x
+                        </Button>
+                      </div>
                     </ListGroupItem>
                   );
                 })}
@@ -168,9 +226,15 @@ export function GoalsManager({ data }) {
               <Button
                 size="sm"
                 onClick={newObjective}
-                disabled={cardFocus.editing || (!cardFocus.goals && !cardFocus.objectives) ? true : false}
+                disabled={
+                  cardFocus.editing ||
+                  (!cardFocus.goals && !cardFocus.objectives)
+                    ? true
+                    : false
+                }
                 variant={
-                  cardFocus.editing || (!cardFocus.goals && !cardFocus.objectives)
+                  cardFocus.editing ||
+                  (!cardFocus.goals && !cardFocus.objectives)
                     ? "outline-secondary"
                     : "outline-success"
                 }
@@ -180,13 +244,13 @@ export function GoalsManager({ data }) {
             </div>
           </Card.Header>
           <Card.Body className="p-0">
-            <ListGroup numbered className="list-container">
+            <ListGroup className="list-container">
               {activeGoal &&
                 parseObjectives(activeTreatmentPlan, activeGoal).map(
                   (objective, index) => (
                     <ListGroupItem
                       key={`objective-${index}`}
-                      className="list-container-item"
+                      className="list-container-item  d-flex justify-content-between align-items-center"
                       onClick={() => objectiveSelect(objective)}
                       active={
                         activeObjective.objectiveid === objective.objectiveid
@@ -195,7 +259,26 @@ export function GoalsManager({ data }) {
                       }
                       disabled={cardFocus.editing ? true : false}
                     >
-                      {objective.description}
+                      <div className="div-overflow">
+                        {index + 1 + ". "}
+                        {objective.description}
+                      </div>
+                      <div style={{ width: "10%" }} className="text-center">
+                        <Button
+                          onClick={() =>
+                            setAlert({
+                              message:
+                                "Are you sure you want to remove this objective? All accompanying interventions will also be removed. This action cannot be undone.",
+                              data: objective,
+                            })
+                          }
+                          size="sm"
+                          className="btn-circle"
+                          variant="outline-secondary"
+                        >
+                          x
+                        </Button>
+                      </div>
                     </ListGroupItem>
                   )
                 )}
@@ -211,13 +294,11 @@ export function GoalsManager({ data }) {
                 onClick={newIntervention}
                 disabled={
                   cardFocus.editing ||
-                  (!cardFocus.objectives &&
-                  !cardFocus.interventions)
+                  (!cardFocus.objectives && !cardFocus.interventions)
                 }
                 variant={
                   cardFocus.editing ||
-                  (!cardFocus.objectives &&
-                  !cardFocus.interventions)
+                  (!cardFocus.objectives && !cardFocus.interventions)
                     ? "outline-secondary"
                     : "outline-success"
                 }
@@ -227,13 +308,13 @@ export function GoalsManager({ data }) {
             </div>
           </Card.Header>
           <Card.Body className="p-0">
-            <ListGroup numbered className="list-container">
+            <ListGroup className="list-container">
               {activeObjective &&
                 parseInterventions(activeTreatmentPlan, activeObjective).map(
                   (intervention, index) => (
                     <ListGroupItem
                       key={`intervention-${index}`}
-                      className="list-container-item"
+                      className="list-container-item  d-flex justify-content-between align-items-center"
                       onClick={() => interventionSelect(intervention)}
                       active={
                         activeIntervention.interventionid ===
@@ -243,7 +324,26 @@ export function GoalsManager({ data }) {
                       }
                       disabled={cardFocus.editing ? true : false}
                     >
-                      {intervention.description}
+                      <div className="div-overflow">
+                        {index + 1 + ". "}
+                        {intervention.description}
+                      </div>
+                      <div style={{ width: "10%" }} className="text-center">
+                        <Button
+                          onClick={() =>
+                            setAlert({
+                              message:
+                                "Are you sure you want to remove this intervention? This action cannot be undone.",
+                              data: intervention,
+                            })
+                          }
+                          size="sm"
+                          className="btn-circle"
+                          variant="outline-secondary"
+                        >
+                          x
+                        </Button>
+                      </div>
                     </ListGroupItem>
                   )
                 )}
@@ -292,6 +392,7 @@ export function GoalsManager({ data }) {
         show={alert.message && alert.data}
         alert={alert}
         setAlert={setAlert}
+        handleConfirm={removeGOI}
       />
     </>
   );

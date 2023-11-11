@@ -6,7 +6,7 @@ export const parseBillingTx = (activeClient, doctypeid, userid) => {
     patientid: activeClient.patientid,
     doctypeid: doctypeid,
     lastuserid: userid ? userid : 0,
-    lastupdate: formatDate(Date.now())
+    lastupdate: formatDate("YYYY-MM-DD",Date.now())
   };
   return [billingTx];
 };

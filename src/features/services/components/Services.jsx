@@ -1,4 +1,4 @@
-import { Row, Col, ListGroup, Form } from "react-bootstrap";
+import { Row, Col, ListGroup, Form, Badge } from "react-bootstrap";
 import { useClient } from "../../../context/ClientContext";
 import { useState, useEffect } from "react";
 import { filterActiveServices } from "../utils/formHelper";
@@ -13,14 +13,16 @@ export function Services({
   addServiceCodes,
   filterBy,
   minimal,
+  containerStyle,
 }) {
   const { serviceCodes, getActiveServices, formData } = useClient();
 
   const setServices = () => {
     const activeServices = getActiveServices();
     if (showActiveServices) return activeServices;
-    if (filterBy && showServiceCodes)
+    if (filterBy && showServiceCodes) {
       return filterActiveServices(filterBy, serviceCodes);
+    }
     if (showServiceCodes) {
       return filterActiveServices(activeServices, serviceCodes);
     } else return formData["Services"];
@@ -38,11 +40,19 @@ export function Services({
     e.preventDefault();
     let filterCodes = [];
     const searchTerm = e.currentTarget.value;
-    console.log(results);
     if (searchTerm.length > 0) {
-      filterCodes = setServices().filter((service) =>
-        service.groupvalue.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      filterCodes = setServices().filter((service) => {
+        if (showServiceCodes) {
+          return (
+            service.description
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            service.code.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        } else {
+          service.groupvalue.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+      });
       setResults(filterCodes);
     } else {
       setResults(setServices());
@@ -164,7 +174,7 @@ export function Services({
 
   return (
     <>
-      <Row className="border">
+      <Row className={`border ${containerStyle}`}>
         <ListGroup>
           <ListGroup.Item
             variant="secondary"
@@ -196,7 +206,10 @@ export function Services({
             </Row>
           </ListGroup.Item>
         </ListGroup>
-        <ListGroup style={{ height: "10rem" }} className="overflow-auto">
+        <ListGroup
+          style={containerStyle ? { height: "60vh" } : { height: "10rem" }}
+          className="overflow-auto"
+        >
           {results.map((result, index) => {
             return (
               <ListGroup.Item
@@ -232,16 +245,18 @@ export function Services({
                 onClick={() => selectService(result)}
               >
                 <Row>
-                  <Col md="auto" className="d-flex">
-                    {showServiceCodes ? (
-                      <div className="fw-bold pe-2">{result.code}</div>
-                    ) : null}
+                  <Col md="auto" className="">
                     <div className="ps-0">
-                      {
+                      <small>{
                         result[
                           `${showServiceCodes ? "description" : "groupvalue"}`
                         ]
-                      }
+                      }</small>
+                      {showServiceCodes ? (
+                        <Badge bg="dark" className="ms-1">
+                          {result.code}
+                        </Badge>
+                      ) : null}
                     </div>
                   </Col>
                 </Row>

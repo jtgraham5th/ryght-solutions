@@ -35,6 +35,7 @@ export function SEListBoxes(props) {
   };
   const selectGroup = (group) => {
     let selectedGroup = group;
+    console.log(group)
     if (group[0].hasOwnProperty("contactid")) {
       selectedGroup = group.filter((item) => parseInt(item.isactive) === 1);
     }

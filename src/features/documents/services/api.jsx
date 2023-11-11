@@ -42,6 +42,24 @@ export const updateBillingTx = async (billingTx) => {
       console.log(e);
     });
 };
+export const getBillingTx = async (billingid) => {
+  return await fetch(
+    // `${apiUrl}generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`
+    `${apiUrl}generic_api/list/17?fields=*&where=billingid=${billingid}&orderby=billingid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData[0];
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 export const getAllPatientBillingTx = async (patientid) => {
   return await fetch(
     // `${apiUrl}generic_api/list/17?fields=*&where=patientid=${patientid}&orderby=billingid`
@@ -147,6 +165,64 @@ export const getAllPatientDocuments = async (patientid) => {
         );
 
       return formattedData;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const getAllPatientCSM1500 = async (patientid) => {
+  return await fetch(
+    `${apiUrl}generic_api/list/38?fields=*&where=patientid=${patientid}&orderby=billingid`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const formattedData = data.map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
+        )
+      );
+      return formattedData;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const addNewCSM1500 = async () => {
+  return await fetch(
+    `${apiUrl}generic_api/38?fields=recid`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify(newDoc),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data[0];
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+export const updateCSM1500 = async (csm1500) => {
+  const requestBody = [{ ...csm1500 }];
+  delete requestBody[0].recid;
+  const fields = Object.keys(csm1500[0]).join(",");
+  return await fetch(
+    `${apiUrl}generic_api/${csm1500.recid}?tid=38&fields=${fields}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
     })
     .catch((e) => {
       console.log(e);

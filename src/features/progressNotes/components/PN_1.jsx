@@ -14,6 +14,7 @@ import {
   parseServices,
 } from "../utils/parseData";
 import { useClient } from "../../../context/ClientContext";
+import { useUser } from "../../../context/UserContext";
 
 export function PN1({ register, setValue, control, watch, getValues, data }) {
   const [selectedDX, setSelectedDX] = useState([]);
@@ -22,6 +23,8 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
   const [numOfUnits, setNumOfUnits] = useState(0);
   const watchTime = watch(["f2", "f3"]);
   const { serviceCodes, dxCodes } = useClient();
+  const { user } = useUser();
+
   useEffect(() => {
     if (watchTime[0] && watchTime[1]) {
       setNumOfHours(calculateHours(watchTime[0], watchTime[1]));
@@ -33,7 +36,7 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
 
   useEffect(() => {
     if (data) {
-      console.log(data)
+      console.log(data);
       const services = data.f11;
       const diagnosis = data.f12;
       let serviceArray = [];
@@ -46,6 +49,8 @@ export function PN1({ register, setValue, control, watch, getValues, data }) {
       }
       setSelectedDX(dxArray);
       setSelectedServices(serviceArray);
+      setValue("f16", user.fullname);
+      setValue("f17", "To be Reviewed")
     }
   }, []);
 

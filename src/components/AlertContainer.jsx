@@ -25,6 +25,7 @@ function AlertContainer({
       show={show}
       backdrop="static"
       centered
+      className="shadow"
       animation={false}
       onHide={handleClose}
       dialogClassName={alertStyle ? alertStyle : "alert-width"}

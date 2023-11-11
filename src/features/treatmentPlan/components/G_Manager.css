@@ -5,15 +5,29 @@
   overflow-y: auto;
   border-radius: 0% !important;
 }
-.list-container-item{
-    font-size: small;
-    padding:0.3rem 1rem !important;
-    border-left: 0px !important;
-    border-radius: 0% !important;
-    border-right: 0px !important;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+.list-container-item {
+  font-size: small;
+  padding: 0.3rem 1rem !important;
+  border-left: 0px !important;
+  border-radius: 0% !important;
+  border-right: 0px !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.btn-circle {
+  width: 15px;
+  height: 15px;
+  padding: 0px !important;
+  border-radius: 15px !important;
+  text-align: center !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+.div-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .datePicker {
   border-color: silver !important;
@@ -41,18 +55,18 @@
   margin-right: 0.5rem;
 }
 .detail-container > button {
-    font-size: small !important;
-    padding: 0.05rem 0.4rem !important
+  font-size: small !important;
+  padding: 0.05rem 0.4rem !important;
 }
 .detail-container-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 0.25rem !important;
-    padding-bottom: 0.25rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
 }
-.detail-card-body{
-    padding: 0.25rem 0.95rem !important
+.detail-card-body {
+  padding: 0.25rem 0.95rem !important;
 }
 .cardFocus {
   color: #212529;

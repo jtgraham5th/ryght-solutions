@@ -45,30 +45,8 @@ export function CVProgressNotes() {
       const url = data[0].viewer + data[0].path + data[0].file;
       window.open(url, "_blank");
     });
-    // console.log(pdfBlob);
-    // var file = new File([pdfBlob], "exampleTPlan", {
-    //   lastModified: new Date().getTime(),
-    // });
-    // console.log(file);
-    // const pdfFormData = new FormData();
-    // pdfFormData.append("PDFBlob", pdfBlob);
-    // console.log(pdfFormData);
-    // try {
-    //   const response = await fetch(
-    //     "http://www.ivronlogs.icu:8080/rsv1/generic_api/15?tid=3",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/pdf",
-    //       },
-    //       body: JSON.stringify([{ PDFBlob: pdfBlob }]),
-    //     }
-    //   );
-    //   console.log(response.json());
-    // } catch (e) {
-    //   console.log(e);
-    // }
   };
+  
   return (
     <>
       <Row className="mb-3">

@@ -1,6 +1,8 @@
 import { getListItem } from "../../../services/api";
 
 export const filterActiveServices = (activeServices, services, returnCodes) => {
+  if (activeServices.length < 1) return services;
+
   let serviceIds = activeServices.map((service) =>
     parseInt(service.grouplistid)
   );
