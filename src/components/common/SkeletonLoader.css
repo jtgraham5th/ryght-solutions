@@ -1,0 +1,243 @@
+/* Skeleton loader base styles */
+.skeleton-pulse {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Table skeleton */
+.skeleton-table-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.skeleton-cell {
+  height: 20px;
+  border-radius: 4px;
+}
+
+/* Card skeleton */
+.skeleton-card {
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 60%;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-text:last-child {
+  margin-bottom: 0;
+}
+
+/* Patient list skeleton */
+.skeleton-patient-item {
+  border: 1px solid #e9ecef;
+  transition: box-shadow 0.2s ease;
+}
+
+.skeleton-patient-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.skeleton-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.skeleton-name {
+  height: 20px;
+  width: 80%;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+/* Dashboard widget skeleton */
+.skeleton-widget {
+  border: 1px solid #e9ecef;
+  transition: transform 0.2s ease;
+}
+
+.skeleton-widget:hover {
+  transform: translateY(-2px);
+}
+
+.skeleton-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+
+.skeleton-number {
+  height: 32px;
+  width: 60%;
+  border-radius: 4px;
+  margin: 0 auto 0.5rem;
+}
+
+.skeleton-label {
+  height: 16px;
+  width: 80%;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+/* Form skeleton */
+.skeleton-form {
+  padding: 1rem;
+}
+
+.skeleton-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-form-group .skeleton-label {
+  height: 18px;
+  width: 40%;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-input {
+  height: 38px;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+
+.skeleton-button {
+  height: 38px;
+  width: 120px;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+/* Progress notes skeleton */
+.skeleton-note {
+  border: 1px solid #e9ecef;
+}
+
+.skeleton-date {
+  height: 16px;
+  width: 80px;
+  border-radius: 4px;
+}
+
+.skeleton-therapist {
+  height: 16px;
+  width: 100px;
+  border-radius: 4px;
+}
+
+.skeleton-content {
+  height: 16px;
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+/* Treatment plan skeleton */
+.skeleton-goal {
+  border: 1px solid #e9ecef;
+}
+
+.skeleton-goal-title {
+  height: 20px;
+  width: 70%;
+  border-radius: 4px;
+}
+
+.skeleton-goal-description {
+  height: 16px;
+  width: 90%;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.skeleton-objectives {
+  height: 16px;
+  width: 60%;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-interventions {
+  height: 16px;
+  width: 50%;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .skeleton-table-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .skeleton-title {
+    width: 80%;
+  }
+  
+  .skeleton-name {
+    width: 100%;
+  }
+  
+  .skeleton-number {
+    width: 80%;
+  }
+  
+  .skeleton-label {
+    width: 100%;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .skeleton-pulse {
+    background: linear-gradient(90deg, #2d3748 25%, #4a5568 50%, #2d3748 75%);
+  }
+  
+  .skeleton-card,
+  .skeleton-patient-item,
+  .skeleton-widget,
+  .skeleton-note,
+  .skeleton-goal {
+    border-color: #4a5568;
+    background-color: #2d3748;
+  }
+  
+  .skeleton-input {
+    border-color: #4a5568;
+    background-color: #2d3748;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .skeleton-pulse {
+    background: #000000;
+  }
+  
+  .skeleton-card,
+  .skeleton-patient-item,
+  .skeleton-widget,
+  .skeleton-note,
+  .skeleton-goal {
+    border: 2px solid #000000;
+  }
+}

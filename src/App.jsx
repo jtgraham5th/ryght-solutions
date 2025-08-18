@@ -15,6 +15,8 @@ import { Landing } from "./features/authentication";
 import { ClientProvider } from "./context/ClientContext";
 import { UserProvider } from "./context/UserContext";
 import { useUser } from "./context/UserContext";
+import ErrorBoundary from "./components/common/ErrorBoundary";
+import NotificationProvider from "./components/common/NotificationSystem";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -26,37 +28,39 @@ function App() {
     return token ? <Outlet /> : <Navigate to="ryght-solutions/" />;
   };
   return (
-    <>
-      <Router>
-        <UserProvider>
-          <ClientProvider>
-            <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
-            <div className="App">
-              <Routes>
-                <Route element={<PrivateRoutes />}>
+    <ErrorBoundary>
+      <NotificationProvider>
+        <Router>
+          <UserProvider>
+            <ClientProvider>
+              <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
+              <div className="App">
+                <Routes>
+                  <Route element={<PrivateRoutes />}>
+                    <Route
+                      path="ryght-solutions/home/"
+                      element={<UserDashboard />}
+                    />
+                    <Route
+                      path="ryght-solutions/patient/:patientid/*"
+                      element={<ClientDashboard />}
+                    ></Route>
+                    <Route
+                      path="ryght-solutions/settings/"
+                      element={<Settings />}
+                    />
+                  </Route>
                   <Route
-                    path="ryght-solutions/home/"
-                    element={<UserDashboard />}
+                    path="ryght-solutions/*"
+                    element={<Landing setStatus={setLoginStatus} />}
                   />
-                  <Route
-                    path="ryght-solutions/patient/:patientid/*"
-                    element={<ClientDashboard />}
-                  ></Route>
-                  <Route
-                    path="ryght-solutions/settings/"
-                    element={<Settings />}
-                  />
-                </Route>
-                <Route
-                  path="ryght-solutions/*"
-                  element={<Landing setStatus={setLoginStatus} />}
-                />
-              </Routes>
-            </div>
-          </ClientProvider>
-        </UserProvider>
-      </Router>
-    </>
+                </Routes>
+              </div>
+            </ClientProvider>
+          </UserProvider>
+        </Router>
+      </NotificationProvider>
+    </ErrorBoundary>
   );
 }
 

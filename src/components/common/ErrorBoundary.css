@@ -1,0 +1,148 @@
+.error-boundary-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+.error-boundary-card {
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.error-boundary-card .card-header {
+  border-bottom: none;
+  padding: 1.5rem;
+}
+
+.error-boundary-card .card-body {
+  padding: 2rem;
+}
+
+.error-details {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-details summary {
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.error-details summary:hover {
+  background-color: #e9ecef;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .error-boundary-container {
+    padding: 1rem;
+  }
+  
+  .error-boundary-card .card-body {
+    padding: 1.5rem;
+  }
+  
+  .error-details {
+    font-size: 0.8rem;
+    max-height: 200px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .error-boundary-container {
+    background-color: #1a1a1a;
+  }
+  
+  .error-boundary-card {
+    background-color: #2d2d2d;
+    color: #ffffff;
+  }
+  
+  .error-details {
+    background-color: #1a1a1a;
+    border-color: #4a4a4a;
+    color: #ffffff;
+  }
+  
+  .error-details summary:hover {
+    background-color: #4a4a4a;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .error-boundary-card {
+    border: 2px solid #000000;
+  }
+  
+  .error-details {
+    border: 2px solid #000000;
+  }
+}
+
+/* Animation for error appearance */
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-boundary-card {
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+/* Button hover effects */
+.error-boundary-card .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+/* Alert styling */
+.error-boundary-card .alert {
+  border: none;
+  border-radius: 8px;
+}
+
+/* Icon animations */
+.error-boundary-card .card-header svg {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
