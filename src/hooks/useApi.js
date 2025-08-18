@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
 import { useErrorHandler } from '../components/common/ErrorBoundary';
-import FeatureDemo from "./components/common/FeatureDemo";
 
 // Custom hook for API calls with loading states and error handling
 export const useApi = (apiFunction, options = {}) => {

@@ -349,4 +349,77 @@ router.get('/generic_api/pcheck/:userId', (req, res) => {
   }
 });
 
+// POST endpoint for authentication (pcheck)
+router.post('/generic_api/pcheck/:userId', (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { email, password } = req.body;
+    
+    console.log('Login attempt:', { userId, email, password });
+    
+    // Simple mock authentication - accept any password for now
+    // In production, this would validate against a real database
+    const user = mockData.users.find(u => 
+      u.email === email || u.username === email
+    );
+    
+    if (user) {
+      // For development: accept any password, or specifically 'password'
+      if (password === 'password' || password === user.username || password === 'admin') {
+        res.json([{
+          message: 'password validated successfully',
+          userid: user.userid,
+          username: user.username,
+          fullname: user.fullname,
+          accesslevel: user.accesslevel
+        }]);
+      } else {
+        res.json([{
+          message: 'password was not validated...',
+          userid: null
+        }]);
+      }
+    } else {
+      res.json([{
+        message: 'user not found',
+        userid: null
+      }]);
+    }
+  } catch (error) {
+    console.error('Error in pcheck POST endpoint:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Development bypass endpoint - skip authentication entirely
+router.post('/auth/bypass', (req, res) => {
+  try {
+    const { username } = req.body;
+    
+    // Find user by username or email
+    const user = mockData.users.find(u => 
+      u.username === username || u.email === username
+    );
+    
+    if (user) {
+      res.json({
+        success: true,
+        message: 'Authentication bypassed for development',
+        user: {
+          userid: user.userid,
+          username: user.username,
+          fullname: user.fullname,
+          accesslevel: user.accesslevel,
+          email: user.email
+        }
+      });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error in auth bypass endpoint:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;

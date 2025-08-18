@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Button, Card } from 'react-bootstrap';
-import { ExclamationTriangle, ArrowClockwise, Home } from 'react-bootstrap-icons';
+import { ExclamationTriangle, ArrowClockwise, House } from 'react-bootstrap-icons';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -101,7 +101,7 @@ class ErrorBoundary extends React.Component {
                   onClick={this.handleGoHome}
                   className="d-flex align-items-center gap-2"
                 >
-                  <Home size={16} />
+                  <House size={16} />
                   Go Home
                 </Button>
               </div>
