@@ -17,6 +17,7 @@ import { UserProvider } from "./context/UserContext";
 import { useUser } from "./context/UserContext";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationProvider from "./components/common/NotificationSystem";
+import FeatureDemo from "./components/common/FeatureDemo";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -48,6 +49,10 @@ function App() {
                     <Route
                       path="ryght-solutions/settings/"
                       element={<Settings />}
+                    />
+                    <Route
+                      path="ryght-solutions/demo/"
+                      element={<FeatureDemo />}
                     />
                   </Route>
                   <Route
