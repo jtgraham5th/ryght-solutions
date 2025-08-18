@@ -4,22 +4,24 @@ const app = express();
 const port = 5000;
 const cors = require('cors')
 const userRoutes = require('./routes/userRoutes.js');
+const apiRoutes = require('./routes/apiRoutes.js');
 // import patientRoutes from './routes/patientRoutes.js';
 
 // Middleware to parse JSON data in request bodies
 app.use(bodyParser.json());
 app.use(cors());
-// Example route to handle GET requests to the root URL
+
+// Health check endpoint
 app.get('/', (req, res) => {
-  res.send('Hello from the server!');
+  res.json({ 
+    status: 'OK', 
+    message: 'Ryght Solutions API Server is running',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// Example route to handle POST requests to a URL
-// app.post('/api/users', (req, res) => {
-//   const { name, email } = req.body;
-//   // Save the user to a database or perform other actions
-//   res.send(`User ${name} (${email}) has been created!`);
-// });
+// API routes
+app.use('/api', apiRoutes);
 app.use('/user', userRoutes);
 // app.use('/api/login', async (req, res) => {
 //   console.log("login!");

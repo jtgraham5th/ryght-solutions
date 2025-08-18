@@ -2,7 +2,7 @@
   "name": "ryght-solutions",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://www.ivronlogs.icu",
+  "proxy": "http://localhost:5000",
   "homepage": "https://jtgraham5th.github.io/ryght-solutions",
   "dependencies": {
     "@react-pdf/renderer": "^3.1.5",
@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "fs": "^0.0.1-security",
     "moment": "^2.29.4",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.1.10",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-bootstrap-icons": "^1.8.4",
@@ -67,6 +67,6 @@
   },
   "devDependencies": {
     "@wixc3/react-board": "^2.2.0",
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^6.3.0"
   }
 }

@@ -73,9 +73,9 @@ export function GoalsManager({ data }) {
   };
   const removeGoal = (goal) => {
     removeClientGoal(goal, user.userid);
-    parseObjectives(activeTreatmentPlan, goal).map((obj) => {
+    parseObjectives(activeTreatmentPlan, goal).forEach((obj) => {
       removeClientObjective(obj, user.userid);
-      parseInterventions(activeTreatmentPlan, obj).map((int) => {
+      parseInterventions(activeTreatmentPlan, obj).forEach((int) => {
         removeClientIntervention(int, user.userid);
       });
     });
@@ -83,7 +83,7 @@ export function GoalsManager({ data }) {
 
   const removeObjective = (objective) => {
     removeClientObjective(objective, user.userid);
-    parseInterventions(activeTreatmentPlan, objective).map((int) => {
+    parseInterventions(activeTreatmentPlan, objective).forEach((int) => {
       removeClientIntervention(int, user.userid);
     });
   };

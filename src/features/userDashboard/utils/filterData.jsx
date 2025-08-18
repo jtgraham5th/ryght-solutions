@@ -15,5 +15,6 @@ export const filterByFunding = (fundingSource, notesArray, clientInfo) => {
     if (client) {
       return clientInfo[note.patientid].ins1_fundingsource === fundingSource;
     }
+    return false;
   });
 };

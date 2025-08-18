@@ -48,7 +48,7 @@ export const createServiceGroupCodeString = (groupServiceCodes) => {
   // console.log(groupServiceCodes);
 
   const groupServiceCodesArray = [];
-  groupServiceCodes.map((item, i) => {
+  groupServiceCodes.forEach((item, i) => {
     groupServiceCodesArray.push(item.recid);
   });
 
