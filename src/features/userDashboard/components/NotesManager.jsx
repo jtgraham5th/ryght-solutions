@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { Row, Col, Card, ListGroup, Badge, Button } from "react-bootstrap";
 import { ViewerFooter } from "../../../components/ViewerFooter";
 import { ViewerHeader } from "../../../components/ViewerHeader";
-import { PNList, PNManager, PNViewNote, PNPdf } from "../../progressNotes";
+import { PNList, PNManager, PNViewNote } from "../../progressNotes";
 import { useUser } from "../../../context/UserContext";
 import { useClient } from "../../../context/ClientContext";
 import { pdf } from "@react-pdf/renderer";
 import generatePDF from "../../../utils/generatePDF";
 import { getListItemName } from "../../services/utils/formHelper";
 import { NotesFilterList } from "./NotesFilterList";
-import { NotesManagerHeader } from "./NotesManagerHeader";
 import { getClient } from "../../enrollment/services/api";
 import { getListItem } from "../../../services/api";
 import { getFormValue } from "../../clientDetails/utils/formatData";
@@ -98,76 +97,81 @@ export function NotesManager() {
       window.open(url, "_blank");
     });
   };
+  
   const getClientInfo = async (patientid) => {
     const clientInfo = await getClient(patientid);
     return clientInfo;
   };
 
   const getListItemName = async (grouplistid) => {
-    await getListItem(grouplistid).then((item) => {
-      if (item) return item;
-      else return null;
-    });
+    const item = await getListItem(grouplistid);
+    return item || null;
   };
+  
   const renderNoteStatus = (noteStatus) => {
-    let content;
-    let variant;
-
     switch (noteStatus) {
-      case "To be Reviewed":
-        content = (
-          <>
-            <JournalCheck className="me-1"/>
-            To be Reviewed
-          </>
+      case "draft":
+        return (
+          <Badge bg="warning" text="dark">
+            <JournalCheck className="me-1" />
+            Draft
+          </Badge>
         );
-        variant = "dark";
-        break;
-
-      case "Lock":
-        content = (
-          <>
-            <Lock className="me-1"/>
-            Lock
-          </>
+      case "pending":
+        return (
+          <Badge bg="info" text="dark">
+            <Stopwatch className="me-1" />
+            Pending
+          </Badge>
         );
-        variant = "primary";
-        break;
-
-      case "Lock/Sign":
-        content = (
-          <>
-            <FileLock className="me-1"/>
-            Lock/Sign
-          </>
+      case "approved":
+        return (
+          <Badge bg="success">
+            <JournalCheck className="me-1" />
+            Approved
+          </Badge>
         );
-        variant = "warning";
-        break;
-
-      case "Error Correction Needed":
-        content = (
-          <>
-            <ExclamationDiamond className="me-1"/>
-            Error Correction Needed
-          </>
+      case "rejected":
+        return (
+          <Badge bg="danger">
+            <ExclamationDiamond className="me-1" />
+            Rejected
+          </Badge>
         );
-        variant = "danger";
-        break;
-
+      case "locked":
+        return (
+          <Badge bg="secondary">
+            <Lock className="me-1" />
+            Locked
+          </Badge>
+        );
       default:
-        content = null;
-        variant = null; // Or some default content
+        return (
+          <Badge bg="light" text="dark">
+            Unknown
+          </Badge>
+        );
     }
+  };
 
+  const renderNoteActions = (note) => {
+    const content = note.status === "draft" ? "Edit Note" : "View Note";
     return (
-      content &&
-      variant && (
-        <Button size="sm" disabled variant={`outline-${variant}`} className="">
-          {content}
-        </Button>
-      )
+      <Button
+        variant={note.status === "draft" ? "primary" : "outline-secondary"}
+        size="sm"
+        onClick={() => {
+          setActiveNote(note);
+          if (note.status === "draft") {
+            setEdit(true);
+          }
+        }}
+      >
+        {content}
+      </Button>
     );
   };
+
   return (
     <Card.Body>
       <Row className="mb-3">
@@ -195,99 +199,66 @@ export function NotesManager() {
               <ListGroup variant="flush">
                 {filteredNotes &&
                   filteredNotes.map((note, index) => {
-                    const client = clientInfo[note.patientid] || {};
-                    const billingTx = billingInfo[note.billingid] || {};
-                    console.log(billingTx);
+                    const client = clientInfo[note.patientid];
+                    const billing = billingInfo[note.billingid];
+                    
                     return (
-                      <ListGroup.Item className="border rounded d-flex flex-column mb-2">
-                        <Row>
-                          <Col md={6}>
-                            <Col>
-                              <CalendarEvent
-                                className="text-secondary pe-1"
-                                size={20}
-                              />
-                              <small className="text-secondary pe-3">
-                                {formatDate("MMM DD YYYY", note.f1)}
+                      <ListGroup.Item
+                        key={note.recid || index}
+                        className="d-flex justify-content-between align-items-start"
+                        action
+                        onClick={() => setActiveNote(note)}
+                      >
+                        <div className="ms-2 me-auto">
+                          <div className="fw-bold">
+                            {client ? `${client.pfirstname} ${client.plastname}` : `Patient ${note.patientid}`}
+                          </div>
+                          <div className="d-flex align-items-center gap-2 mt-1">
+                            <small className="text-muted">
+                              <CalendarEvent className="me-1" />
+                              {note.f1 ? formatDate("MM/DD/YYYY", note.f1) : "No date"}
+                            </small>
+                            {note.f2 && note.f3 && (
+                              <small className="text-muted">
+                                {note.f2} - {note.f3}
                               </small>
-                              <Stopwatch
-                                className="text-secondary pe-1"
-                                size={20}
-                              />
-                              <small className="text-secondary pe-3">{`${note.f2} - ${note.f3}`}</small>
-                              <Badge bg="dark">{`${note.f5} units`}</Badge>
-                            </Col>
-                            <Col>
-                              <div className="fs-6">
-                                {`${client.plastname}, ${client.pfirstname}`}
-                                <Badge bg="light" className="ms-1 text-primary">
-                                  {getFormValue(
-                                    "Funding Source ",
-                                    client.ins1_fundingsource,
-                                    formData
-                                  )}{" "}
-                                  - {`${client.ins1_policynumber}`}
-                                </Badge>
-                              </div>
-                            </Col>
-                            <Col>
-                              <Badge bg="secondary" className="me-1">
-                                {getFormValue("Setting", note.f6, formData)}
-                              </Badge>
-                              <Badge bg="primary" className="me-1">
-                                {billingTx.billingid}
-                              </Badge>
-                              <PersonBadge className="text-primary" size={20} />
-                              <Button variant="link">
-                                {note.f16 || "Staff Member"}
-                              </Button>
-                            </Col>
-                          </Col>
-                          <Col
-                            md={3}
-                            className="d-flex align-items-center justify-content-center"
-                          >
-                            {renderNoteStatus(note.f17)}
-                          </Col>
-                          <Col
-                            md={3}
-                            className="d-flex flex-column align-items-end justify-content-center"
-                          >
-                            <Button
-                              className="w-75"
-                              size="sm"
-                              onClick={() => setActiveNote(note)}
-                            >
-                              View Note
-                            </Button>
-                          </Col>
-                        </Row>
+                            )}
+                            {note.f5 && (
+                              <small className="text-muted">
+                                Units: {note.f5}
+                              </small>
+                            )}
+                          </div>
+                          {note.f13 && (
+                            <small className="text-muted">
+                              Goal: {note.f13}
+                            </small>
+                          )}
+                        </div>
+                        <div className="d-flex flex-column align-items-end gap-2">
+                          {renderNoteStatus(note.status || "draft")}
+                          {renderNoteActions(note)}
+                        </div>
                       </ListGroup.Item>
                     );
                   })}
               </ListGroup>
             </Card.Body>
-            {activeNote ? (
-              <ViewerFooter
-                activePage={activePage}
-                setActivePage={setActivePage}
-              />
-            ) : null}
           </Card>
         </Col>
         <ModalContainer
           show={activeNote}
           setShow={setActiveNote}
-          containerName="Goals Manager"
+          containerName="Note Viewer"
           component={<PNViewNote data={activeNote} />}
         />
-        {/* <PNManager
+        <PNManager
           show={edit}
           setShow={setEdit}
           containerName="B.I.R.P. Progress Note Form"
           data={activeNote}
-          edit
-        /> */}
+          edit={true}
+        />
       </Row>
     </Card.Body>
   );

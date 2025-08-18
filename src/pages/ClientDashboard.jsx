@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { useMatch, matchRoutes } from "react-router-dom";
+import { matchRoutes } from "react-router-dom";
 import { useClient } from "../context/ClientContext";
 import { ClientRoutes } from "../data/routes";
 import { CVHeader } from "../features/clientView";
 
 function ClientDashboard(props) {
-  const { activeClient, resetClient } = useClient();
-  // const match = useMatch("/ryght-solutions/patient/:patientid");
+  const { resetClient } = useClient();
 
   const routes = [
     { path: "/ryght-solutions/patient/:patientid", caseSensitive: true },
@@ -24,17 +23,14 @@ function ClientDashboard(props) {
       caseSensitive: true,
     },
   ];
-  const [matches, setMatches] = useState(null);
-
   useEffect(() => {
     const currentPath = window.location.pathname;
     const newMatches = matchRoutes(routes, currentPath);
-    setMatches(newMatches);
 
     if (newMatches !== null) {
       resetClient(newMatches[0].params.patientid);
     }
-  }, [window.location.pathname]);
+  }, [resetClient]);
 
   
 

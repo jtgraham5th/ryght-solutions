@@ -50,7 +50,7 @@ export function Services({
             service.code.toLowerCase().includes(searchTerm.toLowerCase())
           );
         } else {
-          service.groupvalue.toLowerCase().includes(searchTerm.toLowerCase());
+          return service.groupvalue.toLowerCase().includes(searchTerm.toLowerCase());
         }
       });
       setResults(filterCodes);
@@ -131,6 +131,7 @@ export function Services({
         delete newState[code.grouplistid];
         return newState;
       }
+      return prevState;
     });
   };
   const updateValue = () => {

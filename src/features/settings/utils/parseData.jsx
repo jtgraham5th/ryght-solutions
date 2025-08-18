@@ -41,16 +41,16 @@ export const filterObjectByKeys = (obj, keysObj) => {
   return filteredObj;
 };
 export const createServiceGroupCodeString = (groupServiceCodes) => {
-  // const parsedGrouplistId = parseInt(grouplistid);
-  // console.log(await getServiceGroupCodes(parsedGrouplistId))
-
-  // const groupServiceCodes = await getServiceCodesWithId(parsedGrouplistId);
-  // console.log(groupServiceCodes);
-
+  if (!groupServiceCodes || !Array.isArray(groupServiceCodes)) {
+    return "";
+  }
+  
   const groupServiceCodesArray = [];
-  groupServiceCodes.forEach((item, i) => {
-    groupServiceCodesArray.push(item.recid);
+  groupServiceCodes.forEach((item) => {
+    if (item && item.recid) {
+      groupServiceCodesArray.push(item.recid);
+    }
   });
 
-  return groupServiceCodesArray.toString(",");
+  return groupServiceCodesArray.join(",");
 };
