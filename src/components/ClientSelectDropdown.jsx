@@ -88,7 +88,7 @@ function ClientSelectDropdown(props) {
               eventKey={index}
               onClick={() => {
                 handleClientSelect(result.patientid).then(() =>
-                  navigate(`/ryght-solutions/patient/${result.patientid}`)
+                  navigate(`/patient/${result.patientid}`)
                 );
               }}
             >

@@ -57,7 +57,7 @@ apiClient.interceptors.response.use(
         localStorage.removeItem('authToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('UserID');
-        window.location.href = '/ryght-solutions/';
+        window.location.href = `${process.env.PUBLIC_URL || ""}/`;
         return Promise.reject(refreshError);
       }
     }

@@ -19,7 +19,7 @@ export const SidebarData = [
   },
   {
     title: 'Settings',
-    path: '/ryght-solutions/settings/',
+    path: '/settings',
     icon: <Gear />,
     cName: 'nav-text',
     disabled: false,

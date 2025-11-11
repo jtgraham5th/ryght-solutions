@@ -45,7 +45,7 @@ class ErrorBoundary extends React.Component {
   };
 
   handleGoHome = () => {
-    window.location.href = '/ryght-solutions/';
+    window.location.href = `${process.env.PUBLIC_URL || ""}/`;
   };
 
   render() {

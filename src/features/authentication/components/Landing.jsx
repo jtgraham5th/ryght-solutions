@@ -4,18 +4,17 @@ import { ArrowRightSquare } from "react-bootstrap-icons";
 import familyPhoto from "../../../assets/familytherapy.jpeg";
 import { Login } from "./Login";
 import { useState } from "react";
-import { Register } from "./Register";
+
 import { useNavigate } from "react-router-dom";
 
 export function Landing({ setStatus }) {
-  const [toggle, setToggle] = useState(true);
   const navigate = useNavigate();
 
   // Development bypass function
   const handleDevBypass = () => {
     // Set admin user ID and navigate directly
     localStorage.setItem("UserID", "1");
-    navigate("/ryght-solutions/home");
+    navigate("/home");
   };
 
   return (

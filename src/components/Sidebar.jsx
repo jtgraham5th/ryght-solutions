@@ -27,7 +27,7 @@ function Sidebar({ sidebar, setSidebar }) {
             <div className="d-flex">
               <Nav className="justify-content-center flex-row align-items-center">
                 <Nav.Item>
-                  <Nav.Link onClick={() => navigate(`/ryght-solutions/home`)}>
+                  <Nav.Link onClick={() => navigate(`/home`)}>
                     <HouseFill color="white" size={30} className="me-3" />
                   </Nav.Link>
                 </Nav.Item>
@@ -35,7 +35,7 @@ function Sidebar({ sidebar, setSidebar }) {
                   <Nav.Link
                     onClick={() => {
                       logout();
-                      navigate(`/ryght-solutions`);
+                      navigate(`/`);
                     }}
                   >
                     <DoorOpenFill color="white" size={25} className="me-3" />
@@ -44,7 +44,7 @@ function Sidebar({ sidebar, setSidebar }) {
                 <Nav.Item>
                   <Nav.Link
                     onClick={() => {
-                      navigate(`/ryght-solutions/settings/`);
+                      navigate(`/settings`);
                     }}
                   >
                     <Gear color="white" size={25} className="me-3" />

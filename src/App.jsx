@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Routes,
   Route,
   Outlet,
@@ -14,14 +14,14 @@ import Settings from "./pages/Settings";
 import { Landing } from "./features/authentication";
 import { ClientProvider } from "./context/ClientContext";
 import { UserProvider } from "./context/UserContext";
-import { useUser } from "./context/UserContext";
+
 import ErrorBoundary from "./components/common/ErrorBoundary";
 import NotificationProvider from "./components/common/NotificationSystem";
 import FeatureDemo from "./components/common/FeatureDemo";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
-  const [loginStatus, setLoginStatus] = useState(false);
+
 
   // Development bypass - set to true to skip login entirely
   const DEV_BYPASS_LOGIN = process.env.NODE_ENV === 'development' && process.env.REACT_APP_BYPASS_LOGIN === 'true';
@@ -36,13 +36,13 @@ function App() {
       return <Outlet />;
     }
     
-    return token ? <Outlet /> : <Navigate to="ryght-solutions/" />;
+    return token ? <Outlet /> : <Navigate to="/" />;
   };
   
   return (
     <ErrorBoundary>
       <NotificationProvider>
-        <Router>
+        <BrowserRouter basename={process.env.PUBLIC_URL || "/"}>
           <UserProvider>
             <ClientProvider>
               <Sidebar sidebar={sidebar} setSidebar={setSidebar} />
@@ -66,31 +66,28 @@ function App() {
                 <Routes>
                   <Route element={<PrivateRoutes />}>
                     <Route
-                      path="ryght-solutions/home/"
+                      path="/home"
                       element={<UserDashboard />}
                     />
                     <Route
-                      path="ryght-solutions/patient/:patientid/*"
+                      path="/patient/:patientid/*"
                       element={<ClientDashboard />}
                     ></Route>
                     <Route
-                      path="ryght-solutions/settings/"
+                      path="/settings"
                       element={<Settings />}
                     />
                     <Route
-                      path="ryght-solutions/demo/"
+                      path="/demo"
                       element={<FeatureDemo />}
                     />
                   </Route>
-                  <Route
-                    path="ryght-solutions/*"
-                    element={<Landing setStatus={setLoginStatus} />}
-                  />
+                  <Route path="*" element={<Landing />} />
                 </Routes>
               </div>
             </ClientProvider>
           </UserProvider>
-        </Router>
+        </BrowserRouter>
       </NotificationProvider>
     </ErrorBoundary>
   );

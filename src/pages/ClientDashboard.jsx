@@ -9,17 +9,17 @@ function ClientDashboard(props) {
   const { resetClient } = useClient();
 
   const routes = [
-    { path: "/ryght-solutions/patient/:patientid", caseSensitive: true },
+    { path: "/patient/:patientid", caseSensitive: true },
     {
-      path: "/ryght-solutions/patient/:patientid/treatment-plan",
+      path: "/patient/:patientid/treatment-plan",
       caseSensitive: true,
     },
     {
-      path: "/ryght-solutions/patient/:patientid/progress-notes",
+      path: "/patient/:patientid/progress-notes",
       caseSensitive: true,
     },
     {
-      path: "/ryght-solutions/patient/:patientid/documents",
+      path: "/patient/:patientid/documents",
       caseSensitive: true,
     },
   ];
