@@ -1,70 +1,221 @@
-# Getting Started with Create React App
+# Ryght Solutions - Healthcare Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive React-based healthcare management application designed for managing patients, treatment plans, progress notes, authorizations, and clinical documentation.
 
-## Available Scripts
+## 🚀 Live Demo
 
-In the project directory, you can run:
+Visit the live application: **[https://jtgraham5th.github.io/ryght-solutions](https://jtgraham5th.github.io/ryght-solutions)**
+
+The live demo runs in **mock mode** with sample data, allowing you to explore all features without a backend API.
+
+## 📋 Features
+
+- **Patient Management**: Complete patient enrollment and demographics management
+- **Treatment Planning**: Create and manage treatment plans with goals, objectives, and interventions
+- **Progress Notes**: Document patient progress and session notes
+- **Authorization Management**: Track insurance authorizations and session limits
+- **Clinical Documentation**: Generate and manage various clinical forms and documents
+- **User Dashboard**: Centralized dashboard for clinicians
+- **Settings Management**: Configure users, services, and system settings
+
+## 🔐 Mock Data Login Instructions
+
+The application runs in **mock mode** when no external API is configured. This allows you to explore the application with sample data.
+
+### Available Login Credentials
+
+You can log in with any of the following accounts using the password: **`demo`**
+
+#### Admin Account
+- **Email/Username**: `admin@ryghtsolutions.com` or `admin`
+- **Password**: `demo`
+- **Access Level**: Administrator (full access to all features)
+
+#### Therapist Accounts
+- **Email/Username**: `sarah.johnson@ryghtsolutions.com` or `therapist1`
+- **Password**: `demo`
+- **Access Level**: Therapist
+
+- **Email/Username**: `michael.chen@ryghtsolutions.com` or `therapist2`
+- **Password**: `demo`
+- **Access Level**: Therapist
+
+### Mock Data Available
+
+The mock mode includes sample data:
+- **3 Users**: Admin and 2 therapists
+- **3 Patients**: Sample patient records with demographics
+- **Treatment Plans**: Sample treatment plans with goals and objectives
+- **Progress Notes**: Example progress notes
+- **Authorizations**: Sample authorization records
+- **Services**: Service codes and billing information
+- **Diagnosis Codes**: ICD-10 diagnosis codes
+
+### Notes on Mock Mode
+
+- **Data Persistence**: Changes made in mock mode are stored in browser memory only and will be lost on page refresh
+- **No Backend Required**: The application runs entirely in the browser with mock data
+- **Full Feature Access**: All features are available and functional in mock mode
+
+## 🛠️ Development Setup
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jtgraham5th/ryght-solutions.git
+   cd ryght-solutions
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm start
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+### Development with Mock Data
+
+The application automatically uses mock data when:
+- `REACT_APP_USE_MOCK=true` is set in `.env`, OR
+- `REACT_APP_API_URL` is not set or is empty
+
+To enable mock mode in development, create a `.env` file:
+```env
+REACT_APP_USE_MOCK=true
+REACT_APP_API_URL=
+REACT_APP_MOCK_PASSWORD=demo
+```
+
+### Development with Backend API
+
+To use with a real backend API:
+
+1. Create a `.env` file:
+   ```env
+   REACT_APP_USE_MOCK=false
+   REACT_APP_API_URL=https://your-api-url.com/
+   ```
+
+2. The application will connect to your API endpoint
+
+## 📦 Available Scripts
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode at [http://localhost:3000](http://localhost:3000)
 
 ### `npm run build`
+Builds the app for production to the `build` folder
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `npm test`
+Launches the test runner in interactive watch mode
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm run deploy`
+Deploys the built application to GitHub Pages (requires GitHub token)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm run dev`
+Runs both the backend server and frontend concurrently (requires backend server setup)
 
-### `npm run eject`
+## 🏗️ Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+ryght-solutions/
+├── src/
+│   ├── components/          # Reusable UI components
+│   ├── features/            # Feature-based modules
+│   │   ├── authentication/  # Login and user management
+│   │   ├── clientDetails/   # Patient details
+│   │   ├── documents/       # Clinical documents
+│   │   ├── enrollment/      # Patient enrollment
+│   │   ├── progressNotes/   # Progress notes
+│   │   ├── treatmentPlan/   # Treatment planning
+│   │   └── ...
+│   ├── context/             # React Context providers
+│   ├── mock/                # Mock data for demo mode
+│   ├── pages/               # Page components
+│   ├── services/            # API service layer
+│   └── utils/               # Utility functions
+├── public/                  # Static assets
+└── server/                  # Backend server (optional)
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🚢 Deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### GitHub Pages
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The application is automatically deployed to GitHub Pages via GitHub Actions when changes are pushed to the `main` branch.
 
-## Learn More
+1. Push changes to `main` branch
+2. GitHub Actions automatically builds and deploys
+3. Site is available at: `https://jtgraham5th.github.io/ryght-solutions`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Manual Deployment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To deploy manually:
 
-### Code Splitting
+1. Build the application:
+   ```bash
+   npm run build
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. Deploy to GitHub Pages:
+   ```bash
+   npm run deploy
+   ```
 
-### Analyzing the Bundle Size
+## 🔧 Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Environment Variables
 
-### Making a Progressive Web App
+- `REACT_APP_USE_MOCK`: Enable/disable mock mode (`true`/`false`)
+- `REACT_APP_API_URL`: Backend API URL (leave empty for mock mode)
+- `REACT_APP_MOCK_PASSWORD`: Password for mock mode login (default: `demo`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Homepage Configuration
 
-### Advanced Configuration
+The application is configured to be hosted at `/ryght-solutions/` for GitHub Pages. This is set in `package.json`:
+```json
+"homepage": "https://jtgraham5th.github.io/ryght-solutions"
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📚 Technologies Used
 
-### Deployment
+- **React 18**: UI framework
+- **React Router**: Client-side routing
+- **React Bootstrap**: UI component library
+- **React Hook Form**: Form management
+- **Axios**: HTTP client
+- **React PDF**: PDF generation
+- **Moment.js**: Date manipulation
+- **SASS**: CSS preprocessing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📝 License
 
-### `npm run build` fails to minify
+This project is private and proprietary.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 👤 Author
+
+**John Graham**
+- GitHub: [@jtgraham5th](https://github.com/jtgraham5th)
+
+## 🤝 Contributing
+
+This is a private project. Contributions are not currently accepted.
+
+## 📞 Support
+
+For questions or support, please contact the project maintainer.
+
+---
+
+**Note**: This application is designed for healthcare management and includes features for patient records, treatment plans, and clinical documentation. All mock data is for demonstration purposes only.
