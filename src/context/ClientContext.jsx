@@ -67,6 +67,14 @@ export function useClient() {
   return useContext(ClientContext);
 }
 
+export function ClientProvider(props) {
+  if (useMockApi) {
+    return <MockClientProvider {...props} />;
+  }
+
+  return <LiveClientProvider {...props} />;
+}
+
 const normalizeRecord = (record = {}) => {
   return Object.entries(record).reduce((acc, [key, value]) => {
     if (typeof key === "string") {
@@ -805,11 +813,7 @@ function MockClientProvider(props) {
   );
 }
 
-export function ClientProvider(props) {
-  if (useMockApi) {
-    return <MockClientProvider {...props} />;
-  }
-
+function LiveClientProvider(props) {
   const [urlPath] = useState();
   const [clientList, setClientlist] = useState([]);
   const [contactList] = useState([]);
